@@ -14,6 +14,7 @@ def image_upload_path(instance, filename):
 def video_upload_path(instance, filename):
     return settings.MEDIA_ROOT + 'videos/{0}/{1}'.format(instance.property.name, filename)
 
+
 # Images table
 class Images(models.Model):
     class Meta:
@@ -27,6 +28,7 @@ class Images(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.image, self.date)
 
+
 # Videos table
 class Videos(models.Model):
     class Meta:
@@ -38,6 +40,7 @@ class Videos(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.video, self.date)
+
 
 # Amenities table
 class Amenities(models.Model):
@@ -54,6 +57,7 @@ class Amenities(models.Model):
     gym = models.BooleanField(_("Gym"), default=False)
     living_room = models.BooleanField(_("Living Room"), default=False)
 
+
 # Property Status table
 class PropertyStatus(models.Model):
     class Meta:
@@ -66,6 +70,7 @@ class PropertyStatus(models.Model):
     def __str__(self):
         return self._type
 
+
 # Property Type table
 class PropertyCategory(models.Model):
     class Meta:
@@ -76,6 +81,7 @@ class PropertyCategory(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # Districts table
 class Districts(models.Model):
@@ -89,6 +95,7 @@ class Districts(models.Model):
     def __str__(self):
         return self.district_name
 
+
 # Nearby Places table
 class NearbyPlaces(models.Model):
     class Meta:
@@ -101,17 +108,22 @@ class NearbyPlaces(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.name_of_place, self.location)
 
+
 # Likes table
 class Likes(models.Model):
     class Meta:
         verbose_name = 'Likes'
         verbose_name_plural = 'Likes'
 
-    # user = models.ForeignKey()
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        null=True, 
+        on_delete=models.CASCADE, 
+        related_name='user_likes')
     date = models.DateTimeField(_("Date Liked"), auto_now=True)
 
-    # def __str__(self):
-    #     return '{} - {} - {}'.format(self.user, self.property, self.date)
+    def __str__(self):
+        return '{} - {} - {}'.format(self.user, self.property, self.date)
 
 # Property table
 class Property(models.Model):
@@ -158,7 +170,11 @@ class Property(models.Model):
     nearby_places = models.ForeignKey(NearbyPlaces, on_delete=models.DO_NOTHING)
     status = models.BooleanField(_("Property Status"),)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
-    # agent = models.ForeignKey()
+    agent = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        null=True, 
+        on_delete=models.CASCADE, 
+        related_name='agent_properties')
 
     def __str__(self):
         return '{} - {} - {}'.format(self.name, self.price, self.location_area)
