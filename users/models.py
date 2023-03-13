@@ -69,3 +69,6 @@ class Profile(models.Model):
     )
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{}- {}'.format(self.user.username, self.user.email)
