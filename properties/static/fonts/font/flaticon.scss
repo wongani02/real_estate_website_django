@@ -1,0 +1,317 @@
+$flaticon-font: "flaticon";
+
+@font-face {
+    font-family: $flaticon-font;
+    src: url("./flaticon.ttf?ba097501c7f5073f54ab1722daeb85e9") format("truetype"),
+url("./flaticon.woff?ba097501c7f5073f54ab1722daeb85e9") format("woff"),
+url("./flaticon.woff2?ba097501c7f5073f54ab1722daeb85e9") format("woff2"),
+url("./flaticon.eot?ba097501c7f5073f54ab1722daeb85e9#iefix") format("embedded-opentype"),
+url("./flaticon.svg?ba097501c7f5073f54ab1722daeb85e9#flaticon") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$flaticon-map: (
+    "button": "\f101",
+    "user": "\f102",
+    "phone": "\f103",
+    "setting-lines": "\f104",
+    "bed": "\f105",
+    "bath": "\f106",
+    "car": "\f107",
+    "ruler": "\f108",
+    "add": "\f109",
+    "resize": "\f10a",
+    "photo-camera": "\f10b",
+    "play-button": "\f10c",
+    "left-arrow": "\f10d",
+    "down-arrow": "\f10e",
+    "up-arrow": "\f10f",
+    "right-arrow": "\f110",
+    "house": "\f111",
+    "calculator": "\f112",
+    "discord": "\f113",
+    "maps": "\f114",
+    "email": "\f115",
+    "home": "\f116",
+    "apartment": "\f117",
+    "business-and-trade": "\f118",
+    "villa": "\f119",
+    "living-room": "\f11a",
+    "houses": "\f11b",
+    "price": "\f11c",
+    "car-key": "\f11d",
+    "return": "\f11e",
+    "checked": "\f11f",
+    "filter": "\f120",
+    "calendar": "\f121",
+    "file": "\f122",
+    "air-conditioner": "\f123",
+    "barbecue": "\f124",
+    "dryer": "\f125",
+    "dumbbell": "\f126",
+    "laundry": "\f127",
+    "microwave": "\f128",
+    "outdoor-shower": "\f129",
+    "refrigerator": "\f12a",
+    "sauna": "\f12b",
+    "swimmer": "\f12c",
+    "coaxial": "\f12d",
+    "liquid-soap": "\f12e",
+    "wifi": "\f12f",
+    "blinds": "\f130",
+    "chair": "\f131",
+    "grass": "\f132",
+    "graduate-cap": "\f133",
+    "heartbeat": "\f134",
+    "house-1": "\f135",
+    "share": "\f136",
+    "picture": "\f137",
+    "map": "\f138",
+    "street-view": "\f139",
+    "translate": "\f13a",
+    "invoice": "\f13b",
+    "mail-inbox-app": "\f13c",
+    "view": "\f13d",
+    "document": "\f13e",
+    "trash": "\f13f",
+    "edit": "\f140",
+    "customer-reviews": "\f141",
+    "shopping-bag": "\f142",
+    "clock": "\f143",
+    "heart-shape-outline": "\f144",
+    "place": "\f145",
+    "magnifiying-glass": "\f146",
+    "dashboard": "\f147",
+    "browser": "\f148",
+    "logout": "\f149",
+);
+
+.flaticon-button:before {
+    content: map-get($flaticon-map, "button");
+}
+.flaticon-user:before {
+    content: map-get($flaticon-map, "user");
+}
+.flaticon-phone:before {
+    content: map-get($flaticon-map, "phone");
+}
+.flaticon-setting-lines:before {
+    content: map-get($flaticon-map, "setting-lines");
+}
+.flaticon-bed:before {
+    content: map-get($flaticon-map, "bed");
+}
+.flaticon-bath:before {
+    content: map-get($flaticon-map, "bath");
+}
+.flaticon-car:before {
+    content: map-get($flaticon-map, "car");
+}
+.flaticon-ruler:before {
+    content: map-get($flaticon-map, "ruler");
+}
+.flaticon-add:before {
+    content: map-get($flaticon-map, "add");
+}
+.flaticon-resize:before {
+    content: map-get($flaticon-map, "resize");
+}
+.flaticon-photo-camera:before {
+    content: map-get($flaticon-map, "photo-camera");
+}
+.flaticon-play-button:before {
+    content: map-get($flaticon-map, "play-button");
+}
+.flaticon-left-arrow:before {
+    content: map-get($flaticon-map, "left-arrow");
+}
+.flaticon-down-arrow:before {
+    content: map-get($flaticon-map, "down-arrow");
+}
+.flaticon-up-arrow:before {
+    content: map-get($flaticon-map, "up-arrow");
+}
+.flaticon-right-arrow:before {
+    content: map-get($flaticon-map, "right-arrow");
+}
+.flaticon-house:before {
+    content: map-get($flaticon-map, "house");
+}
+.flaticon-calculator:before {
+    content: map-get($flaticon-map, "calculator");
+}
+.flaticon-discord:before {
+    content: map-get($flaticon-map, "discord");
+}
+.flaticon-maps:before {
+    content: map-get($flaticon-map, "maps");
+}
+.flaticon-email:before {
+    content: map-get($flaticon-map, "email");
+}
+.flaticon-home:before {
+    content: map-get($flaticon-map, "home");
+}
+.flaticon-apartment:before {
+    content: map-get($flaticon-map, "apartment");
+}
+.flaticon-business-and-trade:before {
+    content: map-get($flaticon-map, "business-and-trade");
+}
+.flaticon-villa:before {
+    content: map-get($flaticon-map, "villa");
+}
+.flaticon-living-room:before {
+    content: map-get($flaticon-map, "living-room");
+}
+.flaticon-houses:before {
+    content: map-get($flaticon-map, "houses");
+}
+.flaticon-price:before {
+    content: map-get($flaticon-map, "price");
+}
+.flaticon-car-key:before {
+    content: map-get($flaticon-map, "car-key");
+}
+.flaticon-return:before {
+    content: map-get($flaticon-map, "return");
+}
+.flaticon-checked:before {
+    content: map-get($flaticon-map, "checked");
+}
+.flaticon-filter:before {
+    content: map-get($flaticon-map, "filter");
+}
+.flaticon-calendar:before {
+    content: map-get($flaticon-map, "calendar");
+}
+.flaticon-file:before {
+    content: map-get($flaticon-map, "file");
+}
+.flaticon-air-conditioner:before {
+    content: map-get($flaticon-map, "air-conditioner");
+}
+.flaticon-barbecue:before {
+    content: map-get($flaticon-map, "barbecue");
+}
+.flaticon-dryer:before {
+    content: map-get($flaticon-map, "dryer");
+}
+.flaticon-dumbbell:before {
+    content: map-get($flaticon-map, "dumbbell");
+}
+.flaticon-laundry:before {
+    content: map-get($flaticon-map, "laundry");
+}
+.flaticon-microwave:before {
+    content: map-get($flaticon-map, "microwave");
+}
+.flaticon-outdoor-shower:before {
+    content: map-get($flaticon-map, "outdoor-shower");
+}
+.flaticon-refrigerator:before {
+    content: map-get($flaticon-map, "refrigerator");
+}
+.flaticon-sauna:before {
+    content: map-get($flaticon-map, "sauna");
+}
+.flaticon-swimmer:before {
+    content: map-get($flaticon-map, "swimmer");
+}
+.flaticon-coaxial:before {
+    content: map-get($flaticon-map, "coaxial");
+}
+.flaticon-liquid-soap:before {
+    content: map-get($flaticon-map, "liquid-soap");
+}
+.flaticon-wifi:before {
+    content: map-get($flaticon-map, "wifi");
+}
+.flaticon-blinds:before {
+    content: map-get($flaticon-map, "blinds");
+}
+.flaticon-chair:before {
+    content: map-get($flaticon-map, "chair");
+}
+.flaticon-grass:before {
+    content: map-get($flaticon-map, "grass");
+}
+.flaticon-graduate-cap:before {
+    content: map-get($flaticon-map, "graduate-cap");
+}
+.flaticon-heartbeat:before {
+    content: map-get($flaticon-map, "heartbeat");
+}
+.flaticon-house-1:before {
+    content: map-get($flaticon-map, "house-1");
+}
+.flaticon-share:before {
+    content: map-get($flaticon-map, "share");
+}
+.flaticon-picture:before {
+    content: map-get($flaticon-map, "picture");
+}
+.flaticon-map:before {
+    content: map-get($flaticon-map, "map");
+}
+.flaticon-street-view:before {
+    content: map-get($flaticon-map, "street-view");
+}
+.flaticon-translate:before {
+    content: map-get($flaticon-map, "translate");
+}
+.flaticon-invoice:before {
+    content: map-get($flaticon-map, "invoice");
+}
+.flaticon-mail-inbox-app:before {
+    content: map-get($flaticon-map, "mail-inbox-app");
+}
+.flaticon-view:before {
+    content: map-get($flaticon-map, "view");
+}
+.flaticon-document:before {
+    content: map-get($flaticon-map, "document");
+}
+.flaticon-trash:before {
+    content: map-get($flaticon-map, "trash");
+}
+.flaticon-edit:before {
+    content: map-get($flaticon-map, "edit");
+}
+.flaticon-customer-reviews:before {
+    content: map-get($flaticon-map, "customer-reviews");
+}
+.flaticon-shopping-bag:before {
+    content: map-get($flaticon-map, "shopping-bag");
+}
+.flaticon-clock:before {
+    content: map-get($flaticon-map, "clock");
+}
+.flaticon-heart-shape-outline:before {
+    content: map-get($flaticon-map, "heart-shape-outline");
+}
+.flaticon-place:before {
+    content: map-get($flaticon-map, "place");
+}
+.flaticon-magnifiying-glass:before {
+    content: map-get($flaticon-map, "magnifiying-glass");
+}
+.flaticon-dashboard:before {
+    content: map-get($flaticon-map, "dashboard");
+}
+.flaticon-browser:before {
+    content: map-get($flaticon-map, "browser");
+}
+.flaticon-logout:before {
+    content: map-get($flaticon-map, "logout");
+}
