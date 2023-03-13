@@ -23,8 +23,8 @@ class User(AbstractUser, PermissionsMixin):
     email = models.EmailField(_("CLient Email Address"), unique=True, null=False)
     name = models.CharField(_("Client Full Name"), max_length=40, blank=True)
     is_realtor = models.BooleanField(_("If user is a realtor set it to True"), default=False)
-    is_customer = models.BooleanField(_("If user is a customer set it to True"),default=False)
-    is_active = models.BooleanField(_("If user is active set it to True"),default=False)
+    is_customer = models.BooleanField(_("If user is a customer set it to True"), default=False)
+    # is_active = models.BooleanField(_("If user is active set it to True"), default=False)
 
     class Meta:
         verbose_name = 'User'
