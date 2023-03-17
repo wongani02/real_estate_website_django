@@ -1,6 +1,15 @@
 # Virtual Environment
 django-venv/
 
+# Static File Folder
+core/staticfiles
+
+# Migrations Folders
+properties/migrations
+payments/migrations/
+users/migrations/
+whole-template/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
