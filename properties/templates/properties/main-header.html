@@ -78,15 +78,13 @@
               <li> <a href="#">Agent</a> 
                 <!-- Level Three-->
                 <ul>
-                  <li><a href="page-agent-list.html">Agent List</a></li>
-                  <li><a href="page-agent-single.html">Agent Single</a></li>
+                  <li><a href="{% url 'properties:agent-list' %}">Agent List</a></li>
                 </ul>
               </li>
               <li> <a href="#">Agency</a> 
                 <!-- Level Three-->
                 <ul>
-                  <li><a href="page-agency-list.html">Agency List</a></li>
-                  <li><a href="page-agency-single.html">Agency Single</a></li>
+                  <li><a href="{% url 'properties:agency-list' %}">Agency List</a></li>
                 </ul>
               </li>
               <li><a href="page-dashboard-new-property.html">New Listing</a></li>
@@ -125,12 +123,8 @@
               <li><a href="{% url 'properties:about' %}">About Us</a></li>
               <li> <a href="#"><span class="title">Blog</span></a>
                 <ul>
-                  <li><a href="page-blog-grid.html">Blog Grid</a></li>
-                  <li><a href="page-blog-grid-sidebar.html">Blog Grid Sidebar</a></li>
-                  <li><a href="page-blog-details.html">Blog Details</a></li>
-                  <li><a href="page-blog-list.html">Blog List</a></li>
-                  <li><a href="page-blog-single.html">Blog Single</a></li>
-                  <li><a href="page-blog-single2.html">Blog Single v2</a></li>
+                  <li><a href="{% url 'properties:blog-grid' %}">Blog Grid</a></li>
+                  <li><a href="{% url 'properties:blog-list' %}">Blog List</a></li>
                 </ul>
               </li>
               <li><a href="page-coming-soon.html">Coming Soon</a></li>
