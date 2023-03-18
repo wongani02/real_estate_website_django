@@ -28,6 +28,10 @@ class PropertyListingGrid(generic.ListView):
         return render(request, 'properties/page-listing-v4.html')
 
 
+class PropertyListingMap(generic.ListView):
+    def get(self, request):
+        return render(request, 'properties/page-listing-v7.html')
+
 
 class PropertyDetail(generic.DetailView):
     def get(self, request):

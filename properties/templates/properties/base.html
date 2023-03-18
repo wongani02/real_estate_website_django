@@ -66,6 +66,16 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM&callback=initMap"></script>
     <script src="js/googlemaps1.js"></script>
 
+    <!-- Google Maps -->
+    
+    {% block maps %}
+      
+    {% endblock maps %}
+       
+    <script src="js/infobox.min.js"></script>
+    <script src="js/markerclusterer.js"></script>
+    <script src="js/maps.js"></script>
+
     <!-- Custom script for all pages --> 
     <script src="{% static 'js/script.js' %}"></script>
     </body>
