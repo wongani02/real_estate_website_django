@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
 
+from properties.models import Property
+
 class PropertiesHome(generic.ListView):
     def get(self, request):
         return render(request, 'properties/index.html')
@@ -16,9 +18,15 @@ class AboutUs(generic.DetailView):
         return render(request, 'properties/page-about.html')
 
 
-class PropertyListing(generic.ListView):
+class PropertyListingList(generic.ListView):
     def get(self, request):
-        return render(request, 'properties/page-listing-v1.html')
+        return render(request, 'properties/page-listing-v3.html')
+
+
+class PropertyListingGrid(generic.ListView):
+    def get(self, request):
+        return render(request, 'properties/page-listing-v4.html')
+
 
 
 class PropertyDetail(generic.DetailView):
@@ -49,9 +57,17 @@ class AgencyDetails(generic.DetailView):
 class AgentList(generic.ListView):
     def get(self, request):
         return render(request, 'properties/page-agent-list.html')
-    
+
 
 class AgentDetails(generic.DetailView):
     def get(self, request):
         return render(request, 'properties/page-agent-single.html')
 
+
+class CreatePropertyListing(generic.CreateView):
+    model = Property
+    fields = '__all__'
+    template_name = 'properties/page-dashboard-new-property.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
