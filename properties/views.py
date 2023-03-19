@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
+from django.contrib import messages
 
 from properties.models import Property
+from properties.forms import PropertyCreationForm
 
 class PropertiesHome(generic.ListView):
     def get(self, request):
@@ -75,3 +77,17 @@ class CreatePropertyListing(generic.CreateView):
 
     def get(self, request):
         return render(request, self.template_name)
+    
+    def post(self, request, **kwargs):
+        form = PropertyCreationForm(request.POST, request.FILES)
+        print("form: ", form)
+        
+        if form.is_valid():
+            form.save(commit=False)
+
+            return redirect('properties:home')
+        
+        message = messages.add_message(request, messages.ERROR, 'Failed to create Listing.')
+        
+        return render(request, self.template_name, {'message': message})
+    
