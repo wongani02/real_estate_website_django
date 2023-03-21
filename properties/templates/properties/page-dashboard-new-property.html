@@ -345,50 +345,53 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-2 dn-lg pl0"></div>
-                <div class="col-xl-10">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="dashboard_navigationbar dn db-lg">
-                                <div class="dropdown">
-                                    <button onclick="myFunction()" class="dropbtn"><i class="fa fa-bars pr10"></i>
-                                        Dashboard Navigation
-                                    </button>
-                                    <ul id="myDropdown" class="dropdown-content">
-                                        <li><a href="page-dashboard.html"><span class="flaticon-dashboard"></span>
-                                            Dashboard</a></li>
-                                        <li><a href="page-dashboard-profile.html"><span class="flaticon-user"></span> My
-                                            Profile</a></li>
-                                        <li><a href="page-dashboard-property.html"><span class="flaticon-house"></span>
-                                            My Properties List</a></li>
-                                        <li><a class="active" href="page-add-new-property.html"><span
-                                                class="flaticon-button"></span> Add New Property</a></li>
-                                        <li><a href="page-dashboard-favorites.html"><span
-                                                class="flaticon-heart-shape-outline"></span> Favorites</a></li>
-                                        <li><a href="page-dashboard-save-search.html"><span
-                                                class="flaticon-magnifiying-glass"></span> Saved Searches</a></li>
-                                        <li><a href="page-dashboard-invoices.html"><span
-                                                class="flaticon-invoice"></span> My Invoices</a></li>
-                                        <li><a href="page-dashboard-message.html"><span
-                                                class="flaticon-mail-inbox-app"></span> Inbox</a></li>
-                                        <li><a href="page-dashboard-logout.html"><span class="flaticon-logout"></span>
-                                            Logout</a></li>
-                                    </ul>
+                <form class="contact_form" id="property_creation_form" name="contact_form" method="post"
+                      novalidate>
+                    <div class="col-xl-10">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="dashboard_navigationbar dn db-lg">
+                                    <div class="dropdown">
+                                        <button onclick="myFunction()" class="dropbtn"><i class="fa fa-bars pr10"></i>
+                                            Dashboard Navigation
+                                        </button>
+                                        <ul id="myDropdown" class="dropdown-content">
+                                            <li><a href="page-dashboard.html"><span class="flaticon-dashboard"></span>
+                                                Dashboard</a></li>
+                                            <li><a href="page-dashboard-profile.html"><span
+                                                    class="flaticon-user"></span> My
+                                                Profile</a></li>
+                                            <li><a href="page-dashboard-property.html"><span
+                                                    class="flaticon-house"></span>
+                                                My Properties List</a></li>
+                                            <li><a class="active" href="page-add-new-property.html"><span
+                                                    class="flaticon-button"></span> Add New Property</a></li>
+                                            <li><a href="page-dashboard-favorites.html"><span
+                                                    class="flaticon-heart-shape-outline"></span> Favorites</a></li>
+                                            <li><a href="page-dashboard-save-search.html"><span
+                                                    class="flaticon-magnifiying-glass"></span> Saved Searches</a></li>
+                                            <li><a href="page-dashboard-invoices.html"><span
+                                                    class="flaticon-invoice"></span> My Invoices</a></li>
+                                            <li><a href="page-dashboard-message.html"><span
+                                                    class="flaticon-mail-inbox-app"></span> Inbox</a></li>
+                                            <li><a href="page-dashboard-logout.html"><span
+                                                    class="flaticon-logout"></span>
+                                                Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb50">
+                                <div class="breadcrumb_content">
+                                    <h2 class="breadcrumb_title">Add New Property</h2>
+                                    <p class="">Ready to jump back in?</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 mb50">
-                            <div class="breadcrumb_content">
-                                <h2 class="breadcrumb_title">Add New Property</h2>
-                                <p class="">Ready to jump back in?</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="new_property_form">
-                                <h4 class="title mb30">Contact Information</h4>
-                                <form class="contact_form" id="property_creation_form" name="contact_form" method="post"
-                                      novalidate>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="new_property_form">
+                                    <h4 class="title mb30">Contact Information</h4>
                                     {% csrf_token %}
                                     <div>
                                         <div class="row">
@@ -415,6 +418,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -470,7 +474,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
-                                                <input name="form_name" id="garages" class="form-control form_control"
+                                                <input name="form_name" id="1garages" class="form-control form_control"
                                                        type="text" placeholder="Garages">
                                             </div>
                                         </div>
@@ -519,7 +523,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_name" disabled="true"
+                                                <input name="form_name" disabled
                                                        class="form-control form_control" type="text"
                                                        placeholder="Price Prefix (MWK)">
                                             </div>
@@ -817,11 +821,14 @@
                                                                         aria-controls="collapseOne">
                                                                     <ul class="mb0">
                                                                         <li class="list-inline-item">First Floor</li>
-                                                                        <li class="list-inline-item">Size: <span>1267 Sqft</span>
+                                                                        <li class="list-inline-item">Size:
+                                                                            <span>1267 Sqft</span>
                                                                         </li>
-                                                                        <li class="list-inline-item">Rooms: <span>670 Sqft</span>
+                                                                        <li class="list-inline-item">Rooms:
+                                                                            <span>670 Sqft</span>
                                                                         </li>
-                                                                        <li class="list-inline-item">Baths: <span>530 Sqft</span>
+                                                                        <li class="list-inline-item">Baths:
+                                                                            <span>530 Sqft</span>
                                                                         </li>
                                                                         <li class="list-inline-item">Price:
                                                                             <span>$1489</span></li>
@@ -873,11 +880,14 @@
                                                                         aria-controls="collapseTwo">
                                                                     <ul class="mb0">
                                                                         <li class="list-inline-item">First Floor</li>
-                                                                        <li class="list-inline-item">Size: <span>1267 Sqft</span>
+                                                                        <li class="list-inline-item">Size:
+                                                                            <span>1267 Sqft</span>
                                                                         </li>
-                                                                        <li class="list-inline-item">Rooms: <span>670 Sqft</span>
+                                                                        <li class="list-inline-item">Rooms:
+                                                                            <span>670 Sqft</span>
                                                                         </li>
-                                                                        <li class="list-inline-item">Baths: <span>530 Sqft</span>
+                                                                        <li class="list-inline-item">Baths:
+                                                                            <span>530 Sqft</span>
                                                                         </li>
                                                                         <li class="list-inline-item">Price:
                                                                             <span>$1489</span></li>
@@ -1015,31 +1025,26 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="text-right">
                         <button class="btn btn-thm listing_save_btn" type="submit">Submit</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </section>
-</div>
-</form>
-<div class="row mt50">
-    <div class="col-lg-12 text-center">
-        <p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
+    <div class="row mt50">
+        <div class="col-lg-12 text-center">
+            <p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
+        </div>
     </div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
-</div>
-<!-- Wrapper End -->
+    <a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
 
-<script>
+    <!-- Wrapper End -->
+</div>
+
+<!--JS and Ajax code-->
+    <script>
 	$(document).on('submit', '#property_creation_form', function (e) {
 		e.preventDefault();
 		console.log("submit");
@@ -1073,7 +1078,9 @@
 		});
 	});
 
-</script>
 
-{% endblock body %}
-  
+
+
+    </script>
+
+    {% endblock body %}
