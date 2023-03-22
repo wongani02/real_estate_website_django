@@ -88,6 +88,7 @@ class CreatePropertyListing(generic.CreateView):
             return redirect('properties:home')
         
         message = messages.add_message(request, messages.ERROR, 'Failed to create Listing.')
+        print("error")
         
         return render(request, self.template_name, {'message': message})
     

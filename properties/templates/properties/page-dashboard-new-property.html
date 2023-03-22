@@ -151,7 +151,7 @@
                             <li><a href="page-login.html">My Account</a></li>
                             <li><a href="page-pricing.html">Pricing V1</a></li>
                             <li><a href="page-compare.html">Compare</a></li>
-                            <!-- <li><a href="page-error.html">404 Page</a></li> -->
+                            <li><a href="page-error.html">404 Page</a></li>
                             <li><a href="page-terms.html">Terms and Conditions</a></li>
                             <li><a href="page-ui-element.html">UI Elements</a></li>
                         </ul>
@@ -345,102 +345,103 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-2 dn-lg pl0"></div>
-                <form class="contact_form" id="property_creation_form" name="contact_form" method="post"
-                      novalidate>
-                    <div class="col-xl-10">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="dashboard_navigationbar dn db-lg">
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn"><i class="fa fa-bars pr10"></i>
-                                            Dashboard Navigation
-                                        </button>
-                                        <ul id="myDropdown" class="dropdown-content">
-                                            <li><a href="page-dashboard.html"><span class="flaticon-dashboard"></span>
-                                                Dashboard</a></li>
-                                            <li><a href="page-dashboard-profile.html"><span
-                                                    class="flaticon-user"></span> My
-                                                Profile</a></li>
-                                            <li><a href="page-dashboard-property.html"><span
-                                                    class="flaticon-house"></span>
-                                                My Properties List</a></li>
-                                            <li><a class="active" href="page-add-new-property.html"><span
-                                                    class="flaticon-button"></span> Add New Property</a></li>
-                                            <li><a href="page-dashboard-favorites.html"><span
-                                                    class="flaticon-heart-shape-outline"></span> Favorites</a></li>
-                                            <li><a href="page-dashboard-save-search.html"><span
-                                                    class="flaticon-magnifiying-glass"></span> Saved Searches</a></li>
-                                            <li><a href="page-dashboard-invoices.html"><span
-                                                    class="flaticon-invoice"></span> My Invoices</a></li>
-                                            <li><a href="page-dashboard-message.html"><span
-                                                    class="flaticon-mail-inbox-app"></span> Inbox</a></li>
-                                            <li><a href="page-dashboard-logout.html"><span
-                                                    class="flaticon-logout"></span>
-                                                Logout</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 mb50">
-                                <div class="breadcrumb_content">
-                                    <h2 class="breadcrumb_title">Add New Property</h2>
-                                    <p class="">Ready to jump back in?</p>
+                <div class="col-xl-10">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="dashboard_navigationbar dn db-lg">
+                                <div class="dropdown">
+                                    <button onclick="myFunction()" class="dropbtn"><i class="fa fa-bars pr10"></i>
+                                        Dashboard Navigation
+                                    </button>
+                                    <ul id="myDropdown" class="dropdown-content">
+                                        <li><a href="page-dashboard.html"><span class="flaticon-dashboard"></span>
+                                            Dashboard</a></li>
+                                        <li><a href="page-dashboard-profile.html"><span class="flaticon-user"></span> My
+                                            Profile</a></li>
+                                        <li><a href="page-dashboard-property.html"><span class="flaticon-house"></span>
+                                            My Properties List</a></li>
+                                        <li><a class="active" href="page-add-new-property.html"><span
+                                                class="flaticon-button"></span> Add New Property</a></li>
+                                        <li><a href="page-dashboard-favorites.html"><span
+                                                class="flaticon-heart-shape-outline"></span> Favorites</a></li>
+                                        <li><a href="page-dashboard-save-search.html"><span
+                                                class="flaticon-magnifiying-glass"></span> Saved Searches</a></li>
+                                        <li><a href="page-dashboard-invoices.html"><span
+                                                class="flaticon-invoice"></span> My Invoices</a></li>
+                                        <li><a href="page-dashboard-message.html"><span
+                                                class="flaticon-mail-inbox-app"></span> Inbox</a></li>
+                                        <li><a href="page-dashboard-logout.html"><span class="flaticon-logout"></span>
+                                            Logout</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-12 mb50">
+                            <div class="breadcrumb_content">
+                                <h2 class="breadcrumb_title">Add New Property</h2>
+                                <p class="">Ready to jump back in?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--					form here-->
+                    <form class="contact_form" id="property_creation_form" name="contact_form" method="post" novalidate>
+                    {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="new_property_form">
                                     <h4 class="title mb30">Contact Information</h4>
-                                    {% csrf_token %}
-                                    <div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group mb30">
-                                                    <input name="form_name" id="property_name"
-                                                           class="form-control form_control" type="text"
-                                                           placeholder="Property Title *">
-                                                </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group mb30">
+                                                <input name="form_name" id="property_name" class="form-control form_control" type="text"
+                                                       placeholder="Property Title *">
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group mb30">
-                                                    <input name="form_type" id="property_type"
-                                                           class="form-control form_control" type="text"
-                                                           placeholder="Type">
-                                                </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb30">
+                                                <input name="form_type" id="property_type" class="form-control form_control" type="text"
+                                                       placeholder="Type">
                                             </div>
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <textarea name="form_message" id="property_desc"
-                                                              class="form-control" rows="6"
-                                                              placeholder="Property Description *"></textarea>
-                                                </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <textarea name="form_message" id="property_desc" class="form-control" rows="6"
+                                                          placeholder="Property Description *"></textarea>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="new_property_form">
-                                <h4 class="title mb30">Additional</h4>
-                                <div>
+                            <div class="col-lg-12">
+                                <div class="new_property_form">
+                                    <h4 class="title mb30">Additional</h4>
+                                    <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
                                     <div class="row">
-
-                                        <!-- <div class="col-md-4">
-                                                            <div class="ui_kit_select_search add_new_property mb30">
-                                                                <select class="selectpicker" data-live-search="true" data-width="100%">
-                                                                    <option>Parent property</option>
-                                                                    <option data-tokens="Free">Free</option>
-                                                                    <option data-tokens="PriceLevel2">Low: $</option>
-                                                                    <option data-tokens="PriceLevel3">Medium: $$</option>
-                                                                    <option data-tokens="PriceLevel4">High: $$$</option>
-                                                                </select>
-                                                            </div>
-                                        </div> -->
+<!--                                        <div class="col-md-4">-->
+<!--                                            <div class="form-group mb30">-->
+<!--                                                <input name="form_name" class="form-control form_control"-->
+<!--                                                       type="text" placeholder="Property ID">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+                                        <div class="col-md-4">
+                                            <div class="ui_kit_select_search add_new_property mb30">
+                                                <select class="selectpicker" data-live-search="true"
+                                                        data-width="100%">
+                                                    <option>Parent property</option>
+                                                    <option data-tokens="Free">Free</option>
+                                                    <option data-tokens="PriceLevel2">Low: $</option>
+                                                    <option data-tokens="PriceLevel3">Medium: $$</option>
+                                                    <option data-tokens="PriceLevel4">High: $$$</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-4">
                                             <div class="ui_kit_select_search add_new_property mb30">
-                                                <select class="selectpicker" data-live-search="true" data-width="100%">
+                                                <select class="selectpicker" data-live-search="true"
+                                                        data-width="100%">
                                                     <option>Status</option>
                                                     <option data-tokens="Active">Active</option>
                                                     <option data-tokens="Pending">Pending</option>
@@ -455,27 +456,28 @@
                                                        value="rented, sold">
                                             </div>
                                         </div>
-                                        <!-- <div class="col-md-4">
-                                          <div class="form-group mb20">
-                                            <input name="form_name" class="form-control form_control" type="text" placeholder="Material">
-                                          </div>
-                                        </div> -->
+                                        <div class="col-md-4">
+                                            <div class="form-group mb20">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Material">
+                                            </div>
+                                        </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb20">
                                                 <input name="form_name" id="rooms" class="form-control form_control"
                                                        type="text" placeholder="Rooms">
                                             </div>
                                         </div>
+<!--                                        <div class="col-md-4">-->
+<!--                                            <div class="form-group mb30">-->
+<!--                                                <input name="form_name" id="beds" class="form-control form_control"-->
+<!--                                                       type="text" placeholder="Beds">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
-                                                <input name="form_name" id="beds" class="form-control form_control"
-                                                       type="text" placeholder="Beds">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group mb30">
-                                                <input name="form_name" id="1garages" class="form-control form_control"
-                                                       type="text" placeholder="Garages">
+                                                <input name="form_name" id="baths" class="form-control form_control"
+                                                       type="text" placeholder="Baths">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -486,34 +488,34 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Year built">
+                                                <input name="form_name" id="year_built" class="form-control form_control"
+                                                       type="text" placeholder="Year built">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Home area (sqft)">
+                                                <input name="form_name" id="area" class="form-control form_control"
+                                                       type="text" placeholder="Home area (sqft)">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Lot dimensions">
+                                                <input name="form_name" id="dimensions" class="form-control form_control"
+                                                       type="text" placeholder="Lot dimensions">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Lot area (asqft)">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Lot area (asqft)">
                                             </div>
                                         </div>
                                     </div>
+                                    <!--                                    </form>-->
                                 </div>
-                            </div>
-                            <div class="new_property_form">
-                                <h4 class="title mb30">Price</h4>
-                                <div>
+                                <div class="new_property_form">
+                                    <h4 class="title mb30">Price</h4>
+                                    <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
@@ -523,21 +525,33 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_name" disabled
-                                                       class="form-control form_control" type="text"
-                                                       placeholder="Price Prefix (MWK)">
+                                                <input name="form_name" disabled class="form-control form_control"
+                                                       type="text" placeholder="Price Prefix (MWK)">
                                             </div>
                                         </div>
+<!--                                        <div class="col-md-6">-->
+<!--                                            <div class="form-group mb30">-->
+<!--                                                <input name="form_name" class="form-control form_control"-->
+<!--                                                       type="text" placeholder="Price Suffix">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="col-md-6">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <input name="form_name" class="form-control form_control"-->
+<!--                                                       type="text" placeholder="Price Custom">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                     </div>
+                                    <!--                                    </form>-->
                                 </div>
-                            </div>
-                            <div class="new_property_form">
-                                <h4 class="title mb30">Location</h4>
-                                <div>
+                                <div class="new_property_form">
+                                    <h4 class="title mb30">Location</h4>
+                                    <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="ui_kit_select_search add_new_property mb30">
-                                                <select class="selectpicker" data-live-search="true" data-width="100%">
+                                                <select class="selectpicker" data-live-search="true"
+                                                        data-width="100%">
                                                     <option>Regions</option>
                                                     <option data-tokens="City">City</option>
                                                     <option data-tokens="Capital">Capital</option>
@@ -548,14 +562,14 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Friendly Address">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Friendly Address">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Map Location">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Map Location">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -565,29 +579,30 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Latidude">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Latidude">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Longitude">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Longitude">
                                             </div>
                                         </div>
                                     </div>
+                                    <!--                                    </form>-->
                                 </div>
-                            </div>
-                            <div class="new_property_form">
-                                <h4 class="title mb30">Media</h4>
-                                <div>
+                                <div class="new_property_form">
+                                    <h4 class="title mb30">Media</h4>
+                                    <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h5 class="fz14 fw600 mb20">Featured image</h5>
                                             <ul class="mb0">
                                                 <li class="list-inline-item">
                                                     <div class="portfolio_item">
-                                                        <img class="img-fluid" src="images/listing/a1.jpg" alt="a1.jpg">
+                                                        <img class="img-fluid" src="images/listing/a1.jpg"
+                                                             alt="a1.jpg">
                                                         <div class="edu_stats_list" data-toggle="tooltip"
                                                              data-placement="top" title="Delete"
                                                              data-original-title="Delete">
@@ -597,7 +612,8 @@
                                                 </li>
                                                 <li class="list-inline-item">
                                                     <div class="portfolio_item">
-                                                        <img class="img-fluid" src="images/listing/a2.jpg" alt="a2.jpg">
+                                                        <img class="img-fluid" src="images/listing/a2.jpg"
+                                                             alt="a2.jpg">
                                                         <div class="edu_stats_list" data-toggle="tooltip"
                                                              data-placement="top" title="Delete"
                                                              data-original-title="Delete">
@@ -607,7 +623,8 @@
                                                 </li>
                                                 <li class="list-inline-item">
                                                     <div class="portfolio_item">
-                                                        <img class="img-fluid" src="images/listing/a3.jpg" alt="a3.jpg">
+                                                        <img class="img-fluid" src="images/listing/a3.jpg"
+                                                             alt="a3.jpg">
                                                         <div class="edu_stats_list" data-toggle="tooltip"
                                                              data-placement="top" title="Delete"
                                                              data-original-title="Delete">
@@ -623,8 +640,8 @@
 												</span>
                                                 <img id="ImgPreview" src="images/resource/upload-img.png"
                                                      class="preview1" alt=""/>
-                                                <button id="removeImage1" class="btn-rmv1" type="button"><span>X</span>
-                                                </button>
+                                                <button id="removeImage1" class="btn-rmv1" type="button">
+                                                    <span>X</span></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mt50 mb15">
@@ -646,168 +663,193 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Video link">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Video link">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <textarea name="form_message" class="form-control" rows="6"
-                                                          placeholder="Virtual Tour"></textarea>
+                                                    <textarea name="form_message" class="form-control" rows="6"
+                                                              placeholder="Virtual Tour"></textarea>
                                             </div>
                                         </div>
                                     </div>
+                                    <!--                                    </form>-->
                                 </div>
-                            </div>
-                            <div class="new_property_form">
-                                <h4 class="mb30">Hightlights</h4>
-                                <a class="text-thm tdu" href="#">Select / Deselect All</a>
-                                <div class="ui_kit_select_search form-group list_hightlights df mt20">
-                                    <ul class="add_listing selectable-list">
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label" for="customCheck1">Air
-                                                    Conditioning</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                <label class="custom-control-label" for="customCheck2">Barbeque</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                                <label class="custom-control-label" for="customCheck3">Dryer</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck4">
-                                                <label class="custom-control-label" for="customCheck4">Gym</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck5">
-                                                <label class="custom-control-label" for="customCheck5">Laundry</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck6">
-                                                <label class="custom-control-label" for="customCheck6">Lawn</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck7">
-                                                <label class="custom-control-label" for="customCheck7">Microwave</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                                <label class="custom-control-label" for="customCheck8">Outdoor
-                                                    Shower</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck9">
-                                                <label class="custom-control-label"
-                                                       for="customCheck9">Refrigerator</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck10">
-                                                <label class="custom-control-label" for="customCheck10">Stunning
-                                                    views</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                                <label class="custom-control-label" for="customCheck11">Dining
-                                                    Room</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck12">
-                                                <label class="custom-control-label"
-                                                       for="customCheck12">Fireplace</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck13">
-                                                <label class="custom-control-label" for="customCheck13">Pets
-                                                    Allowed</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck14">
-                                                <label class="custom-control-label" for="customCheck14">Unit
-                                                    Washer/Dryer</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck15">
-                                                <label class="custom-control-label" for="customCheck15">Onsite
-                                                    Parking</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck16">
-                                                <label class="custom-control-label"
-                                                       for="customCheck16">Waterfront</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck17">
-                                                <label class="custom-control-label" for="customCheck17">Parking</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck18">
-                                                <label class="custom-control-label" for="customCheck18">Doorman</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck19">
-                                                <label class="custom-control-label" for="customCheck19">Central
-                                                    Heating</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck20">
-                                                <label class="custom-control-label" for="customCheck20">Cleaning
-                                                    Service</label>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="new_property_form">
+                                    <h4 class="mb30">Hightlights</h4>
+                                    <a class="text-thm tdu" href="#">Select / Deselect All</a>
+                                    <div class="ui_kit_select_search form-group list_hightlights df mt20">
+                                        <ul class="add_listing selectable-list">
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck1">
+                                                    <label class="custom-control-label" for="customCheck1">Air
+                                                        Conditioning</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck2">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck2">Barbeque</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck3">
+                                                    <label class="custom-control-label" for="customCheck3">Dryer</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck4">
+                                                    <label class="custom-control-label" for="customCheck4">Gym</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck5">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck5">Laundry</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck6">
+                                                    <label class="custom-control-label" for="customCheck6">Lawn</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck7">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck7">Microwave</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck8">
+                                                    <label class="custom-control-label" for="customCheck8">Outdoor
+                                                        Shower</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck9">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck9">Refrigerator</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck10">
+                                                    <label class="custom-control-label" for="customCheck10">Stunning
+                                                        views</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck11">
+                                                    <label class="custom-control-label" for="customCheck11">Dining
+                                                        Room</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck12">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck12">Fireplace</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck13">
+                                                    <label class="custom-control-label" for="customCheck13">Pets
+                                                        Allowed</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck14">
+                                                    <label class="custom-control-label" for="customCheck14">Unit
+                                                        Washer/Dryer</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck15">
+                                                    <label class="custom-control-label" for="customCheck15">Onsite
+                                                        Parking</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck16">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck16">Waterfront</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck17">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck17">Parking</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck18">
+                                                    <label class="custom-control-label"
+                                                           for="customCheck18">Doorman</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck19">
+                                                    <label class="custom-control-label" for="customCheck19">Central
+                                                        Heating</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                           id="customCheck20">
+                                                    <label class="custom-control-label" for="customCheck20">Cleaning
+                                                        Service</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="new_property_form">
-                                <h4 class="title mb30">Floor Plans</h4>
-                                <div>
+                                <div class="new_property_form">
+                                    <h4 class="title mb30">Floor Plans</h4>
+                                    <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="faq_according style2">
@@ -817,21 +859,21 @@
                                                             <h2 class="mb-0">
                                                                 <button class="btn btn-link" type="button"
                                                                         data-toggle="collapse"
-                                                                        data-target="#collapseOne" aria-expanded="true"
+                                                                        data-target="#collapseOne"
+                                                                        aria-expanded="true"
                                                                         aria-controls="collapseOne">
                                                                     <ul class="mb0">
-                                                                        <li class="list-inline-item">First Floor</li>
-                                                                        <li class="list-inline-item">Size:
-                                                                            <span>1267 Sqft</span>
+                                                                        <li class="list-inline-item">First Floor
                                                                         </li>
-                                                                        <li class="list-inline-item">Rooms:
-                                                                            <span>670 Sqft</span>
+                                                                        <li class="list-inline-item">Size: <span>1267 Sqft</span>
                                                                         </li>
-                                                                        <li class="list-inline-item">Baths:
-                                                                            <span>530 Sqft</span>
+                                                                        <li class="list-inline-item">Rooms: <span>670 Sqft</span>
+                                                                        </li>
+                                                                        <li class="list-inline-item">Baths: <span>530 Sqft</span>
                                                                         </li>
                                                                         <li class="list-inline-item">Price:
-                                                                            <span>$1489</span></li>
+                                                                            <span>$1489</span>
+                                                                        </li>
                                                                     </ul>
                                                                 </button>
                                                                 <!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -847,27 +889,28 @@
                                                         </div>
                                                         <div id="collapseOne" class="collapse"
                                                              aria-labelledby="headingOne"
-                                                             data-parent="#accordionExample">
+                                                             data-parent="#accordionExample" style="">
                                                             <div class="card-body">
                                                                 <img class="img-fluid mb10"
                                                                      src="images/resource/floor_plan.png"
                                                                      alt="floor_plan.png">
                                                                 <p class="mb20">Occupying over 8,000 square feet,
-                                                                    perched over 1,100 feet in the air with absolutely
-                                                                    breathtaking panoramic 360-degree views of all of
-                                                                    New York City and the surrounding tri-state area,
-                                                                    The 82nd Floor at 432 Park Avenue has been
-                                                                    completely reimagined by one of the most
-                                                                    sought-after design houses in London and represents
-                                                                    an utterly unique opportunity to own a globally
-                                                                    significant property.</p>
-                                                                <p>The residence is comprised of 5 bedrooms, 2 master
-                                                                    bathrooms, 4 on-suite guest bathrooms, 2 powder
-                                                                    rooms, 2 offices, 2 dressing rooms, a media room, an
-                                                                    oversized eat-in gourmet chef's kitchen, and a
-                                                                    sprawling 1,100 square-foot Great Room perfectly
-                                                                    situated in the prime southwest corner of the
-                                                                    floor.</p>
+                                                                    perched over 1,100 feet in the air with
+                                                                    absolutely breathtaking panoramic 360-degree
+                                                                    views of all of New York City and the
+                                                                    surrounding tri-state area, The 82nd Floor at
+                                                                    432 Park Avenue has been completely reimagined
+                                                                    by one of the most sought-after design houses in
+                                                                    London and represents an utterly unique
+                                                                    opportunity to own a globally significant
+                                                                    property.</p>
+                                                                <p>The residence is comprised of 5 bedrooms, 2
+                                                                    master bathrooms, 4 on-suite guest bathrooms, 2
+                                                                    powder rooms, 2 offices, 2 dressing rooms, a
+                                                                    media room, an oversized eat-in gourmet chef's
+                                                                    kitchen, and a sprawling 1,100 square-foot Great
+                                                                    Room perfectly situated in the prime southwest
+                                                                    corner of the floor.</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -876,21 +919,21 @@
                                                             <h2 class="mb-0">
                                                                 <button class="btn btn-link collapsed" type="button"
                                                                         data-toggle="collapse"
-                                                                        data-target="#collapseTwo" aria-expanded="false"
+                                                                        data-target="#collapseTwo"
+                                                                        aria-expanded="false"
                                                                         aria-controls="collapseTwo">
                                                                     <ul class="mb0">
-                                                                        <li class="list-inline-item">First Floor</li>
-                                                                        <li class="list-inline-item">Size:
-                                                                            <span>1267 Sqft</span>
+                                                                        <li class="list-inline-item">First Floor
                                                                         </li>
-                                                                        <li class="list-inline-item">Rooms:
-                                                                            <span>670 Sqft</span>
+                                                                        <li class="list-inline-item">Size: <span>1267 Sqft</span>
                                                                         </li>
-                                                                        <li class="list-inline-item">Baths:
-                                                                            <span>530 Sqft</span>
+                                                                        <li class="list-inline-item">Rooms: <span>670 Sqft</span>
+                                                                        </li>
+                                                                        <li class="list-inline-item">Baths: <span>530 Sqft</span>
                                                                         </li>
                                                                         <li class="list-inline-item">Price:
-                                                                            <span>$1489</span></li>
+                                                                            <span>$1489</span>
+                                                                        </li>
                                                                     </ul>
                                                                 </button>
                                                             </h2>
@@ -903,21 +946,22 @@
                                                                      src="images/resource/floor_plan.png"
                                                                      alt="floor_plan.png">
                                                                 <p class="mb20">Occupying over 8,000 square feet,
-                                                                    perched over 1,100 feet in the air with absolutely
-                                                                    breathtaking panoramic 360-degree views of all of
-                                                                    New York City and the surrounding tri-state area,
-                                                                    The 82nd Floor at 432 Park Avenue has been
-                                                                    completely reimagined by one of the most
-                                                                    sought-after design houses in London and represents
-                                                                    an utterly unique opportunity to own a globally
-                                                                    significant property.</p>
-                                                                <p>The residence is comprised of 5 bedrooms, 2 master
-                                                                    bathrooms, 4 on-suite guest bathrooms, 2 powder
-                                                                    rooms, 2 offices, 2 dressing rooms, a media room, an
-                                                                    oversized eat-in gourmet chef's kitchen, and a
-                                                                    sprawling 1,100 square-foot Great Room perfectly
-                                                                    situated in the prime southwest corner of the
-                                                                    floor.</p>
+                                                                    perched over 1,100 feet in the air with
+                                                                    absolutely breathtaking panoramic 360-degree
+                                                                    views of all of New York City and the
+                                                                    surrounding tri-state area, The 82nd Floor at
+                                                                    432 Park Avenue has been completely reimagined
+                                                                    by one of the most sought-after design houses in
+                                                                    London and represents an utterly unique
+                                                                    opportunity to own a globally significant
+                                                                    property.</p>
+                                                                <p>The residence is comprised of 5 bedrooms, 2
+                                                                    master bathrooms, 4 on-suite guest bathrooms, 2
+                                                                    powder rooms, 2 offices, 2 dressing rooms, a
+                                                                    media room, an oversized eat-in gourmet chef's
+                                                                    kitchen, and a sprawling 1,100 square-foot Great
+                                                                    Room perfectly situated in the prime southwest
+                                                                    corner of the floor.</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -926,32 +970,32 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Name">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Name">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_type" class="form-control form_control" type="text"
-                                                       placeholder="Rooms">
+                                                <input name="form_type" class="form-control form_control"
+                                                       type="text" placeholder="Rooms">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Baths">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Baths">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_type" class="form-control form_control" type="text"
-                                                       placeholder="Size">
+                                                <input name="form_type" class="form-control form_control"
+                                                       type="text" placeholder="Size">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group mb30">
-                                                <textarea name="form_message" class="form-control" rows="6"
-                                                          placeholder="Content"></textarea>
+                                                    <textarea name="form_message" class="form-control" rows="6"
+                                                              placeholder="Content"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
@@ -959,7 +1003,8 @@
                                             <ul class="mb0">
                                                 <li class="list-inline-item">
                                                     <div class="portfolio_item">
-                                                        <img class="img-fluid" src="images/listing/a2.jpg" alt="a2.jpg">
+                                                        <img class="img-fluid" src="images/listing/a2.jpg"
+                                                             alt="a2.jpg">
                                                         <div class="edu_stats_list" data-toggle="tooltip"
                                                              data-placement="top" title="Delete"
                                                              data-original-title="Delete">
@@ -969,7 +1014,8 @@
                                                 </li>
                                                 <li class="list-inline-item">
                                                     <div class="portfolio_item">
-                                                        <img class="img-fluid" src="images/listing/a3.jpg" alt="a3.jpg">
+                                                        <img class="img-fluid" src="images/listing/a3.jpg"
+                                                             alt="a3.jpg">
                                                         <div class="edu_stats_list" data-toggle="tooltip"
                                                              data-placement="top" title="Delete"
                                                              data-original-title="Delete">
@@ -999,15 +1045,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!--                                    </form>-->
                                 </div>
-                            </div>
-                            <div class="new_property_form">
-                                <h4 class="title mb30">Select Energy Class</h4>
-                                <div>
+                                <div class="new_property_form">
+                                    <h4 class="title mb30">Select Energy Class</h4>
+                                    <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="ui_kit_select_search add_new_property mb30-sm">
-                                                <select class="selectpicker" data-live-search="true" data-width="100%">
+                                                <select class="selectpicker" data-live-search="true"
+                                                        data-width="100%">
                                                     <option>Energy Class</option>
                                                     <option data-tokens="City">City</option>
                                                     <option data-tokens="Village">Village</option>
@@ -1017,34 +1064,37 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="form_name" class="form-control form_control" type="text"
-                                                       placeholder="Energy Index in kWh/m2a">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Energy Index in kWh/m2a">
                                             </div>
                                         </div>
                                     </div>
+                                    <!--                                    </form>-->
+                                </div>
+                                <div class="text-right">
+                                    <button class="btn btn-thm listing_save_btn" type="submit">Submit</button>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- close form tag here-->
+                    </form>
+
+                    <div class="row mt50">
+                        <div class="col-lg-12 text-center">
+                            <p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
+                        </div>
                     </div>
-                    <div class="text-right">
-                        <button class="btn btn-thm listing_save_btn" type="submit">Submit</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </section>
-    <div class="row mt50">
-        <div class="col-lg-12 text-center">
-            <p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
-        </div>
-    </div>
     <a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
-
-    <!-- Wrapper End -->
 </div>
+<!-- Wrapper End -->
 
 <!--JS and Ajax code-->
-    <script>
+<script>
 	$(document).on('submit', '#property_creation_form', function (e) {
 		e.preventDefault();
 		console.log("submit");
@@ -1064,7 +1114,8 @@
 					'Good job!',
 					'Your Property Listing Creation Was Successful',
 					'success'
-				)
+				);
+				console.log("data", data)
 			},
 
 			error:function () {
@@ -1081,6 +1132,8 @@
 
 
 
-    </script>
 
-    {% endblock body %}
+
+</script>
+
+{% endblock body %}
