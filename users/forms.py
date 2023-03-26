@@ -48,3 +48,27 @@ class UserRegistrationForm(UserCreationForm):
             'email': _('An email will be sent to the address for verification.'),
             'username': _('Username may contain letters, numbers and symbols.'),
         }
+
+
+class UserUpdateForm(forms.ModelForm):
+
+    email = forms.EmailField(
+        label='Account email (can not be changed)', max_length=200, widget=forms.EmailInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'email', 'id': 'form-email', 'readonly': 'readonly'}))
+
+    name = forms.CharField(
+        label='Full Name', min_length=4, max_length=50, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'eg john doe', 'id': 'form-name'}))
+
+    username = forms.CharField(
+        label='username', min_length=4, max_length=50, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'eg. Pablo', 'id': 'form-username'}))
+
+    class Meta:
+        model = User
+        fields = ('email', 'name', 'username',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].required = True
+        self.fields['email'].required = True

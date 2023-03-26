@@ -29,9 +29,11 @@
 <body>
 <div class="wrapper">
   <div class="preloader"></div>
+  
   {% block header %}
     {% include 'properties/header.html' %}
   {% endblock header %}
+  
   <!-- Modal -->
   <div class="sign_up_modal modal fade" id="logInModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -56,13 +58,19 @@
             <div class="row mt30 tab-pane fade show active pl20 pr20" id="home" role="tabpanel" aria-labelledby="home-tab">
               <div class="col-lg-12">
                 <div class="login_form">
-                  <form action="#">
+                  <form method="post" action="{% url 'accounts:login' %}">
+                    {% csrf_token %}
                     <div class="mb-2 mr-sm-2">
-                      <label for="formGroupExampleInput" class="form-label mb0">Login</label>
-                      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ali Tufa..">
+                      <label for="formGroupExampleInput" class="form-label mb0">Email</label>
+                      {{login_form.email}} 
+									    {{login_form.email.errors}}
+                      <!-- <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ali Tufa.."> -->
                     </div>
                     <div class="form-group mb5">
-                      <input type="password" class="form-control" placeholder="Password">
+                      <label for="formGroupExampleInput" class="form-label mb0">Password</label>
+                      {{login_form.password}}
+										{{login_form.password.errors}}
+                      <!-- <input type="password" class="form-control" placeholder="Password"> -->
                     </div>
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="exampleCheck2">
@@ -122,7 +130,13 @@
       </div>
     </div>
   </div>
-  
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">
+  {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
   <!-- Main Header Nav For Mobile -->
   <div id="page" class="stylehome1 h0">
     <div class="mobile-menu">

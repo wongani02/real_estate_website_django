@@ -1,14 +1,19 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.contrib.auth import get_user_model
+
+from properties.models import Property
 
 from .forms import UserLoginForm
 from .helpers import auth_user_should_not_access
 
 # Create your views here.
+
+User = get_user_model()
 
 
 def contextLoginForm(request):
@@ -29,16 +34,16 @@ def loginView(request):
             if user is not None:
                 print(user)
                 login(request, user)
+                messages.info(request, 'Login successful')
                 return redirect('properties:home')
             else:
                 message = 'Invalid Credentials!'
-                print(message)
-                return redirect('properties:home')
+                messages.error(request, message)
+                return HttpResponseRedirect(request.META["HTTP_REFERER"])
     context = {
         'login_form': login_form
     }
     return render(request, 'users/auth-page.html', context)
-
 
 
 def RegisterView(request):
@@ -60,34 +65,45 @@ def forgotPassword(request):
     return render(request, 'users/', context)
 
 
+@login_required(login_url='accounts:login')
 def dashboardView(request):
+
     context = {
 
     }
-    return render(request, 'users/', context)
+    return render(request, 'users/page-dashboard.html', context)
 
 
+@login_required(login_url='accounts:login')
 def profileView(request):
+
     context = {
 
     }
     return render(request, 'users/', context)
 
 
+@login_required(login_url='accounts:login')
 def bookmarksView(request):
+    user = get_object_or_404(User, id=request.user.id)
+    q = Property.objects.filter(user_bookmark=user)
     context = {
-
+        'bookmarks': q
     }
-    return render(request, 'users/', context)
+    return render(request, 'users/page-dashboard-favorites.html', context)
 
 
+@login_required(login_url='accounts:login')
 def myPropertiesView(request):
+    user_id = request.user.id
+    properties = Property.objects.all().filter(agent_id=user_id)
     context = {
-
+        'properties': properties,
     }
-    return render(request, 'users/', context)
+    return render(request, 'users/page-dashboard-property.html', context)
 
 
+@login_required(login_url='accounts:login')
 def invoices(request):
     context = {
 
@@ -95,6 +111,7 @@ def invoices(request):
     return render(request, 'users/', context)
 
 
+@login_required(login_url='accounts:login')
 def addPropertyView(request):
     context = {
 

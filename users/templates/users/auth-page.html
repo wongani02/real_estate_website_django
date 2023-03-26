@@ -1,5 +1,9 @@
 {% extends 'properties/index.html' %}
 {% load static %}
+{% block title %}Login/Register{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
 {% block content %}
 <!-- Our Dashbord -->
 	<section class="our-dashbord dashbord bgc-alice-blue">
@@ -42,11 +46,13 @@
 									<div class="mb-2 mr-sm-2">
 										<label for="formGroupExampleInput" class="form-label mb0">Login</label>
                                        {{login_form.email}} 
+									   {{login_form.email.errors}}
 									  <!-- <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ali Tufa.."> -->
 									</div>
 									<div class="form-group mb5">
                                         <label for="formGroupExampleInput" class="form-label mb0">Password</label>
                                         {{login_form.password}}
+										{{login_form.password.errors}}
 								    <!-- <input type="password" class="form-control" placeholder="Password"> -->
 									</div>
 									<div class="custom-control custom-checkbox">

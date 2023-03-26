@@ -175,6 +175,7 @@ class Property(models.Model):
         null=True, 
         on_delete=models.CASCADE, 
         related_name='agent_properties')
+    user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_bookmark", blank=True)
 
     def __str__(self):
         return '{} - {} - {}'.format(self.name, self.price, self.location_area)
