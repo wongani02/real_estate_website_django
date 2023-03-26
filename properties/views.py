@@ -5,7 +5,7 @@ from properties.models import Property
 
 class PropertiesHome(generic.ListView):
     def get(self, request):
-        return render(request, 'properties/index.html')
+        return render(request, 'properties/home.html')
 
 
 class Contact(generic.DetailView):

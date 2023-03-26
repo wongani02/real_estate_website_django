@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManager
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django.core.mail import send_mail
 
 from ckeditor.fields import RichTextField
 
@@ -32,12 +33,32 @@ class User(AbstractUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
-    REQUIRED_FIELDS = ['username',]
+    REQUIRED_FIELDS = ['name',]
 
     objects = UserManager
 
+    def email_user(self, subject, message):
+        send_mail(
+            subject,
+            message,
+            'l@1.com',
+            [self.email],
+            fail_silently=False,
+        )
+
     def __str__(self):
         return '{} - {}'.format(self.username, self.email)
+     
+
+class UserType(models.Model):
+    CHOICES = (
+        ('Realtor', 'Realtor'),
+        ('Customer', 'Customer'),
+    )
+    type = models.CharField(_("Type of user"), max_length=200, choices=CHOICES)
+
+    def __str__(self):
+        return self.type
     
 
 class Profile(models.Model):
