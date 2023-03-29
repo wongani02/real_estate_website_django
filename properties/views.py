@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
 
-from properties.models import Property
+from properties.models import *
 from properties.forms import *
 
 class PropertiesHome(generic.ListView):
@@ -78,10 +78,11 @@ class CreatePropertyListing(generic.CreateView):
     def get(self, request):
         form=PropertyCreationForm()
         cat_form = PropertyCategoryCreationForm()
+        dis_form = DistrictCreationForm()
 
         print('before: ', PropertyCreationForm.f)
 
-        return render(request, self.template_name, {'form': form, 'cat_form': cat_form})
+        return render(request, self.template_name, {'form': form, 'cat_form': cat_form, 'dis_form': dis_form})
     
     def post(self, request, **kwargs):
         form = PropertyCreationForm(request.POST, request.FILES)
@@ -99,4 +100,20 @@ class CreatePropertyListing(generic.CreateView):
         print("error")
         
         return render(request, self.template_name, {'message': message})
+    
+
+
+def create_property_category(request):
+    print("Category Name: ", request.POST.get('name'))
+    db = PropertyCategory.objects.create(name=request.POST.get('name'))
+    db.refresh_from_db()
+
+
+def create_district(request):
+    print("District Name: ", request.POST.get('district_name'))
+    db = Districts.objects.create(district_name=request.POST.get('district_name'))
+    db.refresh_from_db()
+
+
+
     

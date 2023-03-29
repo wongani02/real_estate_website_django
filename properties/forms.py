@@ -9,7 +9,7 @@ class PropertyCreationForm(forms.ModelForm):
     class Meta:
         model = Property
         fields = ['property_type', 'name', 'status', 'property_cat', 'no_garages','no_rooms', 'no_baths',
-            'year_built', 'property_area', 'price', 'addr', 
+            'year_built', 'property_area', 'price', 'addr', 'district', 
         ]
         widgets = {
             'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
@@ -18,11 +18,16 @@ class PropertyCreationForm(forms.ModelForm):
             'status': forms.Select(choices=Property.STATUS, attrs={
                 'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
             }),
-            # 'property_cat': forms.ModelChoiceField(queryset=PropertyCategory.objects.all()),
             'property_cat': forms.Select(choices=PropertyCategory.objects.all(), attrs={
-                'class': 'selectpicker', 'data-width': '80%', 'data-live-search': 'true', 'title': 'Property Category',
+                'class': 'selectpicker', 'data-width': '82%', 'data-live-search': 'true', 'title': 'Property Category',
             }),
-            'year_built': forms.DateInput(attrs={'type': 'date', 'class': 'form-control form_control'})
+            'year_built': forms.DateInput(attrs={
+                'type': 'date', 'class': 'form-control form_control'
+            }),
+            'district': forms.Select(choices=Districts.objects.all(), attrs={
+                'class': 'selectpicker', 'data-width': '85%', 'data-live-search': 'true',
+                'title': 'Village'
+            })
         }
 
 
@@ -30,7 +35,11 @@ class DistrictCreationForm(forms.ModelForm):
     class Meta:
         model = Districts
         fields = ['district_name',]
-        required = '__all__'
+        widgets ={
+            'district_name': forms.TextInput(attrs={
+                'class': 'form-control', 'name': 'district_name',
+            }),
+        }
 
 
 class NearbyPlacesCreationForm(forms.ModelForm):
@@ -44,7 +53,7 @@ class PropertyCategoryCreationForm(forms.ModelForm):
         model = PropertyCategory 
         fields = ['name',]
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'})
+            'name': forms.TextInput(attrs={'class': 'form-control', 'name': 'cat_name'})
         }
 
 

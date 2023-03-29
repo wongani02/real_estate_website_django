@@ -8,4 +8,6 @@ from properties.models import *
 
 admin.site.register(User)
 admin.site.register(Profile)
+
 admin.site.register(PropertyCategory)
+admin.site.register(Districts)
