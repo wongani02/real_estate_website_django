@@ -67,3 +67,14 @@ class AmenitiesCreationForm(forms.ModelForm):
     class Meta:
         model = Amenities 
         fields = '__all__'
+
+
+class ImagesCreationForm(forms.ModelForm):
+    class Meta:
+        model = Images
+        fields = ['image',]
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={
+                'multiple': True, 'class': 'input-img',
+            }),
+        }

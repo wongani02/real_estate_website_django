@@ -79,10 +79,13 @@ class CreatePropertyListing(generic.CreateView):
         form=PropertyCreationForm()
         cat_form = PropertyCategoryCreationForm()
         dis_form = DistrictCreationForm()
+        images_form = ImagesCreationForm()
 
         print('before: ', PropertyCreationForm.f)
 
-        return render(request, self.template_name, {'form': form, 'cat_form': cat_form, 'dis_form': dis_form})
+        return render(request, self.template_name, {
+            'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 'img_form': images_form,
+        })
     
     def post(self, request, **kwargs):
         form = PropertyCreationForm(request.POST, request.FILES)
@@ -113,7 +116,5 @@ def create_district(request):
     print("District Name: ", request.POST.get('district_name'))
     db = Districts.objects.create(district_name=request.POST.get('district_name'))
     db.refresh_from_db()
-
-
 
     

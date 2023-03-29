@@ -11,3 +11,4 @@ admin.site.register(Profile)
 
 admin.site.register(PropertyCategory)
 admin.site.register(Districts)
+admin.site.register(Images)
