@@ -185,7 +185,7 @@
                 <li><a href="page-dashboard.html">Dashboard</a></li>
                 <li><a href="page-dashboard-profile.html">My Profile</a></li>
                 <li><a href="page-dashboard-property.html">My Listings</a></li>
-                <li><a href="page-dashboard-new-property.html">New Listings</a></li>
+                <li><a href="{% url 'properties:create-listing' %}">New Listings</a></li>
                 <li><a href="page-dashboard-favorites.html">Favorites</a></li>
                 <li><a href="page-dashboard-save-search.html">Save Search</a></li>
                 <li><a href="page-dashboard-invoices.html">My Invoice</a></li>
@@ -267,7 +267,7 @@
           </ul>
         </li>
         <li><a href="page-contact.html">Contact</a></li>
-        <li class="cl_btn"><a class="btn btn-block btn-lg btn-thm rounded" href="#"><span class="icon flaticon-button mr5"></span> Create Listing</a></li>
+        <li class="cl_btn"><a class="btn btn-block btn-lg btn-thm rounded" href="{% url 'properties:create-listing' %}"><span class="icon flaticon-button mr5"></span> Create Listing</a></li>
       </ul>
     </nav>
   </div>
@@ -298,7 +298,14 @@
 <script src="{% static 'js/timepicker.js' %}"></script> 
 <script src="{% static 'js/wow.min.js' %}"></script> 
 <script src="{% static 'js/dashboard-script.js' %}"></script>
+
+
+<!-- Google maps scripts -->
+
+{% block maps %}
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM&callback=initMap"></script>
+{% endblock maps %}
+  
 <script src="{% static 'js/googlemaps1.js' %}"></script>
 <!-- Custom script for all pages --> 
 <script src="{% static 'js/script.js' %}"></script>

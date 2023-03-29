@@ -59,10 +59,10 @@ class Amenities(models.Model):
 
 
 # Property Status table
-class PropertyStatus(models.Model):
+class PropertyType(models.Model):
     class Meta:
-        verbose_name = 'Property Status'
-        verbose_name_plural = 'Property Statuses'
+        verbose_name = 'Property Type'
+        verbose_name_plural = 'Property Types'
 
     _type = models.CharField(_("Property Type"), max_length=30)
     slug = models.SlugField()
@@ -102,7 +102,7 @@ class NearbyPlaces(models.Model):
         verbose_name = 'Nearby Place'
         verbose_name_plural = 'Nearby Places'
 
-    name_of_place = models.CharField(_("Name of Place"), max_length=100)
+    name = models.CharField(_("Name of Place"), max_length=100)
     location = models.CharField(_("Location"), max_length=100)
 
     def __str__(self):
@@ -131,6 +131,7 @@ class Property(models.Model):
     RENT = "RENT"
     SOLD = "SOLD"
     AVAILABLE = "AVAILABLE"
+    PENDING = 'PENDING'
     class Meta:
         verbose_name = 'Property'
         verbose_name_plural = 'Properties'
@@ -143,6 +144,7 @@ class Property(models.Model):
     STATUS = [
         (SOLD, _("Sold")),
         (AVAILABLE, _("Available")),
+        (PENDING, _("Pending")),
     ]
 
     id = models.UUIDField(_("Property ID"), primary_key=True, default=uuid.uuid4, editable=False)
@@ -159,14 +161,20 @@ class Property(models.Model):
     is_active = models.BooleanField(_("Active"), default=True)
     property_cat = models.ForeignKey(PropertyCategory, on_delete=models.DO_NOTHING)
     property_type = models.CharField(_("Property Type"), choices=PROPERTY_TYPE, default=RENT, max_length=7)
-    status = models.CharField(_("Available/Sold"), choices=STATUS, default=AVAILABLE)
+    status = models.CharField(_("Available/Sold/..."), choices=STATUS, default=AVAILABLE)
     amenities = models.ForeignKey(Amenities, on_delete=models.DO_NOTHING)
     year_built = models.DateField(_("Year Built"),)
-    compound_area = models.PositiveIntegerField(_("Property Compound Area (metres)"))
+    compound_area = models.PositiveIntegerField(
+        _("Property Compound Area (metres)"), help_text="Area of Compund/ Entire Property"
+    )
+    property_area = models.PositiveIntegerField(
+        _("Property Area (metres)"), help_text="Area of Property e.g. House"
+    )
     no_garages = models.PositiveIntegerField(_("Number of Garages"))
     no_rooms = models.PositiveIntegerField(_("Number of Rooms"))
     no_baths = models.PositiveIntegerField(_("Number of Baths"))
     desc = models.TextField(_("Description"))
+    addr = models.CharField(_("Property Address"), max_length=250)
     nearby_places = models.ForeignKey(NearbyPlaces, on_delete=models.DO_NOTHING)
     status = models.BooleanField(_("Property Status"),)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)

@@ -3,7 +3,7 @@ from django.views import generic
 from django.contrib import messages
 
 from properties.models import Property
-from properties.forms import PropertyCreationForm
+from properties.forms import *
 
 class PropertiesHome(generic.ListView):
     def get(self, request):
@@ -76,18 +76,26 @@ class CreatePropertyListing(generic.CreateView):
     template_name = 'properties/page-dashboard-new-property.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+        form=PropertyCreationForm()
+        cat_form = PropertyCategoryCreationForm()
+
+        print('before: ', PropertyCreationForm.f)
+
+        return render(request, self.template_name, {'form': form, 'cat_form': cat_form})
     
     def post(self, request, **kwargs):
         form = PropertyCreationForm(request.POST, request.FILES)
-        print("form: ", form)
         
         if form.is_valid():
+            print("form: ", form.is_valid())
             form.save(commit=False)
 
             return redirect('properties:home')
         
         message = messages.add_message(request, messages.ERROR, 'Failed to create Listing.')
+        print("form: ", form)
+        print('request: ', request.POST)
+        print("form: ", form.is_valid)
         print("error")
         
         return render(request, self.template_name, {'message': message})
