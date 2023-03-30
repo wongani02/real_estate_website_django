@@ -53,6 +53,22 @@ class Amenities(models.Model):
     dining_room = models.BooleanField(_("Dining Room"), default=False)
     laundry = models.BooleanField(_("Laundry"), default=False)
     wifi = models.BooleanField(_("Wi-Fi"), default=False)
+    bbq = models.BooleanField(_("Barbeque"), default=False)
+    dryer = models.BooleanField(_("Dryer"), default=False)
+    lawn = models.BooleanField(_("Barbeque"), default=False)
+    microwave = models.BooleanField(_("Microwave"), default=False)
+    o_shower = models.BooleanField(_("Outdoor Shower"), default=False)
+    fridge = models.BooleanField(_("Refridgerator"), default=False)
+    s_views = models.BooleanField(_("Stunning Views"), default=False)
+    fire = models.BooleanField(_("Fireplace"), default=False)
+    pets = models.BooleanField(_("Pets Allowed"), default=False)
+    washer = models.BooleanField(_("Unit Washer/Dryer"), default=False)
+    o_parking = models.BooleanField(_("Onsite Parking"), default=False)
+    water = models.BooleanField(_("Waterfront"), default=False)
+    parking = models.BooleanField(_("Parking"), default=False)
+    doorman = models.BooleanField(_("Doorman"), default=False)
+    cleaning = models.BooleanField(_("Cleaning Services"), default=False)
+    heating = models.BooleanField(_("Heating Services"), default=False)
     neighbourhood_w = models.BooleanField(_("Neighborhood Watch"), default=False)
     gym = models.BooleanField(_("Gym"), default=False)
     living_room = models.BooleanField(_("Living Room"), default=False)
@@ -149,41 +165,41 @@ class Property(models.Model):
 
     id = models.UUIDField(_("Property ID"), primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(_("Name of Property"), max_length=100)
-    price = models.PositiveIntegerField(_("Property Price"))
-    location_area = models.CharField(_("Property Location Area"), max_length=100)
-    lat = models.CharField(_("Latitude"), max_length=999)
-    lon = models.CharField(_("Longitude"), max_length=999)
-    images = models.ForeignKey(Images, on_delete=models.CASCADE)
-    videos = models.ForeignKey(Videos, on_delete=models.CASCADE)
-    likes = models.ForeignKey(Likes, on_delete=models.CASCADE)
-    views = models.PositiveIntegerField(_("Number of Views"))
-    is_paid = models.BooleanField(_("Paid"), default=False)
-    is_active = models.BooleanField(_("Active"), default=True)
-    property_cat = models.ForeignKey(PropertyCategory, on_delete=models.DO_NOTHING)
-    property_type = models.CharField(_("Property Type"), choices=PROPERTY_TYPE, default=RENT, max_length=7)
-    status = models.CharField(_("Available/Sold/..."), choices=STATUS, default=AVAILABLE)
+    # price = models.PositiveIntegerField(_("Property Price"))
+    # location_area = models.CharField(_("Property Location Area"), max_length=100)
+    # lat = models.CharField(_("Latitude"), max_length=999)
+    # lon = models.CharField(_("Longitude"), max_length=999)
+    # images = models.ForeignKey(Images, on_delete=models.CASCADE)
+    # videos = models.ForeignKey(Videos, on_delete=models.CASCADE)
+    # likes = models.ForeignKey(Likes, on_delete=models.CASCADE)
+    # views = models.PositiveIntegerField(_("Number of Views"))
+    # is_paid = models.BooleanField(_("Paid"), default=False)
+    # is_active = models.BooleanField(_("Active"), default=True)
+    # property_cat = models.ForeignKey(PropertyCategory, on_delete=models.DO_NOTHING)
+    # property_type = models.CharField(_("Property Type"), choices=PROPERTY_TYPE, default=RENT, max_length=7)
+    # status = models.CharField(_("Available/Sold/..."), choices=STATUS, default=AVAILABLE)
     amenities = models.ForeignKey(Amenities, on_delete=models.DO_NOTHING)
-    year_built = models.DateField(_("Year Built"),)
-    compound_area = models.PositiveIntegerField(
-        _("Property Compound Area (metres)"), help_text="Area of Compund/ Entire Property"
-    )
-    property_area = models.PositiveIntegerField(
-        _("Property Area (metres)"), help_text="Area of Property e.g. House"
-    )
-    no_garages = models.PositiveIntegerField(_("Number of Garages"))
-    no_rooms = models.PositiveIntegerField(_("Number of Rooms"))
-    no_baths = models.PositiveIntegerField(_("Number of Baths"))
-    desc = models.TextField(_("Description"))
-    addr = models.CharField(_("Property Address"), max_length=250)
-    nearby_places = models.ForeignKey(NearbyPlaces, on_delete=models.DO_NOTHING)
-    status = models.BooleanField(_("Property Status"),)
-    district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
-    agent = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
-        null=True, 
-        on_delete=models.CASCADE, 
-        related_name='agent_properties')
-    user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_bookmark", blank=True)
+    # year_built = models.DateField(_("Year Built"),)
+    # compound_area = models.PositiveIntegerField(
+    #     _("Property Compound Area (metres)"), help_text="Area of Compund/ Entire Property"
+    # )
+    # property_area = models.PositiveIntegerField(
+    #     _("Property Area (metres)"), help_text="Area of Property e.g. House"
+    # )
+    # no_garages = models.PositiveIntegerField(_("Number of Garages"))
+    # no_rooms = models.PositiveIntegerField(_("Number of Rooms"))
+    # no_baths = models.PositiveIntegerField(_("Number of Baths"))
+    # desc = models.TextField(_("Description"))
+    # addr = models.CharField(_("Property Address"), max_length=250)
+    # nearby_places = models.ForeignKey(NearbyPlaces, on_delete=models.DO_NOTHING)
+    # status = models.BooleanField(_("Property Status"),)
+    # district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
+    # agent = models.ForeignKey(
+    #     settings.AUTH_USER_MODEL, 
+    #     null=True, 
+    #     on_delete=models.CASCADE, 
+    #     related_name='agent_properties')
+    # user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_bookmark", blank=True)
 
-    def __str__(self):
-        return '{} - {} - {}'.format(self.name, self.price, self.location_area)
+    # def __str__(self):
+    #     return '{} - {} - {}'.format(self.name, self.price, self.location_area)

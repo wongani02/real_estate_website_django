@@ -213,7 +213,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input id="property_name" class="form-control form_control" type="text"
+                                                <input name="name" id="property_name" class="form-control form_control" type="text"
                                                        placeholder="Property Title *">
                                             </div>
                                         </div>
@@ -440,6 +440,181 @@
                                     </div>
                                     <!--                                    </form>-->
                                 </div>
+                                <!-- get here-- -->
+                                <div class="new_property_form">
+                                    <h4 class="mb30">Hightlights</h4>
+                                    <a class="text-thm tdu" href="#">Select / Deselect All</a>  - {{form.amenities__id}} amenities
+                                    <form id="hightlights_form" name="hightlights_form" method="post">
+                                        {% csrf_token %}
+                                        <div class="ui_kit_select_search form-group list_hightlights df mt20">
+                                            <ul class="add_listing selectable-list">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="a_conditioning" type="checkbox" class="custom-control-input"
+                                                            id="customCheck1">
+                                                        <label class="custom-control-label" for="customCheck1">Air
+                                                            Conditioning</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="bbq" type="checkbox" class="custom-control-input"
+                                                            id="customCheck2">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck2">Barbeque</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="dryer" type="checkbox" class="custom-control-input"
+                                                            id="customCheck3">
+                                                        <label class="custom-control-label" for="customCheck3">Dryer</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="gym" type="checkbox" class="custom-control-input"
+                                                            id="customCheck4">
+                                                        <label class="custom-control-label" for="customCheck4">Gym</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="laundry" type="checkbox" class="custom-control-input"
+                                                            id="customCheck5">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck5">Laundry</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="lawn" type="checkbox" class="custom-control-input"
+                                                            id="customCheck6">
+                                                        <label class="custom-control-label" for="customCheck6">Lawn</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="microwave" type="checkbox" class="custom-control-input"
+                                                            id="customCheck7">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck7">Microwave</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="o_shower" type="checkbox" class="custom-control-input"
+                                                            id="customCheck8">
+                                                        <label class="custom-control-label" for="customCheck8">Outdoor
+                                                            Shower</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="fridge" type="checkbox" class="custom-control-input"
+                                                            id="customCheck9">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck9">Refrigerator</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="s_views" type="checkbox" class="custom-control-input"
+                                                            id="customCheck10">
+                                                        <label class="custom-control-label" for="customCheck10">Stunning
+                                                            views</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="dinning_room" type="checkbox" class="custom-control-input"
+                                                            id="customCheck11">
+                                                        <label class="custom-control-label" for="customCheck11">Dining
+                                                            Room</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="fire" type="checkbox" class="custom-control-input"
+                                                            id="customCheck12">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck12">Fireplace</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="pets" type="checkbox" class="custom-control-input"
+                                                            id="customCheck13">
+                                                        <label class="custom-control-label" for="customCheck13">Pets
+                                                            Allowed</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="washer" type="checkbox" class="custom-control-input"
+                                                            id="customCheck14">
+                                                        <label class="custom-control-label" for="customCheck14">Unit
+                                                            Washer/Dryer</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="o_parking" type="checkbox" class="custom-control-input"
+                                                            id="customCheck15">
+                                                        <label class="custom-control-label" for="customCheck15">Onsite
+                                                            Parking</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="water" type="checkbox" class="custom-control-input"
+                                                            id="customCheck16">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck16">Waterfront</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="parking" type="checkbox" class="custom-control-input"
+                                                            id="customCheck17">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck17">Parking</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="doorman" type="checkbox" class="custom-control-input"
+                                                            id="customCheck18">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck18">Doorman</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="heating" type="checkbox" class="custom-control-input"
+                                                            id="customCheck19">
+                                                        <label class="custom-control-label" for="customCheck19">Central
+                                                            Heating</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="cleaning" type="checkbox" class="custom-control-input"
+                                                            id="customCheck20">
+                                                        <label class="custom-control-label" for="customCheck20">Cleaning
+                                                            Service</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>
+                                </div>
                                 <div class="new_property_form">
                                     <h4 class="title mb30">Media</h4>
                                     <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
@@ -526,177 +701,6 @@
                                         </div>
                                     </div>
                                     <!--                                    </form>-->
-                                </div>
-                                <div class="new_property_form">
-                                    <h4 class="mb30">Hightlights</h4>
-                                    <a class="text-thm tdu" href="#">Select / Deselect All</a>
-                                    <div class="ui_kit_select_search form-group list_hightlights df mt20">
-                                        <ul class="add_listing selectable-list">
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck1">
-                                                    <label class="custom-control-label" for="customCheck1">Air
-                                                        Conditioning</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck2">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck2">Barbeque</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck3">
-                                                    <label class="custom-control-label" for="customCheck3">Dryer</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck4">
-                                                    <label class="custom-control-label" for="customCheck4">Gym</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck5">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck5">Laundry</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck6">
-                                                    <label class="custom-control-label" for="customCheck6">Lawn</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck7">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck7">Microwave</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck8">
-                                                    <label class="custom-control-label" for="customCheck8">Outdoor
-                                                        Shower</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck9">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck9">Refrigerator</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck10">
-                                                    <label class="custom-control-label" for="customCheck10">Stunning
-                                                        views</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck11">
-                                                    <label class="custom-control-label" for="customCheck11">Dining
-                                                        Room</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck12">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck12">Fireplace</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck13">
-                                                    <label class="custom-control-label" for="customCheck13">Pets
-                                                        Allowed</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck14">
-                                                    <label class="custom-control-label" for="customCheck14">Unit
-                                                        Washer/Dryer</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck15">
-                                                    <label class="custom-control-label" for="customCheck15">Onsite
-                                                        Parking</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck16">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck16">Waterfront</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck17">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck17">Parking</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck18">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck18">Doorman</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck19">
-                                                    <label class="custom-control-label" for="customCheck19">Central
-                                                        Heating</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck20">
-                                                    <label class="custom-control-label" for="customCheck20">Cleaning
-                                                        Service</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                                 <div class="new_property_form">
                                     <h4 class="title mb30">Floor Plans</h4>
@@ -898,7 +902,7 @@
                                     </div>
                                     <!--                                    </form>-->
                                 </div>
-                                <!-- <div class="new_property_form"> -->
+                                <div class="new_property_form">
                                     <h4 class="title mb30">Select Energy Class</h4>
                                     <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
                                     <div class="row">
@@ -920,7 +924,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--                                    </form>-->
+                                </div>
                                 </div>
                                 <div class="text-right">
                                     <button id="main-submit" class="btn btn-thm listing_save_btn" type="submit" form="contact_form">Submit</button>
@@ -956,6 +960,12 @@
                     </dialog>
 
                     <script>
+                        document.getElementById('main-submit').addEventListener("click", function (e) {
+                            console.log("Clicked@")
+
+                            document.getElementById("property_creation_form").submit();
+                            document.getElementById("hightlights_form").submit();
+                        })
                         // Listen for when the property category submit button is clicked
                         // The button is part of a modal
                         document.getElementById('cat_btn').addEventListener("click", function (e) {
