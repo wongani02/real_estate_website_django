@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
-from django.db.models.signals import pre_save
 
 from properties.models import *
 from properties.forms import *
-from .signals import create_amenities
 
 class PropertiesHome(generic.ListView):
     def get(self, request):
@@ -131,9 +129,3 @@ def create_district(request):
     db.refresh_from_db()
 
     
-def dud_func(request):
-    print('dud activate')
-    
-
-
-pre_save.connect(create_amenities, sender=Property)
