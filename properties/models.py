@@ -29,16 +29,32 @@ class Amenities(models.Model):
     dining_room = models.BooleanField(_("Dining Room"), default=False)
     laundry = models.BooleanField(_("Laundry"), default=False)
     wifi = models.BooleanField(_("Wi-Fi"), default=False)
+    bbq = models.BooleanField(_("Barbeque"), default=False)
+    dryer = models.BooleanField(_("Dryer"), default=False)
+    lawn = models.BooleanField(_("Barbeque"), default=False)
+    microwave = models.BooleanField(_("Microwave"), default=False)
+    o_shower = models.BooleanField(_("Outdoor Shower"), default=False)
+    fridge = models.BooleanField(_("Refridgerator"), default=False)
+    s_views = models.BooleanField(_("Stunning Views"), default=False)
+    fire = models.BooleanField(_("Fireplace"), default=False)
+    pets = models.BooleanField(_("Pets Allowed"), default=False)
+    washer = models.BooleanField(_("Unit Washer/Dryer"), default=False)
+    o_parking = models.BooleanField(_("Onsite Parking"), default=False)
+    water = models.BooleanField(_("Waterfront"), default=False)
+    parking = models.BooleanField(_("Parking"), default=False)
+    doorman = models.BooleanField(_("Doorman"), default=False)
+    cleaning = models.BooleanField(_("Cleaning Services"), default=False)
+    heating = models.BooleanField(_("Heating Services"), default=False)
     neighbourhood_w = models.BooleanField(_("Neighborhood Watch"), default=False)
     gym = models.BooleanField(_("Gym"), default=False)
     living_room = models.BooleanField(_("Living Room"), default=False)
 
 
 # Property Status table
-class PropertyStatus(models.Model):
+class PropertyType(models.Model):
     class Meta:
-        verbose_name = 'Property Status'
-        verbose_name_plural = 'Property Statuses'
+        verbose_name = 'Property Type'
+        verbose_name_plural = 'Property Types'
 
     _type = models.CharField(_("Property Type"), max_length=30)
     slug = models.SlugField(unique=True)
@@ -105,6 +121,7 @@ class Property(models.Model):
     RENT = "RENT"
     SOLD = "SOLD"
     AVAILABLE = "AVAILABLE"
+    PENDING = 'PENDING'
     class Meta:
         verbose_name = 'Property'
         verbose_name_plural = 'Properties'
@@ -117,6 +134,7 @@ class Property(models.Model):
     STATUS = [
         (SOLD, _("Sold")),
         (AVAILABLE, _("Available")),
+        (PENDING, _("Pending")),
     ]
 
     id = models.UUIDField(_("Property ID"), primary_key=True, default=uuid.uuid4, editable=False)

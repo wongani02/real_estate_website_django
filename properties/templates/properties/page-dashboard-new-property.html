@@ -1,13 +1,162 @@
 {% extends 'properties/index.html' %}
-{% load static %}
-{% block title %}Add Property{% endblock title %}
+
+
 {% block header %}
-    {% include 'properties/header-2.html' %}
+{% include 'properties/header-2.html' %}
 {% endblock header %}
+
 {% block content %}
-	
-	<!-- Our Dashbord -->
-	{% include 'users/dashboard-nav-1.html' %}
+
+<div class="wrapper">
+    <div class="preloader"></div>
+
+    <!-- Main Header Nav -->
+    
+
+    <!-- Main Header Nav For Mobile -->
+    <div id="page" class="stylehome1 h0">
+        <div class="mobile-menu">
+            <div class="header stylehome1">
+                <div class="main_logo_home2 text-center"><img class="nav_logo_img img-fluid mt10"
+                                                              src="images/header-logo.svg" alt="header-logo.svg"> <span
+                        class="mt15">Houzing</span></div>
+                <ul class="menu_bar_home2">
+                    <li class="list-inline-item"><a class="custom_search_with_menu_trigger msearch_icon" href="#"></a>
+                    </li>
+                    <li class="list-inline-item"><a class="muser_icon" href="#" data-toggle="modal"
+                                                    data-target="#logInModal"><span class="flaticon-user"></span></a>
+                    </li>
+                    <li class="list-inline-item"><a class="menubar" href="#menu"><span></span></a></li>
+                </ul>
+            </div>
+        </div><!-- /.mobile-menu -->
+        <nav id="menu" class="stylehome1">
+            <ul>
+                <li><span>Home</span>
+                    <ul>
+                        <li><a href="index.html">Home V1</a></li>
+                        <li><a href="index2.html">Home V2</a></li>
+                        <li><a href="index3.html">Home V3</a></li>
+                        <li><a href="index4.html">Home V4</a></li>
+                        <li><a href="index5.html">Home V5</a></li>
+                        <li><a href="index6.html">Home V6</a></li>
+                        <li><a href="index7.html">Home V7</a></li>
+                        <li><a href="index8.html">Home V8</a></li>
+                        <li><a href="index9.html">Home V9</a></li>
+                        <li><a href="index10.html">Home V10</a></li>
+                    </ul>
+                </li>
+                <li><span>Listing</span>
+                    <ul>
+                        <li><span>Listing Styles</span>
+                            <ul>
+                                <li><a href="page-listing-v1.html">Listing v1</a></li>
+                                <li><a href="page-listing-v2.html">Listing v2</a></li>
+                                <li><a href="page-listing-v3.html">Listing v3</a></li>
+                                <li><a href="page-listing-v4.html">Listing v4</a></li>
+                                <li><a href="page-listing-v5.html">Listing v5</a></li>
+                                <li><a href="page-listing-v6.html">Listing v6</a></li>
+                                <li><a href="page-listing-all.html">Listing All</a></li>
+                            </ul>
+                        </li>
+                        <li><span>Listing Map</span>
+                            <ul>
+                                <li><a href="page-listing-v7.html">Map v1</a></li>
+                                <li><a href="page-listing-v8.html">Map v2</a></li>
+                                <li><a href="page-listing-v9.html">Map v3</a></li>
+                                <li><a href="page-listing-v10.html">Map v4</a></li>
+                                <li><a href="page-listing-v11.html">Map v5</a></li>
+                                <li><a href="page-listing-v12.html">Map v6</a></li>
+                                <li><a href="page-listing-v13.html">Map v7</a></li>
+                            </ul>
+                        </li>
+                        <li><span>Listing Single</span>
+                            <ul>
+                                <li><a href="page-listing-single-v1.html">Single V1</a></li>
+                                <li><a href="page-listing-single-v2.html">Single V2</a></li>
+                                <li><a href="page-listing-single-v3.html">Single V3</a></li>
+                                <li><a href="page-listing-single-v4.html">Single V4</a></li>
+                                <li><a href="page-listing-single-v5.html">Single V5</a></li>
+                                <li><a href="page-listing-single-v6.html">Single V6</a></li>
+                                <li><a href="page-listing-single-v7.html">Single V7</a></li>
+                                <li><a href="page-listing-single-v8.html">Single V8</a></li>
+                            </ul>
+                        </li>
+                        <li><span>User Detils</span>
+                            <ul>
+                                <li><a href="page-dashboard.html">Dashboard</a></li>
+                                <li><a href="page-dashboard-profile.html">My Profile</a></li>
+                                <li><a href="page-dashboard-property.html">My Listings</a></li>
+                                <li><a href="page-dashboard-new-property.html">New Listings</a></li>
+                                <li><a href="page-dashboard-favorites.html">Favorites</a></li>
+                                <li><a href="page-dashboard-save-search.html">Save Search</a></li>
+                                <li><a href="page-dashboard-invoices.html">My Invoice</a></li>
+                                <li><a href="page-dashboard-message.html">Inbox</a></li>
+                                <li><a href="page-dashboard-logout.html">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><span>Pages</span>
+                    <ul>
+                        <li><span>Shop</span>
+                            <ul>
+                                <li><a href="page-shop.html">Shop Pages</a></li>
+                                <li><a href="page-shop-single.html">Shop Single</a></li>
+                                <li><a href="page-shop-cart.html">Cart</a></li>
+                                <li><a href="page-shop-checkout.html">Checkout</a></li>
+                                <li><a href="page-shop-order.html">Order</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="page-about.html">About Us</a></li>
+                        <li><span>Blog</span>
+                            <ul>
+                                <li><a href="page-blog-grid.html">Blog Grid</a></li>
+                                <li><a href="page-blog-grid-sidebar.html">Blog Grid Sidebar</a></li>
+                                <li><a href="page-blog-details.html">Blog Details</a></li>
+                                <li><a href="page-blog-list.html">Blog List</a></li>
+                                <li><a href="page-blog-single.html">Blog Single</a></li>
+                                <li><a href="page-blog-single2.html">Blog Single v2</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="page-coming-soon.html">Coming Soon</a></li>
+                        <li><a href="page-gallery.html">Gallery</a></li>
+                        <li><a href="page-faq.html">Faq</a></li>
+                        <li><a href="page-login.html">My Account</a></li>
+                        <li><a href="page-pricing.html">Pricing V1</a></li>
+                        <li><a href="page-compare.html">Compare</a></li>
+                        <li><a href="page-error.html">404 Page</a></li>
+                        <li><a href="page-terms.html">Terms and Conditions</a></li>
+                        <li><a href="page-ui-element.html">UI Elements</a></li>
+                    </ul>
+                </li>
+                <li><a href="page-contact.html">Contact</a></li>
+                <li class="cl_btn"><a class="btn btn-block btn-lg btn-thm rounded" href="{% url 'properties:create-listing' %}"><span
+                        class="icon flaticon-button mr5"></span> Create Listing</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Our Dashbord -->
+    <div class="extra-dashboard-menu dn-lg">
+        <div class="ed_menu_list">
+            <ul>
+                <li><a href="page-dashboard.html"><span class="flaticon-dashboard"></span> Dashboard</a></li>
+                <li><a href="page-dashboard-profile.html"><span class="flaticon-user"></span> My Profile</a></li>
+                <li><a href="page-dashboard-property.html"><span class="flaticon-house"></span> My Properties List</a>
+                </li>
+                <li><a class="active" href="page-add-new-property.html"><span class="flaticon-button"></span> Add New
+                    Property</a></li>
+                <li><a href="page-dashboard-favorites.html"><span class="flaticon-heart-shape-outline"></span> Favorites</a>
+                </li>
+                <li><a href="page-dashboard-save-search.html"><span class="flaticon-magnifiying-glass"></span> Saved
+                    Searches</a></li>
+                <li><a href="page-dashboard-invoices.html"><span class="flaticon-invoice"></span> My Invoices</a></li>
+                <li><a href="page-dashboard-message.html"><span class="flaticon-mail-inbox-app"></span> Inbox</a></li>
+                <li><a href="page-dashboard-logout.html"><span class="flaticon-logout"></span> Logout</a></li>
+            </ul>
+        </div>
+    </div>
 
     <!-- Our Dashbord -->
     <section class="our-dashbord dashbord bgc-alice-blue">
@@ -16,7 +165,35 @@
                 <div class="col-xl-2 dn-lg pl0"></div>
                 <div class="col-xl-10">
                     <div class="row">
-                        {% include 'users/dashboard-nav.html' %}
+                        <div class="col-lg-12">
+                            <div class="dashboard_navigationbar dn db-lg">
+                                <div class="dropdown">
+                                    <button onclick="myFunction()" class="dropbtn"><i class="fa fa-bars pr10"></i>
+                                        Dashboard Navigation
+                                    </button>
+                                    <ul id="myDropdown" class="dropdown-content">
+                                        <li><a href="page-dashboard.html"><span class="flaticon-dashboard"></span>
+                                            Dashboard</a></li>
+                                        <li><a href="page-dashboard-profile.html"><span class="flaticon-user"></span> My
+                                            Profile</a></li>
+                                        <li><a href="page-dashboard-property.html"><span class="flaticon-house"></span>
+                                            My Properties List</a></li>
+                                        <li><a class="active" href="page-add-new-property.html"><span
+                                                class="flaticon-button"></span> Add New Property</a></li>
+                                        <li><a href="page-dashboard-favorites.html"><span
+                                                class="flaticon-heart-shape-outline"></span> Favorites</a></li>
+                                        <li><a href="page-dashboard-save-search.html"><span
+                                                class="flaticon-magnifiying-glass"></span> Saved Searches</a></li>
+                                        <li><a href="page-dashboard-invoices.html"><span
+                                                class="flaticon-invoice"></span> My Invoices</a></li>
+                                        <li><a href="page-dashboard-message.html"><span
+                                                class="flaticon-mail-inbox-app"></span> Inbox</a></li>
+                                        <li><a href="page-dashboard-logout.html"><span class="flaticon-logout"></span>
+                                            Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-12 mb50">
                             <div class="breadcrumb_content">
                                 <h2 class="breadcrumb_title">Add New Property</h2>
@@ -26,7 +203,7 @@
                     </div>
 
                     <!--					form here-->
-                    <form class="contact_form" id="property_creation_form" name="contact_form" method="post" novalidate>
+                    <form class="contact_form" id="property_creation_form" name="contact_form" action="{% url 'properties:create-listing' %}" method="post" novalidate>
                     {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-12">
@@ -36,19 +213,30 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_name" id="property_name" class="form-control form_control" type="text"
+                                                <input name="name" id="property_name" class="form-control form_control" type="text"
                                                        placeholder="Property Title *">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group mb30">
-                                                <input name="form_type" id="property_type" class="form-control form_control" type="text"
-                                                       placeholder="Type">
+                                            <!-- <div class="form-group mb30">
+                                                <input name="property_type" id="property_type" class="form-control form_control" type="text"
+                                                       placeholder="Property Type">
+                                            </div> -->
+                                            <div class="ui_kit_select_search add_new_property mb30">
+                                                {{form.property_type}}
+                                                <!-- <select name="property_type" title="Property Type *" class="selectpicker" data-live-search="true"
+                                                        data-width="100%">
+                                                    <option>Property Type</option>
+                                                    <option data-tokens="RENT">Rent</option>
+                                                    <option data-tokens="SALE">Sale</option>
+                                                    <option data-tokens="Approved">Approved</option>
+                                                    <option data-tokens="Others">Others</option>
+                                                </select> -->
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <textarea name="form_message" id="property_desc" class="form-control" rows="6"
+                                                <textarea name="property_desc" id="property_desc" class="form-control" rows="6"
                                                           placeholder="Property Description *"></textarea>
                                             </div>
                                         </div>
@@ -67,7 +255,7 @@
 <!--                                                       type="text" placeholder="Property ID">-->
 <!--                                            </div>-->
 <!--                                        </div>-->
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <div class="ui_kit_select_search add_new_property mb30">
                                                 <select class="selectpicker" data-live-search="true"
                                                         data-width="100%">
@@ -78,23 +266,37 @@
                                                     <option data-tokens="PriceLevel4">High: $$$</option>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-sm-4">
                                             <div class="ui_kit_select_search add_new_property mb30">
-                                                <select class="selectpicker" data-live-search="true"
+                                                {{form.status}}
+                                                <!-- <select class="selectpicker" title="Property Status *" data-live-search="true"
                                                         data-width="100%">
                                                     <option>Status</option>
                                                     <option data-tokens="Active">Active</option>
                                                     <option data-tokens="Pending">Pending</option>
-                                                    <option data-tokens="Approved">Approved</option>
+                                                    <option data-tokens="Approved">Inactive</option>
                                                     <option data-tokens="Others">Others</option>
-                                                </select>
+                                                </select> -->
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
-                                            <div class="tags_input mb20">
+                                            <!-- <div class="tags_input mb20">
                                                 <input class="form_control" type="text" data-role="tagsinput"
                                                        value="rented, sold">
+                                            </div> -->
+                                            <div class="ui_kit_select_search add_new_property mb30">
+                                                {{form.property_cat}}<a class="btn btn-lg btn-thm" onclick="PopUp()">+</a>
+                                                
+
+                                                <!-- <select class="selectpicker" title="Property Type *" data-live-search="true"
+                                                        data-width="100%">
+                                                    <option>Status</option>
+                                                    <option data-tokens="Active">Land</option>
+                                                    <option data-tokens="Pending">Building</option>
+                                                    <option data-tokens="Approved">Inactive</option>
+                                                    <option data-tokens="Others">Others</option>
+                                                </select> -->
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -105,7 +307,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb20">
-                                                <input name="form_name" id="rooms" class="form-control form_control"
+                                                <input name="no_rooms" id="rooms" class="form-control form_control"
                                                        type="text" placeholder="Rooms">
                                             </div>
                                         </div>
@@ -117,38 +319,39 @@
 <!--                                        </div>-->
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
-                                                <input name="form_name" id="baths" class="form-control form_control"
+                                                <input name="no-baths" id="baths" class="form-control form_control"
                                                        type="text" placeholder="Baths">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
-                                                <input name="form_name" id="garages" class="form-control form_control"
+                                                <input name="no_garages" id="garages" class="form-control form_control"
                                                        type="text" placeholder="Garages">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
-                                                <input name="form_name" id="year_built" class="form-control form_control"
-                                                       type="text" placeholder="Year built">
+                                                {{form.year_built}}
+                                                <!-- <input name="form_name" id="year_built" class="form-control form_control" -->
+                                                       <!-- type="text" placeholder="Year built"> -->
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group mb30">
                                                 <input name="form_name" id="area" class="form-control form_control"
-                                                       type="text" placeholder="Home area (sqft)">
+                                                       type="text" placeholder="Compound area (m)">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <div class="form-group mb30">
                                                 <input name="form_name" id="dimensions" class="form-control form_control"
                                                        type="text" placeholder="Lot dimensions">
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input name="form_name" class="form-control form_control"
-                                                       type="text" placeholder="Lot area (asqft)">
+                                                <input name="property_area" id="property_area" class="form-control form_control"
+                                                       type="text" placeholder="Property Area (m)">
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +363,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
-                                                <input name="form_name" id="price" class="form-control form_control"
+                                                <input name="price" id="price" class="form-control form_control"
                                                        type="text" placeholder="Price">
                                             </div>
                                         </div>
@@ -192,24 +395,28 @@
                                         <div class="col-md-6">
                                             <div class="ui_kit_select_search add_new_property mb30">
                                                 <select class="selectpicker" data-live-search="true"
-                                                        data-width="100%">
-                                                    <option>Regions</option>
+                                                        data-width="100%" title="Group">
+                                                    <!-- <option>Regions</option> -->
                                                     <option data-tokens="City">City</option>
-                                                    <option data-tokens="Capital">Capital</option>
-                                                    <option data-tokens="State">State</option>
+                                                    <option data-tokens="Capital">District</option>
+                                                    <!-- <option data-tokens="State">State</option> -->
                                                     <option data-tokens="Village">Village</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control"
-                                                       type="text" placeholder="Friendly Address">
+                                            <div class="ui_kit_select_search add_new_property mb30">
+                                                {{form.district}}<a class="btn btn-lg btn-thm" onclick="document.getElementById('districtForm').showModal()">+</a>
                                             </div>
+                                            
+                                            <!-- <div class="form-group mb30">
+                                                <input name="addr" class="form-control form_control"
+                                                       type="text" placeholder="Name of City/Capital/...">
+                                            </div> -->
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group mb30">
-                                                <input name="form_name" class="form-control form_control"
+                                                <input name="form_name" id="location_area" class="form-control form_control"
                                                        type="text" placeholder="Map Location">
                                             </div>
                                         </div>
@@ -232,6 +439,181 @@
                                         </div>
                                     </div>
                                     <!--                                    </form>-->
+                                </div>
+                                <!-- get here-- -->
+                                <div class="new_property_form">
+                                    <h4 class="mb30">Hightlights</h4>
+                                    <a class="text-thm tdu" href="#">Select / Deselect All</a>  - {{form.amenities__id}} amenities
+                                    <form id="hightlights_form" name="hightlights_form" method="post">
+                                        {% csrf_token %}
+                                        <div class="ui_kit_select_search form-group list_hightlights df mt20">
+                                            <ul class="add_listing selectable-list">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="a_conditioning" type="checkbox" class="custom-control-input"
+                                                            id="customCheck1">
+                                                        <label class="custom-control-label" for="customCheck1">Air
+                                                            Conditioning</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="bbq" type="checkbox" class="custom-control-input"
+                                                            id="customCheck2">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck2">Barbeque</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="dryer" type="checkbox" class="custom-control-input"
+                                                            id="customCheck3">
+                                                        <label class="custom-control-label" for="customCheck3">Dryer</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="gym" type="checkbox" class="custom-control-input"
+                                                            id="customCheck4">
+                                                        <label class="custom-control-label" for="customCheck4">Gym</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="laundry" type="checkbox" class="custom-control-input"
+                                                            id="customCheck5">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck5">Laundry</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="lawn" type="checkbox" class="custom-control-input"
+                                                            id="customCheck6">
+                                                        <label class="custom-control-label" for="customCheck6">Lawn</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="microwave" type="checkbox" class="custom-control-input"
+                                                            id="customCheck7">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck7">Microwave</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="o_shower" type="checkbox" class="custom-control-input"
+                                                            id="customCheck8">
+                                                        <label class="custom-control-label" for="customCheck8">Outdoor
+                                                            Shower</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="fridge" type="checkbox" class="custom-control-input"
+                                                            id="customCheck9">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck9">Refrigerator</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="s_views" type="checkbox" class="custom-control-input"
+                                                            id="customCheck10">
+                                                        <label class="custom-control-label" for="customCheck10">Stunning
+                                                            views</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="dinning_room" type="checkbox" class="custom-control-input"
+                                                            id="customCheck11">
+                                                        <label class="custom-control-label" for="customCheck11">Dining
+                                                            Room</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="fire" type="checkbox" class="custom-control-input"
+                                                            id="customCheck12">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck12">Fireplace</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="pets" type="checkbox" class="custom-control-input"
+                                                            id="customCheck13">
+                                                        <label class="custom-control-label" for="customCheck13">Pets
+                                                            Allowed</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="washer" type="checkbox" class="custom-control-input"
+                                                            id="customCheck14">
+                                                        <label class="custom-control-label" for="customCheck14">Unit
+                                                            Washer/Dryer</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="o_parking" type="checkbox" class="custom-control-input"
+                                                            id="customCheck15">
+                                                        <label class="custom-control-label" for="customCheck15">Onsite
+                                                            Parking</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="water" type="checkbox" class="custom-control-input"
+                                                            id="customCheck16">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck16">Waterfront</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="parking" type="checkbox" class="custom-control-input"
+                                                            id="customCheck17">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck17">Parking</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="doorman" type="checkbox" class="custom-control-input"
+                                                            id="customCheck18">
+                                                        <label class="custom-control-label"
+                                                            for="customCheck18">Doorman</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="heating" type="checkbox" class="custom-control-input"
+                                                            id="customCheck19">
+                                                        <label class="custom-control-label" for="customCheck19">Central
+                                                            Heating</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input name="cleaning" type="checkbox" class="custom-control-input"
+                                                            id="customCheck20">
+                                                        <label class="custom-control-label" for="customCheck20">Cleaning
+                                                            Service</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="new_property_form">
                                     <h4 class="title mb30">Media</h4>
@@ -275,14 +657,17 @@
                                                 </li>
                                             </ul>
                                             <div class="upload_file_input_add_remove">
-									    	<span class="btn_upload">
-													<input type="file" id="imag" title="" class="input-img"/>
-									    		<span>UPLOAD FILES</span>
-												</span>
-                                                <img id="ImgPreview" src="images/resource/upload-img.png"
-                                                     class="preview1" alt=""/>
-                                                <button id="removeImage1" class="btn-rmv1" type="button">
+                                                <form name="img_form" id="img_form">
+                                                    <span class="btn_upload">
+                                                        {{img_form}}
+                                                        <!-- <input type="file" id="imag" title="" class="input-img"/> -->
+                                                    <span>UPLOAD FILES</span>
+                                                    </span>
+                                                    <img id="ImgPreview" src="images/resource/upload-img.png"
+                                                        class="preview1" alt=""/>
+                                                    <button id="removeImage1" class="btn-rmv1" type="button">
                                                     <span>X</span></button>
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mt50 mb15">
@@ -316,177 +701,6 @@
                                         </div>
                                     </div>
                                     <!--                                    </form>-->
-                                </div>
-                                <div class="new_property_form">
-                                    <h4 class="mb30">Hightlights</h4>
-                                    <a class="text-thm tdu" href="#">Select / Deselect All</a>
-                                    <div class="ui_kit_select_search form-group list_hightlights df mt20">
-                                        <ul class="add_listing selectable-list">
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck1">
-                                                    <label class="custom-control-label" for="customCheck1">Air
-                                                        Conditioning</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck2">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck2">Barbeque</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck3">
-                                                    <label class="custom-control-label" for="customCheck3">Dryer</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck4">
-                                                    <label class="custom-control-label" for="customCheck4">Gym</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck5">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck5">Laundry</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck6">
-                                                    <label class="custom-control-label" for="customCheck6">Lawn</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck7">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck7">Microwave</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck8">
-                                                    <label class="custom-control-label" for="customCheck8">Outdoor
-                                                        Shower</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck9">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck9">Refrigerator</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck10">
-                                                    <label class="custom-control-label" for="customCheck10">Stunning
-                                                        views</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck11">
-                                                    <label class="custom-control-label" for="customCheck11">Dining
-                                                        Room</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck12">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck12">Fireplace</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck13">
-                                                    <label class="custom-control-label" for="customCheck13">Pets
-                                                        Allowed</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck14">
-                                                    <label class="custom-control-label" for="customCheck14">Unit
-                                                        Washer/Dryer</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck15">
-                                                    <label class="custom-control-label" for="customCheck15">Onsite
-                                                        Parking</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="add_listing selectable-list ml100 ml40-lg ml0-md">
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck16">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck16">Waterfront</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck17">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck17">Parking</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck18">
-                                                    <label class="custom-control-label"
-                                                           for="customCheck18">Doorman</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck19">
-                                                    <label class="custom-control-label" for="customCheck19">Central
-                                                        Heating</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="customCheck20">
-                                                    <label class="custom-control-label" for="customCheck20">Cleaning
-                                                        Service</label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                                 <div class="new_property_form">
                                     <h4 class="title mb30">Floor Plans</h4>
@@ -530,7 +744,7 @@
                                                         </div>
                                                         <div id="collapseOne" class="collapse"
                                                              aria-labelledby="headingOne"
-                                                             data-parent="#accordionExample" style="">
+                                                             data-parent="#accordionExample">
                                                             <div class="card-body">
                                                                 <img class="img-fluid mb10"
                                                                      src="images/resource/floor_plan.png"
@@ -671,90 +885,247 @@
                                                                placeholder="UPLOAD FILES"/>
 											    		<span class="">UPLOAD FILES</span>
 											    	</span>
-											    	<img id="ImgPreview3" src="" class="preview3" alt=""/>
-											    	<button id="removeImage3" class="btn-rmv3" type="button"><span>X</span></button>
-											  	</div>
-												</li>
-											</ul>
-										</div>
-										<div class="col-lg-12">
-											<div class="new_propertyform_btn">
-												<a href="#" class="btn btn-thm ad_flor_btn">ADD FLOOR</a>
-												<a href="#" class="btn remov_flor_btn float-right fn-520">REMOVE FLOOR</a>
-											</div>
-										</div>
-		              </div>
-		            </form>
-		          </div>
-		          <div class="new_property_form">
-								<h4 class="title mb30">Select Energy Class</h4>
-		            <form class="contact_form" name="contact_form" action="#" method="post" novalidate>
-		              <div class="row">
-		                <div class="col-md-6">
-											<div class="ui_kit_select_search add_new_property mb30-sm">
-												<select class="selectpicker" data-live-search="true" data-width="100%">
-													<option>Energy Class</option>
-													<option data-tokens="City">City</option>
-													<option data-tokens="Village">Village</option>
-													<option data-tokens="Capital">Capital</option>
-												</select>
-											</div>
-		                </div>
-		                <div class="col-md-6">
-		                  <div class="form-group">
-		                    <input name="form_name" class="form-control form_control" type="text" placeholder="Energy Index in kWh/m2a">
-		                  </div>
-		                </div>
-		              </div>
-		            </form>
-		          </div>
-	            <div class="text-right">
-								<a class="btn btn-thm listing_save_btn" href="#">Submit</a>
-	            </div>
-						</div>
-					</div>
-					<div class="row mt50">
-						<div class="col-lg-12 text-center">
-							<p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<script>
-	$(document).on('submit', '#property_creation_form', function (e) {
-		e.preventDefault();
-		console.log("submit");
+                                                        <img id="ImgPreview3" src="" class="preview3" alt=""/>
+                                                        <button id="removeImage3" class="btn-rmv3" type="button">
+                                                            <span>X</span></button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="new_propertyform_btn">
+                                                <a href="#" class="btn btn-thm ad_flor_btn">ADD FLOOR</a>
+                                                <a href="#" class="btn remov_flor_btn float-right fn-520">REMOVE
+                                                    FLOOR</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                                    </form>-->
+                                </div>
+                                <div class="new_property_form">
+                                    <h4 class="title mb30">Select Energy Class</h4>
+                                    <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="ui_kit_select_search add_new_property mb30-sm">
+                                                <select class="selectpicker" data-live-search="true"
+                                                        data-width="100%">
+                                                    <option>Energy Class</option>
+                                                    <option data-tokens="City">City</option>
+                                                    <option data-tokens="Village">Village</option>
+                                                    <option data-tokens="Capital">Capital</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input name="form_name" class="form-control form_control"
+                                                       type="text" placeholder="Energy Index in kWh/m2a">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="text-right">
+                                    <button id="main-submit" class="btn btn-thm listing_save_btn" type="submit" form="contact_form">Submit</button>
+                                </div>
+                            </div>
+                        </div>
 
-		$.ajax({
-			type: 'POST',
-			url: "{% url 'properties:create-listing' %}",
-			data: {
-				name="#property_name', desc='#property_desc', property_type='#property_type',
-				no_rooms='#rooms', no_baths='#baths', no_garages='#garages', price='#price',
-				csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-			},
+                        <!-- close form tag here-->
+                    </form>
 
-			success:function () {
-				// Show sweet alert
-				Swal.fire(
-					'Good job!',
-					'Your Property Listing Creation Was Successful',
-					'success'
-				);
-				console.log("data", data)
-			},
+                    <!-- modal property category form -->
+                    <dialog id="addForm" style="border-radius: 8px; border-color: transparent;">
+                        <form name="cat_form" id="cat_form">
+                            {% csrf_token %}
+                            {{cat_form}}
+                            <div class="form">
+                                <a id="cat_btn" class="btn btn-lg btn-thm" form="#cat_form" type="submit">Save</a>
+                                <a class="btn dbxshadbtn-md btn-thm3 rounded" onclick="HidePopUp()">X</a>
+                            </div>
+                        </form>
+                    </dialog>
 
-			error:function () {
-				Swal.fire(
-					'Oops...',
-					'An Error Occured! Property Listing Creation Unsuccessful',
-					'error'
-				)
-			},
+                    <!-- modal districts form -->
+                    <dialog id="districtForm" style="border-radius: 8px; border-color: transparent;">
+                        <form name="dis_form" id="dis_form">
+                            {% csrf_token %}
+                            {{dis_form}}
+                            <div class="form">
+                                <a id="dis_btn" class="btn btn-lg btn-thm" form="#dis_form" type="submit">Save</a>
+                                <a class="btn dbxshadbtn-md btn-thm3 rounded" onclick="document.getElementById('districtForm').close()">X</a>
+                            </div>
+                        </form>
+                    </dialog>
 
-		});
-	});
+                    <script>
+                        document.getElementById('main-submit').addEventListener("click", function (e) {
+                            console.log("Clicked@")
+
+                            document.getElementById("property_creation_form").submit();
+                            document.getElementById("hightlights_form").submit();
+                        })
+                        // Listen for when the property category submit button is clicked
+                        // The button is part of a modal
+                        document.getElementById('cat_btn').addEventListener("click", function (e) {
+                            e.preventDefault();
+                            console.log("prevented");
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '{% url 'properties:create-category' %}',
+                                data: {
+                                    name: $('#cat_name').val(),
+                                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                                },
+
+                                success:function () {
+                                    // Hide modal before showing sweet alert
+                                    document.getElementById("addForm").close();
+
+                                    // Show sweet alert
+                                    Swal.fire({
+                                        title: 'Good job!',
+                                        text: 'Your Property Listing Creation Was Successful',
+                                        icon: 'success',
+                                        timer: 5000,
+                                        showConfirmButton: false,
+                                        showDenyButton: false,
+                                        showCancelButton: false,
+                                    });
+                                },
+
+                                error:function () {
+                                    document.getElementById("addForm").close();
+
+                                    Swal.fire({
+                                        title: 'Oops...',
+                                        text: 'An Error Occured! Property Listing Creation Unsuccessful',
+                                        icon: 'error',
+                                        timer: 5500,
+                                        showConfirmButton: false,
+                                        showDenyButton: false,
+                                        showCancelButton: false,
+                                    });
+                                },
+                            });
+                        });
+
+                        // Listen for when the district create button is clicked
+                        // The button is also part of a modal
+                        document.getElementById('dis_btn').addEventListener("click", function (e) {
+                            e.preventDefault();
+                            console.log("prevented 2");
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '{% url 'properties:create-district' %}',
+                                data: {
+                                    district_name: $('#district_name').val(),
+                                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                                },
+
+                                success:function () {
+                                    // Hide modal before showing sweet alert
+                                    document.getElementById("districtForm").close();
+
+                                    // Show sweet alert
+                                    Swal.fire({
+                                        title: 'Good job!',
+                                        text: 'Your District Creation Was Successful',
+                                        icon: 'success',
+                                        timer: 5000,
+                                        showConfirmButton: false,
+                                        showDenyButton: false,
+                                        showCancelButton: false,
+                                    });
+                                },
+
+                                error:function () {
+                                    document.getElementById("districtForm").close();
+
+                                    Swal.fire({
+                                        title: 'Oops...',
+                                        text: 'An Error Occured! District Creation Unsuccessful',
+                                        icon: 'error',
+                                        timer: 5500,
+                                        showConfirmButton: false,
+                                        showDenyButton: false,
+                                        showCancelButton: false,
+                                    });
+                                },
+                            });
+                        });
+
+                        // Function opens modal for Property Category
+                        function PopUp() {
+                            document.getElementById("addForm").showModal();
+                        }
+
+                        // Function hides open modal for Property Category
+                        function HidePopUp() {
+                            document.getElementById("addForm").close();
+                        }
+
+                    </script>
+                    
+                    </dialog>
+
+                    <div class="row mt50">
+                        <div class="col-lg-12 text-center">
+                            <p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
+</div>
+<!-- Wrapper End -->
+
+<!--JS and Ajax code-->
+<script>
+	// $(document).on('submit', '#property_creation_form', function (e) {
+	// 	e.preventDefault();
+	// 	console.log("submit");
+
+	// 	$.ajax({
+	// 		type: 'POST',
+	// 		url: '{% url 'properties:create-listing' %}',
+	// 		data: {
+	// 			name:$('#property_name').val(), desc:$('#property_desc').val(), property_type:$('#property_type').val(),
+	// 			no_rooms:$('#rooms').val(), no_baths:$('#baths').val(), no_garages:$('#garages').val(), price:$('#price').val(),
+	// 			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+	// 		},
+
+	// 		success:function () {
+	// 			// Show sweet alert
+	// 			Swal.fire(
+	// 				'Good job!',
+	// 				'Your Property Listing Creation Was Successful',
+	// 				'success'
+	// 			);
+	// 			console.log("data", data)
+	// 		},
+
+	// 		error:function () {
+	// 			Swal.fire(
+	// 				'Oops...',
+	// 				'An Error Occured! Property Listing Creation Unsuccessful',
+	// 				'error'
+	// 			)
+	// 		},
+
+	// 	});
+	// });
+
+
+
+
+
+
 </script>
-{% endblock %}
+
+{% endblock content %}
