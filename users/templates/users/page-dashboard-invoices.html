@@ -1,0 +1,109 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+	<!-- Our Dashbord -->
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">My Invoices</h2>
+								<p>Ready to jump back in!</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="invoice_table table-responsive">
+								<table class="table table-borderless">
+								  <thead class="thead-light">
+								    <tr>
+								      <th scope="col">#</th>
+								      <th scope="col">Payment Method</th>
+								      <th scope="col">Status</th>
+								      <th scope="col">Transaction</th>
+								      <th scope="col">Amount</th>
+								      <th scope="col">Created</th>
+								      <th scope="col">Updated</th>
+								    </tr>
+								  </thead>
+								  <tbody>
+								    <tr>
+								      <th scope="row">433</th>
+								      <td>Paypal</td>
+								      <td>Succeeded</td>
+								      <td>en_1Hae2919asfa0M87kn</td>
+								      <td>$84</td>
+								      <td>30 December 2021</td>
+								      <td>30 December 2021</td>
+								    </tr>
+								    <tr>
+								      <th scope="row">433</th>
+								      <td>Paypal</td>
+								      <td>Succeeded</td>
+								      <td>en_1Hae2919asfa0M87kn</td>
+								      <td>$84</td>
+								      <td>30 December 2021</td>
+								      <td>30 December 2021</td>
+								    </tr>
+								    <tr>
+								      <th scope="row">433</th>
+								      <td>Paypal</td>
+								      <td>Succeeded Bird</td>
+								      <td>en_1Hae2919asfa0M87kn</td>
+								      <td>$84</td>
+								      <td>the 30 December 2021</td>
+								      <td>30 December 2021</td>
+								    </tr>
+								    <tr>
+								      <th scope="row">433</th>
+								      <td>Paypal</td>
+								      <td>Succeeded</td>
+								      <td>en_1Hae2919asfa0M87kn</td>
+								      <td>$84</td>
+								      <td>30 December 2021</td>
+								      <td>30 December 2021</td>
+								    </tr>
+								    <tr>
+								      <th scope="row">433</th>
+								      <td>Paypal</td>
+								      <td>Succeeded</td>
+								      <td>en_1Hae2919asfa0M87kn</td>
+								      <td>$84</td>
+								      <td>30 December 2021</td>
+								      <td>30 December 2021</td>
+								    </tr>
+								    <tr>
+								      <th scope="row">433</th>
+								      <td>Paypal</td>
+								      <td>Succeeded Bird</td>
+								      <td>en_1Hae2919asfa0M87kn</td>
+								      <td>$84</td>
+								      <td>the 30 December 2021</td>
+								      <td>30 December 2021</td>
+								    </tr>
+								  </tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="row mt50">
+						<div class="col-lg-12 text-center">
+							<p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

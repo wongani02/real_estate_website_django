@@ -414,8 +414,10 @@
         </div>
       </div>
       <div class="row">
+        
         <div class="col-lg-12">
           <div class="popular_listing_slider1">
+            {% for item in property %}
             <div class="item">
               <div class="feat_property">
                 <div class="thumb"> <img class="img-whp" src="images/property/fl1.jpg" alt="fl1.jpg">
@@ -460,6 +462,7 @@
                 </div>
               </div>
             </div>
+            {% endfor %}
             <div class="item">
               <div class="feat_property">
                 <div class="thumb"> <img class="img-whp" src="images/property/fl2.jpg" alt="fl2.jpg">
@@ -1242,7 +1245,7 @@
           <div class="feature_place_home2_slider">
             <div class="item">
               <div class="properti_city">
-                <div class="thumb"><img class="img-fluid w100" src="images/property/ep1.jpg" alt="ep1.jpg"></div>
+                <div class="thumb"><img class="img-fluid w100" src="{% static 'images/property/ep1.jpg' %}" alt="ep1.jpg"></div>
                 <div class="overlay">
                   <div class="details">
                     <div class="icon"><span class="flaticon-home"></span></div>
@@ -1253,7 +1256,7 @@
             </div>
             <div class="item">
               <div class="properti_city">
-                <div class="thumb"><img class="img-fluid w100" src="images/property/ep2.jpg" alt="ep2.jpg"></div>
+                <div class="thumb"><img class="img-fluid w100" src="{% static 'images/property/ep2.jpg' %}" alt="ep2.jpg"></div>
                 <div class="overlay">
                   <div class="details">
                     <div class="icon"><span class="flaticon-apartment"></span></div>
@@ -1264,7 +1267,7 @@
             </div>
             <div class="item">
               <div class="properti_city">
-                <div class="thumb"><img class="img-fluid w100" src="images/property/ep3.jpg" alt="ep3.jpg"></div>
+                <div class="thumb"><img class="img-fluid w100" src="{% static 'images/property/ep3.jpg' %}" alt="ep3.jpg"></div>
                 <div class="overlay">
                   <div class="details">
                     <div class="icon"><span class="flaticon-business-and-trade"></span></div>
@@ -1275,7 +1278,7 @@
             </div>
             <div class="item">
               <div class="properti_city">
-                <div class="thumb"><img class="img-fluid w100" src="images/property/ep4.jpg" alt="ep4.jpg"></div>
+                <div class="thumb"><img class="img-fluid w100" src="{% static 'images/property/ep4.jpg' %}" alt="ep4.jpg"></div>
                 <div class="overlay">
                   <div class="details">
                     <div class="icon"><span class="flaticon-villa"></span></div>
@@ -1286,7 +1289,7 @@
             </div>
             <div class="item">
               <div class="properti_city">
-                <div class="thumb"><img class="img-fluid w100" src="images/property/ep5.jpg" alt="ep.jpg"></div>
+                <div class="thumb"><img class="img-fluid w100" src="{% static 'images/property/ep5.jpg' %}" alt="ep.jpg"></div>
                 <div class="overlay">
                   <div class="details">
                     <div class="icon"><span class="flaticon-living-room"></span></div>
@@ -1315,47 +1318,7 @@
       </div>
     </div>
   </section>
-  
-  <!-- funfact -->
-  <section class="our-funfact bb1 pt60 pb30">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-6 col-lg-3">
-          <div class="funfact_one text-center">
-            <div class="details">
-              <div class="timer text-thm">66.180</div>
-              <p class="ff_title">Homes for sale</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="funfact_one text-center">
-            <div class="details">
-              <div class="timer text-thm">4.809</div>
-              <p class="ff_title">Open houses</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="funfact_one text-center">
-            <div class="details">
-              <div class="timer text-thm">30.469</div>
-              <p class="ff_title">Recently sold</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="funfact_one text-center">
-            <div class="details">
-              <div class="timer text-thm">2.919</div>
-              <p class="ff_title">Price reduced</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
+ 
   <!-- Recent Property For Rent -->
   <section class="recent-property pb70">
     <div class="container">
@@ -1607,87 +1570,7 @@
       </div>
     </div>
   </section>
-  
-  <!-- Our Testimonials -->
-  <section class="our-testimonials bg-ptrn1 pb40 pb100-lg">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="main-title text-center">
-            <h2>Our Testimonials</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="testimonial_slider_home1">
-            <div class="item">
-              <div class="testimonial_post home1 text-center">
-                <div class="details">
-                  <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-                </div>
-                <div class="thumb"> <img src="images/testimonial/1.png" alt="1.png"> </div>
-                <div class="client_details">
-                  <h4 class="title">Marvin McKinney</h4>
-                  <div class="client-postn">Designer</div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="testimonial_post home1 text-center">
-                <div class="details">
-                  <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-                </div>
-                <div class="thumb"> <img src="images/testimonial/2.png" alt="2.png"> </div>
-                <div class="client_details">
-                  <h4 class="title">Theresa Webb</h4>
-                  <div class="client-postn">Host</div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="testimonial_post home1 text-center">
-                <div class="details">
-                  <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-                </div>
-                <div class="thumb"> <img src="images/testimonial/3.png" alt="3.png"> </div>
-                <div class="client_details">
-                  <h4 class="title">Robert Fox</h4>
-                  <div class="client-postn">Reporter</div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="testimonial_post home1 text-center">
-                <div class="details">
-                  <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-                </div>
-                <div class="thumb"> <img src="images/testimonial/4.png" alt="4.png"> </div>
-                <div class="client_details">
-                  <h4 class="title">Guy Hawkins</h4>
-                  <div class="client-postn">Developer</div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="testimonial_post home1 text-center">
-                <div class="details">
-                  <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-                </div>
-                <div class="thumb"> <img src="images/testimonial/1.png" alt="1.png"> </div>
-                <div class="client_details">
-                  <h4 class="title">Marvin McKinney</h4>
-                  <div class="client-postn">Designer</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
+
   <!-- Property Cities -->
   <section id="property-city" class="property-city pb70 bb1">
     <div class="container">
@@ -1702,57 +1585,57 @@
       <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-3 col-xl-2">
           <div class="explore_city custom_class_from_520 fl-520">
-            <div class="thumb"><img class="img-fluid" src="images/cities/1.jpg" alt="1.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/mangochi.jpg' %}" alt="1.jpg"></div>
             <div class="details">
-              <h4 class="title"><a href="page-listing-single-v3.html">Los Angeles</a></h4>
+              <h4 class="title"><a href="#"><p>Mangochi</p></a></h4>
               <p>15 Properties</p>
             </div>
           </div>
           <div class="explore_city custom_class_from_520 fr-520">
-            <div class="thumb"><img class="img-fluid" src="images/cities/2.jpg" alt="2.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/mzimba.jpg' %}" alt="2.jpg"></div>
             <div class="details">
-              <h4 class="title"><a href="page-listing-single-v3.html">London</a></h4>
+              <h4 class="title"><a href="#"><p>Mzimba</p></a></h4>
               <p>23 Properties</p>
             </div>
           </div>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-3 col-xl-2">
           <div class="explore_city custom_class_from_520 fl-520">
-            <div class="thumb"><img class="img-fluid" src="images/cities/3.jpg" alt="3.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/salima.jpg' %}" alt="3.jpg"></div>
             <div class="details">
-              <h4 class="title"><a href="page-listing-single-v3.html">New York</a></h4>
+              <h4 class="title"><a href="#"><p>Salima</p></a></h4>
               <p>7543 Properties</p>
             </div>
           </div>
           <div class="explore_city custom_class_from_520 fr-520">
-            <div class="thumb"><img class="img-fluid" src="images/cities/4.jpg" alt="4.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/zomba.jpg' %}" alt="4.jpg"></div>
             <div class="details">
-              <h4 class="title"><a href="page-listing-single-v3.html">Paris</a></h4>
+              <h4 class="title"><a href="#"><p>Zomba</p></a></h4>
               <p>821 Properties</p>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-3 col-xl-6">
           <div class="explore_city style2">
-            <div class="thumb"><img class="img-fluid" src="images/cities/5.jpg" alt="5.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/lilongwe.jpg' %}" alt="5.jpg"></div>
             <div class="details">
-              <h4 class="title"><a href="page-listing-single-v3.html">Florida</a></h4>
+              <h4 class="title"><a href="#"><p>Lilongwe</p></a></h4>
               <p>411 Properties</p>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-lg-3 col-xl-2">
           <div class="explore_city custom_class_from_767 fl-767">
-            <div class="thumb"><img class="img-fluid" src="images/cities/6.jpg" alt="6.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/blantyre.jpg' %}" alt="6.jpg"></div>
             <div class="details">
-              <h4 class="title"><a href="page-listing-single-v3.html">Miami</a></h4>
+              <h4 class="title"><a href="#"><p>Blantyre</p></a></h4>
               <p>42 Properties</p>
             </div>
           </div>
           <div class="explore_city custom_class_from_767 fr-767">
-            <div class="thumb"><img class="img-fluid" src="images/cities/7.jpg" alt="7.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/kasungu.jpg' %}" alt="7.jpg"></div>
             <div class="details">
-              <h4 class="title"><a href="page-listing-single-v3.html">Istanbul</a></h4>
+              <h4 class="title"><a href="#"><p>Kasungu</p></a></h4>
               <p>392 Properties</p>
             </div>
           </div>
@@ -1762,7 +1645,7 @@
   </section>
   
   <!-- Our Team -->
-  <section class="our-team pb40">
+  <!-- <section class="our-team pb40">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
@@ -1869,7 +1752,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   
   <!-- Our Blog -->
   <section class="our-blog bgc-alice-blue pb70">
@@ -1885,7 +1768,7 @@
       <div class="row">
         <div class="col-md-6 col-xl-3">
           <div class="for_blog feat_property">
-            <div class="thumb"> <img class="img-whp" src="images/blog/1.jpg" alt="1.jpg">
+            <div class="thumb"> <img class="img-whp" src="{% static 'images/blog/1.jpg' %}" alt="1.jpg">
               <div class="tag bgc-thm"><a class="text-white" href="#">FAMILY HOUSE</a></div>
             </div>
             <div class="details">
@@ -1898,14 +1781,14 @@
                 </div>
                 <h4>Redfin Ranks the Most Competitive Neighborhoods of 2021</h4>
                 <p>Semper sagittis facilisi praesent elementum purus faucibus faucibus non tempus. </p>
-                <a class="text-thm tdu read_more_btn" href="page-blog-single.html">READ MORE</a>
+                <a class="text-thm tdu read_more_btn" href="#">READ MORE</a>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-xl-3">
           <div class="for_blog feat_property">
-            <div class="thumb"> <img class="img-whp" src="images/blog/2.jpg" alt="2.jpg">
+            <div class="thumb"> <img class="img-whp" src="{% static 'images/blog/2.jpg' %}" alt="2.jpg">
               <div class="tag bgc-thm"><a class="text-white" href="#">APARTMENT</a></div>
             </div>
             <div class="details">
@@ -1918,14 +1801,14 @@
                 </div>
                 <h4>Redfin Ranks the Most Competitive Neighborhoods of 2021</h4>
                 <p>Semper sagittis facilisi praesent elementum purus faucibus faucibus non tempus. </p>
-                <a class="text-thm tdu read_more_btn" href="page-blog-single.html">READ MORE</a>
+                <a class="text-thm tdu read_more_btn" href="#">READ MORE</a>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-xl-3">
           <div class="for_blog feat_property">
-            <div class="thumb"> <img class="img-whp" src="images/blog/3.jpg" alt="3.jpg">
+            <div class="thumb"> <img class="img-whp" src="{% static 'images/blog/3.jpg' %}" alt="3.jpg">
               <div class="tag bgc-thm"><a class="text-white" href="#">APARTMENT</a></div>
             </div>
             <div class="details">
@@ -1938,14 +1821,14 @@
                 </div>
                 <h4>Redfin Ranks the Most Competitive Neighborhoods of 2021</h4>
                 <p>Semper sagittis facilisi praesent elementum purus faucibus faucibus non tempus. </p>
-                <a class="text-thm tdu read_more_btn" href="page-blog-single.html">READ MORE</a>
+                <a class="text-thm tdu read_more_btn" href="#">READ MORE</a>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-6 col-xl-3">
           <div class="for_blog feat_property">
-            <div class="thumb"> <img class="img-whp" src="images/blog/4.jpg" alt="4.jpg">
+            <div class="thumb"> <img class="img-whp" src="{% static 'images/blog/4.jpg' %}" alt="4.jpg">
               <div class="tag bgc-thm"><a class="text-white" href="#">RENTAL</a></div>
             </div>
             <div class="details">
@@ -1958,7 +1841,7 @@
                 </div>
                 <h4>Redfin Ranks the Most Competitive Neighborhoods of 2021</h4>
                 <p>Semper sagittis facilisi praesent elementum purus faucibus faucibus non tempus. </p>
-                <a class="text-thm tdu read_more_btn" href="page-blog-single.html">READ MORE</a>
+                <a class="text-thm tdu read_more_btn" href="#">READ MORE</a>
               </div>
             </div>
           </div>
@@ -1967,6 +1850,7 @@
     </div>
   </section>
   
+  {% if not request.user.is_authenticated %}
   <!-- Start Partners -->
   <section class="start-partners home1 bgc-thm pt70 pb70">
     <div class="container">
@@ -1976,11 +1860,12 @@
             <h2>Become a Real Estate Agent</h2>
             <p>We only work with the best companies around the globe.</p>
           </div>
-          <div class="parner_reg_btn text-center mt25"> <a class="btn" href="page-login.html">REGISTER NOW</a> </div>
+          <div class="parner_reg_btn text-center mt25"> <a class="btn" href="{% url 'accounts:login' %}">REGISTER NOW</a> </div>
         </div>
       </div>
     </div>
   </section>
+  {% endif %}
   {% include 'properties/footer.html' %}
   {% endblock content %}
   

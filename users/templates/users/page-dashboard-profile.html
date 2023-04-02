@@ -25,27 +25,34 @@
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-lg-8">
-									<form class="contact_form profile mb30" action="#">
+									<form method="post" class="contact_form profile mb30" action=".">
+										{% csrf_token %}
 										<div class="row">
 											<div class="col-lg-12">
-												<h4 class="mb30 title">Contact Information</h4>
+												<h4 class="mb30 title">User Information</h4>
 											</div>
 											<div class="col-lg-6">
 												<div class="form-group mb25">
-										    	<input type="text" class="form-control form_control" placeholder="First Name">
+										    	<!-- <input type="text" class="form-control form_control" placeholder="First Name"> -->
+												{{u_form.email}}
+												{{u_form.email.errors}}
 												</div>
 											</div>
 											<div class="col-lg-6">
 												<div class="form-group mb25">
-										    	<input type="text" class="form-control form_control" placeholder="Last Name">
+										    	<!-- <input type="text" class="form-control form_control" placeholder="Last Name"> -->
+												{{u_form.name}}
+												{{u_form.name.errors}}
 												</div>
 											</div>
 											<div class="col-lg-6">
 												<div class="form-group mb25">
-										    	<input type="email" class="form-control form_control" placeholder="Email">
+										    	<!-- <input type="email" class="form-control form_control" placeholder="Email"> -->
+												{{ u_form.username }}
+												{{ u_form.username.errors }}
 												</div>
 											</div>
-											<div class="col-lg-6">
+											<!-- <div class="col-lg-6">
 												<div class="form-group mb25">
 										    	<input type="text" class="form-control form_control" placeholder="Phone">
 												</div>
@@ -59,28 +66,34 @@
 												<div class="form-group mb25">
 										    	<input type="text" class="form-control form_control" placeholder="Skype">
 												</div>
-											</div>
+											</div> -->
 										</div>
 										<div class="row">
 											<div class="col-lg-12">
-												<h4 class="mb30 mt20 title">Social Media</h4>
+												<h4 class="mb30 mt20 title">Other Details</h4>
 											</div>
 											<div class="col-lg-6 col-xl-6">
 												<div class="form-group mb25">
-										    	<input type="text" class="form-control form_control" placeholder="Facebook Url">
+										    	<!-- <input type="text" class="form-control form_control" placeholder="Facebook Url"> -->
+												{{p_form.other_email }}
+												{{p_form.other_email.errors }}
 												</div>
 											</div>
 											<div class="col-lg-6 col-xl-6">
 												<div class="form-group mb25">
-										    	<input type="text" class="form-control form_control" placeholder="Twitter Url">
+										    	<!-- <input type="text" class="form-control form_control" placeholder="Twitter Url"> -->
+												{{p_form.phone_number}}
+												{{p_form.phone_number.errors}}
 												</div>
 											</div>
 											<div class="col-lg-6 col-xl-6">
 												<div class="form-group mb25">
-										    	<input type="text" class="form-control form_control" placeholder="Linkedin Url">
+										    	<!-- <input type="text" class="form-control form_control" placeholder="Linkedin Url"> -->
+												{{p_form.phone_number_2}}
+												{{p_form.phone_number_2.errors}}
 												</div>
 											</div>
-											<div class="col-lg-6 col-xl-6">
+											<!-- <div class="col-lg-6 col-xl-6">
 												<div class="form-group mb25">
 										    	<input type="text" class="form-control form_control" placeholder="Instagram Url">
 												</div>
@@ -94,10 +107,12 @@
 												<div class="form-group mb25">
 										    	<input type="text" class="form-control form_control" placeholder="Website Url (without http)">
 												</div>
-											</div>
+											</div> -->
 											<div class="col-lg-12">
 												<div class="form-group mb30">
-											    <textarea class="form-control" rows="6" placeholder="About Me"></textarea>
+											    <!-- <textarea class="form-control" rows="6" placeholder="About Me"></textarea> -->
+												{{p_form.bio}}
+												{{p_form.bio.errors}}
 												</div>
 											</div>
 											<div class="col-xl-12">

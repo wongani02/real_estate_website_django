@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 
 from properties.models import Property
 
-from .forms import UserLoginForm
+from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm
 from .helpers import auth_user_should_not_access
 
 # Create your views here.
@@ -19,6 +19,10 @@ User = get_user_model()
 def contextLoginForm(request):
     login_form = UserLoginForm()
     return {'login_form': login_form}
+
+def contextRegisterForm(request):
+    register_form = UserRegistrationForm()
+    return {'register_form': register_form}
 
 
 @auth_user_should_not_access
@@ -35,7 +39,7 @@ def loginView(request):
                 print(user)
                 login(request, user)
                 messages.info(request, 'Login successful')
-                return redirect('properties:home')
+                return redirect('accounts:dashboard')
             else:
                 message = 'Invalid Credentials!'
                 messages.error(request, message)
@@ -47,10 +51,25 @@ def loginView(request):
 
 
 def RegisterView(request):
+    if request.method == 'POST':
+        register_form = UserRegistrationForm(request.POST)
+        if register_form.is_valid():
+            
+            user = register_form.save(commit=False)
+            user.email = register_form.cleaned_data['email']
+            if register_form.cleaned_data['user_type'] == 'Realtor':
+                user.is_realtor = True
+            else:
+                user.is_customer = True
+            user.set_password(register_form.cleaned_data['password'])
+            user.save()
+            messages.success(request, 'Account creted successfully')
+            return redirect('accounts:login')
+    
     context = {
 
     }
-    return render(request, 'users/', context)
+    return render(request, 'users/auth-page.html', context)
 
 
 def logoutView(request):
@@ -77,10 +96,26 @@ def dashboardView(request):
 @login_required(login_url='accounts:login')
 def profileView(request):
 
-    context = {
+    if request.method == "POST":
+        u_form = UserUpdateForm(instance=request.user, data=request.POST)
+        p_form = UserProfileForm(request.POST, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            print('valid')
+        else:
+            print(u_form.errors)
+            print(p_form.errors)
+            print('invalid')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = UserProfileForm(instance=request.user)
 
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
     }
-    return render(request, 'users/', context)
+    return render(request, 'users/page-dashboard-profile.html', context)
 
 
 @login_required(login_url='accounts:login')
@@ -104,11 +139,11 @@ def myPropertiesView(request):
 
 
 @login_required(login_url='accounts:login')
-def invoices(request):
+def invoicesView(request):
     context = {
 
     }
-    return render(request, 'users/', context)
+    return render(request, 'users/page-dashboard-invoices.html', context)
 
 
 @login_required(login_url='accounts:login')
@@ -117,3 +152,11 @@ def addPropertyView(request):
 
     }
     return render(request, 'users/', context)
+
+
+@login_required(login_url='accounts:login')
+def notificationsView(request):
+    context = {
+
+    }
+    return render(request, 'users/page-dashboard-message.html', context)

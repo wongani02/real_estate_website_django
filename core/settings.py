@@ -78,6 +78,8 @@ TEMPLATES = [
 
                 #custom context managers
                 'users.views.contextLoginForm',
+                'users.views.contextRegisterForm',
+                'properties.views.contextQ',
             ],
         },
     },

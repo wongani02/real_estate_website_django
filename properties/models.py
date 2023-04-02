@@ -2,8 +2,11 @@ import uuid
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.shortcuts import reverse
 
 from core import settings
+
+from ckeditor.fields import RichTextField
 
 
 # Specify location to save images
@@ -13,33 +16,6 @@ def image_upload_path(instance, filename):
 # Specify location to save images
 def video_upload_path(instance, filename):
     return settings.MEDIA_ROOT + 'videos/{0}/{1}'.format(instance.property.name, filename)
-
-
-# Images table
-class Images(models.Model):
-    class Meta:
-        verbose_name = 'Image'
-        verbose_name_plural = 'Images'
-
-    image = models.ImageField(_("Property Image"), upload_to=image_upload_path)
-    is_active = models.BooleanField(_("Is Active"), default=True)
-    date = models.DateTimeField(_("Date Uploaded"), auto_now=True)
-
-    def __str__(self):
-        return '{} - {}'.format(self.image, self.date)
-
-
-# Videos table
-class Videos(models.Model):
-    class Meta:
-        verbose_name = 'Video'
-        verbose_name_plural = 'Videos'
-
-    video = models.FileField(_("Property Video"), upload_to=video_upload_path)
-    date = models.DateTimeField(_("Date Uploaded"), auto_now=True)
-
-    def __str__(self):
-        return '{} - {}'.format(self.video, self.date)
 
 
 # Amenities table
@@ -65,10 +41,13 @@ class PropertyStatus(models.Model):
         verbose_name_plural = 'Property Statuses'
 
     _type = models.CharField(_("Property Type"), max_length=30)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self._type
+    
+    def get_absolute_url(self):
+        return reverse('', args=[self.slug])
 
 
 # Property Type table
@@ -78,9 +57,13 @@ class PropertyCategory(models.Model):
         verbose_name_plural = 'Property Categories'
 
     name = models.CharField(_("Category Name"), max_length=50)
+    slug = models.SlugField(unique=True, null=True)
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('', args=[self.slug])
 
 
 # Districts table
@@ -91,22 +74,13 @@ class Districts(models.Model):
 
     district_name = models.CharField(_("District Name"), max_length=50)
     is_active = models.BooleanField(_("Active"))
+    slug = models.SlugField(unique=True, null=True)
 
     def __str__(self):
         return self.district_name
-
-
-# Nearby Places table
-class NearbyPlaces(models.Model):
-    class Meta:
-        verbose_name = 'Nearby Place'
-        verbose_name_plural = 'Nearby Places'
-
-    name_of_place = models.CharField(_("Name of Place"), max_length=100)
-    location = models.CharField(_("Location"), max_length=100)
-
-    def __str__(self):
-        return '{} - {}'.format(self.name_of_place, self.location)
+    
+    def get_absolute_url(self):
+        return reverse('', args=[self.slug])
 
 
 # Likes table
@@ -149,27 +123,25 @@ class Property(models.Model):
     name = models.CharField(_("Name of Property"), max_length=100)
     price = models.PositiveIntegerField(_("Property Price"))
     location_area = models.CharField(_("Property Location Area"), max_length=100)
-    lat = models.CharField(_("Latitude"), max_length=999)
-    lon = models.CharField(_("Longitude"), max_length=999)
-    images = models.ForeignKey(Images, on_delete=models.CASCADE)
-    videos = models.ForeignKey(Videos, on_delete=models.CASCADE)
-    likes = models.ForeignKey(Likes, on_delete=models.CASCADE)
-    views = models.PositiveIntegerField(_("Number of Views"))
+    lat = models.CharField(_("Latitude"), max_length=999, blank=True)
+    lon = models.CharField(_("Longitude"), max_length=999, blank=True)
+    likes = models.ForeignKey(Likes, on_delete=models.CASCADE, blank=True)
+    views = models.PositiveIntegerField(_("Number of Views"), blank=True)
     is_paid = models.BooleanField(_("Paid"), default=False)
     is_active = models.BooleanField(_("Active"), default=True)
     property_cat = models.ForeignKey(PropertyCategory, on_delete=models.DO_NOTHING)
-    property_type = models.CharField(_("Property Type"), choices=PROPERTY_TYPE, default=RENT, max_length=7)
-    status = models.CharField(_("Available/Sold"), choices=STATUS, default=AVAILABLE)
-    amenities = models.ForeignKey(Amenities, on_delete=models.DO_NOTHING)
-    year_built = models.DateField(_("Year Built"),)
-    compound_area = models.PositiveIntegerField(_("Property Compound Area (metres)"))
-    no_garages = models.PositiveIntegerField(_("Number of Garages"))
-    no_rooms = models.PositiveIntegerField(_("Number of Rooms"))
-    no_baths = models.PositiveIntegerField(_("Number of Baths"))
-    desc = models.TextField(_("Description"))
-    nearby_places = models.ForeignKey(NearbyPlaces, on_delete=models.DO_NOTHING)
+    property_type = models.CharField(_("Property Type"), choices=PROPERTY_TYPE, default=RENT, max_length=10)
+    property_status = models.CharField(_("Available/Sold"), choices=STATUS, default=AVAILABLE, max_length=10)
+    amenities = models.ForeignKey(Amenities, on_delete=models.DO_NOTHING, blank=True)
+    year_built = models.DateField(_("Year Built"), blank=True)
+    compound_area = models.PositiveIntegerField(_("Property Compound Area (metres)"), blank=True)
+    no_garages = models.PositiveIntegerField(_("Number of Garages"), default=0)
+    no_rooms = models.PositiveIntegerField(_("Number of Rooms"), default=2)
+    no_baths = models.PositiveIntegerField(_("Number of Baths"), default=1)
+    desc = RichTextField(_("Description"))
     status = models.BooleanField(_("Property Status"),)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
+    created_at = models.DateTimeField(auto_now=True, null=True)
     agent = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         null=True, 
@@ -179,3 +151,48 @@ class Property(models.Model):
 
     def __str__(self):
         return '{} - {} - {}'.format(self.name, self.price, self.location_area)
+
+
+# Nearby Places table
+class NearbyPlaces(models.Model):
+    class Meta:
+        verbose_name = 'Nearby Place'
+        verbose_name_plural = 'Nearby Places'
+
+    property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_nearby')
+    name_of_place = models.CharField(_("Name of Place"), max_length=100, null=True)
+    location = models.CharField(_("Location"), max_length=100, null=True)
+
+    def __str__(self):
+        return '{} - {}'.format(self.name_of_place, self.location)
+
+
+# Images table
+class Images(models.Model):
+    class Meta:
+        verbose_name = 'Image'
+        verbose_name_plural = 'Images'
+
+    property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_images')
+    image = models.ImageField(_("Property Image"), upload_to=image_upload_path, null=True)
+    is_feature = models.BooleanField(_("Main image to display"), default=False, null=True)
+    is_active = models.BooleanField(_("Is Active"), default=True, null=True)
+    date = models.DateTimeField(_("Date Uploaded"), auto_now=True, null=True)
+
+    def __str__(self):
+        return '{} - {}'.format(self.image, self.date)
+
+
+# Videos table
+class Videos(models.Model):
+    class Meta:
+        verbose_name = 'Video'
+        verbose_name_plural = 'Videos'
+
+    property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_videos')
+    is_feature = models.BooleanField(_("Main image to display"), default=False, null=True)
+    video = models.FileField(_("Property Video"), upload_to=video_upload_path, null=True)
+    date = models.DateTimeField(_("Date Uploaded"), auto_now=True, null=True)
+
+    def __str__(self):
+        return '{} - {}'.format(self.video, self.date)

@@ -16927,7 +16927,7 @@ span.ui-slider-handle.ui-corner-all.ui-state-default:focus-visible,
   background-repeat: no-repeat;
 }
 .bg-home1{
-  background-image: url(../images/home/1.jpg);
+  background-image: url(../images/web_img/LandingPage.jpg);
   -webkit-background-size: cover;
   background-size: cover;
   background-position: center center;
@@ -17365,7 +17365,7 @@ section {
 }
 .divider.home-style1{
   background-attachment: fixed;
-  background-image: url("../images/background/1.jpg");
+  background-image: url("../images/web_img/PromotionalBackgroundPage.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

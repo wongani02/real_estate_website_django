@@ -62,7 +62,7 @@ class UserType(models.Model):
     
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
     bio = RichTextField(null=True)
     profile_img = models.ImageField(
         help_text=_('Profile image'),
@@ -71,6 +71,13 @@ class Profile(models.Model):
         blank=True
     ) 
     phone_number = models.CharField(
+        help_text=_('phone number'), 
+        max_length=10,
+        null=True, 
+        blank=True
+    )
+    other_email = models.EmailField(_("other email address"), unique=True, null=True)
+    phone_number_2 = models.CharField(
         help_text=_('phone number'), 
         max_length=10,
         null=True, 

@@ -2,12 +2,19 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
 
-from properties.models import Property
+from properties.models import Property, Districts, PropertyCategory
 from properties.forms import PropertyCreationForm
+
 
 class PropertiesHome(generic.ListView):
     def get(self, request):
-        return render(request, 'properties/home.html')
+        property = Property.objects.filter(is_active=True)[:10]
+        recents = property.order_by('-created_at')[:5]
+        context = {
+            'property': property,
+            'recents': recents,
+        }
+        return render(request, 'properties/home.html', context)
 
 
 class Contact(generic.DetailView):
@@ -92,3 +99,11 @@ class CreatePropertyListing(generic.CreateView):
         
         return render(request, self.template_name, {'message': message})
     
+
+
+def contextQ(request):
+
+    return {
+        'categories': Districts.objects.filter(is_active=True), 
+        'districts': PropertyCategory.objects.all(),
+    }

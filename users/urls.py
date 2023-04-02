@@ -8,10 +8,13 @@ urlpatterns = [
     #auth views
     path('login/', user_views.loginView, name='login'),
     path('logout/', user_views.logoutView, name='logout'),
+    path('register/', user_views.RegisterView, name='register'),
 
     #dashboard views
     path('dashboard/my-properties/', user_views.myPropertiesView, name='my-properties'),
     path('dashboard/dashboard/', user_views.dashboardView, name='dashboard'),
     path('dashboard/bookmarks/', user_views.bookmarksView, name='bookmarks'),
-    path('dashboard/profile/', user_views.bookmarksView, name='profile'),
+    path('dashboard/profile/', user_views.profileView, name='profile'),
+    path('dashboard/notifications/', user_views.notificationsView, name='notifications'),
+    path('payments/invoices/', user_views.invoicesView, name='invoices'),
 ]
