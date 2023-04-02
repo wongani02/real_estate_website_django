@@ -32,10 +32,10 @@ class PropertyCategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
-@admin.register(PropertyStatus)
-class PropertyStatusAdmin(admin.ModelAdmin):
-    list_display = ['_type', 'slug']
-    prepopulated_fields = {'slug': ('_type',)}
+# @admin.register(PropertyStatus)
+# class PropertyStatusAdmin(admin.ModelAdmin):
+#     list_display = ['_type', 'slug']
+#     prepopulated_fields = {'slug': ('_type',)}
 
 
 @admin.register(Districts)
