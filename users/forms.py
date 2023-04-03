@@ -2,11 +2,12 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
-from .models import Profile
+from .models import Profile, User
 
 # Get user model currently in use
-User = get_user_model()
+
 
 
 class UserLoginForm(forms.Form):
@@ -32,6 +33,7 @@ class UserLoginForm(forms.Form):
 
 
 class UserRegistrationForm(forms.ModelForm):
+
     CHOICES = (
         ('Customer', 'Customer'),
         ('Realtor', 'Realtor'),
@@ -50,13 +52,6 @@ class UserRegistrationForm(forms.ModelForm):
         model = User
         fields = ('name', 'email','username','user_type',)
 
-    # def clean_user_name(self):
-    #     user_name = self.cleaned_data['name'].lower()
-    #     r = Customer.objects.filter(user_name=user_name)
-    #     if r.count():
-    #         raise forms.ValidationError("Username already exists")
-    #     return user_name
-
     def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
@@ -65,6 +60,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
+        print(email)
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError(
                 'Please use another Email, that is already taken')

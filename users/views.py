@@ -31,7 +31,7 @@ def loginView(request):
     if request.method == 'POST':
         login_form = UserLoginForm(request.POST)
         if login_form.is_valid():
-            print('passing')
+            
             email = login_form.cleaned_data['email']
             password = login_form.cleaned_data['password']
             user = authenticate(email=email, password=password)
@@ -54,15 +54,19 @@ def RegisterView(request):
     if request.method == 'POST':
         register_form = UserRegistrationForm(request.POST)
         if register_form.is_valid():
-            
+            email = register_form.cleaned_data['email']
             user = register_form.save(commit=False)
-            user.email = register_form.cleaned_data['email']
+            user.email = email
             if register_form.cleaned_data['user_type'] == 'Realtor':
                 user.is_realtor = True
             else:
                 user.is_customer = True
             user.set_password(register_form.cleaned_data['password'])
             user.save()
+            auth = authenticate(email=email, password=register_form.cleaned_data['password'])
+            if auth is not None:
+                login(request, auth)
+                return redirect('accounts:dashboard')
             messages.success(request, 'Account creted successfully')
             return redirect('accounts:login')
     
@@ -84,6 +88,7 @@ def forgotPassword(request):
     return render(request, 'users/', context)
 
 
+#dasboard views
 @login_required(login_url='accounts:login')
 def dashboardView(request):
 
@@ -104,12 +109,10 @@ def profileView(request):
             p_form.save()
             print('valid')
         else:
-            print(u_form.errors)
-            print(p_form.errors)
-            print('invalid')
+            print('error updating form')
     else:
         u_form = UserUpdateForm(instance=request.user)
-        p_form = UserProfileForm(instance=request.user)
+        p_form = UserProfileForm(instance=request.user.profile)
 
     context = {
         'u_form': u_form,

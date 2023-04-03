@@ -13,7 +13,7 @@
 					<div class="breadcrumb_content">
 						<h2 class="breadcrumb_title">About Us</h2>
 						<ol class="breadcrumb">
-					    <li class="breadcrumb-item"><a href="#">Home</a></li>
+					    <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
 					    <li class="breadcrumb-item active" aria-current="page">About Us</li>
 						</ol>
 					</div>
@@ -36,7 +36,7 @@
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="about_thumb mb30-smd">
-						<img class="img-fluid w100" src="images/about/2.jpg" alt="2.jpg">
+						<img class="img-fluid w100" src="{% static 'images/about/2.jpg' %}" alt="2.jpg">
 					</div>
 				</div>
 				<div class="col-lg-6">
@@ -48,7 +48,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row mt50">
+			<!-- <div class="row mt50">
 				<div class="col-md-6 col-lg-3">
 					<div class="funfact_one text-center">
 						<div class="details">
@@ -81,7 +81,7 @@
             </div>
           </div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</section>
   
@@ -101,7 +101,7 @@
           <div class="team_slider_home1">
             <div class="item">
               <div class="team_member">
-                <div class="thumb"> <img class="img-fluid" src="images/team/1.jpg" alt="1.jpg">
+                <div class="thumb"> <img class="img-fluid" src="{% static 'images/team/1.jpg' %}" alt="1.jpg">
                   <div class="overylay">
                     <ul class="social_icon">
                       <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -119,7 +119,7 @@
             </div>
             <div class="item">
               <div class="team_member">
-                <div class="thumb"> <img class="img-fluid" src="images/team/2.jpg" alt="2.jpg">
+                <div class="thumb"> <img class="img-fluid" src="{% static 'images/team/2.jpg' %}" alt="2.jpg">
                   <div class="overylay">
                     <ul class="social_icon">
                       <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -137,7 +137,7 @@
             </div>
             <div class="item">
               <div class="team_member">
-                <div class="thumb"> <img class="img-fluid" src="images/team/3.jpg" alt="3.jpg">
+                <div class="thumb"> <img class="img-fluid" src="{% static 'images/team/3.jpg' %}" alt="3.jpg">
                   <div class="overylay">
                     <ul class="social_icon">
                       <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -155,7 +155,7 @@
             </div>
             <div class="item">
               <div class="team_member">
-                <div class="thumb"> <img class="img-fluid" src="images/team/4.jpg" alt="4.jpg">
+                <div class="thumb"> <img class="img-fluid" src="{% static 'images/team/4.jpg' %}" alt="4.jpg">
                   <div class="overylay">
                     <ul class="social_icon">
                       <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -173,7 +173,7 @@
             </div>
             <div class="item">
               <div class="team_member">
-                <div class="thumb"> <img class="img-fluid" src="images/team/5.jpg" alt="5.jpg">
+                <div class="thumb"> <img class="img-fluid" src="{% static 'images/team/5.jpg'%}" alt="5.jpg">
                   <div class="overylay">
                     <ul class="social_icon">
                       <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -195,132 +195,6 @@
     </div>
   </section>
   
-  <!-- Property Cities -->
-  <section id="property-city" class="property-city pb70 bb1">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="main-title text-center">
-            <h2>Services</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 col-lg-4 col-xl-4">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="explore_city custom_class_service float-left">
-                <div class="thumb"><img class="img-fluid" src="images/service/1.jpg" alt="1.jpg"></div>
-                <div class="details">
-                  <h4 class="title">Property Management</h4>
-                  <p>Services</p>
-                </div>
-              </div>
-              <div class="explore_city custom_class_service float-right">
-                <div class="thumb"><img class="img-fluid" src="images/service/2.jpg" alt="2.jpg"></div>
-                <div class="details">
-                  <h4 class="title">Financial Reporting</h4>
-                  <p>Services</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-12">
-              <div class="explore_city">
-                <div class="thumb"><img class="img-fluid" src="images/service/3.jpg" alt="3.jpg"></div>
-                <div class="details">
-                  <h4 class="title">Business Development</h4>
-                  <p>Services</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-7 col-lg-5 col-xl-6">
-          <div class="explore_city style2">
-            <div class="thumb"><img class="img-fluid" src="images/service/4.jpg" alt="4.jpg"></div>
-            <div class="details">
-              <h4 class="title">Finance Real Estate</h4>
-              <p>Services</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-5 col-lg-3 col-xl-2">
-          <div class="explore_city custom_class_service2">
-            <div class="thumb"><img class="img-fluid" src="images/service/5.jpg" alt="5.jpg"></div>
-            <div class="details">
-              <h4 class="title">Recover Asset Value</h4>
-              <p>Services</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-	<!-- Our Team -->
-	<section class="our-testimonials bg-ptrn1 pb70">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 offset-lg-3">
-					<div class="main-title text-center">
-            <h2>Our Testimonials</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					</div>
-				</div>
-			</div>
-      <div class="row">
-        <div class="col-md-6 col-lg-6 col-xl-3">
-          <div class="testimonial_post text-center">
-            <div class="details">
-              <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-            </div>
-            <div class="thumb"> <img src="images/testimonial/1.png" alt="1.png"> </div>
-            <div class="client_details">
-              <h4 class="title">Marvin McKinney</h4>
-              <div class="client-postn">Designer</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-6 col-xl-3">
-          <div class="testimonial_post text-center">
-            <div class="details">
-              <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-            </div>
-            <div class="thumb"> <img src="images/testimonial/2.png" alt="2.png"> </div>
-            <div class="client_details">
-              <h4 class="title">Theresa Webb</h4>
-              <div class="client-postn">Host</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-6 col-xl-3">
-          <div class="testimonial_post text-center">
-            <div class="details">
-              <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-            </div>
-            <div class="thumb"> <img src="images/testimonial/3.png" alt="3.png"> </div>
-            <div class="client_details">
-              <h4 class="title">Robert Fox</h4>
-              <div class="client-postn">Reporter</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-6 col-xl-3">
-          <div class="testimonial_post text-center">
-            <div class="details">
-              <p>“ I believe in lifelong learning and Skola is a great place to learn from experts. I've learned a lot and recommend it to all my friends “</p>
-            </div>
-            <div class="thumb"> <img src="images/testimonial/4.png" alt="4.png"> </div>
-            <div class="client_details">
-              <h4 class="title">Guy Hawkins</h4>
-              <div class="client-postn">Developer</div>
-            </div>
-          </div>
-        </div>
-      </div>
-		</div>
-	</section>
 
 	<!-- Our Partners -->
 	<section id="our-partners" class="our-partners bt1 pt60 pb60">
@@ -328,32 +202,32 @@
 			<div class="row">
 				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="our_partner">
-						<img src="images/partners/1.png" alt="1.png">
+						<img src="{% static 'images/partners/1.png' %}" alt="1.png">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="our_partner">
-						<img src="images/partners/2.png" alt="2.png">
+						<img src="{% static 'images/partners/2.png' %}" alt="2.png">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="our_partner">
-						<img src="images/partners/3.png" alt="3.png">
+						<img src="{% static 'images/partners/3.png' %}" alt="3.png">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="our_partner">
-						<img src="images/partners/4.png" alt="4.png">
+						<img src="{% static 'images/partners/4.png' %}" alt="4.png">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="our_partner">
-						<img src="images/partners/5.png" alt="5.png">
+						<img src="{% static 'images/partners/5.png' %}" alt="5.png">
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="our_partner">
-						<img src="images/partners/6.png" alt="6.png">
+						<img src="{% static 'images/partners/6.png' %}" alt="6.png">
 					</div>
 				</div>
 			</div>

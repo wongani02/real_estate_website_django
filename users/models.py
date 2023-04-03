@@ -35,7 +35,7 @@ class User(AbstractUser, PermissionsMixin):
 
     REQUIRED_FIELDS = ['name',]
 
-    objects = UserManager
+    objects = UserManager()
 
     def email_user(self, subject, message):
         send_mail(

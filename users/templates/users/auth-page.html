@@ -80,14 +80,17 @@
 		              <div class="form-group input-group">
 		                <!-- <input type="text" class="form-control" placeholder="Login"> -->
 						{{register_form.name}}
+						{{register_form.name.errors}}
 		              </div>
 		              <div class="form-group input-group">
 		                <!-- <input type="text" class="form-control" placeholder="First name"> -->
 						{{register_form.username}}
+						{{register_form.username.errors}}
 		              </div>
 		              <div class="form-group input-group">
 		                <!-- <input type="text" class="form-control" placeholder="Last name"> -->
 						{{register_form.email}}
+						{{register_form.email.errors}}
 		              </div>
 		              <div class="form-group input-group">
 		                <!-- <select class="selectpicker form-control" data-width="100%">
@@ -97,15 +100,18 @@
 		                  <option data-tokens="humanresource">User role 4</option>
 		                </select> -->
 						{{register_form.user_type}}
+						{{register_form.user_type.errors}}
 		              </div>
 		              
 		              <div class="form-group input-group mb20">
 		                <!-- <input type="password" class="form-control" placeholder="Password"> -->
 						{{register_form.password}}
+						{{register_form.password.errors}}
 		              </div>
 		              <div class="form-group input-group mb30">
 		                <!-- <input type="password" class="form-control" placeholder="Re-enter password"> -->
 						{{register_form.password2}}
+						{{register_form.password2.errors}}
 		              </div>
 		              <button type="submit" class="btn btn-signup btn-block btn-dark mb0">REGISTER</button>
 		            </form>

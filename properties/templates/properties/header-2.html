@@ -135,7 +135,7 @@
           <li><a href="{% url 'properties:contact' %}">Contact</a></li>
         </ul>
         <ul id="respMenu2" class="ace-responsive-menu widget_menu_home2 home6 wa" data-menu-style="horizontal">
-          <li class="list-inline-item list_c"><a href="#"><span class="flaticon-phone mr7 fz20"></span> (+88) 1990 6886</a></li>
+          <!-- <li class="list-inline-item list_c"><a href="#"><span class="flaticon-phone mr7 fz20"></span> (+88) 1990 6886</a></li> -->
           {% if request.user.is_authenticated %}
           <li class="list-inline-item list_s"><a href="{% url 'accounts:dashboard' %}" class="btn" ><span class="flaticon-user"></span></a></li>
           {% else %}
