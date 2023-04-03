@@ -10,7 +10,7 @@ class PropertyCreationForm(forms.ModelForm):
         model = Property
         fields = ['name',
                   'property_type', 'status', 'property_cat', 'no_garages','no_rooms', 'no_baths',
-            'year_built', 'property_area', 'price', 'addr', 'district', 
+            'year_built', 'location_area', 'price', 'district', 
             'amenities', 
         ]
         widgets = {
@@ -52,7 +52,7 @@ class DistrictCreationForm(forms.ModelForm):
 class NearbyPlacesCreationForm(forms.ModelForm):
     class Meta:
         model = NearbyPlaces
-        fields = ['name', 'location',]
+        fields = ['name_of_place', 'location',]
 
 
 class PropertyCategoryCreationForm(forms.ModelForm):

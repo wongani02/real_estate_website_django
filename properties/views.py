@@ -8,8 +8,8 @@ from properties.forms import *
 
 class PropertiesHome(generic.ListView):
     def get(self, request):
-        property = Property.objects.filter(is_active=True)[:10]
-        recents = property.order_by('-created_at')[:5]
+        property = Property.objects.filter(is_active=True).filter(is_featured=True)
+        recents = Property.objects.order_by('-created_at')[:5]
         context = {
             'property': property,
             'recents': recents,

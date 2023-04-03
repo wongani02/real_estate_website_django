@@ -160,6 +160,7 @@ class Property(models.Model):
     status = models.BooleanField(_("Property Status"),)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now=True, null=True)
+    is_featured = models.BooleanField(_("if the property has to appear on the home page"), default=False, null=True)
     agent = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         null=True, 
