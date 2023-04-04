@@ -41,18 +41,29 @@
 						<div class="col-lg-6">
 							<div class="login_form inner_page bgc-white mb30">
 								<form method="post" action="{% url 'accounts:login' %}">
+									{% if login_form.errors %}
+									<p>Please correct the following errors:</p>
+									{% for field in login_form %}
+									{% if field.errors %}
+									<div class="alert alert-danger" role="alert">
+										{{ field.label }}: {{ field.errors|striptags }}
+									</div>
+									{% endif %}
+									{% endfor %}
+									{% endif %}
+
                                     {% csrf_token %}
 		              				<h4 class="title">Sign in</h4>
 									<div class="mb-2 mr-sm-2">
 										<label for="formGroupExampleInput" class="form-label mb0">Login</label>
                                        {{login_form.email}} 
-									   {{login_form.email.errors}}
+									   
 									  <!-- <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Ali Tufa.."> -->
 									</div>
 									<div class="form-group mb5">
                                         <label for="formGroupExampleInput" class="form-label mb0">Password</label>
                                         {{login_form.password}}
-										{{login_form.password.errors}}
+										
 								    <!-- <input type="password" class="form-control" placeholder="Password"> -->
 									</div>
 									<div class="custom-control custom-checkbox">
@@ -77,20 +88,31 @@
 		            <h4 class="title">Registration</h4>
 		            <form method="post" action="{% url 'accounts:register' %}">
 						{% csrf_token %}
+
+						{% if register_form.errors %}
+						<p>Please correct the following errors:</p>
+						{% for field in register_form %}
+						{% if field.errors %}
+						<div class="alert alert-danger" role="alert">
+							{{ field.label }}: {{ field.errors|striptags }}
+						</div>
+						{% endif %}
+						{% endfor %}
+						{% endif %}
 		              <div class="form-group input-group">
 		                <!-- <input type="text" class="form-control" placeholder="Login"> -->
 						{{register_form.name}}
-						{{register_form.name.errors}}
+						
 		              </div>
 		              <div class="form-group input-group">
 		                <!-- <input type="text" class="form-control" placeholder="First name"> -->
 						{{register_form.username}}
-						{{register_form.username.errors}}
+						
 		              </div>
 		              <div class="form-group input-group">
 		                <!-- <input type="text" class="form-control" placeholder="Last name"> -->
 						{{register_form.email}}
-						{{register_form.email.errors}}
+						
 		              </div>
 		              <div class="form-group input-group">
 		                <!-- <select class="selectpicker form-control" data-width="100%">
@@ -100,18 +122,18 @@
 		                  <option data-tokens="humanresource">User role 4</option>
 		                </select> -->
 						{{register_form.user_type}}
-						{{register_form.user_type.errors}}
+						
 		              </div>
 		              
 		              <div class="form-group input-group mb20">
 		                <!-- <input type="password" class="form-control" placeholder="Password"> -->
 						{{register_form.password}}
-						{{register_form.password.errors}}
+						
 		              </div>
 		              <div class="form-group input-group mb30">
 		                <!-- <input type="password" class="form-control" placeholder="Re-enter password"> -->
 						{{register_form.password2}}
-						{{register_form.password2.errors}}
+						
 		              </div>
 		              <button type="submit" class="btn btn-signup btn-block btn-dark mb0">REGISTER</button>
 		            </form>

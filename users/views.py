@@ -43,7 +43,7 @@ def loginView(request):
             else:
                 message = 'Invalid Credentials!'
                 messages.error(request, message)
-                return HttpResponseRedirect(request.META["HTTP_REFERER"])
+                return redirect('accounts:login')
     context = {
         'login_form': login_form
     }
@@ -67,11 +67,14 @@ def RegisterView(request):
             if auth is not None:
                 login(request, auth)
                 return redirect('accounts:dashboard')
-            messages.success(request, 'Account creted successfully')
+            messages.success(request, 'Account created successfully')
             return redirect('accounts:login')
+        
+    else :
+        register_form = UserRegistrationForm()
     
     context = {
-
+        'register_form':register_form,
     }
     return render(request, 'users/auth-page.html', context)
 
