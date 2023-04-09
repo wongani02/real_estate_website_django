@@ -5,6 +5,8 @@ from properties.models import *
 
 # Register your models here.
 
+admin.site.register(Amenities)
+
 
 class VideoModelAdmin(admin.StackedInline):
     model = Videos

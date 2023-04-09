@@ -1,0 +1,138 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}About{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+	<!-- Inner Page Breadcrumb -->
+	<section class="inner_page_breadcrumb">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-xl-6">
+					<div class="breadcrumb_content">
+						<h2 class="breadcrumb_title">Pricing Plan</h2>
+						<ol class="breadcrumb">
+					    <li class="breadcrumb-item"><a href="#">Home</a></li>
+					    <li class="breadcrumb-item active" aria-current="page">Pricing Plan</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Pricing Section Area -->
+	<section class="our-pricing pb70">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 offset-lg-3">
+					<div class="main-title text-center">
+						<h2>Pricing Packages</h2>
+						<p>Lorem ipsum dolor sit amet elit, sed do eiusmod tempor.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+			    <div class="pricing_packages_top mb30">
+			    	<h5 class="save_title">Save up to 10%</h5>
+		      	<div class="toggle-btn">
+		        	<span class="pricing_save1">Monthly</span>
+		        	<label class="switch">
+		        		<input type="checkbox" id="checbox" onclick="check()"/>
+		        		<span class="pricing_table_switch_slide round"></span>
+		        	</label>
+		        	<span class="pricing_save2">AnnualSave</span>
+		        </div>
+			    </div>
+				</div>
+			</div>
+	    <div class="row">
+	    	<div class="col-sm-6 col-xl-3">
+	      	<div class="pricing_packages">
+	      		<div class="heading text-center">
+			        <h5 class="package_title">STARTER</h5>
+			        <h2 class="text2">$99.89</h2>
+			        <h2 class="text1">$199.89</h2>
+	      		</div>
+	      		<div class="details">
+		        	<ul	 class="list">
+								<li>Basic Listing Submission</li>
+								<li>One Listing</li>
+								<li>30 Days Availability</li>
+								<li>Limited Support</li>
+								<li>Accept Reviews</li>
+								<li>Edit Your Listing</li>
+		        	</ul>
+		        	<a href="#" class="btn package_btn">GET STARTED</a>
+	      		</div>
+	      	</div>
+	    	</div>
+      	<div class="col-sm-6 col-xl-3">
+	      	<div class="pricing_packages">
+	      		<div class="heading text-center">
+		        	<h5 class="package_title">STANDART</h5>
+		        	<h2 class="text2">$199.89</h2>
+		        	<h2 class="text1">$399.89</h2>
+	      		</div>
+	      		<div class="details">
+		        	<ul class="list">
+  							<li>Basic Listing Submission</li>
+  							<li>One Listing</li>
+  							<li>30 Days Availability</li>
+  							<li>Limited Support</li>
+  							<li>Accept Reviews</li>
+  							<li>Edit Your Listing</li>
+		        	</ul>
+		        	<a href="#" class="btn package_btn">GET STARTED</a>
+	      		</div>
+	      	</div>
+      	</div>
+      	<div class="col-sm-6 col-xl-3">
+	      	<div class="pricing_packages">
+	      		<div class="heading text-center">
+		        	<h5 class="package_title">PREMIUM</h5>
+		        	<h2 class="text2">$299.89</h2>
+		        	<h2 class="text1">$499.89</h2>
+	      		</div>
+	      		<div class="details">
+		        	<ul class="list">
+								<li>Basic Listing Submission</li>
+								<li>One Listing</li>
+								<li>30 Days Availability</li>
+								<li>Limited Support</li>
+								<li>Accept Reviews</li>
+								<li>Edit Your Listing</li>
+		        	</ul>
+		        	<a href="#" class="btn package_btn">GET STARTED</a>
+	      		</div>
+	      	</div>
+      	</div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="pricing_packages">
+            <div class="heading text-center">
+              <h5 class="package_title">GOLD</h5>
+              <h2 class="text2">$499.89</h2>
+              <h2 class="text1">$799.89</h2>
+            </div>
+            <div class="details">
+              <ul class="list">
+                <li>Basic Listing Submission</li>
+                <li>One Listing</li>
+                <li>30 Days Availability</li>
+                <li>Limited Support</li>
+                <li>Accept Reviews</li>
+                <li>Edit Your Listing</li>
+              </ul>
+              <a href="#" class="btn package_btn">GET STARTED</a>
+            </div>
+          </div>
+        </div>
+	    </div>
+		</div>
+	</section>
+
+	<!-- Our Footer -->
+  {% include 'properties/footer.html' %}
+{% endblock %}

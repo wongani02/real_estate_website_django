@@ -25,22 +25,22 @@
           </li>
           <li> <a href="#"><span class="title">Listing</span></a>
             <ul>
-              <li> <a href="#">Listing Styles</a> 
+              <li> <a href="{% url 'properties:all-property-list' %}">Property Listing</a> 
                 <!-- Level Three-->
-                <ul>
-                  <li><a href="page-listing-v1.html">Listing v1</a></li>
+                <!-- <ul>
+                  <li><a href="page-listing-v1.html">Listing</a></li>
                   <li><a href="page-listing-v2.html">Listing v2</a></li>
                   <li><a href="page-listing-v3.html">Listing v3</a></li>
                   <li><a href="page-listing-v4.html">Listing v4</a></li>
                   <li><a href="page-listing-v5.html">Listing v5</a></li>
                   <li><a href="page-listing-v6.html">Listing v6</a></li>
                   <li><a href="page-listing-all.html">Listing All</a></li>
-                </ul>
+                </ul> -->
               </li>
               <li>
-                <a href="#">Listing Map</a>
+                <a href="{% url 'properties:property-map' %}">Property Listing Map</a>
                 <!-- Level Three-->
-                <ul>
+                <!-- <ul>
                   <li><a href="page-listing-v7.html">Map v1</a></li>
                   <li><a href="page-listing-v8.html">Map v2</a></li>
                   <li><a href="page-listing-v9.html">Map v3</a></li>
@@ -48,12 +48,12 @@
                   <li><a href="page-listing-v11.html">Map v5</a></li>
                   <li><a href="page-listing-v12.html">Map v6</a></li>
                   <li><a href="page-listing-v13.html">Map v7</a></li>
-                </ul>
+                </ul> -->
               </li>
               <li>
-                <a href="#">Listing Single</a>
+                <!-- <a href="#">Listing Single</a> -->
                 <!-- Level Three-->
-                <ul>
+                <!-- <ul>
                   <li><a href="page-listing-single-v1.html">Single V1</a></li>
                   <li><a href="page-listing-single-v2.html">Single V2</a></li>
                   <li><a href="page-listing-single-v3.html">Single V3</a></li>
@@ -62,28 +62,28 @@
                   <li><a href="page-listing-single-v6.html">Single V6</a></li>
                   <li><a href="page-listing-single-v7.html">Single V7</a></li>
                   <li><a href="page-listing-single-v8.html">Single V8</a></li>
-                </ul>
+                </ul> -->
               </li>
-              <li> <a href="#">Agent</a> 
+              <li> <a href="{% url 'properties:agent-list' %}">Agent List</a> 
                 <!-- Level Three-->
-                <ul>
+                <!-- <ul>
                   <li><a href="page-agent-list.html">Agent List</a></li>
                   <li><a href="page-agent-single.html">Agent Single</a></li>
-                </ul>
+                </ul> -->
               </li>
-              <li> <a href="#">Agency</a> 
+              <li> <a href="{% url 'properties:agency-list' %}">Agency List</a> 
                 <!-- Level Three-->
-                <ul>
+                <!-- <ul>
                   <li><a href="page-agency-list.html">Agency List</a></li>
                   <li><a href="page-agency-single.html">Agency Single</a></li>
-                </ul>
+                </ul> -->
               </li>
-              <li><a href="page-dashboard-new-property.html">New Listing</a></li>
+              <!-- <li><a href="page-dashboard-new-property.html">New Listing</a></li> -->
             </ul>
           </li>
-          <li> <a href="#"><span class="title">Property</span></a>
+          <li> <a href="{% url 'properties:property-pricing' %}"><span class="title">Pricing</span></a>
             <!-- Level Two-->
-            <ul>
+            <!-- <ul>
               <li> <a href="#">User Dashboard</a>
                 <ul>
                   <li><a href="page-dashboard.html">Dashboard</a></li>
@@ -98,7 +98,7 @@
                 </ul>
               </li>
               <li><a href="page-dashboard-new-property.html">New Listing</a></li>
-            </ul>
+            </ul> -->
           </li>
           <li> <a href="{% url 'properties:about' %}"><span class="title">About</span></a>
           </li>

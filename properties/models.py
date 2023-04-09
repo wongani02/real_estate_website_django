@@ -24,30 +24,12 @@ class Amenities(models.Model):
         verbose_name = 'Amenity'
         verbose_name_plural = 'Amenities'
 
-    s_pool = models.BooleanField(_("Swimming Pool"), default=False)
-    a_conditioning = models.BooleanField(_("Air Conditioning"), default=False)
-    dining_room = models.BooleanField(_("Dining Room"), default=False)
-    laundry = models.BooleanField(_("Laundry"), default=False)
-    wifi = models.BooleanField(_("Wi-Fi"), default=False)
-    bbq = models.BooleanField(_("Barbeque"), default=False)
-    dryer = models.BooleanField(_("Dryer"), default=False)
-    lawn = models.BooleanField(_("Barbeque"), default=False)
-    microwave = models.BooleanField(_("Microwave"), default=False)
-    o_shower = models.BooleanField(_("Outdoor Shower"), default=False)
-    fridge = models.BooleanField(_("Refridgerator"), default=False)
-    s_views = models.BooleanField(_("Stunning Views"), default=False)
-    fire = models.BooleanField(_("Fireplace"), default=False)
-    pets = models.BooleanField(_("Pets Allowed"), default=False)
-    washer = models.BooleanField(_("Unit Washer/Dryer"), default=False)
-    o_parking = models.BooleanField(_("Onsite Parking"), default=False)
-    water = models.BooleanField(_("Waterfront"), default=False)
-    parking = models.BooleanField(_("Parking"), default=False)
-    doorman = models.BooleanField(_("Doorman"), default=False)
-    cleaning = models.BooleanField(_("Cleaning Services"), default=False)
-    heating = models.BooleanField(_("Heating Services"), default=False)
-    neighbourhood_w = models.BooleanField(_("Neighborhood Watch"), default=False)
-    gym = models.BooleanField(_("Gym"), default=False)
-    living_room = models.BooleanField(_("Living Room"), default=False)
+    name = models.CharField(_('Amenity Name'), max_length=20, blank=True)
+    desc = models.CharField(_("Amenity Description"), max_length=100, blank=True)
+    date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
 
 # Property Status table
@@ -143,16 +125,16 @@ class Property(models.Model):
     location_area = models.CharField(_("Property Location Area"), max_length=100)
     lat = models.CharField(_("Latitude"), max_length=999, blank=True)
     lon = models.CharField(_("Longitude"), max_length=999, blank=True)
-    likes = models.ForeignKey(Likes, on_delete=models.CASCADE, blank=True)
-    views = models.PositiveIntegerField(_("Number of Views"), blank=True)
+    # likes = models.ForeignKey(Likes, on_delete=models.CASCADE, blank=True)
+    views = models.PositiveIntegerField(_("Number of Views"), blank=True, default=0)
     is_paid = models.BooleanField(_("Paid"), default=False)
     is_active = models.BooleanField(_("Active"), default=True)
     property_cat = models.ForeignKey(PropertyCategory, on_delete=models.DO_NOTHING)
     property_type = models.CharField(_("Property Type"), choices=PROPERTY_TYPE, default=RENT, max_length=10)
     property_status = models.CharField(_("Available/Sold"), choices=STATUS, default=AVAILABLE, max_length=10)
-    amenities = models.ForeignKey(Amenities, on_delete=models.DO_NOTHING, blank=True)
+    # amenities = models.ForeignKey(Amenities, on_delete=models.DO_NOTHING, blank=True)
     year_built = models.DateField(_("Year Built"), blank=True)
-    compound_area = models.PositiveIntegerField(_("Property Compound Area (metres)"), blank=True)
+    compound_area = models.PositiveIntegerField(_("Property Compound Area (metres)"), blank=True, default=0)
     no_garages = models.PositiveIntegerField(_("Number of Garages"), default=0)
     no_rooms = models.PositiveIntegerField(_("Number of Rooms"), default=2)
     no_baths = models.PositiveIntegerField(_("Number of Baths"), default=1)

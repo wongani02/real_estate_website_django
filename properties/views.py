@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
+from django.http import HttpResponse
 
 from properties.models import Property, Districts, PropertyCategory
 from properties.forms import *
@@ -35,16 +36,22 @@ class PropertyListingList(generic.ListView):
 class PropertyListingGrid(generic.ListView):
     def get(self, request):
         return render(request, 'properties/page-listing-v4.html')
+    
+
+class PropertyPricing(generic.ListView):
+    def get(self, request):
+        return render(request, 'properties/page-pricing.html')
 
 
 class PropertyListingMap(generic.ListView):
     def get(self, request):
+
         return render(request, 'properties/page-listing-v7.html')
 
 
-class PropertyDetail(generic.DetailView):
+class PropertyDetail(generic.ListView):
     def get(self, request):
-        return render(request, 'properties/page-listing-all.html')
+        return render(request, 'properties/page-listing-single-v7.html')
 
 
 class BlogList(generic.ListView):
@@ -86,42 +93,32 @@ class CreatePropertyListing(generic.CreateView):
         cat_form = PropertyCategoryCreationForm()
         dis_form = DistrictCreationForm()
         images_form = ImagesCreationForm()
+        amenity_form = AmenitiesCreationForm()
 
         return render(request, self.template_name, {
             'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 'img_form': images_form,
+            'am_form': amenity_form,
         })
     
     def post(self, request, **kwargs):
         property_form = PropertyCreationForm(request.POST)
         print(request.POST)
+        print(property_form)
 
         if property_form.is_valid():
             property_form.save(commit=True)
             print('\nsaved\n')
-            # property_form.custom_save(_id)
-
-        
-            # Get amenity data from hightlights form
-            # amenity_form = AmenitiesCreationForm(request.POST)
-
-            # # Process amenities form before property creation form
-            # # Inorder to obtain the amenity id required for properties
-            # if amenity_form.is_valid():
-            #     print("Valid")
-            #     _id = amenity_form.custom_save()
-
-            
 
             return redirect('properties:home')
         
         message = messages.add_message(request, messages.ERROR, 'Failed to create Listing.')
-        # print("form: ", form)
-        # print('request: ', request.POST)
-        # print("form: ", form.is_valid)
         print("error")
         
-
-        return render(request, self.template_name, {'message': message})
+        return render(request, self.template_name, {
+            'message': message, 'form': property_form, 'cat_form': PropertyCategoryCreationForm(),
+            'dis_form': DistrictCreationForm(), 'img_form': ImagesCreationForm(),
+            'am_form': AmenitiesCreationForm()
+        })
     
 
 def contextQ(request):
@@ -133,14 +130,23 @@ def contextQ(request):
 
 
 def create_property_category(request):
-    print("Category Name: ", request.POST.get('name'))
     db = PropertyCategory.objects.create(name=request.POST.get('name'))
     db.refresh_from_db()
 
 
 def create_district(request):
-    print("District Name: ", request.POST.get('district_name'))
-    db = Districts.objects.create(district_name=request.POST.get('district_name'))
+    print('request: ', request.POST.get('district_name'))
+    db = Districts.objects.create(
+        district_name=request.POST.get('district_name'),
+        is_active=True
+    )
     db.refresh_from_db()
 
-    
+def create_amenities(request):
+    db = Amenities.objects.create(
+        name=request.POST.get('amenity_name'),
+        desc=request.POST.get('amenity_desc'),
+    )
+    db.refresh_from_db()
+
+    return HttpResponse({'success': 200})
