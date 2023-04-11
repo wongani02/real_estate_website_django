@@ -103,7 +103,6 @@ class CreatePropertyListing(generic.CreateView):
     def post(self, request, **kwargs):
         property_form = PropertyCreationForm(request.POST)
         print(request.POST)
-        print(property_form)
 
         if property_form.is_valid():
             property_form.save(commit=True)
@@ -112,7 +111,7 @@ class CreatePropertyListing(generic.CreateView):
             return redirect('properties:home')
         
         message = messages.add_message(request, messages.ERROR, 'Failed to create Listing.')
-        print("error")
+        print("error: ", property_form.errors)
         
         return render(request, self.template_name, {
             'message': message, 'form': property_form, 'cat_form': PropertyCategoryCreationForm(),

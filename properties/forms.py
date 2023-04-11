@@ -5,12 +5,16 @@ from properties.models import *
 
 
 class PropertyCreationForm(forms.ModelForm):
+    amenities = forms.ModelMultipleChoiceField(
+        queryset=Amenities.objects.all(), 
+        widget=forms.CheckboxSelectMultiple(),
+    )
     class Meta:
         model = Property
         fields = ['name',
                   'property_type', 'status', 'property_cat', 'no_garages','no_rooms', 'no_baths',
             'year_built', 'location_area', 'price', 'district', 
-            # 'amenities', 
+            'amenities', 
         ]
         widgets = {
             'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
@@ -29,7 +33,6 @@ class PropertyCreationForm(forms.ModelForm):
                 'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
                 'title': 'Village'
             }),
-            # 'amenities': forms.CheckboxSelectMultiple(choices=Amenities.objects.all(), attrs={})
         }
 
 

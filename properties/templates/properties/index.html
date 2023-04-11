@@ -19,6 +19,12 @@
 <link href="{% static 'images/favicon.ico' %}" sizes="128x128" rel="shortcut icon" type="image/x-icon" />
 <link href="{% static 'images/favicon.ico' %}" sizes="128x128" rel="shortcut icon" />
 
+
+{% block type-scripts %}
+  
+{% endblock type-scripts %}
+  
+
 <!-- Sweetify CDN -->
 <link type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.28/dist/sweetalert2.min.css" />
 
@@ -310,10 +316,13 @@
 
 <!-- Google maps scripts -->
 {% block maps %}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=IzaSyCOkzh1RrJB7NJBYDBOkzQ_979sFgSpxGE&callback=initMap"></script>
 {% endblock maps %}
   
-<script src="{% static 'js/googlemaps1.js' %}"></script>
+{% block map-scripts %}
+{% endblock map-scripts %}
+
+<script src="{% static 'js/googlemaps.js' %}"></script>
 <!-- Custom script for all pages --> 
 <script src="{% static 'js/script.js' %}"></script>
 </body>
