@@ -2,11 +2,6 @@
 {% load static %}
 
 
-{% block type-scripts %}
-<script src="{% static 'index.ts' %}"></script>    
-{% endblock type-scripts %}
-    
-
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -43,7 +38,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group mb30">
                                                 <input name="name" id="property_name" class="form-control form_control" type="text"
-                                                       placeholder="Property Title *">
+                                                       placeholder="Property Title *" onclick="appendName()">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -258,13 +253,13 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="form_name" class="form-control form_control"
-                                                       type="text" placeholder="Latidude">
+                                                <input name="form_name" readonly id="latitude" class="form-control form_control"
+                                                       type="text" placeholder="Latitude">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input name="form_name" class="form-control form_control"
+                                                <input name="form_name" id="longitude" readonly class="form-control form_control"
                                                        type="text" placeholder="Longitude">
                                             </div>
                                         </div>
@@ -804,37 +799,74 @@
 
 <!-- Wrapper End -->
 
-{% block map-scripts %}
 <script>
+    // Create auto complete variable
+    let autocomplete;
 
-// Initialize and add the map
-let map;
+    // Function handles auto completion event
+    function onPlaceChanged() {
+        var place = autocomplete.getPlace();
 
-async function initMap() {
-  // The location of Uluru
-  const position = { lat: -25.344, lng: 131.031 };
-  // Request needed libraries.
-  //@ts-ignore
-  const { Map } = await google.maps.importLibrary("maps");
-  const { AdvancedMarkerView } = await google.maps.importLibrary("marker");
+        if(!place.geometry) {
+            document.getElementById('location_area').placeholder = 'Location Name';
+        } else {
+            codeAddress();
+            console.log("geo")
+        }
+    }
 
-  // The map, centered at Uluru
-  map = new Map(document.getElementById("map-canvas"), {
-    zoom: 4,
-    center: position,
-    mapId: "DEMO_MAP_ID",
-  });
+    var geocoder;
+    var map;
+    function initializeGeocoder() {
+        autocomplete = new google.maps.places.Autocomplete(document.getElementById('location_area'), {
+            types: ['establishment'],
+            fields: ['geometry', 'name', 'address_components']
+        });
 
-  // The marker, positioned at Uluru
-  const marker = new AdvancedMarkerView({
-    map: map,
-    position: position,
-    title: "Uluru",
-  });
+        autocomplete.addListener('place_changed', onPlaceChanged);
+
+        geocoder = new google.maps.Geocoder();
+
+        var latlng = new google.maps.LatLng(-15.801934, 35.026139);
+        var mapOptions = {
+            zoom: 15,
+            center: latlng
+        }
+        map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    }
+
+    function codeAddress() {
+    var address = document.getElementById('location_area').value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == 'OK') {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+            draggable: true,
+            title: "Drag Marker"
+        });
+
+
+        console.log("geometry: ", results[0].geometry.location.lat())
+        console.log("geometry: ", results[0].geometry.location.lng())
+
+        AddGeometryValues(results[0].geometry.location.lat(), results[0].geometry.location.lng())
+        } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
 }
 
-initMap();
+function AddGeometryValues(latitude, longitude) {
+    lat = document.getElementById('latitude');
+    lng = document.getElementById('longitude');
+
+    // Add values to fields
+    lat.value = latitude
+    lng.value = longitude
+}
+
 </script>
-{% endblock map-scripts %}
 
 {% endblock content %}

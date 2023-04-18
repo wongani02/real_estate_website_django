@@ -22,4 +22,6 @@ urlpatterns = [
     path('blog/grid/', views.BlogGrid.as_view(), name='blog-grid'),
     path('agency/list/', views.AgencyList.as_view(), name='agency-list'),
     path('agent/list/', views.AgentList.as_view(), name='agent-list'),
+    path('search/simple/', views.SimpleSearch.as_view(), name='simple-search'),
+    path('search/advanced/', views.AdvancedSearch.as_view(), name='advanced-search'),
 ]

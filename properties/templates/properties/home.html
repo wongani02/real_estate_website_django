@@ -11,7 +11,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h6 class="modal-title">ADVANDEC SEARCH</h6>
+          <h6 class="modal-title">ADVANCED SEARCH</h6>
           <a class="closer" data-dismiss="modal" aria-label="Close" href="#"><span aria-hidden="true"><img src="{% static 'images/icons/close.svg' %}"  alt="close.svg"></span></a>
         </div>
         <div class="modal-body">
@@ -29,13 +29,38 @@
                         <option value="Three">3</option>
                         <option value="Four">4</option>
                         <option value="Five">5</option>
+                        <option value="Five">6</option>
+                        <option value="Five">7</option>
+                        <option value="Five">8</option>
+                        <option value="Five">9</option>
+                        <option value="Five">10</option>
                       </select>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="adv_src_pmodal">
-                    <h6 class="title">Beds</h6>
+                    <h6 class="title">Rooms</h6>
+                    <div class="ui_kit_select_box">
+                      <select class="selectpicker custom-select-lg mb20">
+                        <option value="">Select Rooms</option>
+                        <option value="One">1</option>
+                        <option value="Two">2</option>
+                        <option value="Three">3</option>
+                        <option value="Four">4</option>
+                        <option value="Five">5</option>
+                        <option value="Five">6</option>
+                        <option value="Five">7</option>
+                        <option value="Five">8</option>
+                        <option value="Five">9</option>
+                        <option value="Five">10</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="adv_src_pmodal">
+                    <h6 class="title">Garages</h6>
                     <div class="ui_kit_select_box">
                       <select class="selectpicker custom-select-lg mb20">
                         <option value="">Select Beds</option>
@@ -44,18 +69,12 @@
                         <option value="Three">3</option>
                         <option value="Four">4</option>
                         <option value="Five">5</option>
+                        <option value="Five">6</option>
+                        <option value="Five">7</option>
+                        <option value="Five">8</option>
+                        <option value="Five">9</option>
+                        <option value="Five">10</option>
                       </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb30-md">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">Area (sq ft)</h6>
-                    <div class="form-group">
-                      <input type="text" class="form-control area_input float-left" placeholder="Min. Area">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control area_input float-right" placeholder="Max. Area">
                     </div>
                   </div>
                 </div>
@@ -63,13 +82,44 @@
                   <div class="adv_src_pmodal">
                     <h6 class="title">STATUS</h6>
                     <div class="ui_kit_select_box">
-                      <select class="selectpicker custom-select-lg mb20">
+                      {{search.status}}
+                      <!-- <select class="selectpicker custom-select-lg mb20">
                         <option value="">Select Status</option>
                         <option value="Active">Active</option>
                         <option value="Deactive">Deactive</option>
                         <option value="Pending">Pending</option>
                         <option value="Others">Others</option>
-                      </select>
+                      </select> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="adv_src_pmodal">
+                    <h6 class="title">TYPE</h6>
+                    <div class="ui_kit_select_box">
+                      {{search.property_type}}
+                      <!-- <select class="selectpicker custom-select-lg mb20">
+                        <option value="">Select Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Deactive">Deactive</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Others">Others</option>
+                      </select> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="adv_src_pmodal">
+                    <h6 class="title">LOCATION</h6>
+                    <div class="ui_kit_select_box">
+                      {{search.district}}
+                      <!-- <select class="selectpicker custom-select-lg mb20">
+                        <option value="">Select Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Deactive">Deactive</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Others">Others</option>
+                      </select> -->
                     </div>
                   </div>
                 </div>
@@ -81,10 +131,15 @@
                     <span id="slider-range-value2"></span>
                   </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 mb30-md">
                   <div class="adv_src_pmodal">
-                    <h6 class="title">PROPERTY ID</h6>
-                    <input type="text" class="form-control property_id_input" placeholder="HZZS 03492">
+                    <h6 class="title">Area (sq ft)</h6>
+                    <div class="form-group">
+                      <input type="text" class="form-control area_input float-left" placeholder="Min. Area">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control area_input float-right" placeholder="Max. Area">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -212,18 +267,20 @@
                   <div class="home_adv_srch_opt">
                     <div class="wrapper">
                       <div class="home_adv_srch_form">
-                        <form class="bgc-white p20">
+                        <form class="bgc-white p20" method="post" action="{% url 'properties:simple-search' %}">
+                          {% csrf_token %}
                           <div class="form-row align-items-center">
                             <div class="col-auto home_form_input mb15-md">
                               <div class="form-group style2 mb-2 pl10 pl0-lg">
                                 <label>TYPE</label>
                                 <div class="select-wrap style2-dropdown">
-                                  <select class="selectpicker show-tick" multiple>
+                                  {{search.property_type}}
+                                  <!-- <select class="selectpicker show-tick" multiple>
                                     <option value="Apartment">Apartment</option>
                                     <option value="Condo">Condo</option>
                                     <option value="Studio">Studio</option>
                                     <option value="Villa">Villa</option>
-                                  </select>
+                                  </select> -->
                                 </div>
                               </div>
                             </div>
@@ -231,13 +288,14 @@
                               <div class="form-group style2 mb-2 pl10 pl0-lg">
                                 <label>LOCATION</label>
                                 <div class="select-wrap style2-dropdown">
-                                  <select class="selectpicker">
+                                  {{search.district}}
+                                  <!-- <select class="selectpicker">
                                     <option value="">All Cities</option>
                                     <option value="NewYork">New York</option>
                                     <option value="London">London</option>
                                     <option value="Paris">Paris</option>
                                     <option value="Istanbul">Istanbul</option>
-                                  </select>
+                                  </select> -->
                                 </div>
                               </div>
                             </div>
@@ -274,18 +332,20 @@
                   <div class="home_adv_srch_opt">
                     <div class="wrapper">
                       <div class="home_adv_srch_form">
-                        <form class="bgc-white p20">
+                        <form class="bgc-white p20" method="post" action="{% url 'properties:simple-search' %}">
+                          {% csrf_token %}
                           <div class="form-row align-items-center">
                             <div class="col-auto home_form_input mb15-md">
                               <div class="form-group style2 mb-2 pl10 pl0-lg">
                                 <label>TYPE</label>
                                 <div class="select-wrap style2-dropdown">
-                                  <select class="selectpicker show-tick" multiple>
+                                  {{search.property_type}}
+                                  <!-- <select class="selectpicker show-tick" multiple>
                                     <option value="Apartment">Apartment</option>
                                     <option value="Condo">Condo</option>
                                     <option value="Studio">Studio</option>
                                     <option value="Villa">Villa</option>
-                                  </select>
+                                  </select> -->
                                 </div>
                               </div>
                             </div>
@@ -293,13 +353,14 @@
                               <div class="form-group style2 mb-2 pl10 pl0-lg">
                                 <label>LOCATION</label>
                                 <div class="select-wrap style2-dropdown">
-                                  <select class="selectpicker">
+                                  {{search.district}}
+                                  <!-- <select class="selectpicker">
                                     <option value="">All Cities</option>
                                     <option value="NewYork">New York</option>
                                     <option value="London">London</option>
                                     <option value="Paris">Paris</option>
                                     <option value="Istanbul">Istanbul</option>
-                                  </select>
+                                  </select> -->
                                 </div>
                               </div>
                             </div>
@@ -336,18 +397,20 @@
                   <div class="home_adv_srch_opt">
                     <div class="wrapper">
                       <div class="home_adv_srch_form">
-                        <form class="bgc-white p20">
+                        <form class="bgc-white p20" method="post" action="{% url 'properties:simple-search' %}">
+                          {% csrf_token %}
                           <div class="form-row align-items-center">
                             <div class="col-auto home_form_input mb15-md">
                               <div class="form-group style2 mb-2 pl10 pl0-lg">
                                 <label>TYPE</label>
                                 <div class="select-wrap style2-dropdown">
-                                  <select class="selectpicker show-tick" multiple>
+                                  {{search.property_type}}
+                                  <!-- <select class="selectpicker show-tick" multiple>
                                     <option value="Apartment">Apartment</option>
                                     <option value="Condo">Condo</option>
                                     <option value="Studio">Studio</option>
                                     <option value="Villa">Villa</option>
-                                  </select>
+                                  </select> -->
                                 </div>
                               </div>
                             </div>
@@ -355,13 +418,14 @@
                               <div class="form-group style2 mb-2 pl10 pl0-lg">
                                 <label>LOCATION</label>
                                 <div class="select-wrap style2-dropdown">
-                                  <select class="selectpicker">
+                                  {{search.district}}
+                                  <!-- <select class="selectpicker">
                                     <option value="">All Cities</option>
                                     <option value="NewYork">New York</option>
                                     <option value="London">London</option>
                                     <option value="Paris">Paris</option>
                                     <option value="Istanbul">Istanbul</option>
-                                  </select>
+                                  </select> -->
                                 </div>
                               </div>
                             </div>

@@ -24,6 +24,11 @@ urlpatterns = [
 
     # Properties url
     path('', include('properties.urls')),
+
+    # bnb url
+    path('bnb/', include('bnb.urls')),
+
+    # accounts url
     path('accounts/', include('users.urls', namespace='accounts')),
 ]
 

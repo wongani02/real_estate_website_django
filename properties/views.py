@@ -2,17 +2,51 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponse
+from django.db.models import Q 
 
 from properties.models import Property, Districts, PropertyCategory
 from properties.forms import *
+from properties.filters import AdvancedSearchFilter
 
+
+
+class SimpleSearch(generic.ListView):
+    template_name = 'properties/page-listing-v2.html'
+    paginate_by = 12
+    context_object_name = 'properties'
+
+    def get_context_data(self, **kwargs):
+        context = super(SimpleSearch, self).get_context_data(**kwargs)
+        qs = Property.objects.filter(
+            Q(property_type__icontains=kwargs.get('property_type')) | Q(district__iexact=kwargs.get('district'))
+        ).filter(active=True).order_by('date').distinct()
+        
+        context = {
+            'results': qs,
+        }
+
+        return context
+
+class AdvancedSearch(generic.ListView):
+    template_name = 'properties/page-listing-v2.html'
+
+    def post(self, request, *args, **kwargs):
+        filter = AdvancedSearchFilter(request.POST)
+
+        return render(request, self.template_name, {'results': filter})
 
 class PropertiesHome(generic.ListView):
+    
     def get(self, request):
         property = Property.objects.filter(is_active=True).filter(is_featured=True)
         recents = Property.objects.order_by('-created_at')[:5]
+
+        # forms 
+        search_form = SearchForm()
+        # print(search_form)
+
         context = {
-            'property': property,
+            'property': property, 'search': search_form,
             'recents': recents,
         }
         return render(request, 'properties/home.html', context)

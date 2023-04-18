@@ -4,6 +4,35 @@ from django.utils.translation import gettext_lazy as _
 from properties.models import * 
 
 
+
+class SearchForm(forms.ModelForm):
+    amenities = forms.ModelMultipleChoiceField(
+        queryset=Amenities.objects.all(), 
+        widget=forms.CheckboxSelectMultiple(attrs={
+            'class': 'custom-control custom-checkbox'
+        }),
+    )
+
+    class Meta:
+        model = Property
+        fields = [
+            'no_rooms', 'no_baths', 'no_garages', 'status',
+            'property_type', 'district', 'price', 'compound_area',
+            'amenities',
+        ] 
+        widgets = {
+            'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
+                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
+            }),
+            'status': forms.Select(choices=Property.STATUS, attrs={
+                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
+            }),
+            'district': forms.Select(choices=Districts.objects.all(), attrs={
+                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
+                'title': 'Village'
+            }),
+        }
+
 class PropertyCreationForm(forms.ModelForm):
     amenities = forms.ModelMultipleChoiceField(
         queryset=Amenities.objects.all(), 
@@ -14,7 +43,7 @@ class PropertyCreationForm(forms.ModelForm):
         fields = ['name',
                   'property_type', 'status', 'property_cat', 'no_garages','no_rooms', 'no_baths',
             'year_built', 'location_area', 'price', 'district', 
-            'amenities', 
+            'amenities', 'lat', 'lon',
         ]
         widgets = {
             'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
