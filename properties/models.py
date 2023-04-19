@@ -107,6 +107,7 @@ class Property(models.Model):
     id = models.UUIDField(_("Property ID"), primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(_("Name of Property"), max_length=100)
     price = models.PositiveIntegerField(_("Property Price"))
+    prev_price = models.PositiveIntegerField(_("Previous Property Price"), null=True)
     location_area = models.CharField(_("Property Location Area"), max_length=100)
     lat = models.CharField(_("Latitude"), max_length=999, blank=True)
     lon = models.CharField(_("Longitude"), max_length=999, blank=True)
@@ -198,6 +199,7 @@ class Videos(models.Model):
     property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_videos')
     is_feature = models.BooleanField(_("Main image to display"), default=False, null=True)
     video = models.FileField(_("Property Video"), upload_to=video_upload_path, null=True)
+    link = models.URLField(_("Video URL Link"), null=True)
     date = models.DateTimeField(_("Date Uploaded"), auto_now=True, null=True)
 
     def __str__(self):

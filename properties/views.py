@@ -152,6 +152,43 @@ class CreatePropertyListing(generic.CreateView):
             'dis_form': DistrictCreationForm(), 'img_form': ImagesCreationForm(),
             'am_form': AmenitiesCreationForm()
         })
+
+
+class EditPropertyListing(generic.UpdateView):
+    model = Property
+    fields = [
+            'no_rooms', 'no_baths', 'no_garages', 'status',
+            'property_type', 'district', 'price', 'compound_area',
+            'amenities',
+        ] 
+    success_url = '/'
+    template_name = 'properties/page-dashboard-edit-property.html'
+
+    def get(self, request, **kwargs):
+        model = Property.objects.get(id=kwargs.get('pk'))
+        form = PropertyEditForm(instance=model)
+
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, **kwargs):
+        model = Property.objects.get(id=kwargs.get('pk'))
+        form = PropertyEditForm(request.POST, instance=model)
+
+        if form.is_valid():
+            form.save(commit=True)
+
+            return redirect(self.success_url)
+
+
+class DeletePropertyListing(generic.DeleteView):
+    model = Property
+    success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+
+        return redirect(self.get_success_url())
     
 
 def contextQ(request):

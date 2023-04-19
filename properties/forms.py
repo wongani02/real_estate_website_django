@@ -66,6 +66,39 @@ class PropertyCreationForm(forms.ModelForm):
 
 
 
+class PropertyEditForm(forms.ModelForm):
+    amenities = forms.ModelMultipleChoiceField(
+        queryset=Amenities.objects.all(), 
+        widget=forms.CheckboxSelectMultiple(),
+    )
+    class Meta:
+        model = Property
+        fields = ['name',
+                  'property_type', 'status', 'property_cat', 'no_garages','no_rooms', 'no_baths',
+            'year_built', 'location_area', 'price', 'district', 
+            'amenities', 'lat', 'lon',
+        ]
+        widgets = {
+            'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
+            }),
+            'status': forms.Select(choices=Property.STATUS, attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
+            }),
+            'property_cat': forms.Select(choices=PropertyCategory.objects.all(), attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Category',
+            }),
+            'year_built': forms.DateInput(attrs={
+                'type': 'date', 'class': 'form-control form_control'
+            }),
+            'district': forms.Select(choices=Districts.objects.all(), attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
+                'title': 'Village'
+            }),
+        }
+
+
+
 class DistrictCreationForm(forms.ModelForm):
     class Meta:
         model = Districts
@@ -118,6 +151,20 @@ class ImagesCreationForm(forms.ModelForm):
         fields = ['image',]
         widgets = {
             'image': forms.ClearableFileInput(attrs={
-                'multiple': True, 'class': 'input-img',
+                'multiple': True, 'class': 'img-fluid',
             }),
+        }
+        help_texts = {
+            'image': 'You can select and add multiple images to this field.'
+        }
+
+
+class VideosCreationForm(forms.ModelForm):
+    class Meta:
+        model = Videos
+        fields = ['video', 'link', 'is_feature']
+        widgets = {
+            'video': forms.ClearableFileInput(attrs={
+                'multiple': True, 'class': 'form-control form_control'
+            })
         }
