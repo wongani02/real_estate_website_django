@@ -1,0 +1,263 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}create lodge{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+	<!-- Our Dashbord -->
+	<script src="https://unpkg.com/htmx.org@1.9.0"></script>
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">Add New Property</h2>
+								<p class="">Ready to jump back in?</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+					<div class="col-lg-12">
+		          <div class="new_property_form">
+					<h4 class="title mb30">Contact Information</h4>
+		            <form class="contact_form" id="lodge_form" name="lodge_form" action="{% url 'lodges:lodge-info-handler' %}" method="post">
+						{% csrf_token %}
+		              <div class="row">
+		                <div class="col-md-6">
+		                  <div class="form-group mb30">
+		                    
+							{{lodge_form.property_name}}
+		                  </div>
+		                </div>
+						 <div class="col-md-6">
+		                  <div class="form-group mb30">
+		                    
+							{{lodge_form.contact_email}}
+		                  </div>
+		                </div>
+						<div class="col-md-6">
+		                  <div class="form-group mb30">
+		                    
+							{{lodge_form.contact_number}}
+		                  </div>
+		                </div>
+		                <div class="col-md-6">
+		                  <div class="form-group mb30">
+		                    
+							{{lodge_form.location}}
+		                  </div>
+		                </div>
+						<div class="col-md-6">
+		                  <div class="form-group mb30">
+		                    
+							{{lodge_form.city}}
+		                  </div>
+		                </div>
+						<div class="col-md-6">
+		                  <div class="form-group mb30">
+		                    
+							{{lodge_form.address}}
+		                  </div>
+		                </div>
+		                <div class="col-sm-12">
+		                  <div class="form-group">
+		                    {{lodge_form.description}}
+		                  </div>
+		                </div>
+						<div class="col-md-6">
+		                  <div class="form-group mb30">
+		                    
+							{{lodge_form.lat}}
+		                  </div>
+		                </div>
+						<div class="col-md-6">
+		                  <div class="form-group mb30">
+		                    
+							{{lodge_form.long}}
+		                  </div>
+		                </div>
+		              </div>
+		            </form>
+		          </div>
+				</div>
+				<div class="col-lg-12">
+		          <div class="new_property_form">
+					<h4 class="title mb30">Room Types Availble at your Lodge</h4>
+		            <form class="contact_form" id="room_form" action="{% url 'lodges:room-form-handler' %}" method="post">
+						{% csrf_token %}
+						{{room_form.management_form}}
+						{% for form in room_form %}
+		              <div class="row">
+		                <h2 class="col-md-12">Room Type {{forloop.counter}}</h2>
+		                <div class="col-md-4">
+							<div class="ui_kit_select_search add_new_property mb30">
+								{{form.room_type}}
+							</div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+		                    
+							{{form.adults}}
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+		                    
+							{{form.children}}
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+		                    
+							{{form.beds}}
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+		                    <input name="form_name" class="form-control form_control" type="text" placeholder="Price Prefix  MWK" disabled>
+		                  </div>
+		                </div>
+						<div class="col-md-4">
+		                  <div class="form-group mb30">
+		                    {{form.price}}
+		                  </div>
+		                </div>
+		              </div>
+					  {% endfor %}
+		            </form>
+		          </div>
+		          
+		          <div class="new_property_form">
+					<h4 class="title mb30">Images of your lodge, rooms and surrounding</h4>
+					<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+					<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+		            <style>
+						.dz{
+							border: dashed !important;
+							border-color: #acc !important;
+							border-radius: 10px !important;
+						}
+						.dz:hover{
+							background-color: aliceblue !important;
+						}
+					</style>
+
+					<form action="{% url 'lodges:file_upload' %}" method="post" id="y-dz" class="dropzone dz">
+						{% csrf_token %}
+						<div class="fallback">
+							<input name="file" type="file" multiple />
+						</div>
+					</form>
+					<script>
+						
+					</script>
+
+		          </div>
+				  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		          <div class="new_property_form">
+					<h4 class="mb30">Select Available amenities</h4>
+					<button class="btn btn-thm" type="button" onclick="{selectAll()}" >Select All</button>
+					<button class="btn btn-thm" type="button" onclick="{deSelectAll()}" >Remove All</button>
+					<form method="post" action="">
+					<div class="ui_kit_select_search form-group list_hightlights df mt20">
+						
+						<ul class="add_listing selectable-list row mx-2">
+							{% for item in amenities %}
+							<li>
+								<div class="custom-control custom-checkbox">
+									<input type="checkbox" value="{{item.id}}"  name="check" data-index="{{item.id}}" class="custom-control-input check" id="{{item.id}}" >
+									<label class="custom-control-label" for="{{item.id}}">{{item.name}}</label>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+						<script>
+							$('input[type=checkbox][name=check]').on('change', function(e){
+								e.preventDefault();
+								var amenityId = $(this).data('index');
+								$.ajax({
+									type: "POST",
+									url: "{% url 'lodges:amenties-handler' %}",
+									data: {
+										amenityID: amenityId,
+										csrfmiddlewaretoken: "{{csrf_token}}",
+										action: "post",
+									},
+									success: function (json) {
+										console.log('done: 200')
+									},
+									error: function (xhr, errmsg, err) {},
+								})
+							})
+							function selectAll(){
+								var element = document.getElementsByName('check');
+								let arrayID = []
+								for (var i=0; i<element.length; i++){
+									if (element[i].type == 'checkbox'){
+										element[i].checked = true;
+										let elementID = parseInt(element[i].value);
+										arrayID.push(elementID);
+
+									}
+								}
+								console.log(arrayID)
+								// let data = {'list': arrayID}
+								// $.ajax({
+								// 	type: "POST",
+								// 	url: "{% url 'lodges:amenties-handler' %}",
+								// 	data: {
+								// 		amenityID: data,
+								// 		csrfmiddlewaretoken: "{{csrf_token}}",
+								// 		action: "post",
+								// 	},
+									
+								// 	success: function (json) {
+								// 		console.log('done: 200')
+								// 	},
+								// 	error: function (xhr, errmsg, err) {},
+								// })
+							}
+							function deSelectAll(){
+								var element = document.getElementsByName('check');
+								for (var i=0; i<element.length; i++){
+									if (element[i].type == 'checkbox'){
+										element[i].checked = false;
+									}
+								}
+							}
+
+						</script>
+					</div>
+					</form>
+		          </div>
+
+				  <div class="text-right">
+				<button class="btn btn-thm listing_save_btn" onclick="{subbmitHandler()}">Submit</button>
+	            </div>
+				</div>
+				</div>
+					<div class="row mt50">
+						<div class="col-lg-12 text-center">
+							<p class="mb0">Copyright © 2021 Afrihuts.com All Right Reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script>
+        function subbmitHandler(){
+			alert('submitting')
+			document.getElementById('lodge_form').submit();
+			document.getElementById('room_form').submit();
+		}
+    </script>
+	
+{% endblock %}

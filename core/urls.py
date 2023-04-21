@@ -25,6 +25,7 @@ urlpatterns = [
     # Properties url
     path('', include('properties.urls')),
     path('accounts/', include('users.urls', namespace='accounts')),
+    path('lodges/', include('lodges.urls', namespace='lodges')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,8 +12,8 @@ class PropertiesHome(generic.ListView):
         property = Property.objects.filter(is_active=True).filter(is_featured=True)
         recents = Property.objects.order_by('-created_at')[:5]
         context = {
-            'property': property,
-            'recents': recents,
+            # 'property': property,
+            # 'recents': recents,
         }
         return render(request, 'properties/home.html', context)
 

@@ -14,18 +14,18 @@ class PictureInline(admin.TabularInline):
 
 class RoomInline(admin.TabularInline):
     model = Room
-    extra = 0
+    extra = 2
 
 
 @admin.register(Lodge)
 class LodgeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'address', 'city', 'state', 'country')
+    list_display = ('name', 'address', 'city', 'state', 'country',)
     inlines = [RoomInline]
 
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ('lodge', 'number', 'type', 'capacity', 'price_per_night')
+    list_display = ('lodge', 'type', 'adults', 'price_per_night',)
     inlines = [RoomAmenityInline, PictureInline]
 
 
@@ -36,4 +36,4 @@ class AmenityAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('user', 'room', 'check_in', 'check_out', 'num_guests', 'created_at')
+    list_display = ('user', 'room', 'check_in', 'check_out', 'num_guests', 'created_at',)

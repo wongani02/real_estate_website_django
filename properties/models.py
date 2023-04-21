@@ -92,10 +92,10 @@ class Likes(models.Model):
         null=True, 
         on_delete=models.CASCADE, 
         related_name='user_likes')
-    date = models.DateTimeField(_("Date Liked"), auto_now=True)
+    date = models.DateTimeField(_("Date Liked"), null=True, auto_now=True)
 
     def __str__(self):
-        return '{} - {} - {}'.format(self.user, self.property, self.date)
+        return '{} - {} - {}'.format(self.user, self.date)
 
 # Property table
 class Property(models.Model):
@@ -125,7 +125,7 @@ class Property(models.Model):
     location_area = models.CharField(_("Property Location Area"), max_length=100)
     lat = models.CharField(_("Latitude"), max_length=999, blank=True)
     lon = models.CharField(_("Longitude"), max_length=999, blank=True)
-    likes = models.ForeignKey(Likes, on_delete=models.CASCADE)
+    likes = models.ForeignKey(Likes, on_delete=models.CASCADE, null=True)
     views = models.PositiveIntegerField(_("Number of Views"), blank=True, default=0)
     is_paid = models.BooleanField(_("Paid"), default=False)
     is_active = models.BooleanField(_("Active"), default=True)

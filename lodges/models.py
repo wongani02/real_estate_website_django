@@ -1,15 +1,18 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
+from ckeditor.fields import RichTextField
 
 
-#still working on them 
 class Lodge(models.Model):
-    name = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-    country = models.CharField(max_length=255)
-    description = models.TextField()
+    name = models.CharField(max_length=255, null=True)
+    address = models.CharField(max_length=255, null=True)
+    city = models.CharField(max_length=255, null=True)
+    state = models.CharField(max_length=255, null=True)
+    country = models.CharField(max_length=255, default='Malawi')
+    description = RichTextField(null=True)
+    lat = models.CharField(max_length=255, null=True)
+    long = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -21,10 +24,17 @@ class Lodge(models.Model):
 
 
 class Room(models.Model):
+    ROOMTYPE = (
+        ('Executive', 'Executive'),
+        ('Duluxe', 'Duluxe'),
+        ('Standard', 'Standard'),
+        ('Economy', 'Economy'),
+    )
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, related_name='rooms')
-    number = models.IntegerField()
-    type = models.CharField(max_length=255)
-    capacity = models.IntegerField()
+    type = models.CharField(max_length=255, choices=ROOMTYPE)
+    adults = models.PositiveSmallIntegerField(default=2, null=True)
+    children = models.PositiveSmallIntegerField(default=1, null=True)
+    beds = models.PositiveSmallIntegerField(default=1, null=True)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
@@ -32,7 +42,7 @@ class Room(models.Model):
         verbose_name_plural = 'Rooms'
     
     def __str__(self):
-        return f"{self.lodge.name} - Room {self.number}"
+        return f"{self.lodge.name} - Room {self.type}"
 
 
 class Amenity(models.Model):
@@ -55,23 +65,23 @@ class RoomAmenity(models.Model):
         verbose_name_plural = 'Room Amenities'
 
     def __str__(self):
-        return f"{self.amenity.name} ({self.room.lodge.name} - Room {self.room.number})"
+        return f"{self.amenity.name} ({self.room.lodge.name} - Room {self.room.type})"
 
 
 class Picture(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='pictures')
-    url = models.URLField()
+    img = models.ImageField(null=True, upload_to='lodge_images/')
 
     class Meta:
         verbose_name = 'Picture'
         verbose_name_plural = 'Pictures'
 
     def __str__(self):
-        return f"{self.room.lodge.name} - Room {self.room.number} Picture"
+        return f"{self.room.lodge.name} - Room {self.room.type} Picture"
 
 
 class Booking(models.Model):
-    user = models.ForeignKey("auth.User", on_delete=models.CASCADE, related_name='bookings')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookings')
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='bookings')
     check_in = models.DateTimeField()
     check_out = models.DateTimeField()
@@ -83,4 +93,4 @@ class Booking(models.Model):
         verbose_name_plural = 'Bookings'
 
     def __str__(self):
-        return f"{self.user.username} - {self.room.lodge.name} - Room {self.room.number}"
+        return f"{self.user.username} - {self.room.lodge.name} - Room {self.room.type}"
