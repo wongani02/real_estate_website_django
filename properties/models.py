@@ -81,21 +81,6 @@ class Districts(models.Model):
         return reverse('', args=[self.slug])
 
 
-# Likes table
-class Likes(models.Model):
-    class Meta:
-        verbose_name = 'Likes'
-        verbose_name_plural = 'Likes'
-
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
-        null=True, 
-        on_delete=models.CASCADE, 
-        related_name='user_likes')
-    date = models.DateTimeField(_("Date Liked"), null=True, auto_now=True)
-
-    def __str__(self):
-        return '{} - {} - {}'.format(self.user, self.date)
 
 # Property table
 class Property(models.Model):
@@ -122,10 +107,10 @@ class Property(models.Model):
     id = models.UUIDField(_("Property ID"), primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(_("Name of Property"), max_length=100)
     price = models.PositiveIntegerField(_("Property Price"))
+    prev_price = models.PositiveIntegerField(_("Previous Property Price"), null=True)
     location_area = models.CharField(_("Property Location Area"), max_length=100)
     lat = models.CharField(_("Latitude"), max_length=999, blank=True)
     lon = models.CharField(_("Longitude"), max_length=999, blank=True)
-    likes = models.ForeignKey(Likes, on_delete=models.CASCADE, null=True)
     views = models.PositiveIntegerField(_("Number of Views"), blank=True, default=0)
     is_paid = models.BooleanField(_("Paid"), default=False)
     is_active = models.BooleanField(_("Active"), default=True)
@@ -169,6 +154,27 @@ class NearbyPlaces(models.Model):
 
 
 # Images table
+
+
+# Likes table
+class Likes(models.Model):
+    class Meta:
+        verbose_name = 'Likes'
+        verbose_name_plural = 'Likes'
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        null=True, 
+        on_delete=models.CASCADE, 
+        related_name='user_likes')
+    date = models.DateTimeField(_("Date Liked"), auto_now=True)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} - {} - {}'.format(self.user, self.property, self.date)
+
+
+
 class Images(models.Model):
     class Meta:
         verbose_name = 'Image'
@@ -193,6 +199,7 @@ class Videos(models.Model):
     property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_videos')
     is_feature = models.BooleanField(_("Main image to display"), default=False, null=True)
     video = models.FileField(_("Property Video"), upload_to=video_upload_path, null=True)
+    link = models.URLField(_("Video URL Link"), null=True)
     date = models.DateTimeField(_("Date Uploaded"), auto_now=True, null=True)
 
     def __str__(self):

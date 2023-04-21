@@ -15,6 +15,8 @@ urlpatterns = [
     path('properties/map/', views.PropertyListingMap.as_view(), name='property-map'),
     path('properties/pricing/', views.PropertyPricing.as_view(), name='property-pricing'),
     path('listing/create/', views.CreatePropertyListing.as_view(), name='create-listing'),
+    path('listing/edit/<uuid:pk>/', views.EditPropertyListing.as_view(), name='edit-listing'),
+    path('listing/delete/<uuid:pk>/', views.DeletePropertyListing.as_view(), name='delete-listing'),
     path('listing/category/create/', views.create_property_category, name='create-category'),
     path('listing/district/create/', views.create_district, name='create-district'),
     path('listing/amenity/create/', views.create_amenities, name='create-amenity'),
@@ -22,4 +24,6 @@ urlpatterns = [
     path('blog/grid/', views.BlogGrid.as_view(), name='blog-grid'),
     path('agency/list/', views.AgencyList.as_view(), name='agency-list'),
     path('agent/list/', views.AgentList.as_view(), name='agent-list'),
+    path('search/simple/', views.SimpleSearch.as_view(), name='simple-search'),
+    path('search/advanced/', views.AdvancedSearch.as_view(), name='advanced-search'),
 ]

@@ -20,7 +20,7 @@
                     {% include 'users/dashboard-nav.html' %}
                     <div class="col-lg-12 mb50">
                         <div class="breadcrumb_content">
-                            <h2 class="breadcrumb_title">Add New Property</h2>
+                            <h2 class="breadcrumb_title">Edit Existing Property</h2>
                             <p class="">Ready to jump back in?</p>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb30">
                                             <input name="name" id="property_name" class="form-control form_control"
-                                                type="text" placeholder="Property Title *">
+                                                type="text" placeholder="{{form.name}}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -62,7 +62,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <textarea name="property_desc" id="property_desc" class="form-control"
-                                                rows="6" placeholder="Property Description *"></textarea>
+                                                rows="6" placeholder="{{form.desc}}"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -128,13 +128,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group mb20">
                                             <input name="form_name" class="form-control form_control" type="text"
-                                                placeholder="Material">
+                                                placeholder="{{form.material}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb20">
                                             <input name="no_rooms" id="rooms" class="form-control form_control"
-                                                type="text" placeholder="Rooms">
+                                                type="text" placeholder="{{form.no_rooms}}">
                                         </div>
                                     </div>
                                     <!--                                        <div class="col-md-4">-->
@@ -146,13 +146,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group mb30">
                                             <input name="no_baths" id="no_baths" class="form-control form_control"
-                                                type="text" placeholder="Baths">
+                                                type="text" placeholder="{{form.no_baths}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb30">
                                             <input name="no_garages" id="garages" class="form-control form_control"
-                                                type="text" placeholder="Garages">
+                                                type="text" placeholder="{{form.no_garages}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -285,7 +285,7 @@
                                         <ul class="mb0">
                                             <li class="list-inline-item">
                                                 <div class="portfolio_item">
-                                                    <img class="img-fluid" src="{% static 'images/listing/a1.jpg' %}" alt="a1.jpg">
+                                                    <img class="img-fluid" src="images/listing/a1.jpg" alt="a1.jpg">
                                                     <div class="edu_stats_list" data-toggle="tooltip"
                                                         data-placement="top" title="Delete"
                                                         data-original-title="Delete">
@@ -295,7 +295,7 @@
                                             </li>
                                             <li class="list-inline-item">
                                                 <div class="portfolio_item">
-                                                    <img class="img-fluid" src="{% static 'images/listing/a2.jpg' %}" alt="a2.jpg">
+                                                    <img class="img-fluid" src="images/listing/a2.jpg" alt="a2.jpg">
                                                     <div class="edu_stats_list" data-toggle="tooltip"
                                                         data-placement="top" title="Delete"
                                                         data-original-title="Delete">
@@ -305,7 +305,7 @@
                                             </li>
                                             <li class="list-inline-item">
                                                 <div class="portfolio_item">
-                                                    <img class="img-fluid" id="img-fluid" src="{% static 'images/listing/a3.jpg' %}" alt="a3.jpg">
+                                                    <img class="img-fluid" src="images/listing/a3.jpg" alt="a3.jpg">
                                                     <div class="edu_stats_list" data-toggle="tooltip"
                                                         data-placement="top" title="Delete"
                                                         data-original-title="Delete">
@@ -317,7 +317,7 @@
                                         <div class="upload_file_input_add_remove">
                                             <form name="img_form" id="img_form">
                                                 <span class="btn_upload">
-                                                    {{img_form.image}}
+                                                    {{img_form}}
                                                     <!-- <input type="file" id="imag" title="" class="input-img"/> -->
                                                     <span>UPLOAD FILES</span>
                                                 </span>
@@ -328,7 +328,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-lg-12 mt50 mb15">
+                                    <div class="col-lg-12 mt50 mb15">
                                         <h5 class="mb20">Gallery Images (optional)</h5>
                                         <ul class="mb0">
                                             <li class="list-inline-item vat">
@@ -344,15 +344,11 @@
                                                 </div>
                                             </li>
                                         </ul>
-                                    </div> -->
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="form-group mb30">
-                                            {{videos_form.link}}
-                                            <!-- <input name="form_name" class="form-control form_control" type="text"
-                                                placeholder="Video link"> -->
-                                        </div>
-                                        <div class="form-group mb30">
-                                            {{videos_form.video}}
+                                            <input name="form_name" class="form-control form_control" type="text"
+                                                placeholder="Video link">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -646,7 +642,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: '{% url "properties:create-amenity" %}',
+                        url: '{% url 'properties:create-amenity' %}',
                         data: {
                             amenity_name: $('#amenity_name').val(),
                             amenity_desc: $('#amenity_desc').val(),
@@ -693,7 +689,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: '{% url "properties:create-category" %}',
+                        url: '{% url 'properties:create-category' %}',
                         data: {
                             name: $('#cat_name').val(),
                             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
@@ -741,7 +737,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: '{% url "properties:create-district" %}',
+                        url: '{% url 'properties:create-district' %}',
                         data: {
                             district_name: $('#district_name').val(),
                             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),

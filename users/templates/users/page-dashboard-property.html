@@ -109,28 +109,35 @@
 					                </div>
 					                <div class="details">
 					                  <div class="tc_content">
-					                    <h4 class="title">New Apartment Nice Wiew <small class="tag2">FOR SALE</small></h4>
-					                    <p>Quincy St, Brooklyn, NY, USA</p>
+					                    <h4 class="title">{{item.name}}<small class="tag2">{{item.property_type}}</small></h4>
+					                    <p>{{item.location_area}}</p>
 					                    <div class="fp_meta">
 					                    	<a href="#">
-					                    		<small><del class="body-color">$2,800/mo</del></small> <br>
-					                    		<span class="heading-color fw600">$7,500/mo</span>
+												
+												{% if item.prev_price %}	
+					                    		<small><del class="body-color">MWK {{item.prev_price}}/mo</del></small> <br>
+												{% endif %}
+												<span class="heading-color fw600">MWK {{item.price}}/mo</span>
 					                    	</a>
 					                    </div>
 					                  </div>
 					                </div>
 					              </div>
 								      </th>
-								      <td>30 December 2021</td>
-								      <td class="pending_color">Pending</td>
+								      <td>{{item.created_at}}</td>
+								      <td class="pending_color">{{item.property_status}}</td>
 								      <td>5.933</td>
 								    	<td class="editing_list">
 								    		<ul>
 								    			<li class="list-inline-item">
-										    		<a href="#" data-toggle="tooltip" data-placement="top" title="Edit"><span class="flaticon-edit"></span></a>
+										    		<a href="{% url 'properties:edit-listing' item.id %}" data-toggle="tooltip" data-placement="top" title="Edit"><span class="flaticon-edit"></span></a>
 								    			</li>
 								    			<li class="list-inline-item">
-										    		<a href="#" data-toggle="tooltip" data-placement="top" title="Delete"><span class="flaticon-trash"></span></a>
+										    		<form name="delete-form" id="delete-form">	
+														<a id="confirm-delete" data-toggle="tooltip" data-placement="top" title="Delete"><span class="flaticon-trash"></span></a>
+														<input id="hidden-id" hidden type="text" value="{{item.id}}">
+														<input id="hidden-name" hidden type="text" value="{{item.name}}">	
+													</form>
 								    			</li>
 								    		</ul>
 								    	</td>
@@ -249,4 +256,40 @@
 			</div>
 		</div>
 	</section>
+
+<script>
+	document.getElementById('confirm-delete').addEventListener('click', function (e) {
+		e.preventDefault();
+
+		var hidden_id = document.getElementById("hidden-id").value;
+		var hidden_name = document.getElementById("hidden-name").value;
+
+		Swal.fire({
+			title: 'Are you sure you want to delete property listing?',
+			showDenyButton: true,
+			showCancelButton: true,
+			confirmButtonText: 'Delete',
+			denyButtonText: `Don't Delete`,
+		}).then((result) => {
+			if (result.isConfirmed) {
+				$.ajax({
+					type: 'POST',
+					url: 'listing/delete/' + $("hidden-id").val(),
+					data: {
+						csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+					},
+
+					success: function () {Swal.fire('Deleted!', '', 'success')},
+
+					error: function () {Swal.fire('An Error Occurred!', '', 'info')}
+				});
+				Swal.fire('Listing: '+hidden_name+' Deleted!', '', 'success')
+			} else if (result.isDenied) {
+				Swal.fire('Changes are not saved', '', 'info')
+			}
+		})
+
+	});
+</script>
+
 {% endblock %}

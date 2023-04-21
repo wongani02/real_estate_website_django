@@ -39,9 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     #ck editor
     'ckeditor',
     'django_htmx',
+
+    # django filters
+    'django_filters',
 
     # Properties app
     'properties.apps.PropertiesConfig',
