@@ -119,39 +119,67 @@ class AgentDetails(generic.DetailView):
 
 class CreatePropertyListing(generic.CreateView):
     model = Property
-    fields = '__all__'
     template_name = 'properties/page-dashboard-new-property.html'
 
     def get(self, request):
-        form=PropertyCreationForm()
-        cat_form = PropertyCategoryCreationForm()
-        dis_form = DistrictCreationForm()
-        images_form = ImagesCreationForm()
-        amenity_form = AmenitiesCreationForm()
+        form=PropertyCreationForm(request.GET)
+        cat_form = PropertyCategoryCreationForm(request.GET)
+        dis_form = DistrictCreationForm(request.GET)
+        images_form = ImagesCreationForm(request.GET, request.FILES)
+        videos_form = VideosCreationForm(request.GET, request.FILES)
+        amenity_form = AmenitiesCreationForm(request.GET)
 
         return render(request, self.template_name, {
-            'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 'img_form': images_form,
-            'am_form': amenity_form,
+            'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
+            'img_form': images_form,
+            'am_form': amenity_form, 'videos_form': videos_form
         })
     
     def post(self, request, **kwargs):
         property_form = PropertyCreationForm(request.POST)
-        print(request.POST)
 
         if property_form.is_valid():
-            property_form.save(commit=True)
-            print('\nsaved\n')
+            property_form.save(commit=False)
+            result = self.save_db(request, **kwargs)
 
+            if result:
+                property_form.save(commit=True)
+            
             return redirect('properties:home')
         
         message = messages.add_message(request, messages.ERROR, 'Failed to create Listing.')
-        print("error: ", property_form.errors)
-        
+
+        form=PropertyCreationForm(request.POST)
+        cat_form = PropertyCategoryCreationForm(request.POST)
+        dis_form = DistrictCreationForm(request.POST)
+        images_form = ImagesCreationForm(request.POST, request.FILES)
+        videos_form = VideosCreationForm(request.POST, request.FILES)
+        amenity_form = AmenitiesCreationForm(request.POST)
+
         return render(request, self.template_name, {
-            'message': message, 'form': property_form, 'cat_form': PropertyCategoryCreationForm(),
-            'dis_form': DistrictCreationForm(), 'img_form': ImagesCreationForm(),
-            'am_form': AmenitiesCreationForm()
+            'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
+            'img_form': images_form,
+            'am_form': amenity_form, 'videos_form': videos_form
         })
+    
+    def save_db(self, request, **kwargs):
+        try:
+            video = Videos.objects.create(
+                property=kwargs.get('pk'),
+                video=request.FILES.get('video'),
+                link=request.POST.get('link')
+            )
+            video.save()
+            for item in request.FILES.get('image'):
+                image = Images.objects.create(
+                    property=kwargs.get('pk'),
+                    image=item
+                )
+                image.save()
+            
+            return True
+        except:
+            return False
 
 
 class EditPropertyListing(generic.UpdateView):

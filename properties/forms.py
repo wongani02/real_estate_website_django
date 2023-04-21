@@ -146,25 +146,26 @@ class AmenitiesCreationForm(forms.ModelForm):
 
 
 class ImagesCreationForm(forms.ModelForm):
+    image = forms.ImageField(help_text="You can select and add multiple images to this field.", 
+        widget=forms.ClearableFileInput(attrs={
+            'multiple': True, 'class': 'img-fluid', 'label': ''
+    }))
     class Meta:
         model = Images
         fields = ['image',]
-        widgets = {
-            'image': forms.ClearableFileInput(attrs={
-                'multiple': True, 'class': 'img-fluid',
-            }),
-        }
-        help_texts = {
-            'image': 'You can select and add multiple images to this field.'
-        }
 
 
 class VideosCreationForm(forms.ModelForm):
+    video = forms.FileField(help_text="Select a single video for your property.", 
+        widget=forms.ClearableFileInput(attrs={
+            'multiple': False, 'class': 'form-control', 'label': 'Property Video'
+        })
+    )
     class Meta:
         model = Videos
-        fields = ['video', 'link', 'is_feature']
+        fields = ['video', 'link',]
         widgets = {
-            'video': forms.ClearableFileInput(attrs={
-                'multiple': True, 'class': 'form-control form_control'
+            'link': forms.URLInput(attrs={
+                'class': 'form-control form_control', 'placeholder': 'Video Link'
             })
         }
