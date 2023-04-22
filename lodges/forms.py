@@ -12,12 +12,6 @@ class LodgeCreationForm(forms.Form):
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'city'})
     )
-    long = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form_control form-control','placeholder': 'long'})
-    )
-    lat = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form_control form-control','placeholder': 'lat'})
-    )
     description = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'form_control form-control','placeholder': 'Tell us about your lodge', 'rows':3})
     )

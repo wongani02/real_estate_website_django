@@ -1,6 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}About{% endblock title %}
+{% block title %}Property Listing{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -201,7 +201,7 @@
             <h2 class="breadcrumb_title">Blantyre Real Estate & Homes For Sale</h2>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Grid Default</li>
+              <li class="breadcrumb-item active" aria-current="page">List</li>
             </ol>
           </div>
         </div>
@@ -240,10 +240,18 @@
             </div>
           </div>
           <div class="row">
+            {% for item in all_property %}
             <div class="col-sm-6 col-lg-12">
               <div class="feat_property list listing">
                 <div class="thumb">
-                  <img class="img-whp" src="{% static 'images/property/fl1.jpg' %}" alt="fl1.jpg">
+                  {% for image in item.property_images.all %}
+                  {% if image.is_feature %}
+                  <a href="{% url 'properties:property-single' item.id %}">
+                    
+                    <img class="img-whp" src="{{image.image.url}}" alt="fl1.jpg">
+                  </a>
+                  {% endif %}
+                  {% endfor %}
                   <div class="thmb_cntnt">
                     <ul class="tag mb0">
                       <li class="list-inline-item"><a href="#">FEATURED</a></li>
@@ -254,7 +262,7 @@
                   </div>
                   <div class="thmb_cntnt2">
                     <ul class="listing_gallery mb0">
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{item.property_images.count}}</a></li>
                       <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
                     </ul>
                   </div>
@@ -262,25 +270,29 @@
                 <div class="details">
                   <div class="tc_content">
                     <div class="wrapper float-left fn-md">
-                      <h4><a href="{% url 'properties:single' %}">New Apartment Nice Wiew</a></h4>
-                      <p>Quincy St, Brooklyn, NY, USA</p>
+                      <h4><a href="{% url 'properties:property-single' item.id %}">{{item.name}}</a></h4>
+                      <p>{{item.location_name}}</p>
                       <ul class="prop_details mb0">
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>{{item.no_rooms}} Rooms</a></li>
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>{{item.no_baths}} Bath</a></li>
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>{{item.no_garages}} Garage</a></li>
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>{{item.compound_area}} Sq Ft</a></li>
                       </ul>
                     </div>
                     <div class="wrapper2 text-center tal-md float-right fn-md">
                       <div class="title">Call: 202-555-0191</div>
-                      <button class="btn">DETAILS</button>
+                      <a href="{% url 'properties:property-single' item.id %}">
+                        <button class="btn">DETAILS</button>
+                      </a>
                     </div>
                   </div>
                   <div class="fp_footer">
                     <ul class="fp_meta float-left mb0">
                       <li class="list-inline-item">
-                        <a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
-                        <span class="heading-color fw600">$2,300/mo</span></a>
+                        {% if item.prev_price %}
+                        <a href="#"><small><del class="body-color">MWK {{item.prev_price}}/mo</del></small><br>
+                          {% endif %}
+                        <span class="heading-color fw600">MWK {{item.price}}/mo</span></a>
                       </li>
                     </ul>
                     <ul class="fp_meta float-right mb0">
@@ -292,214 +304,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-6 col-lg-12">
-              <div class="feat_property list listing">
-                <div class="thumb">
-                  <img class="img-whp" src="{% static 'images/property/fl1.jpg' %}" alt="fl1.jpg">
-                  <div class="thmb_cntnt">
-                    <ul class="tag mb0">
-                      <li class="list-inline-item"><a href="#">FEATURED</a></li>
-                    </ul>
-                    <ul class="tag2 mb0">
-                      <li class="list-inline-item"><a href="#">FOR SALE</a></li>
-                    </ul>
-                  </div>
-                  <div class="thmb_cntnt2">
-                    <ul class="listing_gallery mb0">
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="details">
-                  <div class="tc_content">
-                    <div class="wrapper float-left fn-md">
-                      <h4><a href="{% url 'properties:single' %}">New Apartment Nice Wiew</a></h4>
-                      <p>Quincy St, Brooklyn, NY, USA</p>
-                      <ul class="prop_details mb0">
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
-                      </ul>
-                    </div>
-                    <div class="wrapper2 text-center tal-md float-right fn-md">
-                      <div class="title">Call: 202-555-0191</div>
-                      <button class="btn">DETAILS</button>
-                    </div>
-                  </div>
-                  <div class="fp_footer">
-                    <ul class="fp_meta float-left mb0">
-                      <li class="list-inline-item">
-                        <a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
-                        <span class="heading-color fw600">$2,300/mo</span></a>
-                      </li>
-                    </ul>
-                    <ul class="fp_meta float-right mb0">
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-12">
-              <div class="feat_property list listing">
-                <div class="thumb">
-                  <img class="img-whp" src="{% static 'images/property/fl1.jpg' %}" alt="fl1.jpg">
-                  <div class="thmb_cntnt">
-                    <ul class="tag mb0">
-                      <li class="list-inline-item"><a href="#">FEATURED</a></li>
-                    </ul>
-                    <ul class="tag2 mb0">
-                      <li class="list-inline-item"><a href="#">FOR SALE</a></li>
-                    </ul>
-                  </div>
-                  <div class="thmb_cntnt2">
-                    <ul class="listing_gallery mb0">
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="details">
-                  <div class="tc_content">
-                    <div class="wrapper float-left fn-md">
-                      <h4><a href="{% url 'properties:single' %}">New Apartment Nice Wiew</a></h4>
-                      <p>Quincy St, Brooklyn, NY, USA</p>
-                      <ul class="prop_details mb0">
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
-                      </ul>
-                    </div>
-                    <div class="wrapper2 text-center tal-md float-right fn-md">
-                      <div class="title">Call: 202-555-0191</div>
-                      <button class="btn">DETAILS</button>
-                    </div>
-                  </div>
-                  <div class="fp_footer">
-                    <ul class="fp_meta float-left mb0">
-                      <li class="list-inline-item">
-                        <a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
-                        <span class="heading-color fw600">$2,300/mo</span></a>
-                      </li>
-                    </ul>
-                    <ul class="fp_meta float-right mb0">
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-12">
-              <div class="feat_property list listing">
-                <div class="thumb">
-                  <img class="img-whp" src="{% static 'images/property/fl1.jpg' %}" alt="fl1.jpg">
-                  <div class="thmb_cntnt">
-                    <ul class="tag mb0">
-                      <li class="list-inline-item"><a href="#">FEATURED</a></li>
-                    </ul>
-                    <ul class="tag2 mb0">
-                      <li class="list-inline-item"><a href="#">FOR SALE</a></li>
-                    </ul>
-                  </div>
-                  <div class="thmb_cntnt2">
-                    <ul class="listing_gallery mb0">
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="details">
-                  <div class="tc_content">
-                    <div class="wrapper float-left fn-md">
-                      <h4><a href="{% url 'properties:single' %}">New Apartment Nice Wiew</a></h4>
-                      <p>Quincy St, Brooklyn, NY, USA</p>
-                      <ul class="prop_details mb0">
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
-                      </ul>
-                    </div>
-                    <div class="wrapper2 text-center tal-md float-right fn-md">
-                      <div class="title">Call: 202-555-0191</div>
-                      <button class="btn">DETAILS</button>
-                    </div>
-                  </div>
-                  <div class="fp_footer">
-                    <ul class="fp_meta float-left mb0">
-                      <li class="list-inline-item">
-                        <a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
-                        <span class="heading-color fw600">$2,300/mo</span></a>
-                      </li>
-                    </ul>
-                    <ul class="fp_meta float-right mb0">
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-12">
-              <div class="feat_property list listing">
-                <div class="thumb">
-                  <img class="img-whp" src="{% static 'images/property/fl1.jpg' %}" alt="fl1.jpg">
-                  <div class="thmb_cntnt">
-                    <ul class="tag mb0">
-                      <li class="list-inline-item"><a href="#">FEATURED</a></li>
-                    </ul>
-                    <ul class="tag2 mb0">
-                      <li class="list-inline-item"><a href="#">FOR SALE</a></li>
-                    </ul>
-                  </div>
-                  <div class="thmb_cntnt2">
-                    <ul class="listing_gallery mb0">
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="details">
-                  <div class="tc_content">
-                    <div class="wrapper float-left fn-md">
-                      <h4><a href="{% url 'properties:single' %}">New Apartment Nice Wiew</a></h4>
-                      <p>Quincy St, Brooklyn, NY, USA</p>
-                      <ul class="prop_details mb0">
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
-                      </ul>
-                    </div>
-                    <div class="wrapper2 text-center tal-md float-right fn-md">
-                      <div class="title">Call: 202-555-0191</div>
-                      <button class="btn">DETAILS</button>
-                    </div>
-                  </div>
-                  <div class="fp_footer">
-                    <ul class="fp_meta float-left mb0">
-                      <li class="list-inline-item">
-                        <a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
-                        <span class="heading-color fw600">$2,300/mo</span></a>
-                      </li>
-                    </ul>
-                    <ul class="fp_meta float-right mb0">
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
-                      <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {% endfor %}
             <div class="col-lg-12">
               <div class="mbp_pagination mt10">
                 <ul class="page_navigation">

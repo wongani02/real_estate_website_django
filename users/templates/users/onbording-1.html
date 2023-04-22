@@ -1,0 +1,67 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block title %}Onbording{% endblock %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+
+	<!-- Our Dashbord -->
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h4 class="breadcrumb_title">Hello, <span class="text-alice-blue">{{request.user.username}}!</span></h4>
+								<h2>What type of property are you looking to post??</h2>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 ">
+							<div class="ff_one">
+								<div class="icon"><span class="flaticon-house"></span></div>
+								<div class="detais">
+									<h4><a href="{% url 'lodges:create-lodge'  %}">Lodges and cottages</a></h4>
+                                    <p>Posting a lodge requires compliance with zoning laws, building codes, and safety regulations. Obtaining permits and insurance coverage is necessary, and additional business permits or licenses may be required for vacation rentals. Consulting with an expert can ensure compliance with all the necessary requirements and regulations.</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 ">
+							<div class="ff_one">
+								<div class="icon"><span class="flaticon-house"></span></div>
+								<div class="detais">
+									<h4><a href="{% url 'properties:create-listing'  %}">Property for sale or Rent</a></h4>
+                                    <p>These may include houses, apartments etc</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 ">
+							<div class="ff_one">
+								<div class="icon"><span class="flaticon-house"></span></div>
+								<div class="detais">
+									<h4><a  href="#">Bnb's (Bed and breakfast)</a></h4>
+                                    <p>osting a lodge requires compliance with zoning laws, building codes, and safety regulations. Obtaining permits and insurance coverage is necessary, and additional business permits or licenses may be required for vacation rentals. </p>
+								</div>
+							</div>
+						</div>
+						
+						
+						
+					</div>
+					<div class="row mt50">
+						<div class="col-lg-12 text-center">
+							<p class="mb0">Copyright © 2021 afrihuts.com. All Right Reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

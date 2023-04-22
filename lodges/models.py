@@ -5,6 +5,7 @@ from ckeditor.fields import RichTextField
 
 
 class Lodge(models.Model):
+    
     name = models.CharField(max_length=255, null=True)
     address = models.CharField(max_length=255, null=True)
     city = models.CharField(max_length=255, null=True)
@@ -13,7 +14,10 @@ class Lodge(models.Model):
     description = RichTextField(null=True)
     lat = models.CharField(max_length=255, null=True)
     long = models.CharField(max_length=255, null=True)
+    cover_img = models.ImageField(upload_to='lodge_img/', null=True)
     created_at = models.DateTimeField(default=timezone.now)
+    is_active = models.BooleanField(default=False, null=True)
+
 
     class Meta:
         verbose_name = 'Lodge'
@@ -56,8 +60,8 @@ class Amenity(models.Model):
         return self.name
 
 
-class RoomAmenity(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='amenities')
+class LodgeAmenity(models.Model):
+    lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='amenities')
     amenity = models.ForeignKey(Amenity, on_delete=models.CASCADE)
 
     class Meta:
@@ -65,11 +69,11 @@ class RoomAmenity(models.Model):
         verbose_name_plural = 'Room Amenities'
 
     def __str__(self):
-        return f"{self.amenity.name} ({self.room.lodge.name} - Room {self.room.type})"
+        return f"{self.amenity.name} ({self.lodge.name} - Room {self.lodge.city})"
 
 
 class Picture(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='pictures')
+    lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='pictures')
     img = models.ImageField(null=True, upload_to='lodge_images/')
 
     class Meta:
@@ -77,7 +81,7 @@ class Picture(models.Model):
         verbose_name_plural = 'Pictures'
 
     def __str__(self):
-        return f"{self.room.lodge.name} - Room {self.room.type} Picture"
+        return f"{self.lodge.name} - Room {self.lodge.city} Picture"
 
 
 class Booking(models.Model):

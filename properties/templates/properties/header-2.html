@@ -21,7 +21,7 @@
         <ul id="respMenu" class="ace-responsive-menu custom_menu_space_home2 wa" data-menu-style="horizontal">
           <li> <a href="{% url 'properties:home' %}"><span class="title">Home</span></a>
           </li>
-          <li> <a href="{% url 'properties:all-property-list' %}"><span class="title">Properties</span></a>
+          <li> <a href="{% url 'properties:all-property-list' %}"><span class="title">Listing</span></a>
             <ul>
               <li> <a href="{% url 'properties:all-property-list' %}">Property Listing</a> 
                 <!-- Level Three-->
@@ -36,17 +36,12 @@
                 </ul> -->
               </li>
               <li>
+                <a href="{% url 'lodges:lodge-listings' %}">Lodge Listings</a>
+                
+              </li>
+              <li>
                 <a href="{% url 'properties:property-map' %}">Property Listing Map</a>
-                <!-- Level Three-->
-                <!-- <ul>
-                  <li><a href="page-listing-v7.html">Map v1</a></li>
-                  <li><a href="page-listing-v8.html">Map v2</a></li>
-                  <li><a href="page-listing-v9.html">Map v3</a></li>
-                  <li><a href="page-listing-v10.html">Map v4</a></li>
-                  <li><a href="page-listing-v11.html">Map v5</a></li>
-                  <li><a href="page-listing-v12.html">Map v6</a></li>
-                  <li><a href="page-listing-v13.html">Map v7</a></li>
-                </ul> -->
+                
               </li>
               <!-- <li>
                 <a href="#">Listing Single</a>

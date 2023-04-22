@@ -167,8 +167,8 @@ class Likes(models.Model):
         null=True, 
         on_delete=models.CASCADE, 
         related_name='user_likes')
-    date = models.DateTimeField(_("Date Liked"), auto_now=True)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    date = models.DateTimeField(_("Date Liked"), auto_now=True, null=True)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return '{} - {} - {}'.format(self.user, self.property, self.date)
@@ -181,7 +181,7 @@ class Images(models.Model):
         verbose_name_plural = 'Images'
 
     property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_images')
-    image = models.ImageField(_("Property Image"), upload_to=image_upload_path, null=True)
+    image = models.ImageField(_("Property Image"), upload_to='property_images/', null=True)
     is_feature = models.BooleanField(_("Main image to display"), default=False, null=True)
     is_active = models.BooleanField(_("Is Active"), default=True, null=True)
     date = models.DateTimeField(_("Date Uploaded"), auto_now=True, null=True)

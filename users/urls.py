@@ -17,4 +17,7 @@ urlpatterns = [
     path('dashboard/profile/', user_views.profileView, name='profile'),
     path('dashboard/notifications/', user_views.notificationsView, name='notifications'),
     path('payments/invoices/', user_views.invoicesView, name='invoices'),
+    #onbordingviews
+    path('create-property/onbording-xhtl1/', user_views.typeOfPropertyView, name='onbording-1'),
+    path('create-property/onbording-gksk2/<str:p_type>/', user_views.postPropertyAsView, name='onbording-2'),
 ]

@@ -166,3 +166,26 @@ def notificationsView(request):
 
     }
     return render(request, 'users/page-dashboard-message.html', context)
+
+
+#onbording views
+def typeOfPropertyView(request):
+    context = {
+
+    }
+    return render(request, 'users/onbording-1.html', context)
+
+
+def postPropertyAsView(request, p_type):
+    request.session['property_type'] = p_type
+
+    if p_type == 'lodges_and_cottages':
+        context = {
+            ''
+        }
+    elif p_type =='property' :
+        context
+    else: 
+        context = {}
+    
+    return render(request, 'users/onbording-2.html', context)

@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Lodge, Room, Amenity, RoomAmenity, Picture, Booking
+from .models import Lodge, Room, Amenity, LodgeAmenity, Picture, Booking
 
 
-class RoomAmenityInline(admin.TabularInline):
-    model = RoomAmenity
+class LodgeAmenityInline(admin.TabularInline):
+    model = LodgeAmenity
     extra = 0
 
 
@@ -20,13 +20,13 @@ class RoomInline(admin.TabularInline):
 @admin.register(Lodge)
 class LodgeAdmin(admin.ModelAdmin):
     list_display = ('name', 'address', 'city', 'state', 'country',)
-    inlines = [RoomInline]
+    inlines = [RoomInline, LodgeAmenityInline, PictureInline]
 
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('lodge', 'type', 'adults', 'price_per_night',)
-    inlines = [RoomAmenityInline, PictureInline]
+    # inlines = [ PictureInline]
 
 
 @admin.register(Amenity)

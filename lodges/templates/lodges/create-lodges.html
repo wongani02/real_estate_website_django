@@ -18,8 +18,8 @@
 						{% include 'users/dashboard-nav.html' %}
 						<div class="col-lg-12 mb50">
 							<div class="breadcrumb_content">
-								<h2 class="breadcrumb_title">Add New Property</h2>
-								<p class="">Ready to jump back in?</p>
+								<h2 class="breadcrumb_title">Lodge Creation Form</h2>
+								<!-- <p class="">Ready to jump back in?</p> -->
 							</div>
 						</div>
 					</div>
@@ -133,7 +133,60 @@
 					  {% endfor %}
 		            </form>
 		          </div>
-		          
+		          <div class="new_property_form">
+						<h4 class="title mb30">Location</h4>
+						<!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->
+						<div class="row">
+							<div class="col-md-6">
+								<div class="ui_kit_select_search add_new_property mb30">
+									<select class="selectpicker" data-live-search="true" data-width="100%"
+										title="Group">
+										<!-- <option>Regions</option> -->
+										<option data-tokens="City">City</option>
+										<option data-tokens="Capital">District</option>
+										<!-- <option data-tokens="State">State</option> -->
+										<option data-tokens="Village">Village</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="ui_kit_select_search add_new_property mb30">
+									{{form.district}}
+									<!-- <a class="btn btn-lg btn-thm" onclick="document.getElementById('districtForm').showModal()">+</a> -->
+								</div>
+
+								<!-- <div class="form-group mb30">
+										<input name="addr" class="form-control form_control"
+												type="text" placeholder="Name of City/Capital/...">
+									</div> -->
+							</div>
+							<div class="col-md-12">
+								<div class="form-group mb30">
+									<input name="location_area" id="location_area"
+										class="form-control form_control" type="text"
+										placeholder="Map Location">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group mb20">
+									<div class="h550 bdrs3" id="map-canvas"></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<input name="form_name" readonly id="latitude"
+										class="form-control form_control" type="text" placeholder="Latitude">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<input name="form_name" id="longitude" readonly
+										class="form-control form_control" type="text" placeholder="Longitude">
+								</div>
+							</div>
+						</div>
+						<!--                                    </form>-->
+					</div>
 		          <div class="new_property_form">
 					<h4 class="title mb30">Images of your lodge, rooms and surrounding</h4>
 					<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
@@ -155,10 +208,6 @@
 							<input name="file" type="file" multiple />
 						</div>
 					</form>
-					<script>
-						
-					</script>
-
 		          </div>
 				  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		          <div class="new_property_form">
@@ -259,5 +308,90 @@
 			document.getElementById('room_form').submit();
 		}
     </script>
+	<script>
+    // Create auto complete variable
+		let autocomplete;
+
+		// Function handles auto completion event
+		function onPlaceChanged() {
+			var place = autocomplete.getPlace();
+
+			if (!place.geometry) {
+				document.getElementById('location_area').placeholder = 'Location Name';
+			} else {
+				codeAddress();
+			}
+		}
+
+		var geocoder;
+		var map;
+
+		function initializeGeocoder() {
+			autocomplete = new google.maps.places.Autocomplete(document.getElementById('location_area'), {
+				types: ['establishment'],
+				fields: ['geometry', 'name', 'address_components']
+			});
+
+			autocomplete.addListener('place_changed', onPlaceChanged);
+
+			geocoder = new google.maps.Geocoder();
+
+			var latlng = new google.maps.LatLng(-15.801934, 35.026139);
+			var mapOptions = {
+				zoom: 15,
+				center: latlng
+			}
+			map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+		}
+
+		function codeAddress() {
+
+			const iconurl = {
+				url: '/static/icons.ico',
+				scaledSize: new google.maps.Size(5, 5), // scaled size
+				origin: new google.maps.Point(0,0), // origin
+				anchor: new google.maps.Point(0, 0) // anchor
+			};
+
+			var address = document.getElementById('location_area').value;
+			geocoder.geocode({ 'address': address }, function (results, status) {
+				if (status == 'OK') {
+					map.setCenter(results[0].geometry.location);
+					var marker = new google.maps.Marker({
+						map: map,
+						position: results[0].geometry.location,
+						draggable: true,
+						title: "Drag Marker",
+						// icon: iconurl
+					});
+
+					AddGeometryValues(results[0].geometry.location.lat(), results[0].geometry.location.lng())
+
+					marker.addListener('drag', handleMarkerEvent);
+					marker.addListener('dragend', handleMarkerEvent);
+				} else {
+					alert('Geocode was not successful for the following reason: ' + status);
+				}
+			});
+		}
+
+		function AddGeometryValues(latitude, longitude) {
+			lat = document.getElementById('latitude');
+			lng = document.getElementById('longitude');
+
+			// Add values to fields
+			lat.value = latitude
+			lng.value = longitude
+		}
+
+		function handleMarkerEvent(event) {
+			lat = document.getElementById('latitude');
+			lng = document.getElementById('longitude');
+
+			lat.value = event.latLng.lat();
+			lng.value = event.latLng.lng();
+		}
+
+	</script>
 	
 {% endblock %}

@@ -1,15 +1,32 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from properties.models import Property
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.forms.formsets import formset_factory
 
-from .create_lodge import Lodge
-from .models import Amenity, Picture
+
+from .create_lodge import Lodge as LodgeCreationClass
+from .models import Amenity, Picture, Lodge
 from .forms import RoomCreationForm, RoomFormset, LodgeCreationForm
 
 # Create your views here.
+
+
+def lodgeListingView(request):
+    lodges = Lodge.objects.prefetch_related("pictures").filter(is_active=True)
+    context = {
+        'lodges': lodges,
+    }
+    return render(request, 'lodges/lodge-listing.html', context)
+
+
+def lodgeDetailView(request, pk):
+    lodge = get_object_or_404(Lodge, pk=pk)
+    context = {
+        'lodge': lodge,
+    }
+    return render(request, 'lodges/lodge-detail.html', context)
 
 
 def createLodgeView(request):
@@ -71,14 +88,7 @@ def fileUploadView(request):
     
     if request.method == 'POST':
         image = request.FILES.get('file')
-        if 'lodge_images' not in session:
-            session['lodge_images'] = []
-            session['lodge_images'].append(image)
-            session.modified = True
-        else:
-            session['lodge_images'].append(image)
-            session.modified=True
-        print(session['lodge_images'])
+        print(str(image))
     return HttpResponse('upload')
 
 

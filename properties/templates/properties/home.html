@@ -253,13 +253,13 @@
             <div class="home_tabs">
               <ul class="nav justify-content-center nav-tabs" id="myTab2" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="buy-tab" data-toggle="tab" href="#buy" role="tab" aria-controls="buy" aria-selected="true">Buy</a>
+                  <a class="nav-link" id="buy-tab" data-toggle="tab" href="#buy" role="tab" aria-controls="buy" aria-selected="true">Lodges and Cottages</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link active" id="rent-tab" data-toggle="tab" href="#rent" role="tab" aria-controls="rent" aria-selected="false">Rent</a>
+                  <a class="nav-link active" id="rent-tab" data-toggle="tab" href="#rent" role="tab" aria-controls="rent" aria-selected="false">Property</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">Sold</a>
+                  <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">Bnb's</a>
                 </li>
               </ul>
               <div class="tab-content" id="myTabContent2">
@@ -502,9 +502,9 @@
                 </div>
                 <div class="details">
                   <div class="tc_content">
-                    <div class="badge_icon"><a href="{% url 'properties:single' %}"><img src="{% static 'images/agent/1.png' 
+                    <div class="badge_icon"><a href="#"><img src="{% static 'images/agent/1.png' 
                       %}" alt="1.png"></a></div>
-                    <h4><a href="{% url 'properties:single' %}">New Apartment Nice Wiew</a></h4>
+                    <h4><a href="#">New Apartment Nice Wiew</a></h4>
                     <p>Quincy St, Brooklyn, NY, USA</p>
                     <ul class="prop_details mb0">
                       <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
@@ -549,7 +549,7 @@
                 <div class="details">
                   <div class="tc_content">
                     <div class="badge_icon"><a href="#"><img src="{% static 'images/agent/2.png' %}" alt="2.png"></a></div>
-                    <h4><a href="{% url 'properties:single' %}">Skyper Pool Apartment</a></h4>
+                    <h4><a href="#">Skyper Pool Apartment</a></h4>
                     <p>112 Glenwood Ave Hyde Park, Boston, MA</p>
                     <ul class="prop_details mb0">
                       <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
@@ -597,7 +597,7 @@
                 <div class="details">
                   <div class="tc_content">
                     <div class="badge_icon"><a href="#"><img src="{% static 'images/agent/3.png' %}" alt="3.png"></a></div>
-                    <h4><a href="{% url 'properties:single' %}">New Caledonian Wharf</a></h4>
+                    <h4><a href="#">New Caledonian Wharf</a></h4>
                     <p>251 SW 6th Ln Florida City, FL</p>
                     <ul class="prop_details mb0">
                       <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
@@ -645,7 +645,7 @@
                 <div class="details">
                   <div class="tc_content">
                     <div class="badge_icon"><a href="#"><img src="{% static 'images/agent/4.png' %}" alt="4.png"></a></div>
-                    <h4><a href="{% url 'properties:single' %}">Spacious Family Home</a></h4>
+                    <h4><a href="#">Spacious Family Home</a></h4>
                     <p>4 W 21st St Flatiron District, New York, NY</p>
                     <ul class="prop_details mb0">
                       <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
@@ -693,7 +693,7 @@
                 <div class="details">
                   <div class="tc_content">
                     <div class="badge_icon"><a href="#"><img src="{% static 'images/agent/1.png' %}" alt="1.png"></a></div>
-                    <h4><a href="{% url 'properties:single' %}">New Apartment Nice Wiew</a></h4>
+                    <h4><a href="#">New Apartment Nice Wiew</a></h4>
                     <p>Quincy St, Brooklyn, NY, USA</p>
                     <ul class="prop_details mb0">
                       <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
@@ -737,7 +737,7 @@
                 <div class="details">
                   <div class="tc_content">
                     <div class="badge_icon"><a href="#"><img src="{% static 'images/agent/2.png' %}" alt="2.png"></a></div>
-                    <h4><a href="{% url 'properties:single' %}">Skyper Pool Apartment</a></h4>
+                    <h4><a href="#">Skyper Pool Apartment</a></h4>
                     <p>112 Glenwood Ave Hyde Park, Boston, MA</p>
                     <ul class="prop_details mb0">
                       <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
@@ -1241,59 +1241,7 @@
       </div>
     </div>
   </section>
-  
-  <!-- How It Works -->
-  <section id="why-chose" class="whychose_us bgc-alice-blue pb70">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="main-title text-center">
-            <h2>Why Choose Us</h2>
-            <p>We provide full service at every step.</p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-xl-3">
-          <div class="why_chose_us">
-            <div class="icon"> <span class="flaticon-discord"></span> </div>
-            <div class="details">
-              <h4>Trusted By Thousands</h4>
-              <p>With over 1 million+ homes for sale available on the website, Trulia can match you with a house you will want to call home.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <div class="why_chose_us">
-            <div class="icon"> <span class="flaticon-house"></span> </div>
-            <div class="details">
-              <h4>Wide Renge Of Properties</h4>
-              <p>With over 1 million+ homes for sale available on the website, Trulia can match you with a house you will want to call home.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <div class="why_chose_us">
-            <div class="icon"> <span class="flaticon-calculator"></span> </div>
-            <div class="details">
-              <h4>Financing Made Easy</h4>
-              <p>With over 1 million+ homes for sale available on the website, Trulia can match you with a house you will want to call home.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <div class="why_chose_us">
-            <div class="icon"> <span class="flaticon-maps"></span> </div>
-            <div class="details">
-              <h4>See Neighborhoods</h4>
-              <p>With over 1 million+ homes for sale available on the website, Trulia can match you with a house you will want to call home.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
+
   <!-- Property Cities -->
   <section class="property-city pb70">
     <div class="container">

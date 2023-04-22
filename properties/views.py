@@ -63,8 +63,19 @@ class AboutUs(generic.DetailView):
 
 
 class PropertyListingList(generic.ListView):
-    def get(self, request):
-        return render(request, 'properties/page-listing-v3.html')
+    model = Property
+    paginate_by = 5
+    template_name = 'properties/page-listing-v3.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PropertyListingList, self).get_context_data(**kwargs)
+        qs = Property.objects.all()
+        print("Property: ", qs)
+        context = {
+            'all_property': qs,
+        }
+
+        return context
 
 
 class PropertyListingGrid(generic.ListView):
@@ -83,10 +94,17 @@ class PropertyListingMap(generic.ListView):
         return render(request, 'properties/page-listing-v7.html')
 
 
-class PropertyDetail(generic.ListView):
-    def get(self, request):
-        return render(request, 'properties/page-listing-single-v7.html')
+class PropertyDetail(generic.DetailView):
+    model = Property
+    template_name = 'properties/page-listing-single-v4.html'
 
+    def get(self, request, **kwargs):
+        qs = Property.objects.get(id=kwargs.get('pk'))
+        context = {
+            'property': qs,
+        }
+
+        return render(request, self.template_name, context)
 
 class BlogList(generic.ListView):
     def get(self, request):
@@ -125,13 +143,13 @@ class CreatePropertyListing(generic.CreateView):
         form=PropertyCreationForm(request.GET)
         cat_form = PropertyCategoryCreationForm(request.GET)
         dis_form = DistrictCreationForm(request.GET)
-        images_form = ImagesCreationForm(request.GET, request.FILES)
+        # images_form = ImagesCreationForm(request.GET, request.FILES)
         videos_form = VideosCreationForm(request.GET, request.FILES)
         amenity_form = AmenitiesCreationForm(request.GET)
 
         return render(request, self.template_name, {
             'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
-            'img_form': images_form,
+            # 'img_form': images_form,
             'am_form': amenity_form, 'videos_form': videos_form
         })
     
@@ -152,13 +170,13 @@ class CreatePropertyListing(generic.CreateView):
         form=PropertyCreationForm(request.POST)
         cat_form = PropertyCategoryCreationForm(request.POST)
         dis_form = DistrictCreationForm(request.POST)
-        images_form = ImagesCreationForm(request.POST, request.FILES)
+        # images_form = ImagesCreationForm(request.POST, request.FILES)
         videos_form = VideosCreationForm(request.POST, request.FILES)
         amenity_form = AmenitiesCreationForm(request.POST)
 
         return render(request, self.template_name, {
             'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
-            'img_form': images_form,
+            # 'img_form': images_form,
             'am_form': amenity_form, 'videos_form': videos_form
         })
     
@@ -225,6 +243,14 @@ def contextQ(request):
         'categories': Districts.objects.filter(is_active=True), 
         'districts': PropertyCategory.objects.all(),
     }
+
+def fileUploadView(request):
+    session = request.session
+    
+    if request.method == 'POST':
+        image = request.FILES.get('file')
+        print(str(image))
+    return HttpResponse('upload')
 
 
 def create_property_category(request):
