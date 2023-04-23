@@ -23,6 +23,7 @@ urlpatterns = [
     path('listing/amenity/create/', views.create_amenities, name='create-amenity'),
     path('blog/list/', views.BlogList.as_view(), name='blog-list'),
     path('blog/grid/', views.BlogGrid.as_view(), name='blog-grid'),
+    path('blog/blog-detail/<slug:slug>/', views.BlogDetailView.as_view(), name='blog-detail'),
     path('agency/list/', views.AgencyList.as_view(), name='agency-list'),
     path('agent/list/', views.AgentList.as_view(), name='agent-list'),
     path('search/simple/', views.SimpleSearch.as_view(), name='simple-search'),

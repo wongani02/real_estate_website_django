@@ -13,7 +13,7 @@
 					<div class="breadcrumb_content style2">
 						<h2 class="breadcrumb_title">Blog</h2>
 						<ol class="breadcrumb">
-					    <li class="breadcrumb-item"><a href="#">Home</a></li>
+					    <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
 					    <li class="breadcrumb-item active" aria-current="page">Blog</li>
 						</ol>
 					</div>
@@ -28,101 +28,30 @@
 			<div class="row">
 				<div class="col-lg-8 col-xl-9">
 					<div class="main_blog_post_content">
+						{% for item in blogs %}
 						<div class="for_blog list-type feat_property blog_details_inner">
 							<div class="thumb w100 pb10">
-								<img class="img-whp" src="images/blog/bl1.jpg" alt="bl1.jpg">
-								<div class="tag bgc-thm"><a class="text-white" href="#">FAMILY HOUSE</a></div>
+								<img class="img-whp" src="{{item.cover_img.url}}" alt="bl1.jpg">
+								<!-- <div class="tag bgc-thm"><a class="text-white" href="#">FAMILY HOUSE</a></div> -->
 							</div>
 							<div class="details pb5">
 								<div class="tc_content pt15">
-                  <div class="bp_meta mb20">
-                    <ul>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
-                    </ul>
-                  </div>
-									<h4 class="mt15 mb20">Redfin Ranks the Most Competitive Neighborhoods of 2020</h4>
-									<p class="mb10">We’re obsessed with data these days, and for good reason: it’s relatively easy to get if you know what you’re looking for. While you won’t be able to identify everything that’s useful upfront, take a step back, and evaluate what you’d hope …</p>
-									<a class="tdu text-thm" href="page-blog-single.html">Read More</a>
+									<div class="bp_meta mb20">
+										<ul>
+										<li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> {{item.author}}</a></li>
+										<li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> {{item.created}}</a></li>
+										</ul>
+									</div>
+									<h4 class="mt15 mb20"><a href="{% url 'properties:blog-detail' item.slug %}"></a>{{item.title}}</h4>
+									{% if blog.sub_title %}
+									<h5>{{blog.sub_title}}</h5>
+									{% endif %}
+									<p class="mb10">{{item.content|slice:':200'|safe}}</p>
+									<a class="tdu text-thm" href="{% url 'properties:blog-detail' item.slug %}">Read More</a>
 								</div>
 							</div>
 						</div>
-						<div class="for_blog list-type feat_property blog_details_inner">
-							<div class="thumb w100 pb10">
-								<img class="img-whp" src="images/blog/bl2.jpg" alt="bl2.jpg">
-								<div class="tag bgc-thm"><a class="text-white" href="#">FAMILY HOUSE</a></div>
-							</div>
-							<div class="details pb5">
-								<div class="tc_content pt15">
-                  <div class="bp_meta mb20">
-                    <ul>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
-                    </ul>
-                  </div>
-									<h4 class="mt15 mb20">Redfin Ranks the Most Competitive Neighborhoods of 2020</h4>
-                  <p class="mb10">We’re obsessed with data these days, and for good reason: it’s relatively easy to get if you know what you’re looking for. While you won’t be able to identify everything that’s useful upfront, take a step back, and evaluate what you’d hope …</p>
-									<a class="tdu text-thm" href="page-blog-single.html">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="for_blog list-type feat_property blog_details_inner">
-							<div class="thumb w100 pb10">
-								<img class="img-whp" src="images/blog/bl3.jpg" alt="bl3.jpg">
-								<div class="tag bgc-thm"><a class="text-white" href="#">FAMILY HOUSE</a></div>
-							</div>
-							<div class="details pb5">
-								<div class="tc_content pt15">
-                  <div class="bp_meta mb20">
-                    <ul>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
-                    </ul>
-                  </div>
-									<h4 class="mt15 mb20">Redfin Ranks the Most Competitive Neighborhoods of 2020</h4>
-                  <p class="mb10">We’re obsessed with data these days, and for good reason: it’s relatively easy to get if you know what you’re looking for. While you won’t be able to identify everything that’s useful upfront, take a step back, and evaluate what you’d hope …</p>
-									<a class="tdu text-thm" href="page-blog-single.html">Read More</a>
-								</div>
-							</div>
-						</div>
-						<div class="for_blog list-type feat_property blog_details_inner">
-							<div class="thumb w100 pb10">
-								<img class="img-whp" src="images/blog/bl4.jpg" alt="bl4.jpg">
-								<div class="tag bgc-thm"><a class="text-white" href="#">FAMILY HOUSE</a></div>
-							</div>
-							<div class="details pb5">
-								<div class="tc_content pt15">
-                  <div class="bp_meta mb20">
-                    <ul>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
-                    </ul>
-                  </div>
-									<h4 class="mt15 mb20">Redfin Ranks the Most Competitive Neighborhoods of 2020</h4>
-									<p class="mb10">We’re obsessed with data these days, and for good reason: it’s relatively easy to get if you know what you’re looking for. While you won’t be able to identify everything that’s useful upfront, take a step back, and evaluate what you’d hope …</p>
-									<a class="tdu text-thm" href="page-blog-single.html">Read More</a>
-								</div>
-							</div>
-						</div>
-            <div class="for_blog list-type feat_property blog_details_inner">
-              <div class="thumb w100 pb10">
-                <img class="img-whp" src="images/blog/bl5.jpg" alt="bl5.jpg">
-                <div class="tag bgc-thm"><a class="text-white" href="#">FAMILY HOUSE</a></div>
-              </div>
-              <div class="details pb5">
-                <div class="tc_content pt15">
-                  <div class="bp_meta mb20">
-                    <ul>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
-                    </ul>
-                  </div>
-                  <h4 class="mt15 mb20">Redfin Ranks the Most Competitive Neighborhoods of 2020</h4>
-                  <p class="mb10">We’re obsessed with data these days, and for good reason: it’s relatively easy to get if you know what you’re looking for. While you won’t be able to identify everything that’s useful upfront, take a step back, and evaluate what you’d hope …</p>
-                  <a class="tdu text-thm" href="page-blog-single.html">Read More</a>
-                </div>
-              </div>
-            </div>
+						{% endfor %}
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="mbp_pagination mt30">

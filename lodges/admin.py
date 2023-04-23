@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lodge, Room, Amenity, LodgeAmenity, Picture, Booking
+from .models import Lodge, Room, Amenity, LodgeAmenity, Picture, Booking, BlogPost, BlogImage, BlogCategory, About
 
 
 class LodgeAmenityInline(admin.TabularInline):
@@ -37,3 +37,29 @@ class AmenityAdmin(admin.ModelAdmin):
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     list_display = ('user', 'room', 'check_in', 'check_out', 'num_guests', 'created_at',)
+
+
+#blog admin
+@admin.register(BlogCategory)
+class BlogCategoryAdmin(admin.ModelAdmin):
+    list_display = [
+        'name', 'slug', 'is_active',
+    ]
+    prepopulated_fields = {'slug': ('name',)}
+
+
+class BlogImageInline(admin.StackedInline):
+    model = BlogImage
+    extra = 2
+
+
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ['title', 'is_active']
+    prepopulated_fields = {'slug': ('title',)}
+    inlines = [BlogImageInline]
+
+
+@admin.register(About)
+class AboutAdmin(admin.ModelAdmin):
+    list_display = ['company_name', 'email', 'phone_number']

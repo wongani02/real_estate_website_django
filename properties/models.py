@@ -107,7 +107,7 @@ class Property(models.Model):
     id = models.UUIDField(_("Property ID"), primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(_("Name of Property"), max_length=100)
     price = models.PositiveIntegerField(_("Property Price"))
-    prev_price = models.PositiveIntegerField(_("Previous Property Price"), null=True)
+    prev_price = models.PositiveIntegerField(_("Previous Property Price"), null=True, blank=True)
     location_area = models.CharField(_("Property Location Area"), max_length=100)
     lat = models.CharField(_("Latitude"), max_length=999, blank=True)
     lon = models.CharField(_("Longitude"), max_length=999, blank=True)
@@ -127,7 +127,7 @@ class Property(models.Model):
     status = models.BooleanField(_("Property Status"),)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now=True, null=True)
-    is_featured = models.BooleanField(_("if the property has to appear on the home page"), default=False, null=True)
+    is_featured = models.BooleanField(_("if Featured"), default=False, null=True)
     agent = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         null=True, 

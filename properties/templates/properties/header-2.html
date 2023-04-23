@@ -13,118 +13,45 @@
 					</button>
         </div>
         <a href="{% url 'properties:home' %}" class="navbar_brand float-left dn-md">
-					<img class="logo1 img-fluid" src="{% static 'images/header-logo2.svg' %}" alt="header-logo.svg">
-					<img class="logo2 img-fluid" src="{% static 'images/header-logo2.svg' %}" alt="header-logo2.svg">
-					<span>Houzing</span>
+					<img class="logo1 img-fluid " style="max-height: 50px;" src="{% static 'images/web_img/logo-dark.png' %}" alt="header-logo.svg">
+					<img class="logo2 img-fluid my-auto" style="max-height: 50px;" src="{% static 'images/web_img/logo-dark.png' %}" alt="header-logo2.svg">
+					<span>Afrihuts.com</span>
 				</a> 
         <!-- Responsive Menu Structure-->
         <ul id="respMenu" class="ace-responsive-menu custom_menu_space_home2 wa" data-menu-style="horizontal">
           <li> <a href="{% url 'properties:home' %}"><span class="title">Home</span></a>
           </li>
-          <li> <a href="{% url 'properties:all-property-list' %}"><span class="title">Listing</span></a>
+          <li> <a href="{% url 'properties:all-property-list' %}"><span class="title">Listings</span></a>
             <ul>
               <li> <a href="{% url 'properties:all-property-list' %}">Property Listing</a> 
-                <!-- Level Three-->
-                <!-- <ul>
-                  <li><a href="page-listing-v1.html">Listing</a></li>
-                  <li><a href="page-listing-v2.html">Listing v2</a></li>
-                  <li><a href="page-listing-v3.html">Listing v3</a></li>
-                  <li><a href="page-listing-v4.html">Listing v4</a></li>
-                  <li><a href="page-listing-v5.html">Listing v5</a></li>
-                  <li><a href="page-listing-v6.html">Listing v6</a></li>
-                  <li><a href="page-listing-all.html">Listing All</a></li>
-                </ul> -->
+                
               </li>
               <li>
                 <a href="{% url 'lodges:lodge-listings' %}">Lodge Listings</a>
                 
               </li>
               <li>
-                <a href="{% url 'properties:property-map' %}">Property Listing Map</a>
+                <a href="{% url 'lodges:lodge-listings' %}">Bnb's</a>
                 
               </li>
               <!-- <li>
-                <a href="#">Listing Single</a>
-                Level Three
-                <ul>
-                  <li><a href="page-listing-single-v1.html">Single V1</a></li>
-                  <li><a href="page-listing-single-v2.html">Single V2</a></li>
-                  <li><a href="page-listing-single-v3.html">Single V3</a></li>
-                  <li><a href="page-listing-single-v4.html">Single V4</a></li>
-                  <li><a href="page-listing-single-v5.html">Single V5</a></li>
-                  <li><a href="page-listing-single-v6.html">Single V6</a></li>
-                  <li><a href="page-listing-single-v7.html">Single V7</a></li>
-                  <li><a href="page-listing-single-v8.html">Single V8</a></li>
-                </ul>
+                <a href="{% url 'properties:property-map' %}">Property Listing Map</a>
+                
               </li> -->
-              <li> <a href="{% url 'properties:agent-list' %}">Agent List</a> 
-                <!-- Level Three-->
-                <!-- <ul>
-                  <li><a href="page-agent-list.html">Agent List</a></li>
-                  <li><a href="page-agent-single.html">Agent Single</a></li>
-                </ul> -->
+              
+              <!-- <li> <a href="{% url 'properties:agent-list' %}">Agent List</a> 
+                
               </li>
               <li> <a href="{% url 'properties:agency-list' %}">Agency List</a> 
-                <!-- Level Three-->
-                <!-- <ul>
-                  <li><a href="page-agency-list.html">Agency List</a></li>
-                  <li><a href="page-agency-single.html">Agency Single</a></li>
-                </ul> -->
-              </li>
-              <!-- <li><a href="page-dashboard-new-property.html">New Listing</a></li> -->
+                
+              </li> -->
             </ul>
           </li>
           <li> <a href="{% url 'properties:property-pricing' %}"><span class="title">Pricing</span></a>
-            <!-- Level Two-->
-            <!-- <ul>
-              <li> <a href="#">User Dashboard</a>
-                <ul>
-                  <li><a href="page-dashboard.html">Dashboard</a></li>
-                  <li><a href="page-dashboard-profile.html">My Profile</a></li>
-                  <li><a href="page-dashboard-property.html">My Listings</a></li>
-                  <li><a href="page-dashboard-new-property.html">New Listings</a></li>
-                  <li><a href="page-dashboard-favorites.html">Favorites</a></li>
-                  <li><a href="page-dashboard-save-search.html">Save Search</a></li>
-                  <li><a href="page-dashboard-invoices.html">My Invoice</a></li>
-                  <li><a href="page-dashboard-message.html">Inbox</a></li>
-                  <li><a href="page-dashboard-logout.html">Logout</a></li>
-                </ul>
-              </li>
-              <li><a href="page-dashboard-new-property.html">New Listing</a></li>
-            </ul> -->
+            
           </li>
           <li> <a href="{% url 'properties:blog-list' %}"><span class="title">Blog</span></a>
-            <!-- <ul>
-              <li> <a href="#"><span class="title">Shop Pages</span></a>
-                <ul>
-                  <li><a href="page-shop.html">Shop</a></li>
-                  <li><a href="page-shop-single.html">Shop Single</a></li>
-                  <li><a href="page-shop-cart.html">Cart</a></li>
-                  <li><a href="page-shop-checkout.html">Checkout</a></li>
-                  <li><a href="page-shop-order.html">Order</a></li>
-                </ul>
-              </li>
-              <li><a href="page-about.html">About Us</a></li>
-              <li> <a href="#"><span class="title">Blog</span></a>
-                <ul>
-                  <li><a href="page-blog-grid.html">Blog Grid</a></li>
-                  <li><a href="page-blog-grid-sidebar.html">Blog Grid Sidebar</a></li>
-                  <li><a href="page-blog-details.html">Blog Details</a></li>
-                  <li><a href="page-blog-list.html">Blog List</a></li>
-                  <li><a href="page-blog-single.html">Blog Single</a></li>
-                  <li><a href="page-blog-single2.html">Blog Single v2</a></li>
-                </ul>
-              </li>
-              <li><a href="page-coming-soon.html">Coming Soon</a></li>
-              <li><a href="page-gallery.html">Gallery</a></li>
-              <li><a href="page-faq.html">Faq</a></li>
-              <li><a href="page-login.html">My Account</a></li>
-              <li><a href="page-pricing.html">Pricing V1</a></li>
-              <li><a href="page-compare.html">Compare</a></li>
-              <li><a href="page-error.html">404 Page</a></li>
-              <li><a href="page-terms.html">Terms and Conditions</a></li>
-              <li><a href="page-ui-element.html">UI Elements</a></li>
-            </ul> -->
+
           </li>
           <li><a href="{% url 'properties:about' %}">About</a></li>
           <li><a href="{% url 'properties:contact' %}">Contact</a></li>
@@ -133,7 +60,7 @@
           <!-- <li class="list-inline-item list_c"><a href="#"><span class="flaticon-phone mr7 fz20"></span> (+88) 1990 6886</a></li> -->
           {% if request.user.is_authenticated %}
           <li class="list-inline-item list_s"><a href="{% url 'accounts:dashboard' %}" class="btn" ><span class="flaticon-user"></span></a></li>
-          <li class="list-inline-item add_listing"><a href="{% url 'properties:create-listing' %}"><span class="icon flaticon-button mr3 fz16 mr0-lg"></span><span class="dn-lg"> Create Listing</span></a></li>
+          <li class="list-inline-item add_listing"><a href="{% url 'accounts:onbording-1' %}"><span class="icon flaticon-button mr3 fz16 mr0-lg"></span><span class="dn-lg"> Create Listing</span></a></li>
           {% else %}
           <li class="list-inline-item list_s"><a href="#" class="btn" data-toggle="modal" data-target="#logInModal"><span class="flaticon-user"></span></a></li>
           <li class="list-inline-item add_listing"><a href="{% url 'accounts:login' %}"><span class="icon flaticon-button mr3 fz16 mr0-lg"></span><span class="dn-lg"> Create Listing</span></a></li>

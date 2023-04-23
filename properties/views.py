@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.db.models import Q 
 
+from lodges.models import Lodge, About, BlogPost, BlogCategory
+
 from properties.models import Property, Districts, PropertyCategory
 from properties.forms import *
 from properties.filters import AdvancedSearchFilter
@@ -40,14 +42,16 @@ class PropertiesHome(generic.ListView):
     def get(self, request):
         property = Property.objects.filter(is_active=True).filter(is_featured=True)
         recents = Property.objects.order_by('-created_at')[:5]
-
+        lodges = Lodge.objects.prefetch_related("pictures").filter(is_active=True)
+        blogs = BlogPost.objects.filter(is_active=True).order_by('-created')[:4]
         # forms 
         search_form = SearchForm()
         # print(search_form)
 
         context = {
             'property': property, 'search': search_form,
-            'recents': recents,
+            'recents': recents, 'lodges': lodges,
+            'blogs': blogs
         }
         return render(request, 'properties/home.html', context)
 
@@ -105,10 +109,33 @@ class PropertyDetail(generic.DetailView):
         }
 
         return render(request, self.template_name, context)
+    
+
+class BlogDetailView(generic.DetailView):
+    model = BlogPost
+    template_name = 'properties/blog-detail.html'
+
+    def get(self, request, **kwargs):
+        qs = self.model.objects.prefetch_related('blog_images').get(slug=kwargs.get('slug'))
+        get_current_id = self.model.objects.filter(slug=self.kwargs['slug']).first()
+        
+        context = {
+            'blog': qs,
+            'next': self.model.objects.filter(id__gt=get_current_id.pk).first(),
+            'previous':  self.model.objects.filter(id__lt=get_current_id.pk).first(),
+        }
+        return render(request, self.template_name, context)
+
 
 class BlogList(generic.ListView):
     def get(self, request):
-        return render(request, 'properties/page-blog-list.html')
+        blogs = BlogPost.objects.filter(is_active=True)
+        blog_cat = BlogCategory.objects.filter(is_active=True)
+        context = {
+            'blogs': blogs,
+            'blog_cats': blog_cat,
+        }
+        return render(request, 'properties/page-blog-list.html', context)
 
 
 class BlogGrid(generic.ListView):
@@ -134,6 +161,7 @@ class AgentList(generic.ListView):
 class AgentDetails(generic.DetailView):
     def get(self, request):
         return render(request, 'properties/page-agent-single.html')
+
 
 class CreatePropertyListing(generic.CreateView):
     model = Property
@@ -240,8 +268,9 @@ class DeletePropertyListing(generic.DeleteView):
 def contextQ(request):
 
     return {
-        'categories': Districts.objects.filter(is_active=True), 
-        'districts': PropertyCategory.objects.all(),
+        'districts': Districts.objects.filter(is_active=True), 
+        'categories': PropertyCategory.objects.all(),
+        'about': About.objects.first(),
     }
 
 def fileUploadView(request):

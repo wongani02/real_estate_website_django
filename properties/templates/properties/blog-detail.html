@@ -1,0 +1,276 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}{{blog.title}}{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+	<!-- Blog Single Post -->
+	<section class="blog_post_container pb70">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-12">
+					<div class="main_blog_post_content">
+            <div class="blog_single_post_heading text-center">
+              <div class="contents">
+                <!-- <div class="bsph_tag style2 bgc-thm mb15">FAMILY HOUSE</div> -->
+                <ul>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-user mr10"></span> {{blog.author}}</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-calendar mr10"></span> {{blog.created}}</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-customer-reviews mr10"></span> 24</a></li>
+                </ul>
+                <h2 class="mb15">{{blog.title}}</h2>
+              </div>
+            </div>
+          </div>
+            </div>
+        </div>
+		</div>
+    <div class="container-fluid p0">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="main_blog_post_content">
+            <div class="mbp_thumb_post">
+              <div class="thumb mt30 mb20">
+                <img class="w100" src="{{blog.cover_img.url}}" alt="bs1.jpg">
+              </div>
+            </div>                    
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="mbp_thumb_post">
+            <p class="fz14 mb25 mt30">{{blog.content|safe}}</p>
+            
+            <ul class="bpost_simage mb40">
+            {% for image in blog.blog_images.all %}
+              <li class="list-inline-item"><img src="{{image.image.url}}" alt="{{image.alt_text}}"></li>
+            {% endfor %} 
+            </ul>            
+            <hr class="mt50 mb40">
+            <div class="bsp_tags pull-left fn-767 mt10 mb30-767">
+              <ul class="mb0">
+                {% for item in blog.category.all %}
+                <li class="list-inline-item"><a href="{{item.get_absolute_url}}">{{item.name}}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+            <ul class="blog_post_share text-right tal-767 mb0">
+              <li class="list-inline-item"><a href="#"><span class="fa fa-facebook"></span>Share on Facebook</a></li>
+              <li class="list-inline-item"><a href="#"><span class="fa fa-twitter"></span>Share on Twitter</a></li>
+              <!-- <li class="list-inline-item"><a href="#"><span class="fa fa-pinterest"></span>Share on Pinterest</a></li> -->
+              <!-- <li class="list-inline-item"><a href="#"><span class="fa fa-plus"></span></a></li> -->
+            </ul>
+          </div>
+          <hr class="mt50">
+          <div class="mbp_pagination_tab">
+            <div class="row">
+              {% if previous %}
+              <div class="col-sm-6 col-lg-6">
+                <div class="pag_prev">
+                  <div class="detls">
+                    <h5><span class="fa fa-angle-left mr5"></span> <a href="{% url 'properties:blog-detail' previous.slug %}">Previous Post</a></h5>
+                    <p> {{previous.title}}</p>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% if next %}
+              <div class="col-sm-6 col-lg-6">
+                <div class="pag_next text-right">
+                  <div class="detls">
+                    <h5><a href="{% url 'properties:blog-detail' next.slug %}">Next Post</a> <span class="fa fa-angle-right ml5"></span></h5>
+                    <p> {{next.title}}</p>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <hr>
+          <div class="product_single_content mb50">
+            <div class="mbp_pagination_comments">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="total_review mb20">
+                    <h4>4.67 (14 reviews)</h4>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="mbp_first mb30-767">
+                    <!-- <img src="images/blog/reviewer1.png" class="mr-3" alt="reviewer1.png"> -->
+                    <div class="media-body mt15">
+                      <h4 class="sub_title mt-0">Jane Cooper</h4>
+                      <div class="sspd_postdate fz14 mb20">April 6, 2021 at 3:21 AM
+                        <div class="sspd_review pull-right">
+                          <ul class="mb0 pl15">
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item">(5 reviews)</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <p class="fz14 mt10">Every single thing we tried with John was delicious! Found some awesome places we would definitely go back to on our trip. John was also super friendly and passionate about Beşiktaş and Istanbul.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-6">
+                  <div class="mbp_first">
+                    <!-- <img src="images/blog/reviewer2.png" class="mr-3" alt="reviewer2.png"> -->
+                    <div class="media-body mt15">
+                      <h4 class="sub_title mt-0">Bessie Cooper</h4>
+                      <div class="sspd_postdate fz14 mb20">April 6, 2021 at 3:21 AM
+                        <div class="sspd_review pull-right">
+                          <ul class="mb0 pl15">
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            <li class="list-inline-item">(5 reviews)</li>
+                          </ul>
+                        </div>
+                        </div>
+                      <p class="fz14 mt10">Every single thing we tried with John was delicious! Found some awesome places we would definitely go back to on our trip. John was also super friendly and passionate about Beşiktaş and Istanbul.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="mb30">
+          <div class="bsp_reveiw_wrt">
+            <h4>Add a Review</h4>
+            <form class="comments_form">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Name">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <textarea class="form-control" rows="6" placeholder="Enter Your Message"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-thm">Send Your Review</button>
+                </div>
+              </div>
+            </form>
+          </div> 
+        </div>
+      </div>             
+    </div>
+	</section>
+  
+  <!-- Our Blog -->
+  <!-- <section class="our-blog bgc-alice-blue pb70">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+          <div class="main-title text-center">
+            <h2>Related Posts</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-xl-3">
+          <div class="for_blog feat_property">
+            <div class="thumb"> <img class="img-whp" src="images/blog/1.jpg" alt="1.jpg">
+              <div class="tag bgc-thm"><a class="text-white" href="#">FAMILY HOUSE</a></div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <div class="bp_meta">
+                  <ul>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
+                  </ul>
+                </div>
+                <h4>Redfin Ranks the Most Competitive Neighborhoods of 2021</h4>
+                <p>Semper sagittis facilisi praesent elementum purus faucibus faucibus non tempus. </p>
+                <a class="text-thm tdu read_more_btn" href="page-blog-single.html">READ MORE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="for_blog feat_property">
+            <div class="thumb"> <img class="img-whp" src="images/blog/2.jpg" alt="2.jpg">
+              <div class="tag bgc-thm"><a class="text-white" href="#">APARTMENT</a></div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <div class="bp_meta">
+                  <ul>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
+                  </ul>
+                </div>
+                <h4>Redfin Ranks the Most Competitive Neighborhoods of 2021</h4>
+                <p>Semper sagittis facilisi praesent elementum purus faucibus faucibus non tempus. </p>
+                <a class="text-thm tdu read_more_btn" href="page-blog-single.html">READ MORE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="for_blog feat_property">
+            <div class="thumb"> <img class="img-whp" src="images/blog/3.jpg" alt="3.jpg">
+              <div class="tag bgc-thm"><a class="text-white" href="#">APARTMENT</a></div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <div class="bp_meta">
+                  <ul>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
+                  </ul>
+                </div>
+                <h4>Redfin Ranks the Most Competitive Neighborhoods of 2021</h4>
+                <p>Semper sagittis facilisi praesent elementum purus faucibus faucibus non tempus. </p>
+                <a class="text-thm tdu read_more_btn" href="page-blog-single.html">READ MORE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="for_blog feat_property">
+            <div class="thumb"> <img class="img-whp" src="images/blog/4.jpg" alt="4.jpg">
+              <div class="tag bgc-thm"><a class="text-white" href="#">RENTAL</a></div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <div class="bp_meta">
+                  <ul>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-user fz15 mr10"></span> Robert Fox</a></li>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-calendar fz15 mr10"></span> 06 April, 2021</a></li>
+                  </ul>
+                </div>
+                <h4>Redfin Ranks the Most Competitive Neighborhoods of 2021</h4>
+                <p>Semper sagittis facilisi praesent elementum purus faucibus faucibus non tempus. </p>
+                <a class="text-thm tdu read_more_btn" href="page-blog-single.html">READ MORE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+	<!-- Our Footer -->
+  {% include 'properties/footer.html' %}
+<a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
+</div>
+{% endblock %}
