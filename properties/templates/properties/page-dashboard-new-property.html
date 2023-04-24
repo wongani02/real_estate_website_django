@@ -291,12 +291,39 @@
                                     }
                                 </style>
 
-                                <form action="/file-upload" class="dropzone">
+                                <form name="file-form" id="file-form" class="dropzone" method="post">
                                     <div class="fallback">
                                         <input name="file" type="file" multiple />
                                     </div>
                                 </form>
                             </div>
+                            <div class="new_property_form">
+                                <h4 class="title mb30">Video of your lodge, rooms and surrounding</h4>
+                                <div class="col-md-12">
+                                    {{videos_form.link}}
+                                    <!-- <div class="form-group mb30">
+                                      <input name="form_name" class="form-control form_control" type="text" placeholder="Video link">
+                                    </div> -->
+                                </div>
+                                  
+                                <style>
+                                    .dz{
+                                        border: dashed !important;
+                                        border-color: #acc !important;
+                                        border-radius: 10px !important;
+                                    }
+                                    .dz:hover{
+                                        background-color: aliceblue !important;
+                                    }
+                                </style>
+
+                                <form name="video-form" id="video-form" class="dropzone" method="post">
+                                    <div class="fallback">
+                                        <input name="video" id="video" type="file" />
+                                    </div>
+                                </form>
+                            </div>
+                            
                             <div class="new_property_form">
                                 <h4 class="title mb30">Floor Plans</h4>
                                 <!--                                    <form class="contact_form" name="contact_form" action="#" method="post" novalidate>-->

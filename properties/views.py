@@ -168,28 +168,31 @@ class CreatePropertyListing(generic.CreateView):
     template_name = 'properties/page-dashboard-new-property.html'
 
     def get(self, request):
-        form=PropertyCreationForm(request.GET)
-        cat_form = PropertyCategoryCreationForm(request.GET)
-        dis_form = DistrictCreationForm(request.GET)
-        # images_form = ImagesCreationForm(request.GET, request.FILES)
+        # form=PropertyCreationForm(request.GET)
+        # cat_form = PropertyCategoryCreationForm(request.GET)
+        # dis_form = DistrictCreationForm(request.GET)
+        images_form = ImagesCreationForm(request.GET, request.FILES)
         videos_form = VideosCreationForm(request.GET, request.FILES)
-        amenity_form = AmenitiesCreationForm(request.GET)
+        # amenity_form = AmenitiesCreationForm(request.GET)
 
         return render(request, self.template_name, {
-            'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
-            # 'img_form': images_form,
-            'am_form': amenity_form, 'videos_form': videos_form
+            # 'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
+            'img_form': images_form, 'videos_form': videos_form
+            # 'am_form': amenity_form,
         })
     
     def post(self, request, **kwargs):
         property_form = PropertyCreationForm(request.POST)
+        print("REQUEST: ", request.POST)
+        result = self.save_db(request, **kwargs)
+        print("RESULT: ", result)
 
         if property_form.is_valid():
             property_form.save(commit=False)
-            result = self.save_db(request, **kwargs)
+            
 
             if result:
-                property_form.save(commit=True)
+                property_form.save(commit=False)
             
             return redirect('properties:home')
         
@@ -210,17 +213,21 @@ class CreatePropertyListing(generic.CreateView):
     
     def save_db(self, request, **kwargs):
         try:
-            video = Videos.objects.create(
-                property=kwargs.get('pk'),
-                video=request.FILES.get('video'),
-                link=request.POST.get('link')
-            )
-            video.save()
-            for item in request.FILES.get('image'):
+            # video = Videos.objects.create(
+            #     property=kwargs.get('pk'),
+            #     video=request.FILES.get('video'),
+            #     link=request.POST.get('link')
+            # )
+            # video.save()
+            print("before: ", request.POST.get('file'))
+            print("before 2: ", request.POST.dict())
+            for item in request.POST.get('file'):
+                print("for 1")
                 image = Images.objects.create(
                     property=kwargs.get('pk'),
                     image=item
                 )
+                print("save 1")
                 image.save()
             
             return True
@@ -272,14 +279,6 @@ def contextQ(request):
         'categories': PropertyCategory.objects.all(),
         'about': About.objects.first(),
     }
-
-def fileUploadView(request):
-    session = request.session
-    
-    if request.method == 'POST':
-        image = request.FILES.get('file')
-        print(str(image))
-    return HttpResponse('upload')
 
 
 def create_property_category(request):

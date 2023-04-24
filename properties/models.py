@@ -147,10 +147,10 @@ class NearbyPlaces(models.Model):
 
     property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_nearby')
     name_of_place = models.CharField(_("Name of Place"), max_length=100, null=True)
-    location = models.CharField(_("Location"), max_length=100, null=True)
+    desc = models.TextField(_("Description of place"), null=True)
 
     def __str__(self):
-        return '{} - {}'.format(self.name_of_place, self.location)
+        return '{} - {}'.format(self.name_of_place)
 
 
 # Images table
