@@ -128,6 +128,8 @@ class Property(models.Model):
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now=True, null=True)
     is_featured = models.BooleanField(_("if Featured"), default=False, null=True)
+    region = models.CharField(_("State/Region"), max_length=100, null=True)
+    country = models.CharField(_("Country"), max_length=50, default='MALAWI')
     agent = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         null=True, 
@@ -150,7 +152,7 @@ class NearbyPlaces(models.Model):
     desc = models.TextField(_("Description of place"), null=True)
 
     def __str__(self):
-        return '{} - {}'.format(self.name_of_place)
+        return '{} - {}'.format(self.name_of_place, self.desc[:20])
 
 
 # Images table

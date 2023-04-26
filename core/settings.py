@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     #payments app
     'payments',
     'lodges',
+
+    # bnb
+    'bnb',
 ]
 
 MIDDLEWARE = [

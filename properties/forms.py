@@ -113,7 +113,7 @@ class DistrictCreationForm(forms.ModelForm):
 class NearbyPlacesCreationForm(forms.ModelForm):
     class Meta:
         model = NearbyPlaces
-        fields = ['name_of_place', 'location',]
+        fields = ['name_of_place', ]
 
 
 class PropertyCategoryCreationForm(forms.ModelForm):

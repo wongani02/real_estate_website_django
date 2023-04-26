@@ -104,8 +104,10 @@ class PropertyDetail(generic.DetailView):
 
     def get(self, request, **kwargs):
         qs = Property.objects.get(id=kwargs.get('pk'))
+        nbs = NearbyPlaces.objects.get(property=kwargs.get('pk'))
         context = {
             'property': qs,
+            'nearby_place': nbs
         }
 
         return render(request, self.template_name, context)
