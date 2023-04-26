@@ -39,6 +39,7 @@ class Property(models.Model):
     country = models.CharField(max_length=255, blank=True)
     zipcode = models.CharField(max_length=10, blank=True)
     price_per_night = models.DecimalField(_("Price/Night"), max_digits=8, decimal_places=2)
+    prev_price = models.DecimalField(_("Previous Price"), max_digits=8, decimal_places=2, null=True)
     num_guests = models.PositiveIntegerField(_("Number of Guests"), )
     num_bedrooms = models.PositiveIntegerField(_("Number of Bed Rooms"), )
     num_beds = models.PositiveIntegerField(_("Number of Beds"), )

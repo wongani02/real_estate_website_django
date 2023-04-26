@@ -12,7 +12,7 @@ class BnbList(generic.ListView):
         context = super(BnbList, self).get_context_data(**kwargs)
         qs = Property.objects.all()
         context = {
-            'bnbs': qs, 'bnb_count': qs.count()
+            'bnbs': qs, 'bnb_count': qs.count(),
         }
 
         return context
@@ -24,8 +24,9 @@ class BnbDetail(generic.DetailView):
 
     def get(self, request, **kwargs):
         qs = Property.objects.get(id=kwargs.get('pk'))
+        imgs = PropertyImage.objects.filter(property=kwargs.get('pk'))
         context = {
-            'property': qs,
+            'property': qs, 'images': imgs
         }
 
         return render(request, self.template_name, context)

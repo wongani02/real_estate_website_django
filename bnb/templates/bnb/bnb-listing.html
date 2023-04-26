@@ -1,5 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
+{% load custom_tag %}
 
 {% block header %}
 {% include 'properties/header-2.html' %}
@@ -434,7 +435,9 @@
             <div class="col-lg-6 col-xl-3">
               <div class="feat_property">
                 <div class="thumb">
-                  <img class="img-whp" src="{{item.cover_img.url}}" alt="fl1.jpg">
+                  
+                  <img class="img-whp" src="{% property_images item.id %}" alt="fl1.jpg">
+                    
                   <div class="thmb_cntnt">
                     {% if item.featured %}
                     <ul class="tag mb0">

@@ -1,6 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}Lodge Detail{% endblock title %}
+{% block title %}BnB Detail{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -14,18 +14,17 @@
             <div class="breadcrumb_content style3">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'lodges:lodge-listings' %}">Lodges</a></li>
-                <li class="breadcrumb-item active style2" aria-current="page">{{lodge.name}}</li>
+                <li class="breadcrumb-item"><a href="{% url 'bnb:bnb-list' %}">BnB's</a></li>
+                <li class="breadcrumb-item active style2" aria-current="page">{{property.title}}</li>
               </ol>
             </div>
             <div class="media">
               <div class="media-body">
-                <h2 class="mt-0">{{Lodge.name}}</h2>
-                <p>{{lodge.state}}, {{lodge.city}}</p>
+                <h2 class="mt-0">{{property.title}}</h2>
+                <p>{{property.state}}, {{property.city}}</p>
                 <ul class="prop_details mb0">
-                  <li class="list-inline-item mr20"><a class="mr20" href="#"><span class="flaticon-bed pr5 vam"></span> {{lodge.rooms.count}}  Room types</a></li>
-                  <li class="list-inline-item mr20"><a class="mr20" href="#"><span class="flaticon-bath pr5 vam"></span> {{lodge.pictures.count}} Images</a></li>
-                 
+                  <li class="list-inline-item mr20"><a class="mr20" href="#"><span class="flaticon-bed pr5 vam"></span> {{property.num_bedrooms}}  Bedrooms</a></li>
+                  <li class="list-inline-item mr20"><a class="mr20" href="#"><span class="flaticon-picture pr5 vam"></span> {{images.count}} Images</a></li>
                 </ul>
               </div>
             </div>
@@ -41,7 +40,11 @@
                 <li class="list-inline-item"><a href="#">Save</a></li>
               </ul>
             </div>
-            <!-- <div class="price mt20 mb10"><h3><small class="mr10"><del>$2,800/mo</del></small> $7,500/mo</h3></div> -->
+            <div class="price mt20 mb10"><h3><small class="mr10">
+            {% if property.prev_price %}
+              <del>MWK {{property.prev_price}}/night</del>
+            {% endif %}
+              </small> MWK {{property.price_per_night}}/night</h3></div>
             <p class="mb0">Est. Mortgage</p>
           </div>
         </div>
@@ -51,9 +54,14 @@
           <div class="row">
             <div class="col-lg-12 pr0 pl15-767 pr15-767">
               <div class="spls_style_two mb30-md">
-                <a class="popup-img" href="{{lodge.cover_img.url}}">
-                  <img class="img-fluid first-img" src="{{lodge.cover_img.url}}" alt="1.jpg">
-                </a>
+                
+                {% for image in images|slice:":1" %}
+                <a class="popup-img" href="{{image.image.url}}">
+                  <img class="img-fluid first-img" src="{{image.image.url}}" alt="1.jpg">
+                </a>  
+                {% endfor %}
+                  
+                
                 <a href="#"><span class="baddge_left">FEATURED</span></a>
                 <!-- <a href="#"><span class="baddge_right">FOR SALE</span></a> -->
               </div>
@@ -63,10 +71,10 @@
         <div class="col-lg-5">
             
           <div class="row">
-            {% for item in lodge.pictures.all %}
+            {% for item in images %}
             <div class="col-sm-4 col-lg-4 pr5 pr15-767">
               <div class="spls_style_two mb10">
-                <a class="popup-img" href="{{item.img.url}}"><img class="img-fluid w100" src="{{item.img.url}}" alt="2.jpg"></a>
+                <a class="popup-img" href="{{item.image.url}}"><img class="img-fluid w100" src="{{item.image.url}}" alt="2.jpg"></a>
               </div>
             </div>
             {% endfor %}
@@ -94,7 +102,7 @@
             <div class="col-lg-12">
               <div class="listing_single_description mb60">
                 <h4 class="mb30">Description</h4>
-                <p class="first-para mb25">{{lodge.description|safe}}</p>
+                <p class="first-para mb25">{{property.description|safe}}</p>
                 
               </div>
             </div>
@@ -120,8 +128,8 @@
                       <li><p>State/County: </p></li>
                     </ul>
                     <ul class="list-inline-item mb0">
-                      <li><p><span>{{lodge.address}}</span></p></li>
-                      <li><p><span>{{lodge.state}}</span></p></li>
+                      <li><p><span>{{property.address}}</span></p></li>
+                      <li><p><span>{{property.state}}</span></p></li>
                     </ul>
                   </div>
                   <div class="col-md-6 col-lg-6 col-xl-4">
@@ -130,7 +138,7 @@
                       <!-- <li><p>Zip:</p></li> -->
                     </ul>
                     <ul class="list-inline-item mb0">
-                      <li><p><span>{{lodge.city}}</span></p></li>
+                      <li><p><span>{{property.city}}</span></p></li>
                       <!-- <li><p><span>365448</span></p></li> -->
                     </ul>
                   </div>
