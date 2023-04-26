@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from properties.models import * 
+from bnb.models import PropertyType as BnbType
 
 
 
@@ -12,6 +13,11 @@ class SearchForm(forms.ModelForm):
             'class': 'custom-control custom-checkbox'
         }),
     )
+    bnb_type = forms.ModelChoiceField(
+        queryset=BnbType.objects.all(), widget=forms.Select(attrs={
+            'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
+        })
+    )
 
     class Meta:
         model = Property
@@ -20,18 +26,21 @@ class SearchForm(forms.ModelForm):
             'property_type', 'district', 'price', 'compound_area',
             'amenities',
         ] 
-        # widgets = {
-        #     'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
-        #         'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
-        #     }),
-        #     'status': forms.Select(choices=Property.STATUS, attrs={
-        #         'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
-        #     }),
-        #     'district': forms.Select(choices=Districts.objects.all(), attrs={
-        #         'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
-        #         'title': 'Village'
-        #     }),
-        # }
+        widgets = {
+            'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
+                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
+            }),
+            'status': forms.Select(choices=Property.STATUS, attrs={
+                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
+            }),
+            'district': forms.Select(choices=Districts.objects.all(), attrs={
+                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
+                'title': 'Village'
+            }),
+            # )'bnb_type': forms.Select(choices=BnbType.objects.all(), attrs={
+            #     'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
+            # }
+        }
 
 class PropertyCreationForm(forms.ModelForm):
     amenities = forms.ModelMultipleChoiceField(
@@ -45,24 +54,24 @@ class PropertyCreationForm(forms.ModelForm):
             'year_built', 'location_area', 'price', 'district', 
             'amenities', 'lat', 'lon',
         ]
-        # widgets = {
-        #     'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
-        #         'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
-        #     }),
-        #     'status': forms.Select(choices=Property.STATUS, attrs={
-        #         'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
-        #     }),
-        #     'property_cat': forms.Select(choices=PropertyCategory.objects.all(), attrs={
-        #         'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Category',
-        #     }),
-        #     'year_built': forms.DateInput(attrs={
-        #         'type': 'date', 'class': 'form-control form_control'
-        #     }),
-        #     'district': forms.Select(choices=Districts.objects.all(), attrs={
-        #         'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
-        #         'title': 'Village'
-        #     }),
-        # }
+        widgets = {
+            'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
+            }),
+            'status': forms.Select(choices=Property.STATUS, attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
+            }),
+            'property_cat': forms.Select(choices=PropertyCategory.objects.all(), attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Category',
+            }),
+            'year_built': forms.DateInput(attrs={
+                'type': 'date', 'class': 'form-control form_control'
+            }),
+            'district': forms.Select(choices=Districts.objects.all(), attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
+                'title': 'Village'
+            }),
+        }
 
 
 
@@ -78,24 +87,24 @@ class PropertyEditForm(forms.ModelForm):
             'year_built', 'location_area', 'price', 'district', 
             'amenities', 'lat', 'lon',
         ]
-        # widgets = {
-        #     'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
-        #         'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
-        #     }),
-        #     'status': forms.Select(choices=Property.STATUS, attrs={
-        #         'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
-        #     }),
-        #     'property_cat': forms.Select(choices=PropertyCategory.objects.all(), attrs={
-        #         'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Category',
-        #     }),
-        #     'year_built': forms.DateInput(attrs={
-        #         'type': 'date', 'class': 'form-control form_control'
-        #     }),
-        #     'district': forms.Select(choices=Districts.objects.all(), attrs={
-        #         'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
-        #         'title': 'Village'
-        #     }),
-        # }
+        widgets = {
+            'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
+            }),
+            'status': forms.Select(choices=Property.STATUS, attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
+            }),
+            'property_cat': forms.Select(choices=PropertyCategory.objects.all(), attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Category',
+            }),
+            'year_built': forms.DateInput(attrs={
+                'type': 'date', 'class': 'form-control form_control'
+            }),
+            'district': forms.Select(choices=Districts.objects.all(), attrs={
+                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
+                'title': 'Village'
+            }),
+        }
 
 
 

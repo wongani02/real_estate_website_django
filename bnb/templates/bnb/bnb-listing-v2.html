@@ -205,7 +205,7 @@
               <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
               <li class="breadcrumb-item">Search</li>
               <li class="breadcrumb-item">Simple</li>
-              <li class="breadcrumb-item active" aria-current="page">Property</li>
+              <li class="breadcrumb-item active" aria-current="page">BnB's</li>
             </ol>
           </div>
         </div>
@@ -221,7 +221,7 @@
             <div class="listing_filter_row dif db-767">
               <div class="col-sm-12 col-md-4 col-lg-4 col-xl-5">
                 <div class="left_area tac-xsd mb30-767">
-                  <p class="mb0 mt10"><span class="heading-color">Results: {{results.count}}</span> Showing</p> 
+                  <p class="mb0 mt10"><span class="heading-color">Results: {{count}}</span> Showing</p>
                 </div>
               </div>
               <div class="col-sm-12 col-md-8 col-lg-8 col-xl-7">
@@ -253,13 +253,13 @@
                   <div class="thmb_cntnt">
                     <ul class="tag mb0">
                       
-                      {% if result.is_featured %}
-                      <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                      {% if result.is_available %}
+                      <li class="list-inline-item"><a href="#">AVAILABLE</a></li>
                       {% endif %}
                         
                     </ul>
                     <ul class="tag2 mb0">
-                      <li class="list-inline-item"><a href="#">{{result.property_type}}</a></li>
+                      <li class="list-inline-item"><a href="#">{{result.property_type.name}}</a></li>
                     </ul>
                   </div>
                   <div class="thmb_cntnt2">
@@ -272,13 +272,13 @@
                 <div class="details">
                   <div class="tc_content">
                     <div class="badge_icon"><a href="#"><img src="images/agent/3.png" alt="3.png"></a></div>
-                    <h4><a href="page-listing-single-v8.html">{{result.name}}</a></h4>
-                    <p>{{result.location_area}}</p>
+                    <h4><a href="page-listing-single-v8.html">{{result.title}}</a></h4>
+                    <p>{{result.address}}</p>
                     <ul class="prop_details mb0">
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span> <br>{{result.no_rooms}} Beds</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span> <br>{{result.no_baths}} Bath</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span> <br>{{result.no_garages}} Garage</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span> <br>{{result.compound_area}} Sq Ft</a></li>
+                      <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span> <br>{{result.num_beds}} Beds</a></li>
+                      <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span> <br>{{result.num_baths}} Bath</a></li>
+                      <li class="list-inline-item"><a href="#"><span class="flaticon-user"></span> <br>{{result.num_guests}} Guests</a></li>
+                      <li class="list-inline-item"><a href="#"><span class="flaticon-house"></span> <br>{{result.num_bedrooms}} Rooms</a></li>
                     </ul>
                   </div>
                   <div class="fp_footer">
@@ -290,7 +290,7 @@
                           <small><del class="body-color">MWK {{result.prev_price}}/mo</del></small><br>
                           {% endif %}
                             
-                          <span class="heading-color fw600">MWK {{result.price}}/mo</span>
+                          <span class="heading-color fw600">MWK {{result.price_per_night}}/mo</span>
                         </a>
                       </li>
                     </ul>

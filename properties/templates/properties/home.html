@@ -259,7 +259,7 @@
                   <a class="nav-link active" id="rent-tab" data-toggle="tab" href="#rent" role="tab" aria-controls="rent" aria-selected="false">Property</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">Bnb's</a>
+                  <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">BnB's</a>
                 </li>
               </ul>
               <div class="tab-content" id="myTabContent2">
@@ -400,14 +400,14 @@
                   <div class="home_adv_srch_opt">
                     <div class="wrapper">
                       <div class="home_adv_srch_form">
-                        <form class="bgc-white p20" method="post" action="{% url 'properties:simple-search' %}">
+                        <form class="bgc-white p20" method="post" action="{% url 'bnb:simple-search' %}">
                           {% csrf_token %}
                           <div class="form-row align-items-center">
                             <div class="col-auto home_form_input mb15-md">
                               <div class="form-group style2 mb-2 pl10 pl0-lg">
                                 <label>TYPE</label>
                                 <div class="select-wrap style2-dropdown">
-                                  {{search.property_type}}
+                                  {{search.bnb_type}}
                                   <!-- <select class="selectpicker show-tick" multiple>
                                     <option value="Apartment">Apartment</option>
                                     <option value="Condo">Condo</option>

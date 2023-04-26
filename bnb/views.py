@@ -36,14 +36,14 @@ class BnbDetail(generic.DetailView):
 
 
 class SimpleSearch(generic.ListView):
-    template_name = 'properties/bnb-listing-v2.html'
+    template_name = 'bnb/bnb-listing-v2.html'
     paginate_by = 12
-    context_object_name = 'properties'
 
     def post(self, request):
         qs = Property.objects.filter(
-            Q(property_type__icontains=request.POST.get('property_type')) | Q(district__id__iexact=request.POST.get('district'))
-        ).filter(is_active=True).order_by('created_at').distinct()
+            Q(property_type__id__iexact=request.POST.get('bnb_type')) | 
+            Q(city__id__iexact=request.POST.get('district'))
+        ).order_by('created_at').distinct()
 
         # Set up a 12 object pagination with all properties
         p = Paginator(qs, 12)
@@ -55,7 +55,7 @@ class SimpleSearch(generic.ListView):
         results = p.get_page(page)
 
         context = ({
-            'results': results,
+            'results': results, 'count': qs.count()
         })
 
         return render(request, self.template_name, context)
