@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
+from properties.models import Districts
+
 import uuid
 
 User = settings.AUTH_USER_MODEL
@@ -25,6 +27,7 @@ class RoomType(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class Property(models.Model):
     id=models.UUIDField(_("BNB ID"), primary_key=True, default=uuid.uuid4, editable=False)
@@ -34,7 +37,7 @@ class Property(models.Model):
     room_type = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     description = models.TextField(_("BnB Description"), )
     address = models.CharField(_("Address"), max_length=255)
-    city = models.CharField(max_length=255, blank=True)
+    city = models.ForeignKey(Districts, on_delete=models.CASCADE, related_name='bnb_city')
     state = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255, blank=True)
     zipcode = models.CharField(max_length=10, blank=True)

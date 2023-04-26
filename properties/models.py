@@ -125,7 +125,7 @@ class Property(models.Model):
     no_baths = models.PositiveIntegerField(_("Number of Baths"), default=1)
     desc = RichTextField(_("Description"))
     status = models.BooleanField(_("Property Status"),)
-    district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
+    district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING, related_name='property_district')
     created_at = models.DateTimeField(auto_now=True, null=True)
     is_featured = models.BooleanField(_("if Featured"), default=False, null=True)
     region = models.CharField(_("State/Region"), max_length=100, null=True)

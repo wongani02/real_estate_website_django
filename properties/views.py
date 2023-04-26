@@ -3,6 +3,7 @@ from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponse
 from django.db.models import Q 
+from django.core.paginator import Paginator
 
 from lodges.models import Lodge, About, BlogPost, BlogCategory
 
@@ -17,17 +18,25 @@ class SimpleSearch(generic.ListView):
     paginate_by = 12
     context_object_name = 'properties'
 
-    def get_context_data(self, **kwargs):
-        context = super(SimpleSearch, self).get_context_data(**kwargs)
+    def post(self, request):
         qs = Property.objects.filter(
-            Q(property_type__icontains=kwargs.get('property_type')) | Q(district__iexact=kwargs.get('district'))
-        ).filter(active=True).order_by('date').distinct()
-        
-        context = {
-            'results': qs,
-        }
+            Q(property_type__icontains=request.POST.get('property_type')) | Q(district__id__iexact=request.POST.get('district'))
+        ).filter(is_active=True).order_by('created_at').distinct()
 
-        return context
+        # Set up a 12 object pagination with all properties
+        p = Paginator(qs, 12)
+
+        # Get current page numbe
+        page = self.request.GET.get('page')
+
+        # Save data to property variable
+        results = p.get_page(page)
+
+        context = ({
+            'results': results,
+        })
+
+        return render(request, self.template_name, context)
 
 class AdvancedSearch(generic.ListView):
     template_name = 'properties/page-listing-v2.html'
@@ -68,13 +77,21 @@ class AboutUs(generic.DetailView):
 
 class PropertyListingList(generic.ListView):
     model = Property
-    paginate_by = 5
     template_name = 'properties/page-listing-v3.html'
+    context_object_name = 'all_property'
 
     def get_context_data(self, **kwargs):
         context = super(PropertyListingList, self).get_context_data(**kwargs)
-        qs = Property.objects.all()
-        print("Property: ", qs)
+        
+        # Set up a 8 object pagination with all properties
+        p = Paginator(Property.objects.order_by('created_at'), 5)
+
+        # Get current page number
+        page = self.request.GET.get('page')
+
+        # Save data to property variable
+        qs = p.get_page(page)
+
         context = {
             'all_property': qs,
         }

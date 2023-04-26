@@ -217,7 +217,7 @@
             <div class="listing_filter_row dif db-767">
               <div class="col-sm-12 col-md-4 col-lg-4 col-xl-5">
                 <div class="left_area tac-xsd mb30-767">
-                  <p class="mb0 mt10"><span class="heading-color">13,474</span> Showing</p>
+                  <p class="mb0 mt10"><span class="heading-color">{{all_property.count}}</span> Showing</p>
                 </div>
               </div>
               <div class="col-sm-12 col-md-8 col-lg-8 col-xl-7">
@@ -308,15 +308,42 @@
             <div class="col-lg-12">
               <div class="mbp_pagination mt10">
                 <ul class="page_navigation">
-                  <li class="page-item"><a class="page-link" href="#" tabindex="-1"><span class="fa fa-arrow-left"></span></a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item active" aria-current="page"><a class="page-link" href="#">3<span class="sr-only">(current)</span></a></li>
-                  <li class="page-item"><a class="page-link" href="#">4</a></li>
-                  <li class="page-item"><a class="page-link" href="#">5</a></li>
+
+                  <!-- Check if there are any previous pages, disable button if not -->
+                  {% if all_property.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{all_property.previous_page_number}}" tabindex="-1"><span class="fa fa-arrow-left"></span></a></li>
+                  {% else %}
+                  <li class="page-item"><a class="page-link disabled" href="#" aria-disabled="true" tabindex="-1"><span class="fa fa-arrow-left"></span></a></li>
+                  {% endif %}
+                    
+                  <!-- Show previous page number if there is a previous page -->
+                  {% if all_property.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{all_property.previous_page_number}}">{{all_property.previous_page_number}}</a></li>
+                  {% endif %}
+
+                  <!-- Show current page number -->
+                  <!-- <li class="page-item"><span class="page-numbers current">{{all_property.number}}</span></li> -->
+                  <li class="page-item active" aria-current="page"><a class="page-link">{{all_property.number}}<span class="sr-only">{{all_property.number}}</span></a></li>
+
+                  <!-- Show next page number if there is a next page -->
+                  {% if all_property.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{all_property.next_page_number}}">{{all_property.next_page_number}}</a></li>  
+                  
+                  <!-- ellipsis for styling -->
                   <li class="page-item"><a class="page-link" href="#">...</a></li>
-                  <li class="page-item"><a class="page-link" href="#">15</a></li>
-                  <li class="page-item"><a class="page-link" href="#"><span class="fa fa-arrow-right"></span></a></li>
+                  
+                  <!-- Show total number of pages -->
+                  <li class="page-item"><a class="page-link" href="?page={{all_property.paginator.num_pages}}">{{all_property.paginator.num_pages}}</a></li>
+                  {% endif %}
+                    
+                  <!-- Check if there is a next page, disable button if not -->
+                
+                {% if all_property.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{all_property.paginator.num_pages}}"><span class="fa fa-arrow-right"></span></a></li>  
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{all_property.paginator.num_pages}}"><span class="fa fa-arrow-right"></span></a></li>  
+                {% endif %}
+                  
                 </ul>
               </div>
             </div>
