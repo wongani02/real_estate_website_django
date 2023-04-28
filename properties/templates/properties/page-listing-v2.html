@@ -244,12 +244,25 @@
             </div>
           </div>
           <div class="row">
+          {% for obj in result %}
             
-            {% for result in results %}
+          {% endfor %}
+            
+            
+            {% for result in results.qs %}
             <div class="col-lg-6 col-xl-4">
               <div class="feat_property">
                 <div class="thumb">
-                  <img class="img-whp" src="images/property/fl1.jpg" alt="fl1.jpg">
+                  
+                  {% for image in result.property_images.all %}
+                    
+                    {% if image.is_feature %}
+                    <img class="img-whp" src="{{image.image.url}}" alt="fl1.jpg">
+                    {% endif %}
+                      
+                  {% endfor %}
+                    
+                  
                   <div class="thmb_cntnt">
                     <ul class="tag mb0">
                       
@@ -271,8 +284,8 @@
                 </div>
                 <div class="details">
                   <div class="tc_content">
-                    <div class="badge_icon"><a href="#"><img src="images/agent/3.png" alt="3.png"></a></div>
-                    <h4><a href="page-listing-single-v8.html">{{result.name}}</a></h4>
+                    <div class="badge_icon"><a href="#"><img src="{% static 'images/agent/3.png' %}" alt="3.png"></a></div>
+                    <h4><a href="{% url 'properties:property-single' result.id %}">{{result.name}}</a></h4>
                     <p>{{result.location_area}}</p>
                     <ul class="prop_details mb0">
                       <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span> <br>{{result.no_rooms}} Beds</a></li>

@@ -48,7 +48,7 @@ class SimpleSearch(generic.ListView):
         # Set up a 12 object pagination with all properties
         p = Paginator(qs, 12)
 
-        # Get current page numbe
+        # Get current page number
         page = self.request.GET.get('page')
 
         # Save data to property variable

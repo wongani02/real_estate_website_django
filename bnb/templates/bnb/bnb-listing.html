@@ -435,8 +435,14 @@
             <div class="col-lg-6 col-xl-3">
               <div class="feat_property">
                 <div class="thumb">
+                  
+                  {% for image in item.bnb_image.all %}
                     
-                  <img class="img-whp" src="{% property_images item.id %}" alt="fl1.jpg">
+                    {% if image.is_feature %}
+                    <img class="img-whp" src="{{image.image.url}}" alt="fl1.jpg">
+                    {% endif %}
+                      
+                  {% endfor %}
                     
                   <div class="thmb_cntnt">
                     {% if item.featured %}
@@ -456,20 +462,23 @@
                   <div class="tc_content">
                     
                     <h4><a href="{% url 'bnb:bnb-detail' item.id %}">{{item.title}}</a></h4>
-                    <p>{{item.state}}, {{item.city}}</p>
+                    <p><span class="flaticon-house"></span>{{item.state}}, {{item.city}}</p>
                     
                   </div>
                   <div class="fp_footer">
+                    <P class="bold mr-2">{{item.room_type.name}}</P>
                     <ul class="fp_meta float-left mb0">
-                      {% for room in item.rooms.all %}
                       <li class="list-inline-item">
                         <a class="row " href="#">
-                            <P class="bold mr-2">{{room.type}}</P>
-                          <!-- <small><del class="body-color">$2,800/mo</del></small><br> -->
-                          <span class="heading-color fw600">MK {{room.price_per_night}}/night</span>
+                            
+                            
+                            {% if item.prev_price %}
+                              <small><del class="body-color">MWK {{item.prev_price}}/night</del></small><br>
+                            {% endif %}
+                              
+                          <span class="heading-color fw600">MK {{item.price_per_night}}/night</span>
                         </a>
                       </li>
-                      {% endfor %}
                     </ul>
                     <ul class="fp_meta float-right mb0">
                       <li class="list-inline-item"><a class="icon" href="{% url 'bnb:bnb-detail' item.id %}"><span class="flaticon-resize"></span></a></li>

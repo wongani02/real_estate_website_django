@@ -42,9 +42,13 @@ class AdvancedSearch(generic.ListView):
     template_name = 'properties/page-listing-v2.html'
 
     def post(self, request, *args, **kwargs):
-        filter = AdvancedSearchFilter(request.POST)
+        filter = AdvancedSearchFilter(request.POST, queryset=Property.objects.all())
+        result = ({
+            'result': filter,
+            'results': Property.objects.all()
+        })
 
-        return render(request, self.template_name, {'results': filter})
+        return render(request, self.template_name, result)
 
 class PropertiesHome(generic.ListView):
     

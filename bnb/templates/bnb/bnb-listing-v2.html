@@ -249,7 +249,15 @@
             <div class="col-lg-6 col-xl-4">
               <div class="feat_property">
                 <div class="thumb">
-                  <img class="img-whp" src="images/property/fl1.jpg" alt="fl1.jpg">
+                  
+                  {% for image in result.bnb_image.all %}
+                    
+                    {% if image.is_feature %}
+                    <img class="img-whp" src="{{image.image.url}}" alt="fl1.jpg">  
+                    {% endif %}
+                      
+                  {% endfor %}
+                    
                   <div class="thmb_cntnt">
                     <ul class="tag mb0">
                       

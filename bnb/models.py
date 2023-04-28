@@ -58,8 +58,9 @@ class PropertyAmenity(models.Model):
     amenity = models.ForeignKey(Amenity, on_delete=models.CASCADE)
 
 class PropertyImage(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='bnb_image')
     image = models.ImageField(upload_to='property_images/')
+    is_feature = models.BooleanField(_("Featured"), default=False)
 
     def __str__(self):
         return f"{self.property} - {self.id}"
