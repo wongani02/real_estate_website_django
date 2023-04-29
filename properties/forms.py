@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from properties.models import * 
+from bnb.models import PropertyType as BnbType
 
 
 
@@ -11,6 +12,11 @@ class SearchForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple(attrs={
             'class': 'custom-control custom-checkbox'
         }),
+    )
+    bnb_type = forms.ModelChoiceField(
+        queryset=BnbType.objects.all(), widget=forms.Select(attrs={
+            'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
+        })
     )
 
     class Meta:
@@ -31,6 +37,9 @@ class SearchForm(forms.ModelForm):
                 'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
                 'title': 'Village'
             }),
+            # )'bnb_type': forms.Select(choices=BnbType.objects.all(), attrs={
+            #     'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
+            # }
         }
 
 class PropertyCreationForm(forms.ModelForm):
@@ -113,7 +122,7 @@ class DistrictCreationForm(forms.ModelForm):
 class NearbyPlacesCreationForm(forms.ModelForm):
     class Meta:
         model = NearbyPlaces
-        fields = ['name_of_place', 'location',]
+        fields = ['name_of_place', ]
 
 
 class PropertyCategoryCreationForm(forms.ModelForm):

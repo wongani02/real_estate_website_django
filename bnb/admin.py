@@ -44,3 +44,4 @@ class BookingAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'property__title', 'property__address', 'property__city', 'property__state', 'property__country')
 
 
+admin.site.register(PropertyImage)

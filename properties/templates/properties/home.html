@@ -16,224 +16,227 @@
         </div>
         <div class="modal-body">
           <div class="popup_modal_wrapper">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">Bathrooms</h6>
-                    <div class="ui_kit_select_box">
-                      <select class="selectpicker custom-select-lg mb20">
-                        <option value="">Select Bathrooms</option>
-                        <option value="One">1</option>
-                        <option value="Two">2</option>
-                        <option value="Three">3</option>
-                        <option value="Four">4</option>
-                        <option value="Five">5</option>
-                        <option value="Five">6</option>
-                        <option value="Five">7</option>
-                        <option value="Five">8</option>
-                        <option value="Five">9</option>
-                        <option value="Five">10</option>
-                      </select>
+            <form method="post" action="{% url 'properties:advanced-search' %}">
+              {% csrf_token %}
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="adv_src_pmodal">
+                      <h6 class="title">Bathrooms</h6>
+                      <div class="ui_kit_select_box">
+                        <select class="selectpicker custom-select-lg mb20">
+                          <option value="">Select Bathrooms</option>
+                          <option value="One">1</option>
+                          <option value="Two">2</option>
+                          <option value="Three">3</option>
+                          <option value="Four">4</option>
+                          <option value="Five">5</option>
+                          <option value="Five">6</option>
+                          <option value="Five">7</option>
+                          <option value="Five">8</option>
+                          <option value="Five">9</option>
+                          <option value="Five">10</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="adv_src_pmodal">
+                      <h6 class="title">Rooms</h6>
+                      <div class="ui_kit_select_box">
+                        <select class="selectpicker custom-select-lg mb20">
+                          <option value="">Select Rooms</option>
+                          <option value="One">1</option>
+                          <option value="Two">2</option>
+                          <option value="Three">3</option>
+                          <option value="Four">4</option>
+                          <option value="Five">5</option>
+                          <option value="Five">6</option>
+                          <option value="Five">7</option>
+                          <option value="Five">8</option>
+                          <option value="Five">9</option>
+                          <option value="Five">10</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="adv_src_pmodal">
+                      <h6 class="title">Garages</h6>
+                      <div class="ui_kit_select_box">
+                        <select class="selectpicker custom-select-lg mb20">
+                          <option value="">Select Beds</option>
+                          <option value="One">1</option>
+                          <option value="Two">2</option>
+                          <option value="Three">3</option>
+                          <option value="Four">4</option>
+                          <option value="Five">5</option>
+                          <option value="Five">6</option>
+                          <option value="Five">7</option>
+                          <option value="Five">8</option>
+                          <option value="Five">9</option>
+                          <option value="Five">10</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="adv_src_pmodal">
+                      <h6 class="title">STATUS</h6>
+                      <div class="ui_kit_select_box">
+                        {{search.status}}
+                        <!-- <select class="selectpicker custom-select-lg mb20">
+                          <option value="">Select Status</option>
+                          <option value="Active">Active</option>
+                          <option value="Deactive">Deactive</option>
+                          <option value="Pending">Pending</option>
+                          <option value="Others">Others</option>
+                        </select> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="adv_src_pmodal">
+                      <h6 class="title">TYPE</h6>
+                      <div class="ui_kit_select_box">
+                        {{search.property_type}}
+                        <!-- <select class="selectpicker custom-select-lg mb20">
+                          <option value="">Select Status</option>
+                          <option value="Active">Active</option>
+                          <option value="Deactive">Deactive</option>
+                          <option value="Pending">Pending</option>
+                          <option value="Others">Others</option>
+                        </select> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="adv_src_pmodal">
+                      <h6 class="title">LOCATION</h6>
+                      <div class="ui_kit_select_box">
+                        {{search.district}}
+                        <!-- <select class="selectpicker custom-select-lg mb20">
+                          <option value="">Select Status</option>
+                          <option value="Active">Active</option>
+                          <option value="Deactive">Deactive</option>
+                          <option value="Pending">Pending</option>
+                          <option value="Others">Others</option>
+                        </select> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb30-md">
+                    <div class="adv_src_pmodal">
+                      <h6 class="title">Price</h6>
+                      <div class="mt20" id="slider"></div>
+                      <span id="slider-range-value1"></span>
+                      <span id="slider-range-value2"></span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb30-md">
+                    <div class="adv_src_pmodal">
+                      <h6 class="title">Area (sq ft)</h6>
+                      <div class="form-group">
+                        <input type="text" class="form-control area_input float-left" placeholder="Min. Area">
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control area_input float-right" placeholder="Max. Area">
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-6">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">Rooms</h6>
-                    <div class="ui_kit_select_box">
-                      <select class="selectpicker custom-select-lg mb20">
-                        <option value="">Select Rooms</option>
-                        <option value="One">1</option>
-                        <option value="Two">2</option>
-                        <option value="Three">3</option>
-                        <option value="Four">4</option>
-                        <option value="Five">5</option>
-                        <option value="Five">6</option>
-                        <option value="Five">7</option>
-                        <option value="Five">8</option>
-                        <option value="Five">9</option>
-                        <option value="Five">10</option>
-                      </select>
+                <div class="row mt30">
+                  <div class="col-lg-12">
+                    <div class="adv_src_pmodal">
+                      <h6><span class="title">Amenities</span> <a class="tdu text-thm fz13 ml10" href="#">Select / Deselect All</a></h6>
                     </div>
                   </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">Garages</h6>
-                    <div class="ui_kit_select_box">
-                      <select class="selectpicker custom-select-lg mb20">
-                        <option value="">Select Beds</option>
-                        <option value="One">1</option>
-                        <option value="Two">2</option>
-                        <option value="Three">3</option>
-                        <option value="Four">4</option>
-                        <option value="Five">5</option>
-                        <option value="Five">6</option>
-                        <option value="Five">7</option>
-                        <option value="Five">8</option>
-                        <option value="Five">9</option>
-                        <option value="Five">10</option>
-                      </select>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="adv_src_pmodal mb20">
+                      <div class="ui_kit_checkbox">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM1">
+                          <label class="custom-control-label" for="customCheckM1">Air Conditioning</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM2">
+                          <label class="custom-control-label" for="customCheckM2">Barbeque</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM3">
+                          <label class="custom-control-label" for="customCheckM3">Dryer</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM4">
+                          <label class="custom-control-label" for="customCheckM4">Gym</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM5">
+                          <label class="custom-control-label" for="customCheckM5">Laundry</label>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">STATUS</h6>
-                    <div class="ui_kit_select_box">
-                      {{search.status}}
-                      <!-- <select class="selectpicker custom-select-lg mb20">
-                        <option value="">Select Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Deactive">Deactive</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Others">Others</option>
-                      </select> -->
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="adv_src_pmodal mb20">
+                      <div class="ui_kit_checkbox">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM6">
+                          <label class="custom-control-label" for="customCheckM6">Lawn</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM7">
+                          <label class="custom-control-label" for="customCheckM7">Microwave</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM8">
+                          <label class="custom-control-label" for="customCheckM8">Outdoor Shower</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM9">
+                          <label class="custom-control-label" for="customCheckM9">Refrigerator</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM10">
+                          <label class="custom-control-label" for="customCheckM10">Stunning views</label>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">TYPE</h6>
-                    <div class="ui_kit_select_box">
-                      {{search.property_type}}
-                      <!-- <select class="selectpicker custom-select-lg mb20">
-                        <option value="">Select Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Deactive">Deactive</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Others">Others</option>
-                      </select> -->
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="adv_src_pmodal mb20">
+                      <div class="ui_kit_checkbox">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM11">
+                          <label class="custom-control-label" for="customCheckM11">Waterfront</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM12">
+                          <label class="custom-control-label" for="customCheckM12">Parking</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM13">
+                          <label class="custom-control-label" for="customCheckM13">Doorman</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM14">
+                          <label class="custom-control-label" for="customCheckM14">Central Heating</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="customCheckM15">
+                          <label class="custom-control-label" for="customCheckM15">Cleaning Service</label>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">LOCATION</h6>
-                    <div class="ui_kit_select_box">
-                      {{search.district}}
-                      <!-- <select class="selectpicker custom-select-lg mb20">
-                        <option value="">Select Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Deactive">Deactive</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Others">Others</option>
-                      </select> -->
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb30-md">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">Price</h6>
-                    <div class="mt20" id="slider"></div>
-                    <span id="slider-range-value1"></span>
-                    <span id="slider-range-value2"></span>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb30-md">
-                  <div class="adv_src_pmodal">
-                    <h6 class="title">Area (sq ft)</h6>
-                    <div class="form-group">
-                      <input type="text" class="form-control area_input float-left" placeholder="Min. Area">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control area_input float-right" placeholder="Max. Area">
+                  <div class="col-lg-12">
+                    <div class="adv_src_pmodal">
+                      <button class="btn btn-block btn-thm"><span class="fa fa-search mr15"></span>Show 300+ PROPERTY</button>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="row mt30">
-                <div class="col-lg-12">
-                  <div class="adv_src_pmodal">
-                    <h6><span class="title">Amenities</span> <a class="tdu text-thm fz13 ml10" href="#">Select / Deselect All</a></h6>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                  <div class="adv_src_pmodal mb20">
-                    <div class="ui_kit_checkbox">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM1">
-                        <label class="custom-control-label" for="customCheckM1">Air Conditioning</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM2">
-                        <label class="custom-control-label" for="customCheckM2">Barbeque</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM3">
-                        <label class="custom-control-label" for="customCheckM3">Dryer</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM4">
-                        <label class="custom-control-label" for="customCheckM4">Gym</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM5">
-                        <label class="custom-control-label" for="customCheckM5">Laundry</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                  <div class="adv_src_pmodal mb20">
-                    <div class="ui_kit_checkbox">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM6">
-                        <label class="custom-control-label" for="customCheckM6">Lawn</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM7">
-                        <label class="custom-control-label" for="customCheckM7">Microwave</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM8">
-                        <label class="custom-control-label" for="customCheckM8">Outdoor Shower</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM9">
-                        <label class="custom-control-label" for="customCheckM9">Refrigerator</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM10">
-                        <label class="custom-control-label" for="customCheckM10">Stunning views</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                  <div class="adv_src_pmodal mb20">
-                    <div class="ui_kit_checkbox">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM11">
-                        <label class="custom-control-label" for="customCheckM11">Waterfront</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM12">
-                        <label class="custom-control-label" for="customCheckM12">Parking</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM13">
-                        <label class="custom-control-label" for="customCheckM13">Doorman</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM14">
-                        <label class="custom-control-label" for="customCheckM14">Central Heating</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheckM15">
-                        <label class="custom-control-label" for="customCheckM15">Cleaning Service</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-12">
-                  <div class="adv_src_pmodal">
-                    <button class="btn btn-block btn-thm"><span class="fa fa-search mr15"></span>Show 300+ PROPERTY</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -259,10 +262,11 @@
                   <a class="nav-link active" id="rent-tab" data-toggle="tab" href="#rent" role="tab" aria-controls="rent" aria-selected="false">Property</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">Bnb's</a>
+                  <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">BnB's</a>
                 </li>
               </ul>
               <div class="tab-content" id="myTabContent2">
+                <!-- Lodges Search form -->
                 <div class="tab-pane fade" id="buy" role="tabpanel" aria-labelledby="buy-tab">
                   <div class="home_adv_srch_opt">
                     <div class="wrapper">
@@ -328,6 +332,7 @@
                     </div>
                   </div>
                 </div>
+                <!-- Properties Search Form -->
                 <div class="tab-pane fade show active" id="rent" role="tabpanel" aria-labelledby="rent-tab">
                   <div class="home_adv_srch_opt">
                     <div class="wrapper">
@@ -393,18 +398,19 @@
                     </div>
                   </div>
                 </div>
+                <!-- Bnbs Search Form -->
                 <div class="tab-pane fade" id="sold" role="tabpanel" aria-labelledby="sold-tab">
                   <div class="home_adv_srch_opt">
                     <div class="wrapper">
                       <div class="home_adv_srch_form">
-                        <form class="bgc-white p20" method="post" action="{% url 'properties:simple-search' %}">
+                        <form class="bgc-white p20" method="post" action="{% url 'bnb:simple-search' %}">
                           {% csrf_token %}
                           <div class="form-row align-items-center">
                             <div class="col-auto home_form_input mb15-md">
                               <div class="form-group style2 mb-2 pl10 pl0-lg">
                                 <label>TYPE</label>
                                 <div class="select-wrap style2-dropdown">
-                                  {{search.property_type}}
+                                  {{search.bnb_type}}
                                   <!-- <select class="selectpicker show-tick" multiple>
                                     <option value="Apartment">Apartment</option>
                                     <option value="Condo">Condo</option>

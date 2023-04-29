@@ -10,6 +10,10 @@ payments/migrations/
 users/migrations/
 whole-template/
 
+migrations/
+media/
+whole-template/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -162,3 +166,12 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+whole-template/themeforest-UvZmBz9I-houzing-real-estate-html-template/main-files/houzing-html/page-listing-single-v4.html
+lodges/migrations/0002_remove_room_number_lodge_lat_lodge_long_and_more.py
+lodges/migrations/0002_remove_room_number_lodge_lat_lodge_long_and_more.py
+lodges/migrations/0002_remove_room_number_lodge_lat_lodge_long_and_more.py
+lodges/migrations/0003_remove_room_capacity_room_adults_room_beds_and_more.py
+lodges/migrations/0005_lodge_cover_img_lodge_is_active.py
+lodges/migrations/0006_about_blogcategory_blogpost_blogimage.py
+payments/migrations/__init__.py
+properties/migrations/0001_initial.py

@@ -24,4 +24,9 @@ class AdvancedSearchFilter(django_filters.FilterSet):
             'property_type', 'district', 'price', 'compound_area',
             'amenities',
         ] 
+
+    @property
+    def qs(self):
+        parent = super().qs
+        return parent.filter(is_active=True)
     

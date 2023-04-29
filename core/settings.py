@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     #payments app
     'payments',
     'lodges',
+
+    # bnb
+    'bnb',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +91,10 @@ TEMPLATES = [
                 'users.views.contextRegisterForm',
                 'properties.views.contextQ',
             ],
+            # For custom tag library
+            'libraries': {
+                'custom_tag': 'bnb.template tags.custom_tags'
+            }
         },
     },
 ]

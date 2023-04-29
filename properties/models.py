@@ -125,9 +125,11 @@ class Property(models.Model):
     no_baths = models.PositiveIntegerField(_("Number of Baths"), default=1)
     desc = RichTextField(_("Description"))
     status = models.BooleanField(_("Property Status"),)
-    district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING)
+    district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING, related_name='property_district')
     created_at = models.DateTimeField(auto_now=True, null=True)
     is_featured = models.BooleanField(_("if Featured"), default=False, null=True)
+    region = models.CharField(_("State/Region"), max_length=100, null=True)
+    country = models.CharField(_("Country"), max_length=50, default='MALAWI')
     agent = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         null=True, 
@@ -147,10 +149,10 @@ class NearbyPlaces(models.Model):
 
     property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_nearby')
     name_of_place = models.CharField(_("Name of Place"), max_length=100, null=True)
-    location = models.CharField(_("Location"), max_length=100, null=True)
+    desc = models.TextField(_("Description of place"), null=True)
 
     def __str__(self):
-        return '{} - {}'.format(self.name_of_place, self.location)
+        return '{} - {}'.format(self.name_of_place, self.desc[:20])
 
 
 # Images table

@@ -3,6 +3,7 @@ from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponse
 from django.db.models import Q 
+from django.core.paginator import Paginator
 
 from lodges.models import Lodge, About, BlogPost, BlogCategory
 
@@ -17,25 +18,37 @@ class SimpleSearch(generic.ListView):
     paginate_by = 12
     context_object_name = 'properties'
 
-    def get_context_data(self, **kwargs):
-        context = super(SimpleSearch, self).get_context_data(**kwargs)
+    def post(self, request):
         qs = Property.objects.filter(
-            Q(property_type__icontains=kwargs.get('property_type')) | Q(district__iexact=kwargs.get('district'))
-        ).filter(active=True).order_by('date').distinct()
-        
-        context = {
-            'results': qs,
-        }
+            Q(property_type__icontains=request.POST.get('property_type')) | Q(district__id__iexact=request.POST.get('district'))
+        ).filter(is_active=True).order_by('created_at').distinct()
 
-        return context
+        # Set up a 12 object pagination with all properties
+        p = Paginator(qs, 12)
+
+        # Get current page numbe
+        page = self.request.GET.get('page')
+
+        # Save data to property variable
+        results = p.get_page(page)
+
+        context = ({
+            'results': results,
+        })
+
+        return render(request, self.template_name, context)
 
 class AdvancedSearch(generic.ListView):
     template_name = 'properties/page-listing-v2.html'
 
     def post(self, request, *args, **kwargs):
-        filter = AdvancedSearchFilter(request.POST)
+        filter = AdvancedSearchFilter(request.POST, queryset=Property.objects.all())
+        result = ({
+            'result': filter,
+            'results': Property.objects.all()
+        })
 
-        return render(request, self.template_name, {'results': filter})
+        return render(request, self.template_name, result)
 
 class PropertiesHome(generic.ListView):
     
@@ -68,13 +81,21 @@ class AboutUs(generic.DetailView):
 
 class PropertyListingList(generic.ListView):
     model = Property
-    paginate_by = 5
     template_name = 'properties/page-listing-v3.html'
+    context_object_name = 'all_property'
 
     def get_context_data(self, **kwargs):
         context = super(PropertyListingList, self).get_context_data(**kwargs)
-        qs = Property.objects.all()
-        print("Property: ", qs)
+        
+        # Set up a 8 object pagination with all properties
+        p = Paginator(Property.objects.order_by('created_at'), 5)
+
+        # Get current page number
+        page = self.request.GET.get('page')
+
+        # Save data to property variable
+        qs = p.get_page(page)
+
         context = {
             'all_property': qs,
         }
@@ -104,8 +125,10 @@ class PropertyDetail(generic.DetailView):
 
     def get(self, request, **kwargs):
         qs = Property.objects.get(id=kwargs.get('pk'))
+        nbs = NearbyPlaces.objects.get(property=kwargs.get('pk'))
         context = {
             'property': qs,
+            'nearby_place': nbs
         }
 
         return render(request, self.template_name, context)
@@ -168,28 +191,31 @@ class CreatePropertyListing(generic.CreateView):
     template_name = 'properties/page-dashboard-new-property.html'
 
     def get(self, request):
-        form=PropertyCreationForm(request.GET)
-        cat_form = PropertyCategoryCreationForm(request.GET)
-        dis_form = DistrictCreationForm(request.GET)
-        # images_form = ImagesCreationForm(request.GET, request.FILES)
+        # form=PropertyCreationForm(request.GET)
+        # cat_form = PropertyCategoryCreationForm(request.GET)
+        # dis_form = DistrictCreationForm(request.GET)
+        images_form = ImagesCreationForm(request.GET, request.FILES)
         videos_form = VideosCreationForm(request.GET, request.FILES)
-        amenity_form = AmenitiesCreationForm(request.GET)
+        # amenity_form = AmenitiesCreationForm(request.GET)
 
         return render(request, self.template_name, {
-            'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
-            # 'img_form': images_form,
-            'am_form': amenity_form, 'videos_form': videos_form
+            # 'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
+            'img_form': images_form, 'videos_form': videos_form
+            # 'am_form': amenity_form,
         })
     
     def post(self, request, **kwargs):
         property_form = PropertyCreationForm(request.POST)
+        print("REQUEST: ", request.POST)
+        result = self.save_db(request, **kwargs)
+        print("RESULT: ", result)
 
         if property_form.is_valid():
             property_form.save(commit=False)
-            result = self.save_db(request, **kwargs)
+            
 
             if result:
-                property_form.save(commit=True)
+                property_form.save(commit=False)
             
             return redirect('properties:home')
         
@@ -210,17 +236,21 @@ class CreatePropertyListing(generic.CreateView):
     
     def save_db(self, request, **kwargs):
         try:
-            video = Videos.objects.create(
-                property=kwargs.get('pk'),
-                video=request.FILES.get('video'),
-                link=request.POST.get('link')
-            )
-            video.save()
-            for item in request.FILES.get('image'):
+            # video = Videos.objects.create(
+            #     property=kwargs.get('pk'),
+            #     video=request.FILES.get('video'),
+            #     link=request.POST.get('link')
+            # )
+            # video.save()
+            print("before: ", request.POST.get('file'))
+            print("before 2: ", request.POST.dict())
+            for item in request.POST.get('file'):
+                print("for 1")
                 image = Images.objects.create(
                     property=kwargs.get('pk'),
                     image=item
                 )
+                print("save 1")
                 image.save()
             
             return True
@@ -272,14 +302,6 @@ def contextQ(request):
         'categories': PropertyCategory.objects.all(),
         'about': About.objects.first(),
     }
-
-def fileUploadView(request):
-    session = request.session
-    
-    if request.method == 'POST':
-        image = request.FILES.get('file')
-        print(str(image))
-    return HttpResponse('upload')
 
 
 def create_property_category(request):

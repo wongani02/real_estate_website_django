@@ -1,12 +1,14 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}Property Listing{% endblock title %}
+{% block title %}Property Search{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
 {% block content %}
- 
 
+
+
+  <!-- Listing Grid View -->
   <section class="our-listing pb30-991">
     <div class="container">
       <div class="row">
@@ -200,8 +202,10 @@
           <div class="breadcrumb_content style2 mb100">
             <h2 class="breadcrumb_title">Blantyre Real Estate & Homes For Sale</h2>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">List</li>
+              <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
+              <li class="breadcrumb-item">Search</li>
+              <li class="breadcrumb-item">Simple</li>
+              <li class="breadcrumb-item active" aria-current="page">BnB's</li>
             </ol>
           </div>
         </div>
@@ -217,7 +221,7 @@
             <div class="listing_filter_row dif db-767">
               <div class="col-sm-12 col-md-4 col-lg-4 col-xl-5">
                 <div class="left_area tac-xsd mb30-767">
-                  <p class="mb0 mt10"><span class="heading-color">{{all_property.count}}</span> Showing</p>
+                  <p class="mb0 mt10"><span class="heading-color">Results: {{count}}</span> Showing</p>
                 </div>
               </div>
               <div class="col-sm-12 col-md-8 col-lg-8 col-xl-7">
@@ -240,59 +244,62 @@
             </div>
           </div>
           <div class="row">
-            {% for item in all_property %}
-            <div class="col-sm-6 col-lg-12">
-              <div class="feat_property list listing">
+            
+            {% for result in results %}
+            <div class="col-lg-6 col-xl-4">
+              <div class="feat_property">
                 <div class="thumb">
-                  {% for image in item.property_images.all %}
-                  {% if image.is_feature %}
-                  <a href="{% url 'properties:property-single' item.id %}">
+                  
+                  {% for image in result.bnb_image.all %}
                     
-                    <img class="img-whp" src="{{image.image.url}}" alt="fl1.jpg">
-                  </a>
-                  {% endif %}
+                    {% if image.is_feature %}
+                    <img class="img-whp" src="{{image.image.url}}" alt="fl1.jpg">  
+                    {% endif %}
+                      
                   {% endfor %}
+                    
                   <div class="thmb_cntnt">
                     <ul class="tag mb0">
-                      <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                      
+                      {% if result.is_available %}
+                      <li class="list-inline-item"><a href="#">AVAILABLE</a></li>
+                      {% endif %}
+                        
                     </ul>
                     <ul class="tag2 mb0">
-                      <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                      <li class="list-inline-item"><a href="#">{{result.property_type.name}}</a></li>
                     </ul>
                   </div>
                   <div class="thmb_cntnt2">
                     <ul class="listing_gallery mb0">
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{item.property_images.count}}</a></li>
+                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
                       <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
                     </ul>
                   </div>
                 </div>
                 <div class="details">
                   <div class="tc_content">
-                    <div class="wrapper float-left fn-md">
-                      <h4><a href="{% url 'properties:property-single' item.id %}">{{item.name}}</a></h4>
-                      <p>{{item.location_name}}</p>
-                      <ul class="prop_details mb0">
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>{{item.no_rooms}} Rooms</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>{{item.no_baths}} Bath</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>{{item.no_garages}} Garage</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>{{item.compound_area}} Sq Ft</a></li>
-                      </ul>
-                    </div>
-                    <div class="wrapper2 text-center tal-md float-right fn-md">
-                      <div class="title">Call: 202-555-0191</div>
-                      <a href="{% url 'properties:property-single' item.id %}">
-                        <button class="btn">DETAILS</button>
-                      </a>
-                    </div>
+                    <div class="badge_icon"><a href="#"><img src="images/agent/3.png" alt="3.png"></a></div>
+                    <h4><a href="page-listing-single-v8.html">{{result.title}}</a></h4>
+                    <p>{{result.address}}</p>
+                    <ul class="prop_details mb0">
+                      <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span> <br>{{result.num_beds}} Beds</a></li>
+                      <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span> <br>{{result.num_baths}} Bath</a></li>
+                      <li class="list-inline-item"><a href="#"><span class="flaticon-user"></span> <br>{{result.num_guests}} Guests</a></li>
+                      <li class="list-inline-item"><a href="#"><span class="flaticon-house"></span> <br>{{result.num_bedrooms}} Rooms</a></li>
+                    </ul>
                   </div>
                   <div class="fp_footer">
                     <ul class="fp_meta float-left mb0">
                       <li class="list-inline-item">
-                        {% if item.prev_price %}
-                        <a href="#"><small><del class="body-color">MWK {{item.prev_price}}/mo</del></small><br>
+                        <a href="#">
+                          
+                          {% if result.prev_price %}
+                          <small><del class="body-color">MWK {{result.prev_price}}/mo</del></small><br>
                           {% endif %}
-                        <span class="heading-color fw600">MWK {{item.price}}/mo</span></a>
+                            
+                          <span class="heading-color fw600">MWK {{result.price_per_night}}/mo</span>
+                        </a>
                       </li>
                     </ul>
                     <ul class="fp_meta float-right mb0">
@@ -305,43 +312,43 @@
               </div>
             </div>
             {% endfor %}
+              
             <div class="col-lg-12">
               <div class="mbp_pagination mt10">
                 <ul class="page_navigation">
-
                   <!-- Check if there are any previous pages, disable button if not -->
-                  {% if all_property.has_previous %}
-                  <li class="page-item"><a class="page-link" href="?page={{all_property.previous_page_number}}" tabindex="-1"><span class="fa fa-arrow-left"></span></a></li>
+                  {% if results.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{results.previous_page_number}}" tabindex="-1"><span class="fa fa-arrow-left"></span></a></li>
                   {% else %}
                   <li class="page-item"><a class="page-link disabled" href="#" aria-disabled="true" tabindex="-1"><span class="fa fa-arrow-left"></span></a></li>
                   {% endif %}
                     
                   <!-- Show previous page number if there is a previous page -->
-                  {% if all_property.has_previous %}
-                  <li class="page-item"><a class="page-link" href="?page={{all_property.previous_page_number}}">{{all_property.previous_page_number}}</a></li>
+                  {% if results.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{results.previous_page_number}}">{{results.previous_page_number}}</a></li>
                   {% endif %}
 
                   <!-- Show current page number -->
-                  <!-- <li class="page-item"><span class="page-numbers current">{{all_property.number}}</span></li> -->
-                  <li class="page-item active" aria-current="page"><a class="page-link">{{all_property.number}}<span class="sr-only">{{all_property.number}}</span></a></li>
+                  <!-- <li class="page-item"><span class="page-numbers current">{{results.number}}</span></li> -->
+                  <li class="page-item active" aria-current="page"><a class="page-link">{{results.number}}<span class="sr-only">{{results.number}}</span></a></li>
 
                   <!-- Show next page number if there is a next page -->
-                  {% if all_property.has_next %}
-                  <li class="page-item"><a class="page-link" href="?page={{all_property.next_page_number}}">{{all_property.next_page_number}}</a></li>  
+                  {% if results.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{results.next_page_number}}">{{results.next_page_number}}</a></li>  
                   
                   <!-- ellipsis for styling -->
                   <li class="page-item"><a class="page-link" href="#">...</a></li>
                   
                   <!-- Show total number of pages -->
-                  <li class="page-item"><a class="page-link" href="?page={{all_property.paginator.num_pages}}">{{all_property.paginator.num_pages}}</a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{results.paginator.num_pages}}">{{results.paginator.num_pages}}</a></li>
                   {% endif %}
                     
                   <!-- Check if there is a next page, disable button if not -->
                 
-                {% if all_property.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{all_property.paginator.num_pages}}"><span class="fa fa-arrow-right"></span></a></li>  
+                {% if results.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{results.paginator.num_pages}}"><span class="fa fa-arrow-right"></span></a></li>  
                 {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{all_property.paginator.num_pages}}"><span class="fa fa-arrow-right"></span></a></li>  
+                <li class="page-item"><a class="page-link" href="?page={{results.paginator.num_pages}}"><span class="fa fa-arrow-right"></span></a></li>  
                 {% endif %}
                   
                 </ul>
@@ -611,5 +618,6 @@
       </div>
     </div>
   </section>
-  	{% include 'properties/footer.html' %}
-{% endblock %}
+
+  {% include 'properties/footer.html' %}
+  {% endblock %}

@@ -38,3 +38,6 @@ class PropertyCategoryAdmin(admin.ModelAdmin):
 class DistrictPropertyAdmin(admin.ModelAdmin):
     list_display = ['district_name', 'slug']
     prepopulated_fields = {'slug': ('district_name',)}
+
+
+admin.site.register(Images)
