@@ -14,8 +14,19 @@ class BnbList(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(BnbList, self).get_context_data(**kwargs)
         qs = Property.objects.all()
+
+        # Set up a 8 object pagination with all properties
+        p = Paginator(Property.objects.order_by('created_at'), 5)
+
+        # Get current page number
+        page = self.request.GET.get('page')
+
+        # Save data to property variable
+        pg = p.get_page(page)
+
         context = {
             'bnbs': qs, 'bnb_count': qs.count(),
+            'all_property': pg
         }
 
         return context

@@ -263,7 +263,11 @@
                   <div class="thmb_cntnt2">
                     <ul class="listing_gallery mb0">
                       <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{item.property_images.count}}</a></li>
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                      
+                      {% if item.property_videos %}
+                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> {{item.property_videos.count}}</a></li>                        
+                      {% endif %}
+                        
                     </ul>
                   </div>
                 </div>

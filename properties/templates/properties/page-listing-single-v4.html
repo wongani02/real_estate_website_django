@@ -1,5 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
+{% load chartit %}
 {% block title %}Property Listing{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
@@ -583,10 +584,21 @@
               </div>
             </div>
            
-           
             
+
             
-            
+            <div class="col-lg-12">
+              <div class="property_sp_tour_info pb40 mt50 bb1">
+                <h4 class="mb30">Property Statistics</h4>
+                <form action="#">
+                  <div class="row">
+                    {{property_chart|load_charts:'chart1, chart2'}}
+                    <div id="chart1"></div>
+                    <div id="chart2"></div>
+                  </div>
+                </form>
+              </div>
+            </div>
             
             <div class="col-lg-12">
               <div class="custom_reivews pb50 mt50 bb1 row">

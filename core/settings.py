@@ -59,6 +59,9 @@ INSTALLED_APPS = [
 
     # bnb
     'bnb',
+
+    # charts
+    'chartit',
 ]
 
 MIDDLEWARE = [
