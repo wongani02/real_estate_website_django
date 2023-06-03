@@ -1,0 +1,99 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}create bnb{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+	<!-- Our Dashbord -->
+	<style>			
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+				margin: 0;
+		}
+
+		input[type=number] {
+			-moz-appearance: textfield;
+		}
+	</style>
+	<script src="https://unpkg.com/htmx.org@1.9.0"></script>
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">BNB rooms </h2>
+								
+							</div>
+						</div>
+					</div>
+				<div class="row">
+				
+				<div class="col-lg-12">
+					<!-- Available room types -->
+		          <div class="new_property_form">
+					<h4 class="title mb30">Rooms Availble at your bnb</h4>
+		            <form id="room_form" action="{% url 'bnb:bnb-room' %}" method="post">
+						{% csrf_token %}
+                        {% if room_form.errors %}
+                        <p>Please correct the following errors:</p>
+                        {% for field in room_form %}
+                        {% if field.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ field.label }}: {{ field.errors|striptags }}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+						{{room_form.management_form}}
+                        
+						{% for form in room_form %}
+		              <div class="row">
+		                <h2 class="col-md-12">Room {{forloop.counter}}</h2>
+		                <div class="col-md-4">
+							<div class="ui_kit_select_search add_new_property mb30">
+								{{form.adults}}
+                                {{form.adults.errors}}
+							</div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+							{{form.beds}}
+                            {{form.beds.errors}}
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+							{{form.baths}}
+                            {{form.baths.errors}}
+		                  </div>
+		                </div>
+		              </div>
+					  {% endfor %}
+                      <div class="text-right">
+                        <button type="submit" class="btn btn-thm listing_save_btn">Next</button>
+                    </div>
+		            </form>
+					
+		          </div>
+				</div>
+				</div>
+					<div class="row mt50">
+						<div class="col-lg-12 text-center">
+							<p class="mb0">Copyright © 2021 Afrihuts.com All Right Reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	
+{% endblock %}

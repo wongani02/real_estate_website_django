@@ -4,10 +4,12 @@ from .models import PropertyType, Amenity, RoomType, Property, PropertyAmenity, 
 
 class PropertyAmenityInline(admin.TabularInline):
     model = PropertyAmenity
+    extra = 0
 
 
 class PropertyImageInline(admin.TabularInline):
     model = PropertyImage
+    extra = 0
 
 
 class BookingInline(admin.TabularInline):
@@ -32,16 +34,16 @@ class RoomTypeAdmin(admin.ModelAdmin):
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyAmenityInline, PropertyImageInline]
-    list_display = ('title', 'owner', 'property_type', 'room_type', 'city', 'state', 'country', 'is_available', 'created_at')
-    list_filter = ('property_type', 'room_type', 'city', 'state', 'country', 'is_available')
-    search_fields = ('title', 'description', 'address', 'city', 'state', 'country', 'zipcode')
+    list_display = ('title', 'host', 'property_type', 'city', 'country', 'is_active', 'created_at')
+    list_filter = ('property_type', 'city','country', 'is_active')
+    search_fields = ('title', 'description', 'street_name', 'city', 'country')
 
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     list_display = ('user', 'property', 'check_in', 'check_out', 'num_guests', 'is_paid')
     list_filter = ('user', 'property', 'check_in', 'check_out', 'is_paid')
-    search_fields = ('user__username', 'property__title', 'property__address', 'property__city', 'property__state', 'property__country')
+    search_fields = ('user__username', 'property__title', 'property__street_name', 'property__city', 'property__country')
 
 
 admin.site.register(PropertyImage)

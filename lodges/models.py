@@ -16,7 +16,7 @@ class Lodge(models.Model):
     description = RichTextField(null=True)
     lat = models.CharField(max_length=255, null=True)
     long = models.CharField(max_length=255, null=True)
-    cover_img = models.ImageField(upload_to='lodge_img/', null=True)
+    cover_img = models.ImageField(upload_to='lodge_img/', null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False, null=True)
 
@@ -37,7 +37,7 @@ class Room(models.Model):
         ('Economy', 'Economy'),
     )
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, related_name='rooms')
-    type = models.CharField(max_length=255, choices=ROOMTYPE)
+    room_type = models.CharField(max_length=255, null=True)
     adults = models.PositiveSmallIntegerField(default=2, null=True)
     children = models.PositiveSmallIntegerField(default=1, null=True)
     beds = models.PositiveSmallIntegerField(default=1, null=True)
@@ -48,7 +48,7 @@ class Room(models.Model):
         verbose_name_plural = 'Rooms'
     
     def __str__(self):
-        return f"{self.lodge.name} - Room {self.type}"
+        return f"{self.lodge.name} - Room {self.room_type}"
 
 
 class Amenity(models.Model):
@@ -64,19 +64,35 @@ class Amenity(models.Model):
 
 class LodgeAmenity(models.Model):
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='amenities')
-    amenity = models.ForeignKey(Amenity, on_delete=models.CASCADE)
+    amenity = models.ManyToManyField(Amenity, related_name='lodge_amenities')
 
-    class Meta:
-        verbose_name = 'Room Amenity'
-        verbose_name_plural = 'Room Amenities'
+    class Meta: 
+        verbose_name = 'Lodge Amenity'
+        verbose_name_plural = 'Lodge Amenities'
 
     def __str__(self):
         return f"{self.amenity.name} ({self.lodge.name} - Room {self.lodge.city})"
 
 
-class Picture(models.Model):
+class LodgeDocument(models.Model):
+    pass
+
+
+class Image(models.Model):
+    img =  models.ImageField(
+        verbose_name=_("image"),
+        help_text=_("Upload a lodge image"),
+        upload_to="lodge_images/",
+        default="images/default.png",
+    )
+
+    def __str__(self):
+        return f'{self.id}'
+
+
+class LodgeImage(models.Model):
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='pictures')
-    img = models.ImageField(null=True, upload_to='lodge_images/')
+    img = models.ManyToManyField(Image, related_name='image')
 
     class Meta:
         verbose_name = 'Picture'
@@ -139,13 +155,13 @@ class BlogPost(models.Model):
 
 class BlogImage(models.Model):
     """
-    The Product Image table.
+    blog Image table.
     """
 
     blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name="blog_images")
     image = models.ImageField(
         verbose_name=_("image"),
-        help_text=_("Upload a product image"),
+        help_text=_("Upload a blog image"),
         upload_to="blog_images/",
         default="images/default.png",
     )

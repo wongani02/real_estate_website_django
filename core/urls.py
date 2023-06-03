@@ -26,7 +26,7 @@ urlpatterns = [
     path('', include('properties.urls')),
 
     # bnb url
-    path('bnb/', include('bnb.urls')),
+    path('bnb/', include('bnb.urls', namespace='bnb')),
 
     # accounts url
     path('accounts/', include('users.urls', namespace='accounts')),

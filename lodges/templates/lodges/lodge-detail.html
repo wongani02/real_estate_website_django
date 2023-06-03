@@ -47,28 +47,34 @@
         </div>
       </div>
       <div class="row">
+        {% if lodge.cover_img %}
         <div class="col-lg-7">
           <div class="row">
             <div class="col-lg-12 pr0 pl15-767 pr15-767">
               <div class="spls_style_two mb30-md">
+                
                 <a class="popup-img" href="{{lodge.cover_img.url}}">
                   <img class="img-fluid first-img" src="{{lodge.cover_img.url}}" alt="1.jpg">
                 </a>
+                
                 <a href="#"><span class="baddge_left">FEATURED</span></a>
                 <!-- <a href="#"><span class="baddge_right">FOR SALE</span></a> -->
               </div>
             </div>
           </div>
         </div>
+        {% endif %}
         <div class="col-lg-5">
             
           <div class="row">
             {% for item in lodge.pictures.all %}
+            {% for image in item.img.all %}
             <div class="col-sm-4 col-lg-4 pr5 pr15-767">
               <div class="spls_style_two mb10">
-                <a class="popup-img" href="{{item.img.url}}"><img class="img-fluid w100" src="{{item.img.url}}" alt="2.jpg"></a>
+                <a class="popup-img" href="{{image.img.url}}"><img class="img-fluid w100" src="{{image.img.url}}" alt="2.jpg"></a>
               </div>
             </div>
+            {% endfor %}
             {% endfor %}
             
             <!-- <div class="col-sm-4 col-lg-4 pr5 pr15-767">

@@ -1,14 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 from properties.models import Property
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.forms.formsets import formset_factory
+from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError, transaction
 
-
-from .create_lodge import Lodge as LodgeCreationClass
-from .models import Amenity, Picture, Lodge
-from .forms import RoomCreationForm, RoomFormset, LodgeCreationForm
+from .create_lodge import LodgeCreation as LodgeCreationClass
+from .models import Amenity, LodgeImage, Lodge, Image
+from .forms import *
 
 # Create your views here.
 
@@ -29,10 +30,26 @@ def lodgeDetailView(request, pk):
     return render(request, 'lodges/lodge-detail.html', context)
 
 
+@login_required
 def createLodgeView(request):
+    session =request.session
     amenities = Amenity.objects.all()
     room_form = RoomFormset()
-    lodge_form = LodgeCreationForm()
+    if 'lodge_details' in request.session:
+        lodge_form = LodgeCreationForm(
+            initial={
+                'property_name': session['lodge_details']['property_name'],
+                'address': session['lodge_details']['address'],
+                'city': session['lodge_details']['city'],
+                'description': session['lodge_details']['description'],
+                'location': session['lodge_details']['location'],
+                'contact_email':session['lodge_details']['contact_email'],
+                'contact_number': session['lodge_details']['contact_number'],
+                'number_of_room_types': session['lodge_details']['number_of_room_types'],
+            }
+        )
+    else:
+        lodge_form = LodgeCreationForm()
     
     context = {
         'amenities':amenities,
@@ -42,72 +59,222 @@ def createLodgeView(request):
     return render(request, 'lodges/create-lodges.html', context)
 
 
+@login_required
 @require_POST
 def handleLodge(request):
     if request.method == 'POST':
         form = LodgeCreationForm(request.POST)
         if form.is_valid():
-            request.session['lodge-details'] = {
+            request.session['lodge_details'] = {
                 'property_name': form.cleaned_data['property_name'],
                 'address': form.cleaned_data['address'],
                 'city': form.cleaned_data['city'],
-                'long': form.cleaned_data['long'],
-                'lat': form.cleaned_data['lat'],
                 'description': form.cleaned_data['description'],
                 'location': form.cleaned_data['location'],
                 'contact_email':form.cleaned_data['contact_email'],
                 'contact_number': form.cleaned_data['contact_number'],
+                'number_of_room_types': form.cleaned_data['number_of_room_types'],
             }
-        print(request.session['lodge-details'])
-    return HttpResponse({'status': 200})
+        print(request.session['lodge_details'])
+        return redirect('lodges:lodge-location')
+    else:
+        form = LodgeCreationForm()
+        return render(request, 'lodges/create-lodges.html', {'form':form})
 
 
-@require_POST
+@login_required
+def createLodgeLocation(request):
+    session = request.session
+
+    if 'lodge_details' not in session:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+    if request.method == 'POST':
+        form = MapLocationDetails(request.POST)
+        if form.is_valid():
+            request.session['lodge_location_details'] = {
+                'map_location': form.cleaned_data['map_location'],
+                'lat': form.cleaned_data['lat'],
+                'long': form.cleaned_data['long'],
+            }
+            print(session['lodge_location_details'])
+            return redirect('lodges:room-form-handler')
+    else:
+        if 'lodge_location_details' in request.session:
+            form = MapLocationDetails(
+                initial={
+                    'map_location': session['lodge_location_details']['map_location'],
+                    'lat': session['lodge_location_details']['lat'],
+                    'long': session['lodge_location_details']['long'],
+                }
+            )
+        else:
+            form = MapLocationDetails()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'lodges/create-lodge-location.html', context)
+
+
+@login_required
 def handleRoomForm(request):
     rooms = []
+    session = request.session
+
+    if 'lodge_location_details' not in session:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+    num_of_categories = 0
+    if 'lodge_details' in session:
+        num_of_categories = session['lodge_details']['number_of_room_types']
+    else:
+        redirect ('lodges:create-lodge')
+
+    #Room creation formset
+    RoomCreationFormSet = formset_factory(
+        form=RoomCreationForm, 
+        formset=RequiredFormSet, 
+        extra=int(num_of_categories),
+        max_num=int(num_of_categories),
+    )
+    
+    #post handler
     if request.method == 'POST':
-        room_form = RoomFormset(request.POST)
+        room_form = RoomCreationFormSet(request.POST)
+        
         if room_form.is_valid():
+            print('passing')
             for form in room_form:
 
                 room_detials = {
-                    'ROOMTYPE': form.cleaned_data['ROOMTYPE'],
-                    'room_type': form.cleaned_data['adults'],
+                    'room_type': form.cleaned_data['room_type'],
+                    'adults': form.cleaned_data['adults'],
                     'children': form.cleaned_data['children'],
                     'beds': form.cleaned_data['beds'],
+                    'price': form.cleaned_data['price']
                 }
 
                 rooms.append(room_detials)
+        else:
+            # print(room_form.errors)
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
+                
         request.session['lodge_rooms'] = rooms
         print(request.session['lodge_rooms'])
-    return HttpResponse({'status': 200})
+        return redirect('lodges:amenties-handler')
+    else:
+        if 'lodge_rooms' in session:
+            room_form = RoomCreationFormSet(initial=[{
+                'room_type': x['room_type'],
+                'adults':x['adults'],
+                'children': x['children'],
+                'beds': x['beds'],
+                'price': x['price'],
+                } for x in session['lodge_rooms']]) 
+            
+        else:
+            room_form = RoomCreationFormSet()
+
+        return render(request, 'lodges/create-lodge-rooms.html', {'room_form': room_form})
 
 
-def fileUploadView(request):
+def handleAmenities(request):
     session = request.session
+    if 'lodge_rooms' not in session:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    
+    amenity_list = []
+    
+    if request.method == 'POST':
+        ameneity_form = LodgeAmenities(request.POST)
+        if ameneity_form.is_valid():
+            
+            for amenity in ameneity_form.cleaned_data['amenity']:
+                amenity_list.append({
+                    'id': amenity.id,
+                    'name': amenity.name
+                })
+            print(amenity_list)
+            session['lodge_amenites'] = amenity_list
+
+            return redirect('lodges:lodge-documents')
+        else:
+            print(ameneity_form.errors)
+        
+    else:
+        ameneity_form = LodgeAmenities(request.GET)
+    context = {
+        'ameneity_form': ameneity_form,
+    }
+    return render(request, 'lodges/create-lodge-amenities.html', context) 
+
+
+@login_required
+def uploadLodgeDocumnetAndImages(request):
+    session = request.session
+    if 'lodge_amenites' not in session:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+    uploaded_images = None
+    if 'img_session' in session:
+        uploaded_images = Image.objects.filter(id__in=session['img_session'])
+
+    context = {
+        'uploaded_images': uploaded_images,
+    }
+    return render(request, 'lodges/create-lodge-documents.html', context)
+
+
+@login_required
+def fileUploadView(request):
     
     if request.method == 'POST':
         image = request.FILES.get('file')
-        print(str(image))
+
+        #initialise lodge class to store image id's
+        lodge_images = LodgeCreationClass(request)
+
+        #store uploaded images in the database
+        lodge_images.save_image(image=image)
+
+        # del request.session['img_session']
+    
     return HttpResponse('upload')
 
 
-@require_POST
-def handleAmenities(request):
+@login_required
+def createLodgeInstanceView(request):
     session = request.session
-    amenity = request.POST.get("amenityID")
-    
-    if 'amenities' not in session:
-        session['amenities'] = []
-        if amenity in session['amenities']:
-            session['amenities'].remove(amenity)
-        else:
-            session['amenities'].append(amenity)
-        session.modified = True
-    else: 
-        if amenity in session['amenities']:
-            session['amenities'].remove(amenity)
-        else:
-            session['amenities'].append(amenity)
-        session.modified = True
-    return HttpResponse({'status': 'ok'})
+
+    with transaction.atomic():
+
+        try: 
+            #initialize lodge creation class
+            lodge_instance = LodgeCreationClass(request)
+
+            #create lodge
+            lodge = lodge_instance.create_lodge(
+                lodge=session['lodge_details'],
+                location=session['lodge_location_details']
+                )
+            
+            #create rooms
+            lodge_instance.create_rooms(rooms=session['lodge_rooms'])
+
+            #create lodge ameneities
+            lodge_instance.assign_amenities(selected=session['lodge_amenites'])
+
+            #assign images
+            lodge_instance.add_images(image_id=session['img_session'])
+
+            #delete session variables after lodge is created
+            lodge_instance.clear_session()
+
+            return redirect('lodges:lodge-detail', lodge)
+
+        except:
+            pass
+            # return redirect('lodges:error-page')
+
+    return redirect('lodges:create-lodge')

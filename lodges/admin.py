@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lodge, Room, Amenity, LodgeAmenity, Picture, Booking, BlogPost, BlogImage, BlogCategory, About
+from .models import Lodge, Room, Amenity, LodgeAmenity, LodgeImage, Booking, BlogPost, BlogImage, BlogCategory, About, Image
 
 
 class LodgeAmenityInline(admin.TabularInline):
@@ -8,13 +8,13 @@ class LodgeAmenityInline(admin.TabularInline):
 
 
 class PictureInline(admin.TabularInline):
-    model = Picture
-    extra = 2
+    model = LodgeImage
+    extra = 0
 
 
 class RoomInline(admin.TabularInline):
     model = Room
-    extra = 2
+    extra = 0
 
 
 @admin.register(Lodge)
@@ -25,7 +25,7 @@ class LodgeAdmin(admin.ModelAdmin):
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ('lodge', 'type', 'adults', 'price_per_night',)
+    list_display = ('lodge', 'room_type', 'adults', 'price_per_night',)
     # inlines = [ PictureInline]
 
 
@@ -63,3 +63,6 @@ class BlogPostAdmin(admin.ModelAdmin):
 @admin.register(About)
 class AboutAdmin(admin.ModelAdmin):
     list_display = ['company_name', 'email', 'phone_number']
+
+
+admin.site.register(Image)
