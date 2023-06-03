@@ -35,6 +35,14 @@
   
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" integrity="sha512-poSrvjfoBHxVw5Q2awEsya5daC0p00C8SKN74aVJrs7XLeZAi+3+13ahRhHm8zdAFbI2+/SUIrKYLvGBJf9H3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+        <script src="{% static 'js/jquery-3.6.0.js' %}"></script> 
+        <script src="{% static 'js/jquery-migrate-3.0.0.min.js' %}"></script> 
+
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        
       
 </head>
 <body>
@@ -158,8 +166,8 @@
     <!-- /.mobile-menu -->
     <nav id="menu" class="stylehome1">
       <ul>
-        <li><span>Home</span>
-          <ul>
+        <li><a href="{% url 'properties:home' %}"><span>Home</span></a>
+          <!-- <ul>
             <li><a href="index.html">Home V1</a></li>
             <li><a href="index2.html">Home V2</a></li>
             <li><a href="index3.html">Home V3</a></li>
@@ -170,7 +178,7 @@
             <li><a href="index8.html">Home V8</a></li>
             <li><a href="index9.html">Home V9</a></li>
             <li><a href="index10.html">Home V10</a></li>
-          </ul>
+          </ul> -->
         </li>
         <li><span>Listing</span>
           <ul>
@@ -284,8 +292,6 @@
 <a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a> </div>
 <!-- Wrapper End --> 
 
-<script src="{% static 'js/jquery-3.6.0.js' %}"></script> 
-<script src="{% static 'js/jquery-migrate-3.0.0.min.js' %}"></script> 
 <script src="{% static 'js/popper.min.js' %}"></script> 
 <script src="{% static 'js/bootstrap.min.js' %}"></script> 
 <script src="{% static 'js/jquery.mmenu.all.js' %}"></script> 
@@ -306,8 +312,6 @@
 <script src="{% static 'js/timepicker.js' %}"></script> 
 <script src="{% static 'js/wow.min.js' %}"></script> 
 <script src="{% static 'js/dashboard-script.js' %}"></script>
-<!-- <script src="{% static 'js/googlemaps2.js' %}"></script>
-<script src="{% static 'js/googlemaps1.js' %}"></script> -->
 
 <!--include sweetify-->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.28/dist/sweetalert2.all.min.js"></script>
@@ -315,8 +319,9 @@
 {% block map-scripts %}
 {% endblock map-scripts %}
 
-<script src="{% static 'js/googlemaps.js' %}"></script>
+
 <!-- Custom script for all pages --> 
 <script src="{% static 'js/script.js' %}"></script>
+
 </body>
 </html>

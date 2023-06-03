@@ -41,3 +41,4 @@ class DistrictPropertyAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Images)
+admin.site.register(PropetyViews)

@@ -10,6 +10,7 @@ from lodges.models import Lodge, About, BlogPost, BlogCategory
 from properties.models import Property, Districts, PropertyCategory
 from properties.forms import *
 from properties.filters import AdvancedSearchFilter
+from properties.charts import create_views_chart, create_likes_chart
 
 
 
@@ -103,10 +104,6 @@ class PropertyListingList(generic.ListView):
         return context
 
 
-class PropertyListingGrid(generic.ListView):
-    def get(self, request):
-        return render(request, 'properties/page-listing-v4.html')
-    
 
 class PropertyPricing(generic.ListView):
     def get(self, request):
@@ -126,9 +123,16 @@ class PropertyDetail(generic.DetailView):
     def get(self, request, **kwargs):
         qs = Property.objects.get(id=kwargs.get('pk'))
         # nbs = NearbyPlaces.objects.get(property=kwargs.get('pk'))
+        chart = create_views_chart(request)
+        l_chart = create_likes_chart(request)
+
+        print("CHART: ", chart)
+        
         context = {
             'property': qs,
-            # 'nearby_place': nbs
+            # 'nearby_place': nbs,
+            'property_chart': chart,
+            'likes_chart': l_chart
         }
 
         return render(request, self.template_name, context)

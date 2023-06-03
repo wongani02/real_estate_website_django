@@ -81,7 +81,6 @@ class Districts(models.Model):
         return reverse('', args=[self.slug])
 
 
-
 # Property table
 class Property(models.Model):
     SALE = "SALE"
@@ -112,6 +111,7 @@ class Property(models.Model):
     lat = models.CharField(_("Latitude"), max_length=999, blank=True)
     lon = models.CharField(_("Longitude"), max_length=999, blank=True)
     views = models.PositiveIntegerField(_("Number of Views"), blank=True, default=0)
+    eng = models.PositiveIntegerField(_("Number of Engagements"), blank=True, default=0)
     is_paid = models.BooleanField(_("Paid"), default=False)
     is_active = models.BooleanField(_("Active"), default=True)
     property_cat = models.ForeignKey(PropertyCategory, on_delete=models.DO_NOTHING)
@@ -139,6 +139,15 @@ class Property(models.Model):
 
     def __str__(self):
         return '{} - {} - {}'.format(self.name, self.price, self.location_area)
+
+
+
+class PropetyViews(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_views')
+    date = models.DateField(auto_now=True)
+    views = models.PositiveIntegerField(default=0)
+
+
 
 
 # Nearby Places table
