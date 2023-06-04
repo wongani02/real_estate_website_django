@@ -7,10 +7,10 @@ from django.core.paginator import Paginator
 
 from lodges.models import Lodge, About, BlogPost, BlogCategory
 
-from properties.models import Property, Districts, PropertyCategory
+from properties.models import *
 from properties.forms import *
 from properties.filters import AdvancedSearchFilter
-from properties.charts import create_views_chart, create_likes_chart
+from properties.charts import *
 
 
 
@@ -120,19 +120,38 @@ class PropertyDetail(generic.DetailView):
     model = Property
     template_name = 'properties/page-listing-single-v4.html'
 
+    """"
+    Function creates or updates the views table based on an existence of 
+    a foreign key property object and date.
+    If either the foreign key or date dont exist, one is created, else, updated.
+    """
+    def update_views(self, _property):
+        from datetime import datetime
+
+        print("TEST: ", PropetyViews.objects.filter(property__id=_property.id))
+
+        date = datetime.now().strftime('%Y-%m-%d')
+        property_view, created = PropetyViews.objects.get_or_create(property=_property, date=date)
+
+        # Update entry
+        property_view.views += 1
+        property_view.save()
+
+
     def get(self, request, **kwargs):
         qs = Property.objects.get(id=kwargs.get('pk'))
-        # nbs = NearbyPlaces.objects.get(property=kwargs.get('pk'))
-        chart = create_views_chart(request)
-        l_chart = create_likes_chart(request)
 
-        print("CHART: ", chart)
+        # Update property views before loading chart
+        self.update_views(qs)
+
+        # Get chart objects
+        chart = create_properties_views_chart(kwargs.get('pk'), qs.name)
+        # chart_likes = create_properties_likes_chart(request)
         
         context = {
             'property': qs,
-            # 'nearby_place': nbs,
-            'property_chart': chart,
-            'likes_chart': l_chart
+            'property_views': chart,
+            # 'property_likes': chart_likes,
         }
 
         return render(request, self.template_name, context)

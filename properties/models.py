@@ -143,6 +143,7 @@ class Property(models.Model):
 
 
 class PropetyViews(models.Model):
+    id = models.AutoField(primary_key=True)
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_views')
     date = models.DateField(auto_now=True)
     views = models.PositiveIntegerField(default=0)

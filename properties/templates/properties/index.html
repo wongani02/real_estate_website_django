@@ -21,11 +21,12 @@
   <link href="{% static 'images/favicon.ico' %}" sizes="128x128" rel="shortcut icon" type="image/x-icon" />
   <link href="{% static 'images/favicon.ico' %}" sizes="128x128" rel="shortcut icon" />
 
-  <!-- Google maps scripts -->
-
-  <script defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-lnP0y7-eryejE9-ZKMwVdFMR7hzfz54&libraries=places&callback=initializeGeocoder">
-  </script>
+  <!-- Google maps block scripts -->
+  
+  {% block googlemaps_scripts %}
+    
+  {% endblock googlemaps_scripts %}
+    
 
   <!-- Sweetify CDN -->
   <link type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.28/dist/sweetalert2.min.css" />
@@ -33,16 +34,19 @@
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <!-- <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script> -->
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" integrity="sha512-poSrvjfoBHxVw5Q2awEsya5daC0p00C8SKN74aVJrs7XLeZAi+3+13ahRhHm8zdAFbI2+/SUIrKYLvGBJf9H3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
-        <script src="{% static 'js/jquery-3.6.0.js' %}"></script> 
-        <script src="{% static 'js/jquery-migrate-3.0.0.min.js' %}"></script> 
+  <script src="{% static 'js/jquery-3.6.0.js' %}"></script> 
+  <script src="{% static 'js/jquery-migrate-3.0.0.min.js' %}"></script> 
 
-        <script src="http://code.highcharts.com/highcharts.js"></script>
-        
+  <!-- Highcharts block script links -->
+  {% block highcharts_scripts %}
+    
+  {% endblock highcharts_scripts %}
+          
+
+
       
 </head>
 <body>

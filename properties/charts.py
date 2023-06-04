@@ -1,13 +1,21 @@
 from chartit import DataPool, Chart
+from django.db.models import Sum
 from properties.models import PropetyViews, Likes
 
 
-def create_views_chart(request):
+
+# Return string of total number of property views
+def sum_views(pk):
+    sum = PropetyViews.objects.filter(property__id=pk).aggregate(total_views=Sum('views'))['total_views']
+
+    return 'Total Views: {}'.format(sum)
+
+def create_properties_views_chart(pk, p_name):
     # Create data pool with data we want to retrieve
     property_data = DataPool(series=[
         {
             'options': {
-                'source': PropetyViews
+                'source': PropetyViews.objects.filter(property__id=pk)
             },
             'terms': ['views', 'date',]
         }
@@ -19,7 +27,7 @@ def create_views_chart(request):
         series_options=[
             {
                 'options': {
-                    'type': 'column',
+                    'type': 'spline',
                     'stacking': False,
                 },
                 'terms': {
@@ -41,10 +49,28 @@ def create_views_chart(request):
                 'title': {
                     'text': 'Number of Views'
                 }
+            },
+            'subtitle': {
+                'text': sum_views(pk)
+            },
+            'legend': {
+                'shadow': True,
+                'reversed': True
+            },
+            'plotOptions': {
+                'line': {
+                    'boarderWidth': 10,
+                    'borderRadius': 5,
+                }
             }
         }
     )
 
+    # Return chart
+    return cht
+
+
+def create_properties_likes_chart(request):
     property_data_2 = DataPool(series=[
         {
             'options': {
@@ -53,9 +79,9 @@ def create_views_chart(request):
             'terms': ['property', 'date',]
         }
     ])
-
+    
     # Create chart object
-    cht2 = Chart(
+    cht = Chart(
         datasource=property_data_2,
         series_options=[
             {
@@ -64,7 +90,7 @@ def create_views_chart(request):
                     'stacking': False,
                 },
                 'terms': {
-                    'date': ['property',]
+                    'date': ['property_id',]
                 }
                 
             }
@@ -86,8 +112,4 @@ def create_views_chart(request):
         }
     )
 
-    # Return chart
-    return cht, cht2
-
-def create_likes_chart(request):
-    pass
+    return cht

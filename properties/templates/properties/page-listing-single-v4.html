@@ -1,6 +1,21 @@
 {% extends 'properties/index.html' %}
 {% load static %}
 {% load chartit %}
+
+
+{% block googlemaps_scripts%}
+  <script defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-lnP0y7-eryejE9-ZKMwVdFMR7hzfz54&libraries=places&callback=initializeGeocoder">
+  </script>
+{% endblock googlemaps_scripts%}
+
+
+{% block highcharts_scripts %}
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js" integrity="sha512-poSrvjfoBHxVw5Q2awEsya5daC0p00C8SKN74aVJrs7XLeZAi+3+13ahRhHm8zdAFbI2+/SUIrKYLvGBJf9H3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+<script src="http://code.highcharts.com/highcharts.js"></script>
+{% endblock highcharts_scripts %}
+  
+
 {% block title %}Property Listing{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
@@ -592,7 +607,8 @@
                 <h4 class="mb30">Property Statistics</h4>
                 <form action="#">
                   <div class="row">
-                    {{property_chart|load_charts:'chart1, chart2'}}
+                    {{property_views|load_charts:'chart1'}}
+                    
                     <div id="chart1"></div>
                     <div id="chart2"></div>
                   </div>

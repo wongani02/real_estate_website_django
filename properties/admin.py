@@ -42,3 +42,4 @@ class DistrictPropertyAdmin(admin.ModelAdmin):
 
 admin.site.register(Images)
 admin.site.register(PropetyViews)
+admin.site.register(Likes)
