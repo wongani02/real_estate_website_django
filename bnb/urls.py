@@ -21,4 +21,13 @@ urlpatterns = [
     #handler
     path('bnb-images/upload', views.bnbImageHandler, name='bnb-image-handler'),
     path('create-bnb-instance/', views.createBNBInstance, name='bnb-create-instance'),
+
+    #edit 
+    path('bnb/edit/<uuid:pk>/', views.editOptionsview, name='edit-options'),
+    path('bnb/edit/<uuid:pk>/edit-details/', views.editDetailsView, name='edit-details'),
+    path('bnb/edit/<uuid:pk>/location/', views.editLocationView, name='edit-location'),
+    path('bnb/edit/<uuid:pk>/images/', views.editImagesView, name='edit-images'),
+    path('bnb/edit/<uuid:pk>/rooms/', views.editRoomsView, name='edit-rooms'),
+    path('edit/<uuid:pk>/amenities/', views.editAmenitiesView, name='edit-amenities'),
+    path('edit/<uuid:pk>/policies/', views.editPoliciesView, name='edit-policies'),
 ]

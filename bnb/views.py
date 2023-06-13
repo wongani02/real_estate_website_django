@@ -1,3 +1,4 @@
+from operator import itemgetter
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.core.paginator import Paginator
@@ -5,7 +6,8 @@ from django.db.models import Q
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.forms import formset_factory
+from django.forms import formset_factory, modelformset_factory
+from django.contrib import messages
 
 from lodges.forms import RequiredFormSet
 
@@ -79,6 +81,7 @@ class SimpleSearch(generic.ListView):
         return render(request, self.template_name, context)
 
 #Bnb creation views
+
 
 @login_required
 def bnbDetailsView(request):
@@ -328,4 +331,98 @@ def createBNBInstance(request):
 
 
     
+###### edit views #######
 
+def editOptionsview(request, pk):
+    context = {
+        'pk':pk
+    }
+
+    return render(request, 'bnb/update/index.html', context)
+
+
+def editDetailsView(request, pk):
+
+    bnb = Property.objects.get(id=pk)
+
+    if request.method == 'POST':
+        instance_form = BnbDetailsEditForm(request.POST, instance=bnb)
+        if instance_form.is_valid():
+            instance_form.save()
+            messages.success(request, 'Edit successful!!!')
+            return redirect('bnb:edit-details', pk)
+    else:
+        instance_form = BnbDetailsEditForm(instance=bnb)
+
+    context = {
+        'form': instance_form,
+        'pk': pk
+    }
+    return render(request, 'bnb/update/bnb-details.html', context)
+
+
+def editRoomsView(request, pk):
+
+    bnb = Property.objects.get(id=pk)
+    rooms = BNBRoom.objects.filter(bnb_id=pk)
+    print(rooms)
+
+    RoomEditFormSet = modelformset_factory(
+        form=BnbRoomEditForm, 
+        formset=RequiredFormSet, 
+        extra=bnb.num_bedrooms,
+        max_num=bnb.num_bedrooms,
+        model=BNBRoom
+    )
+
+    if request.method == 'POST':
+        room_edit_form = RoomEditFormSet(request.POST)
+        if room_edit_form.is_valid():
+
+            for form in room_edit_form:
+                form.save
+
+            messages.success(request, 'Edit successful!!!')
+            return redirect('bnb:edit-rooms', pk)
+    else:
+        room_edit_form = RoomEditFormSet(initial=[{
+            'num_adults': i.num_adults,
+            'num_beds': i.num_beds,
+            'num_baths': i.num_baths,
+        } for i in rooms])
+
+    context = {
+        'room_form': room_edit_form,
+        'pk': pk,
+    }
+    return render(request, 'bnb/update/bnb-rooms.html', context)
+
+
+def editLocationView(request, pk):
+
+    context = {
+
+    }
+    return render(request, 'bnb/update/bnb-location.html', context)
+
+
+def editImagesView(request, pk):
+
+    context = {
+        
+    }
+    return render(request, 'bnb/update/bnb-images.html', context)
+
+
+def editAmenitiesView(request, pk):
+    context = {
+
+    }
+    return render(request, 'bnb/update/bnb-amenities.html', context)
+
+
+def editPoliciesView(request, pk):
+    context = {
+
+    }
+    return render(request, 'bnb/update/bnb-policies.html', context)

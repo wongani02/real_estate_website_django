@@ -74,10 +74,6 @@ class LodgeAmenity(models.Model):
         return f"{self.amenity.name} ({self.lodge.name} - Room {self.lodge.city})"
 
 
-class LodgeDocument(models.Model):
-    pass
-
-
 class Image(models.Model):
     img =  models.ImageField(
         verbose_name=_("image"),

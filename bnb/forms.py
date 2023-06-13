@@ -1,5 +1,5 @@
 from django import forms
-from .models import Amenity, PropertyAmenity, PropertyType
+from .models import Amenity, PropertyAmenity, PropertyType, BNBRoom, BNBImage, Property
 
 
 class BNBDetailsForm(forms.Form):
@@ -49,7 +49,6 @@ class BNBRoomCreationForm(forms.Form):
     )
     
 
-
 class BNBLocationForm(forms.Form):
     map_location = lat = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form_control form-control','id':'location_area', 'placeholder': 'Enter the location name'})
@@ -74,3 +73,103 @@ class BnBAmenitiesForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['amenity'].queryset = Amenity.objects.all()
+
+
+#edit forms
+class BnbDetailsEditForm(forms.ModelForm):
+
+    class Meta:
+        fields = ['title', 'property_type', 'contact_email', 'contact_phone', 'description', 'street_name', 'city', 'num_bedrooms', 'price_per_night']
+        exclude = ['country', 'long', 'lat', 'host', 'id', 'is_active', 'created_at']
+        model=Property
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                        'class': 'form_control form-control', 
+                       'placeholder': 'Name of Bnb'
+                    }),
+
+            'property_type': forms.Select(
+                attrs={
+                        'class': 'form_control form-control', 
+                       'placeholder': 'Bnb type'
+                    }),
+
+            'contact_email': forms.EmailInput(
+                attrs={
+                        'class':'form_control form-control', 
+                       'placeholder':'Contact email'
+                       }),
+
+            'contact_phone': forms.TextInput(
+                attrs={
+                    'class': 'form_control form-control',
+                    'placeholder': 'Contact Number'
+                }),
+
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form_control form-control', 
+                    'placeholder': 'Tell us about your BNB', 'rows':3
+                }),
+
+            'street_name': forms.TextInput(
+                attrs={
+                    'class': 'form_control form-control', 
+                    'placeholder': 'Street name'
+                    }),
+
+            'city': forms.TextInput(
+                attrs={
+                    'class': 'form_control form-control', 
+                    'placeholder': 'City / District'
+                    }),
+
+            'num_bedrooms': forms.NumberInput(
+                attrs={
+                        'class': 'form-control form_control', 
+                       'min': 0,
+                       'placeholder': 'How many rooms do you have?'
+                    }),
+
+            'price_per_night': forms.NumberInput(
+                attrs={
+                        'class': 'form-control form_control', 
+                       'min': 0,
+                       'placeholder': 'Set your price per night'
+                    })
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            # self.fields['']
+            pass
+
+
+class BnbRoomEditForm(forms.ModelForm):
+
+    class Meta:
+        model = BNBRoom
+        fields = ['num_adults', 'num_beds', 'num_baths']
+        widgets = {
+            'num_adults': forms.NumberInput(
+                attrs={
+                        'class': 'form_control form-control ',
+                        'min': 0, 
+                        'placeholder': 'Max number of guests'
+                        }),
+
+            'num_beds': forms.NumberInput(
+                attrs={
+                        'class': 'form_control form-control ',
+                        'min': 0, 
+                        'placeholder': 'Number of beds'
+                    }),
+
+            'num_baths': forms.NumberInput(
+                attrs={
+                        'class': 'form_control  form-control ',
+                        'min': 0, 
+                        'placeholder': ' Number of baths'
+                    })
+        }

@@ -7,6 +7,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import get_user_model
 
 from properties.models import Property
+from bnb.models import Property as BNBProperty
 
 from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm
 from .helpers import auth_user_should_not_access
@@ -137,9 +138,15 @@ def bookmarksView(request):
 @login_required(login_url='accounts:login')
 def myPropertiesView(request):
     user_id = request.user.id
+    #properties
     properties = Property.objects.all().filter(agent_id=user_id)
+
+    #bnbs 
+    bnb = BNBProperty.objects.filter(host_id=user_id)
+
     context = {
         'properties': properties,
+        'bnb': bnb,
     }
     return render(request, 'users/page-dashboard-property.html', context)
 
