@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import get_user_model
 
-from properties.models import Property
+from properties.models import Property, PropetyViews
+from properties.charts import all_property_views_chart
 
 from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm
 from .helpers import auth_user_should_not_access
@@ -94,9 +95,19 @@ def forgotPassword(request):
 #dasboard views
 @login_required(login_url='accounts:login')
 def dashboardView(request):
+    # Get total number of properties
+    no_properties = Property.objects.filter(agent__username=request.user.username).count()
+
+    # Get the total number of views
+    no_views = PropetyViews.objects.filter(property__agent__username=request.user.username).aggregate(total_views=Sum('views'))['total_views']
+
+    # Get chart data for all property views
+    chart_views = all_property_views_chart(request)
 
     context = {
-
+        'properties': no_properties,
+        'chart_views': chart_views,
+        'views': no_views
     }
     return render(request, 'users/page-dashboard.html', context)
 

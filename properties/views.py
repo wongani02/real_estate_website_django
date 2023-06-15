@@ -1,16 +1,22 @@
+from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q 
 from django.core.paginator import Paginator
+from django.core.serializers.json import DjangoJSONEncoder
+
+from datetime import date
 
 from lodges.models import Lodge, About, BlogPost, BlogCategory
-
 from properties.models import *
 from properties.forms import *
 from properties.filters import AdvancedSearchFilter
 from properties.charts import *
+
+import json
+import ast
 
 
 
@@ -35,6 +41,8 @@ class SimpleSearch(generic.ListView):
 
         context = ({
             'results': results,
+            'count': qs.count,
+            'search_type': 'Simple'
         })
 
         return render(request, self.template_name, context)
@@ -44,9 +52,11 @@ class AdvancedSearch(generic.ListView):
 
     def post(self, request, *args, **kwargs):
         filter = AdvancedSearchFilter(request.POST, queryset=Property.objects.all())
+        print("Filter: ", filter)
         result = ({
-            'result': filter,
-            'results': Property.objects.all()
+            'results': filter,
+            # 'results': Property.objects.all(),
+            'search_type': 'Advanced'
         })
 
         return render(request, self.template_name, result)
@@ -128,8 +138,6 @@ class PropertyDetail(generic.DetailView):
     def update_views(self, _property):
         from datetime import datetime
 
-        print("TEST: ", PropetyViews.objects.filter(property__id=_property.id))
-
         date = datetime.now().strftime('%Y-%m-%d')
         property_view, created = PropetyViews.objects.get_or_create(property=_property, date=date)
 
@@ -145,12 +153,14 @@ class PropertyDetail(generic.DetailView):
         self.update_views(qs)
 
         # Get chart objects
-        chart = create_properties_views_chart(kwargs.get('pk'), qs.name)
-        # chart_likes = create_properties_likes_chart(request)
+        chart = create_properties_views_chart(kwargs.get('pk'))
+        chart_likes = create_properties_likes_chart(kwargs.get('pk'))
         
         context = {
             'property': qs,
-            'property_views': chart,
+            'property_charts': [
+                chart, chart_likes
+            ]
             # 'property_likes': chart_likes,
         }
 
@@ -207,78 +217,7 @@ class AgentList(generic.ListView):
 class AgentDetails(generic.DetailView):
     def get(self, request):
         return render(request, 'properties/page-agent-single.html')
-
-
-class CreatePropertyListing(generic.CreateView):
-    model = Property
-    template_name = 'properties/page-dashboard-new-property.html'
-
-    def get(self, request):
-        # form=PropertyCreationForm(request.GET)
-        # cat_form = PropertyCategoryCreationForm(request.GET)
-        # dis_form = DistrictCreationForm(request.GET)
-        images_form = ImagesCreationForm(request.GET, request.FILES)
-        videos_form = VideosCreationForm(request.GET, request.FILES)
-        # amenity_form = AmenitiesCreationForm(request.GET)
-
-        return render(request, self.template_name, {
-            # 'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
-            'img_form': images_form, 'videos_form': videos_form
-            # 'am_form': amenity_form,
-        })
     
-    def post(self, request, **kwargs):
-        property_form = PropertyCreationForm(request.POST)
-        print("REQUEST: ", request.POST)
-        result = self.save_db(request, **kwargs)
-        print("RESULT: ", result)
-
-        if property_form.is_valid():
-            property_form.save(commit=False)
-            
-
-            if result:
-                property_form.save(commit=False)
-            
-            return redirect('properties:home')
-        
-        message = messages.add_message(request, messages.ERROR, 'Failed to create Listing.')
-
-        form=PropertyCreationForm(request.POST)
-        cat_form = PropertyCategoryCreationForm(request.POST)
-        dis_form = DistrictCreationForm(request.POST)
-        # images_form = ImagesCreationForm(request.POST, request.FILES)
-        videos_form = VideosCreationForm(request.POST, request.FILES)
-        amenity_form = AmenitiesCreationForm(request.POST)
-
-        return render(request, self.template_name, {
-            'form': form, 'cat_form': cat_form, 'dis_form': dis_form, 
-            # 'img_form': images_form,
-            'am_form': amenity_form, 'videos_form': videos_form
-        })
-    
-    def save_db(self, request, **kwargs):
-        try:
-            # video = Videos.objects.create(
-            #     property=kwargs.get('pk'),
-            #     video=request.FILES.get('video'),
-            #     link=request.POST.get('link')
-            # )
-            # video.save()
-            print("before: ", request.POST.get('file'))
-            print("before 2: ", request.POST.dict())
-            for item in request.POST.get('file'):
-                print("for 1")
-                image = Images.objects.create(
-                    property=kwargs.get('pk'),
-                    image=item
-                )
-                print("save 1")
-                image.save()
-            
-            return True
-        except:
-            return False
 
 
 class EditPropertyListing(generic.UpdateView):
@@ -327,18 +266,297 @@ def contextQ(request):
     }
 
 
-def create_property_category(request):
-    db = PropertyCategory.objects.create(name=request.POST.get('name'))
-    db.refresh_from_db()
+"""
+CBV gets and stores property data in session 'step_1'
+"""
+class CreatePropertyListing(generic.CreateView):
+    model = Property
+    template_name = 'properties/page-dashboard-new-property-1.html'
+    template_next = 'properties/page-dashboard-new-property-2.html'
+
+    def get(self, request):
+        # Check for existence of incomplete session and append data
+        if 'step_1' in self.request.session:
+            # Add existing session data to form
+            session_data = json.loads(self.request.session['step_1'])
+            session_data['year_built'] = date.fromisoformat(session_data['year_built'])
+            print("Session: ", session_data)
+            property_form = PropertyInfoCreationForm(initial={
+                'name': session_data['name'], 'desc': session_data['desc'], 'property_type': session_data['property_type'],
+                'property_area': session_data['property_area'], 'compound_area': session_data['property_area'],
+                'no_rooms': session_data['no_rooms'], 'no_garages': session_data['no_garages'],
+                'no_baths': session_data['no_baths'], 'price': session_data['price'], 'year_built': session_data['year_built'],
+                'property_type': session_data['property_type'], 'property_cat': session_data['property_cat']
+            })
+            
+        else:
+            # Create a new and empty form
+            property_form = PropertyInfoCreationForm()
+            
+        return render(request, self.template_name, { 
+            'form': property_form, 
+        })
+    
+    # POST request handles session data and sends user to next page
+    def post(self, request, **kwargs):
+        # Get form data
+        form = PropertyInfoCreationForm(request.POST)
+
+        if form.is_valid():
+            print("Valid")
+
+            # Check session for 'incomplete listing' data
+            if 'step_1' in self.request.session:
+                # If session data doesnt match form data, update session
+                session_data = self.request.session['step_1']
+
+                if session_data != form.cleaned_data:
+                    # Convert form date to string before assignig to session
+                    self.request.session['step_1'] = json.dumps(form.cleaned_data, cls=DateEncoder)
+            else:
+                # Create dictionary if it doesnt exist
+                self.request.session['step_1'] = json.dumps(form.cleaned_data, cls=DateEncoder)
+
+            # Save changes to list
+            self.request.session.modified = True
+            
+            return redirect('properties:create-listing-location')
+        
+        return render(request, self.template_name, {'form': form})
 
 
-def create_district(request):
-    print('request: ', request.POST.get('district_name'))
-    db = Districts.objects.create(
-        district_name=request.POST.get('district_name'),
-        is_active=True
-    )
-    db.refresh_from_db()
+"""
+CBV gets and stores property location and amenity data in session 'step_2'
+"""
+class CreatePropertyLocationListing(generic.CreateView):
+    model = Property
+    template_name = 'properties/page-dashboard-new-property-2.html'
+    template_next = 'properties/page-dashboard-new-property-3.html'
+
+    def get(self, request):
+        # Property Creation form variable
+        property_form = None
+        amenity = AmenitiesCreationForm()
+        # del self.request.session['step_2']
+
+        # Check for existence of incomplete session and append data
+        if 'step_2' in self.request.session:
+            
+            # Add existing session data to form
+            session_data = self.request.session['step_2']
+            print("Session 2: ", session_data)
+            property_form = PropertyInfoCreationForm(initial={
+                'location_area': session_data['location_area'], 'district': session_data['district'], 
+                'lat': session_data['lat'], 'lon': session_data['lon']
+            })
+        else:
+            # Create a new and empty form
+            property_form = PropertyLocationCreationForm()
+
+        return render(request, self.template_name, { 
+            'form': property_form, 'am_form': amenity
+        })
+    
+    # POST request handles session data and sends user to next page
+    def post(self, request, **kwargs):
+        # Get form data
+        form = PropertyLocationCreationForm(request.POST)
+        amenity = AmenitiesCreationForm(request.POST)
+        print('post')
+
+        if form.is_valid():
+            # Check session for 'incomplete listing' data
+            # If session data doesnt match form data, update session
+            form.cleaned_data['amenities'] = self.get_amenities(form.cleaned_data['amenities'])
+
+            # Convert form date to string before assignig to session
+            self.request.session['step_2'] = json.dumps(form.cleaned_data, cls=DateEncoder)
+
+            # Save changes to list 
+            self.request.session.modified = True
+
+            print(self.request.session['step_2'])
+            
+            return render(request, self.template_next, {}) 
+        
+        print(form.errors)
+        print("POST: ", form)
+        
+        return render(request, self.template_name, {'form': form, 'am_form': amenity})
+
+    # Function converts and Amenity objects as strings
+    def get_amenities(self, obj):
+        _list = []
+        for amenity in obj:
+            _list.append(str(amenity))
+
+        return str(_list)
+
+
+"""
+CBV gets and saves property data, amenities and images
+"""
+class CreatePropertyMediaListing(generic.CreateView):
+    model = Property
+    template_name = 'properties/page-dashboard-new-property-3.html'
+    template_next = 'users/page-dashboard.html'
+
+    def get(self, request):
+        # Property Creation form variable
+        property_form = None
+
+        # Check for existence of incomplete session and append data
+        if 'step_3' in self.request.session:
+            # Add existing session data to form
+            session_data = self.request.session['step_3']
+            # property_form = PropertyInfoCreationForm(initial=session_data)
+            property_form = ImagesCreationForm()
+        else:
+            # Create a new and empty form
+            property_form = ImagesCreationForm()
+
+        return render(request, self.template_name, { 
+            'form': property_form,
+        })
+    
+    # POST request handles session data and sends user to next page
+    def post(self, request):
+        # Get form data
+        form = ImagesCreationForm(request.POST, request.FILES)
+
+        property_info = request.session['step_1']
+        location_info = request.session['step_2']
+
+        if form.is_valid():
+            # Get session data and save to database
+            property_info = json.loads(request.session['step_1'])
+            location_info = json.loads(request.session['step_2'])
+
+            #  Create property instance
+            property_, _amenities = self.create_property(property_info, location_info)
+            
+            # Create amenity instance
+            amenity_ = self.create_amenity_link(property_.id, _amenities)
+
+            # Create property images instance
+            images_ = self.create_property_images
+            
+            # Save all objects
+            self.save_objects(property_, amenity_, images_)
+
+            return HttpResponseRedirect(reverse('accounts:dashboard'))
+            
+            
+        
+    
+    """
+    Function creates property object with the following parameters
+    object1: property information session object
+    object2: property location session object
+    """
+    def create_property(self, object1, object2):
+        from users.models import User
+        
+        # Create PropertyCategory object
+        cat = PropertyCategory.objects.get(name=object1['property_cat'])
+        
+        # Create district object
+        dis = Districts.objects.get(district_name=object2['district'])
+
+        # Get agent object
+        agent = User.objects.get(username=self.request.user.username)
+
+        _property = Property.objects.create(
+        # session: step_1
+        name=object1['name'], desc=object1['desc'], property_area=object1['property_area'], 
+        compound_area=object1['compound_area'], year_built=object1['year_built'], price=object1['price'],
+        property_type=object1['property_type'], property_status=object1['property_status'],
+        property_cat=cat, no_garages=object1['no_garages'], no_rooms=object1['no_rooms'],
+        no_baths=object1['no_baths'],
+        # session: step_2
+        location_area=object2['location_area'], district=dis, lat=object2['lat'],
+        lon=object2['lon'], agent=agent
+        )
+
+        # Ensure property object is not saved
+        _property.save(commit=False)
+
+        return _property, object2['amenities']
+        
+    """
+    Function creates and saves links created between the Property and Amenity classes
+    """
+    def create_amenity_link(self, property_id, objects):
+        # List to hold amenity instances
+        amenities_ = []
+
+        # Convert str object to dict
+        objects = ast.literal_eval(objects)
+
+        # Create Property instance 
+        property_ = Property.objects.get(pk=property_id)
+
+        # Loop and create through list of amenities
+        for object in objects:
+            # Get amenity object
+            print("objects: ", object)
+            object = Amenities.objects.get(name=object)
+            amenity = PropertyAmenityLink.objects.create(
+            _property=property_, amenity=object
+            )
+
+            # Ensure object is not saved
+            amenity.save(commit=False)
+
+            # Add amenity obbjects to list
+            amenities_.append(amenity)
+
+        return amenities_
+    
+    """
+    Function creates property images instances
+    """
+    def create_property_images(self, property_, object):
+        # List to hold image instances
+        images_ = []
+
+        # try:
+        for image in object:
+            image_ = Images.objects.create(
+                property=property_, image=image,
+            )
+
+            # Ensure images are not saved
+            image_.save(commit=False)
+
+            # Add image objects to list
+            images_.append(image_)
+        return images_
+        # except ValueError:
+        #     return False
+
+    """
+    Function saves all property, amenity and images objects to db
+    """
+    def save_objects(self, _property_, _amenities_, _images_):
+        # Save Property object
+        _property_.save(commit=False)
+
+        # Save amenities objects
+        for _amenity_ in _amenities_:
+            _amenity_.save(commit=False)
+
+        # Save images objects
+        for _image_ in _images_:
+            _image_.save(commit=False)
+
+class DateEncoder(DjangoJSONEncoder): 
+
+    def default(self, obj):
+        if isinstance(obj, (date, PropertyCategory, Districts)):
+            return str(obj)
+        return super().default(obj)
+
 
 def create_amenities(request):
     db = Amenities.objects.create(

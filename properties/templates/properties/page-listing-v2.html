@@ -204,7 +204,7 @@
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
               <li class="breadcrumb-item">Search</li>
-              <li class="breadcrumb-item">Simple</li>
+              <li class="breadcrumb-item">{{search_type}}</li>
               <li class="breadcrumb-item active" aria-current="page">Property</li>
             </ol>
           </div>
@@ -221,8 +221,8 @@
             <div class="listing_filter_row dif db-767">
               <div class="col-sm-12 col-md-4 col-lg-4 col-xl-5">
                 <div class="left_area tac-xsd mb30-767">
-                  <p class="mb0 mt10"><span class="heading-color">Results: {{results.count}}</span> Showing</p> 
-                </div>
+                  <p class="mb0 mt10"><span class="heading-color">{{count}}</span> Showing</p> 
+                </div> 
               </div>
               <div class="col-sm-12 col-md-8 col-lg-8 col-xl-7">
                 <div class="listing_list_style tac-767">
@@ -244,12 +244,8 @@
             </div>
           </div>
           <div class="row">
-          {% for obj in result %}
             
-          {% endfor %}
-            
-            
-            {% for result in results.qs %}
+            {% for result in results %}
             <div class="col-lg-6 col-xl-4">
               <div class="feat_property">
                 <div class="thumb">
