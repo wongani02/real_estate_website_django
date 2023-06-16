@@ -222,11 +222,6 @@ class AgentDetails(generic.DetailView):
 
 class EditPropertyListing(generic.UpdateView):
     model = Property
-    fields = [
-            'no_rooms', 'no_baths', 'no_garages', 'status',
-            'property_type', 'district', 'price', 'compound_area',
-            'amenities',
-        ] 
     success_url = '/'
     template_name = 'properties/page-dashboard-edit-property.html'
 
@@ -280,7 +275,7 @@ class CreatePropertyListing(generic.CreateView):
             # Add existing session data to form
             session_data = json.loads(self.request.session['step_1'])
             session_data['year_built'] = date.fromisoformat(session_data['year_built'])
-            print("Session: ", session_data)
+
             property_form = PropertyInfoCreationForm(initial={
                 'name': session_data['name'], 'desc': session_data['desc'], 'property_type': session_data['property_type'],
                 'property_area': session_data['property_area'], 'compound_area': session_data['property_area'],
@@ -303,7 +298,6 @@ class CreatePropertyListing(generic.CreateView):
         form = PropertyInfoCreationForm(request.POST)
 
         if form.is_valid():
-            print("Valid")
 
             # Check session for 'incomplete listing' data
             if 'step_1' in self.request.session:
@@ -337,15 +331,14 @@ class CreatePropertyLocationListing(generic.CreateView):
         # Property Creation form variable
         property_form = None
         amenity = AmenitiesCreationForm()
-        # del self.request.session['step_2']
 
         # Check for existence of incomplete session and append data
         if 'step_2' in self.request.session:
             
             # Add existing session data to form
-            session_data = self.request.session['step_2']
-            print("Session 2: ", session_data)
-            property_form = PropertyInfoCreationForm(initial={
+            session_data = json.loads(self.request.session['step_2'])
+
+            property_form = PropertyLocationCreationForm(initial={
                 'location_area': session_data['location_area'], 'district': session_data['district'], 
                 'lat': session_data['lat'], 'lon': session_data['lon']
             })
@@ -362,7 +355,6 @@ class CreatePropertyLocationListing(generic.CreateView):
         # Get form data
         form = PropertyLocationCreationForm(request.POST)
         amenity = AmenitiesCreationForm(request.POST)
-        print('post')
 
         if form.is_valid():
             # Check session for 'incomplete listing' data
@@ -375,12 +367,7 @@ class CreatePropertyLocationListing(generic.CreateView):
             # Save changes to list 
             self.request.session.modified = True
 
-            print(self.request.session['step_2'])
-            
             return render(request, self.template_next, {}) 
-        
-        print(form.errors)
-        print("POST: ", form)
         
         return render(request, self.template_name, {'form': form, 'am_form': amenity})
 
@@ -444,7 +431,7 @@ class CreatePropertyMediaListing(generic.CreateView):
             # Save all objects
             self.save_objects(property_, amenity_, images_)
 
-            return HttpResponseRedirect(reverse('accounts:dashboard'))
+            return HttpResponseRedirect(reverse('properties:home'))
             
             
         
@@ -478,9 +465,6 @@ class CreatePropertyMediaListing(generic.CreateView):
         lon=object2['lon'], agent=agent
         )
 
-        # Ensure property object is not saved
-        _property.save(commit=False)
-
         return _property, object2['amenities']
         
     """
@@ -499,14 +483,10 @@ class CreatePropertyMediaListing(generic.CreateView):
         # Loop and create through list of amenities
         for object in objects:
             # Get amenity object
-            print("objects: ", object)
             object = Amenities.objects.get(name=object)
             amenity = PropertyAmenityLink.objects.create(
             _property=property_, amenity=object
             )
-
-            # Ensure object is not saved
-            amenity.save(commit=False)
 
             # Add amenity obbjects to list
             amenities_.append(amenity)
@@ -526,29 +506,25 @@ class CreatePropertyMediaListing(generic.CreateView):
                 property=property_, image=image,
             )
 
-            # Ensure images are not saved
-            image_.save(commit=False)
-
             # Add image objects to list
             images_.append(image_)
         return images_
-        # except ValueError:
-        #     return False
+
 
     """
     Function saves all property, amenity and images objects to db
     """
     def save_objects(self, _property_, _amenities_, _images_):
         # Save Property object
-        _property_.save(commit=False)
+        _property_.save()
 
         # Save amenities objects
         for _amenity_ in _amenities_:
-            _amenity_.save(commit=False)
+            _amenity_.save()
 
         # Save images objects
         for _image_ in _images_:
-            _image_.save(commit=False)
+            _image_.save()
 
 class DateEncoder(DjangoJSONEncoder): 
 

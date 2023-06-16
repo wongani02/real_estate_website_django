@@ -101,6 +101,9 @@ def dashboardView(request):
     # Get the total number of views
     no_views = PropetyViews.objects.filter(property__agent__username=request.user.username).aggregate(total_views=Sum('views'))['total_views']
 
+    if no_views is None:
+        no_views = 0
+    
     # Get chart data for all property views
     chart_views = all_property_views_chart(request)
 
