@@ -10,16 +10,18 @@ urlpatterns = [
     path('contact/', views.Contact.as_view(), name='contact'),
     path('about/', views.AboutUs.as_view(), name='about'),
     path('properties/grid/single/<uuid:pk>/', views.PropertyDetail.as_view(), name='property-single'),
-    # path('properties/grid/', views.PropertyListingGrid.as_view(), name='all-property-grid'),
     path('properties/list/', views.PropertyListingList.as_view(), name='all-property-list'),
     path('properties/map/', views.PropertyListingMap.as_view(), name='property-map'),
     path('properties/pricing/', views.PropertyPricing.as_view(), name='property-pricing'),
-    # path('images-upload/', views.fileUploadView, name='file_upload'),
-    path('listing/create/', views.CreatePropertyListing.as_view(), name='create-listing'),
+
+    # Urls for creating a property listing
+    path('create/property/step/1/', views.CreatePropertyListing.as_view(), name='create-listing'),
+    path('create/property/step/2/', views.CreatePropertyLocationListing.as_view(), name='create-listing-location'),
+    path('create/property/step/3/', views.CreatePropertyMediaListing.as_view(), name='create-media-location'),
+
+
     path('listing/edit/<uuid:pk>/', views.EditPropertyListing.as_view(), name='edit-listing'),
     path('listing/delete/<uuid:pk>/', views.DeletePropertyListing.as_view(), name='delete-listing'),
-    path('listing/category/create/', views.create_property_category, name='create-category'),
-    path('listing/district/create/', views.create_district, name='create-district'),
     path('listing/amenity/create/', views.create_amenities, name='create-amenity'),
     path('blog/list/', views.BlogList.as_view(), name='blog-list'),
     path('blog/grid/', views.BlogGrid.as_view(), name='blog-grid'),

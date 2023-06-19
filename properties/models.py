@@ -24,13 +24,13 @@ class Amenities(models.Model):
         verbose_name = 'Amenity'
         verbose_name_plural = 'Amenities'
 
-    name = models.CharField(_('Amenity Name'), max_length=20, blank=True)
+    name = models.CharField(_('Amenity Name'), unique=True, max_length=20, blank=True)
     desc = models.CharField(_("Amenity Description"), max_length=100, blank=True)
     date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
-
+    
 
 # Property Status table
 class PropertyType(models.Model):
@@ -119,12 +119,13 @@ class Property(models.Model):
     property_status = models.CharField(_("Available/Sold"), choices=STATUS, default=AVAILABLE, max_length=10)
     amenities = models.ManyToManyField(Amenities)
     year_built = models.DateField(_("Year Built"), blank=True)
-    compound_area = models.PositiveIntegerField(_("Property Compound Area (metres)"), blank=True, default=0)
+    compound_area = models.PositiveIntegerField(_("Compound Area (metres)"), blank=True, default=0)
+    property_area = models.PositiveIntegerField(_("Property Area (metres)"), blank=True, default=0)
     no_garages = models.PositiveIntegerField(_("Number of Garages"), default=0)
     no_rooms = models.PositiveIntegerField(_("Number of Rooms"), default=2)
     no_baths = models.PositiveIntegerField(_("Number of Baths"), default=1)
     desc = RichTextField(_("Description"))
-    status = models.BooleanField(_("Property Status"),)
+    status = models.BooleanField(_("Property Status"), default=False)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING, related_name='property_district')
     created_at = models.DateTimeField(auto_now=True, null=True)
     is_featured = models.BooleanField(_("if Featured"), default=False, null=True)
@@ -181,7 +182,11 @@ class Likes(models.Model):
         related_name='user_likes')
     date = models.DateTimeField(_("Date Liked"), auto_now=True, null=True)
     property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True)
+    count = models.IntegerField(default=1, editable=False)
 
+    def property_name(self):
+        return self.property.name
+    
     def __str__(self):
         return '{} - {} - {}'.format(self.user, self.property, self.date)
 
@@ -193,7 +198,7 @@ class Images(models.Model):
         verbose_name_plural = 'Images'
 
     property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_images')
-    image = models.ImageField(_("Property Image"), upload_to='property_images/', null=True)
+    file = models.ImageField(_("Property Image"), upload_to='property_images/', null=True)
     is_feature = models.BooleanField(_("Main image to display"), default=False, null=True)
     is_active = models.BooleanField(_("Is Active"), default=True, null=True)
     date = models.DateTimeField(_("Date Uploaded"), auto_now=True, null=True)
@@ -216,3 +221,13 @@ class Videos(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.video, self.date)
+
+
+class PropertyAmenityLink(models.Model):
+    id = models.AutoField(primary_key=True)
+    _property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    amenity = models.ForeignKey(Amenities, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return '{} - {} - {}'.format(self.id, self._property, self.amenity)
+

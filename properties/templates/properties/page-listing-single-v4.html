@@ -71,7 +71,7 @@
                       <div class="property_sp3_slider psp_v4">
                         
                         {% for image in property.property_images.all %}
-                        <div class="item">
+                        <!-- <div class="item">
                           <div class="sps_content">
                             <div class="thumb">
                               <div class="single_product">
@@ -82,9 +82,9 @@
                               </div>
                             </div>
                           </div>
-                        </div>
-                        {% endfor %}
+                        </div> -->
                         
+                        {% endfor %}
                       </div>
                     </div>
                   </div>
@@ -607,8 +607,7 @@
                 <h4 class="mb30">Property Statistics</h4>
                 <form action="#">
                   <div class="row">
-                    {{property_views|load_charts:'chart1'}}
-                    
+                    {{property_charts|load_charts:'chart1,chart2'}}
                     <div id="chart1"></div>
                     <div id="chart2"></div>
                   </div>

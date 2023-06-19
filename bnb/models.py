@@ -43,6 +43,7 @@ class Property(models.Model):
     contact_phone = models.CharField(_('contact phone number'), max_length=12, null=True)
     description = models.TextField(_("BnB Description"), )
     street_name = models.CharField(_("Address"), max_length=255)
+    # city = models.ForeignKey(Districts, on_delete=models.CASCADE, related_name='bnb_city')
     city = models.CharField(max_length=255, null=True)
     country = models.CharField(max_length=255, blank=True)
     num_bedrooms = models.PositiveIntegerField(_("Number of Bed Rooms"), null=True)

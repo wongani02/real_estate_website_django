@@ -175,3 +175,7 @@ lodges/migrations/0005_lodge_cover_img_lodge_is_active.py
 lodges/migrations/0006_about_blogcategory_blogpost_blogimage.py
 payments/migrations/__init__.py
 properties/migrations/0001_initial.py
+lodges/migrations/0001_initial.py
+payments/migrations/0001_initial.py
+properties/migrations/0001_initial.py
+users/migrations/0001_initial.py
