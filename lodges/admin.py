@@ -19,7 +19,7 @@ class RoomInline(admin.TabularInline):
 
 @admin.register(Lodge)
 class LodgeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'address', 'city', 'state', 'country',)
+    list_display = ('name', 'street_name', 'city', 'map_location', 'country',)
     inlines = [RoomInline, LodgeAmenityInline, PictureInline]
 
 

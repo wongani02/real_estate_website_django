@@ -1,6 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}Update bnb{% endblock title %}
+{% block title %}create lodge{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -29,7 +29,7 @@
 
 					<!-- media files -->
 		          <div class="new_property_form">
-					<h4 class="title mb30">Images of your BNB and surrounding</h4>
+					<h4 class="title mb30">Images of your lodge, rooms and surrounding</h4>
 					<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 					<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 		            <style>
@@ -43,7 +43,7 @@
 						}
 					</style>
 
-					<form action="{% url 'bnb:edit-images' pk %}" method="post" id="y-dz" class="dropzone dz">
+					<form action="{% url 'lodges:edit-images' pk %}" method="post" id="y-dz" class="dropzone dz">
 						{% csrf_token %}
 						<div class="fallback">
 							<input name="file" type="file" multiple required/>
@@ -51,20 +51,18 @@
 						
 					</form>
 					
-					<div class="col-lg-12">
+					<div class="col-lg-5">
 					{% if images %}
 					<h5 class="title mt-4">Below are your recently uploaded images</h5>
 					<div class="row mt-4">
 						
 						{% for image in images %}
 						<div class="col-sm-4 col-lg-4 pr5 pr15-767">
-						<div class="spls_style_two mb10 div-1">
-							<a class="popup-img" href="{{image.image.image.url}}"><img class="img-fluid w100" src="{{image.image.image.url}}" alt="2.jpg"></a>
+						<div class="spls_style_two mb10">
+							<a class="popup-img" href="{{image.img.img.url}}"><img class="img-fluid w100" src="{{image.img.img.url}}" alt="2.jpg"></a>
 						</div>
                         <div class="div-2"><a class="x" href="#"><p aria-label="Delete" class="x">x</a></p></div>
-						</div>
                         <style>
-                            
                             .x{
                                 font-size: 20px;
                                 color: red;
@@ -75,14 +73,16 @@
                                 color: red;
                             }
                         </style>
+						</div>
 						{% endfor %}
 						
 					</div>
 					{% endif %}
 
 		          </div>
+
 				  <div class="text-right mt-4">
-                        <a href="{% url 'bnb:bnb-create-instance' %}" class="btn btn-thm listing_save_btn">Finish</a>
+                        <button type="submit" class="btn btn-thm listing_save_btn">Save</button>
                     </div>
 				</div>
 				

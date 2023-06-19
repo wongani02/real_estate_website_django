@@ -58,7 +58,7 @@ class Property(models.Model):
     
 
 class BNBRoom(models.Model):
-    bnb = models.ForeignKey(Property, on_delete=models.CASCADE, null=True)
+    bnb = models.ForeignKey(Property, on_delete=models.CASCADE, null=True, related_name='bnb_rooms')
     num_adults = models.PositiveIntegerField(_("Number of Adults"), null=True)
     num_beds = models.PositiveIntegerField(_("Number of Beds"), null=True)
     num_baths = models.DecimalField(_("Number of Bathrooms"), max_digits=3, decimal_places=1, null=True)

@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView
-from properties.models import Property
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.forms.formsets import formset_factory
+from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
+from django.contrib import messages
 
 from .create_lodge import LodgeCreation as LodgeCreationClass
 from .models import Amenity, LodgeImage, Lodge, Image
@@ -256,7 +256,8 @@ def createLodgeInstanceView(request):
             #create lodge
             lodge = lodge_instance.create_lodge(
                 lodge=session['lodge_details'],
-                location=session['lodge_location_details']
+                location=session['lodge_location_details'],
+                user_id=request.user.id
                 )
             
             #create rooms
@@ -278,3 +279,136 @@ def createLodgeInstanceView(request):
             # return redirect('lodges:error-page')
 
     return redirect('lodges:create-lodge')
+
+
+####### edit views ####### 
+
+def editLodgeOptions(request, pk):
+    context = {
+        'pk':pk
+    }
+    return render(request, 'lodges/edit/index.html', context)
+
+
+def editLodgeDetails(request, pk):
+
+    lodge = Lodge.objects.get(id=pk)
+
+    if request.method == 'POST':
+        form = LodgeDetailsEditForm(request.POST, instance=lodge)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Updated sucessfully')
+            return redirect('lodges:edit-details', pk)
+    else:
+        form= LodgeDetailsEditForm(instance=lodge)
+
+    context = {
+        'form': form,
+        'pk':pk,
+    }
+    return render(request, 'lodges/edit/details.html', context)
+
+
+def editLodgeLocation(request, pk):
+    lodge = Lodge.objects.get(id=pk)
+
+    if request.method == 'POST':
+        form = LodgeLocationEditView(request.POST, instance=lodge)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Updated sucessfully')
+            return redirect('lodges:edit-location', pk)
+    else:
+        form = LodgeLocationEditView(instance=lodge)
+
+    context = {
+        'form': form,
+        'pk':pk,
+    }
+    return render(request, 'lodges/edit/location.html', context)
+
+
+#not complete
+def editLodgeRooms(request, pk):
+    lodge = Lodge.objects.get(id=pk)
+    rooms = Room.objects.filter(lodge_id=pk)
+
+    RoomEditFormSet = modelformset_factory(
+        form=LodgeRoomsEditForm, 
+        formset=RequiredFormSet, 
+        extra=lodge.number_of_room_types,
+        max_num=lodge.number_of_room_types,
+        model=Room
+    )
+
+    if request.method == 'POST':
+        room_edit_form = RoomEditFormSet(request.POST)
+        if room_edit_form.is_valid():
+
+            for form in room_edit_form:
+                pass
+                
+            messages.success(request, 'Edit successful!!!')
+            return redirect('lodges:edit-rooms', pk)
+    else:
+        room_edit_form = RoomEditFormSet(initial=[{
+            'room_type': i.room_type,
+            'adults': i.adults,
+            'beds': i.beds,
+            'children': i.children,
+            'price_per_night': i.price_per_night
+        } for i in rooms])
+
+    context = {
+        'room_form': room_edit_form,
+        'pk': pk,
+    }
+    return render(request, 'lodges/edit/rooms.html', context)
+
+
+def editLodgeImages(request, pk):
+    images = LodgeImage.objects.filter(lodge_id=pk)
+
+    if request.method == 'POST':
+        image = request.FILES.get('file')
+        instance = Image.objects.create(image=image)
+
+        LodgeImage.objects.create(
+            lodge_id=pk,
+            image_id=instance.id
+        )
+    
+    context = {
+        'images': images,
+        'pk': pk,
+    }
+    return render(request, 'lodges/edit/images.html', context)
+
+
+def editLodgeAmenities(request, pk):
+    lodge = Lodge.objects.get(id=pk)
+    amenites = LodgeAmenity.objects.get(lodge=lodge)
+
+    if request.method =='POST':
+        form = LodgeAmenities(request.POST, instance=amenites)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Edit successful!!!')
+            return redirect('lodges:edit-amenities', pk)
+
+    else:
+        form = LodgeAmenities(instance=amenites)
+
+    context = {
+        'form': form,
+        'pk': pk,
+    }
+    return render(request, 'lodges/edit/amenities.html', context)
+
+
+def editLodgePolicies(request, pk):
+    context = {
+
+    }
+    return render(request, 'lodges/edit/policies.html', context)

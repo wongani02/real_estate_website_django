@@ -1,6 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}Edit BNB{% endblock title %}
+{% block title %}create lodge{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -37,7 +37,7 @@
 					<h4 class="mb30">Select Available amenities</h4>
 					<button class="btn btn-thm" type="button" onclick="{selectAll()}" >Select All</button>
 					<button class="btn btn-thm" type="button" onclick="{deSelectAll()}" >Remove All</button>
-					<form method="post" action="{% url 'bnb:edit-amenities' pk %}">
+					<form method="post" action="{% url 'lodges:edit-amenities' pk %}">
                     {% csrf_token %}
 					<div class="ui_kit_select_search form-group list_hightlights df mt20">
 						

@@ -4,22 +4,25 @@ from django.conf import settings
 from ckeditor.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+import uuid
 
 
 class Lodge(models.Model):
-    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True)
-    address = models.CharField(max_length=255, null=True)
+    contact_email = models.EmailField(_('contact email'), null=True)
+    contact_phone = models.CharField(_('contact phone number'), max_length=12, null=True)
+    street_name = models.CharField(max_length=255, null=True)
     city = models.CharField(max_length=255, null=True)
-    state = models.CharField(max_length=255, null=True)
+    map_location = models.CharField(max_length=255, null=True)
     country = models.CharField(max_length=255, default='Malawi')
     description = RichTextField(null=True)
+    number_of_room_types = models.PositiveSmallIntegerField(null=True, default=2)
     lat = models.CharField(max_length=255, null=True)
     long = models.CharField(max_length=255, null=True)
-    cover_img = models.ImageField(upload_to='lodge_img/', null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False, null=True)
-
 
     class Meta:
         verbose_name = 'Lodge'
@@ -30,12 +33,7 @@ class Lodge(models.Model):
 
 
 class Room(models.Model):
-    ROOMTYPE = (
-        ('Executive', 'Executive'),
-        ('Duluxe', 'Duluxe'),
-        ('Standard', 'Standard'),
-        ('Economy', 'Economy'),
-    )
+    
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, related_name='rooms')
     room_type = models.CharField(max_length=255, null=True)
     adults = models.PositiveSmallIntegerField(default=2, null=True)
@@ -88,7 +86,8 @@ class Image(models.Model):
 
 class LodgeImage(models.Model):
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='pictures')
-    img = models.ManyToManyField(Image, related_name='image')
+    img = models.ForeignKey(Image, related_name='image', on_delete=models.CASCADE, null=True)
+    is_feature = models.BooleanField(_("Featured"), default=False, null=True)
 
     class Meta:
         verbose_name = 'Picture'

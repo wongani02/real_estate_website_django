@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.formsets import formset_factory, BaseFormSet
-from .models import Amenity, LodgeAmenity
+from .models import Amenity, LodgeAmenity, Lodge, Room
 
 
 class LodgeCreationForm(forms.Form):
@@ -91,3 +91,67 @@ class LodgeAmenities(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['amenity'].queryset = Amenity.objects.all()
+
+
+#edit formscountry
+class LodgeDetailsEditForm(forms.ModelForm):
+
+    class Meta:
+        model=Lodge
+        fields = ['name', 'street_name', 'city', 'country', 'description', 'contact_phone', 'contact_email']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Name of Lodge'}),
+            'street_name': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Address'}),
+            'city': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'City / District'}),
+            'country': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Country'}),
+            'description': forms.Textarea(attrs={'class': 'form_control form-control','placeholder': 'Tell us about your lodge', 'rows':3}),
+            'contact_email': forms.EmailInput(attrs={'class':'form_control form-control', 'placeholder':'Contact email'}),
+            'contact_phone': forms.TextInput(attrs={'class': 'form_control form-control','placeholder': 'Contact Number'})
+        }
+
+
+class LodgeLocationEditView(forms.ModelForm):
+
+    class Meta:
+        fields = ['long', 'lat', 'map_location']
+        model= Lodge
+        widgets = {
+            'map_location': forms.TextInput(
+                attrs={
+                        'class': 'form_control form-control',
+                        'id':'location_area',
+                        'placeholder': 'Enter the location name'
+                    }),
+
+            'lat': forms.TextInput(
+                attrs={
+                        'class': 'form_control form-control',
+                        'id':'latitude', 
+                        'readonly':True, 
+                        'name':'form_name', 
+                        'placeholder': 'Latitude'
+                    }) ,
+
+            'long': forms.TextInput(
+                attrs={
+                        'class': 'form_control form-control',
+                        'id':'longitude', 
+                        'readonly':True,
+                        'name':'form_name', 
+                        'placeholder': 'Longitude'
+                    }), 
+        }
+
+
+class LodgeRoomsEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Room
+        fields = ['room_type', 'adults', 'children', 'beds', 'price_per_night']
+        widgets = {
+            'room_type': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': ' Room type eg. Duluxe, Presidential...'}),
+            'adults': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'number of adults'}),
+            'children': forms.NumberInput(attrs={'class': 'form_control  form-control ', 'min': 0, 'placeholder': ' Number of children'}),
+            'beds': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Number of beds'}),
+            'price_per_night': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Price per night'})
+        }

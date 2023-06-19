@@ -13,12 +13,17 @@ class LodgeCreation():
         self.image_ids = image_ids
 
 
-    def create_lodge(self, lodge={}, location={}):
+    def create_lodge(self, lodge={}, location={}, user_id=None):
+
         self.lodge_instance = Lodge.objects.create(
+            user_id=user_id,
             name=lodge['property_name'],
-            address=lodge['address'],
-            city=location['map_location'],
-            state=lodge['location'],
+            contact_email=lodge['contact_email'],
+            contact_phone=lodge['contact_number'],
+            street_name=lodge['address'],
+            city=lodge['city'],
+            number_of_room_types=lodge['number_of_room_types'],
+            map_location=location['map_location'],
             country='Malawi',
             description=lodge['description'],
             lat=location['lat'],
@@ -64,12 +69,21 @@ class LodgeCreation():
 
 
     def add_images(self, image_id=[]):
-        image_instance = LodgeImage.objects.create(
-            lodge_id=self.lodge_instance.id,
-        )
-
+        num = 0
         for item in image_id:
-            image_instance.img.add(item)
+            if num == 0:
+                LodgeImage.objects.create(
+                    property_id=self.lodge_instance.id,
+                    img_id=item,
+                    is_feature=True
+                )
+            else:
+                LodgeImage.objects.create(
+                    property_id=self.lodge_instance.id,
+                    img_id=item,
+                    is_feature=False
+                )
+            num += 1
 
 
     def clear_session(self):

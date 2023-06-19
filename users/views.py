@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 
 from properties.models import Property
 from bnb.models import Property as BNBProperty
+from lodges.models import Lodge
 
 from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm
 from .helpers import auth_user_should_not_access
@@ -144,9 +145,13 @@ def myPropertiesView(request):
     #bnbs 
     bnb = BNBProperty.objects.filter(host_id=user_id)
 
+    #lodges
+    lodge = Lodge.objects.filter(user_id=user_id)
+
     context = {
         'properties': properties,
         'bnb': bnb,
+        'lodges': lodge,
     }
     return render(request, 'users/page-dashboard-property.html', context)
 

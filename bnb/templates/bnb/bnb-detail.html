@@ -56,8 +56,8 @@
               <div class="spls_style_two mb30-md">
                 
                 {% for image in images|slice:":1" %}
-                <a class="popup-img" href="{{image.image.url}}">
-                  <img class="img-fluid first-img" src="{{image.image.url}}" alt="1.jpg">
+                <a class="popup-img" href="{{image.image.image.url}}">
+                  <img class="img-fluid first-img" src="{{image.image.image.url}}" alt="1.jpg">
                 </a>  
                 {% endfor %}
                   
@@ -74,7 +74,7 @@
             {% for item in images %}
             <div class="col-sm-4 col-lg-4 pr5 pr15-767">
               <div class="spls_style_two mb10">
-                <a class="popup-img" href="{{item.image.url}}"><img class="img-fluid w100" src="{{item.image.url}}" alt="2.jpg"></a>
+                <a class="popup-img" href="{{item.image.image.url}}"><img class="img-fluid w100" src="{{item.image.image.url}}" alt="2.jpg"></a>
               </div>
             </div>
             {% endfor %}
@@ -106,7 +106,7 @@
                 
               </div>
             </div>
-            <div class="col-lg-12">
+            <!-- <div class="col-lg-12">
               <div class="property_attachment_area pb40 bb1">
                 <h4 class="mb15">Documents</h4>
                 <ul class="document_list mb0">
@@ -115,7 +115,7 @@
                   <li class="list-inline-item"><span class="icon flaticon-file"></span>&nbsp;&nbsp;test_property.pdf <a class="tdu text-thm" href="#">Download</a></li>
                 </ul>
               </div>
-            </div>
+            </div> -->
             <div class="col-lg-12">
               <div class="location_details pb40 mt50 bb1">
                 <div class="row">
@@ -124,32 +124,8 @@
                   </div>
                   <div class="col-md-6 col-lg-6 col-xl-4">
                     <ul class="list-inline-item mb0">
-                      <li><p>Address:</p></li>
-                      <li><p>State/County: </p></li>
-                    </ul>
-                    <ul class="list-inline-item mb0">
-                      <li><p><span>{{property.address}}</span></p></li>
-                      <li><p><span>{{property.state}}</span></p></li>
-                    </ul>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-xl-4">
-                    <ul class="list-inline-item mb0">
-                      <li><p>City:</p></li>
-                      <!-- <li><p>Zip:</p></li> -->
-                    </ul>
-                    <ul class="list-inline-item mb0">
-                      <li><p><span>{{property.city}}</span></p></li>
-                      <!-- <li><p><span>365448</span></p></li> -->
-                    </ul>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-xl-4">
-                    <ul class="list-inline-item mb0">
-                      <!-- <li><p>Area:</p></li> -->
-                      <li><p>Country:</p></li>
-                    </ul>
-                    <ul class="list-inline-item mb0">
-                      <!-- <li><p><span>Greenville</span></p></li> -->
-                      <li><p><span>Malawi</span></p></li>
+                      <li><p>Bnb Location:</p></li>
+                      <li><p>{{property.country}}</p></li>
                     </ul>
                   </div>
                   <div class="col-lg-12">
@@ -164,23 +140,24 @@
               <div class="additional_details pb40 mt50 bb1">
                 <div class="row">
                   <div class="col-lg-12">
-                    <h4 class="mb15">Room Types</h4>
+                    <h4 class="mb15">Available Rooms</h4>
                   </div>
-                  {% for item in lodge.rooms.all %}
+                  {% for item in property.bnb_rooms.all %}
                   <div class="col-md-6 col-lg-6 col-xl-4">
+                    <h4 class="mb15">Room {{forloop.counter}}</h4>
                     <ul class="list-inline-item">
-                      <li><p>Room Type:</p></li>
-                      <li><p>Price:</p></li>
-                      <li><p>Number Of adults:</p></li>
-                      <li><p>Number of Children:</p></li>
+                      <!-- <li><p>Room Type:</p></li> -->
+                      <!-- <li><p>Price:</p></li> -->
+                      <li><p>Max number Of adults:</p></li>
+                      <li><p>Number of baths:</p></li>
                       <li><p>Number of beds:</p></li>
                     </ul>
                     <ul class="list-inline-item">
-                      <li><p><span>{{item.type}}</span></p></li>
-                      <li><p><span>${{item.price_per_night}}</span></p></li>
-                      <li><p><span>{{item.adults}}</span></p></li>
-                      <li><p><span>{{item.children}}</span></p></li>
-                      <li><p><span>{{item.beds}}</span></p></li>
+                      <!-- <li><p><span>{{item.type}}</span></p></li> -->
+                      <!-- <li><p><span>${{item.price_per_night}}</span></p></li> -->
+                      <li><p><span>{{item.num_adults}}</span></p></li>
+                      <li><p><span>{{item.num_baths}}</span></p></li>
+                      <li><p><span>{{item.num_beds}}</span></p></li>
                     </ul>
                   </div>
                   {% endfor %}
@@ -651,7 +628,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-xl-3">
+        <div class="col-lg-6 col-xl-3 ">
           <div class="listing_single_sidebar">
             <div class="sidebar_agent_search_widget mb30">
               <div class="media">

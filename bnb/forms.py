@@ -50,7 +50,7 @@ class BNBRoomCreationForm(forms.Form):
     
 
 class BNBLocationForm(forms.Form):
-    map_location = lat = forms.CharField(
+    map_location = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form_control form-control','id':'location_area', 'placeholder': 'Enter the location name'})
     )
     lat = forms.CharField(
@@ -173,3 +173,37 @@ class BnbRoomEditForm(forms.ModelForm):
                         'placeholder': ' Number of baths'
                     })
         }
+
+
+class BnblocationEditForm(forms.ModelForm):
+
+    class Meta:
+        fields = ['country', 'long', 'lat']
+        model = Property
+        widgets = {
+            'country': forms.TextInput(
+                attrs={
+                        'class': 'form_control form-control',
+                        'id':'location_area',
+                        'placeholder': 'Enter the location name'
+                    }),
+
+            'lat': forms.TextInput(
+                attrs={
+                        'class': 'form_control form-control',
+                        'id':'latitude', 
+                        'readonly':True, 
+                        'name':'form_name', 
+                        'placeholder': 'Latitude'
+                    }) ,
+
+            'long': forms.TextInput(
+                attrs={
+                        'class': 'form_control form-control',
+                        'id':'longitude', 
+                        'readonly':True,
+                        'name':'form_name', 
+                        'placeholder': 'Longitude'
+                    }), 
+        }
+

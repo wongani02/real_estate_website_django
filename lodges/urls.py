@@ -8,7 +8,7 @@ app_name = 'lodges'
 urlpatterns = [
     path('create-lodge/', views.createLodgeView, name='create-lodge'),
     path('lodge-listing/', views.lodgeListingView, name='lodge-listings'),
-    path('lodge-detail/<int:pk>/', views.lodgeDetailView, name='lodge-detail'),
+    path('lodge-detail/<uuid:pk>/', views.lodgeDetailView, name='lodge-detail'),
 
     #handlers
     path('create-location-location/', views.createLodgeLocation, name='lodge-location'),
@@ -20,4 +20,13 @@ urlpatterns = [
 
     #create lodge instance
     path('create-lodge-instance/', views.createLodgeInstanceView, name='create-lodge-instance'),
+
+    #edit lodge
+    path('edit/<uuid:pk>/', views.editLodgeOptions, name='edit-options'),
+    path('edit/<uuid:pk>/details/', views.editLodgeDetails, name='edit-details'),
+    path('edit/<uuid:pk>/rooms/', views.editLodgeRooms, name='edit-rooms'),
+    path('edit/<uuid:pk>/location/', views.editLodgeLocation, name='edit-location'),
+    path('edit/<uuid:pk>/amenities/', views.editLodgeAmenities, name='edit-amenities'),
+    path('edit/<uuid:pk>/images/', views.editLodgeImages, name='edit-images'),
+    path('edit/<uuid:pk>/policies/', views.editLodgePolicies, name='edit-policies'),
 ]

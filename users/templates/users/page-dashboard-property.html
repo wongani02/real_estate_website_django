@@ -96,6 +96,57 @@
 								    </tr>
 								  </thead>
 								  <tbody>
+									{% for item in lodges %}
+									<tr>
+								      <th scope="row">
+					              <div class="feat_property list property">
+					                <div class="thumb"> 
+										{% for image in item.pictures.all %}
+										{% if image.is_feature %}
+										<img class="img-whp" src="{{image.image.image.url}}" alt="s1.png">
+										{% endif %}
+										{% endfor %}
+					                  <div class="thmb_cntnt">
+					                    <ul class="tag mb0">
+											{% if item.is_featured %}
+											<li class="list-inline-item"><a href="#">FEATURED</a></li>
+											{% endif %}
+					                    </ul>
+					                  </div>
+					                </div>
+					                <div class="details">
+					                  <div class="tc_content">
+					                    <h4 class="title">{{item.name}} <small class="tag2">FOR SALE</small></h4>
+					                    <p>{{item.street_name}}, {{item.city}}, {{item.country}}</p>
+					                    <div class="fp_meta">
+					                    	<a href="#">
+					                    		<!-- <small><del class="body-color">$2,800/mo</del></small>  -->
+												<!-- <br> -->
+					                    		<span class="heading-color fw600">{{item.price_per_night}}</span>
+					                    	</a>
+					                    </div>
+					                  </div>
+					                </div>
+					              </div>
+								      </th>
+								      <td>{{item.created_at}}</td>
+									  {% if is_active %}
+								      <td class="text-thm">Published</td>
+									  {% endif %}
+								      <td>5.933</td>
+								    	<td class="editing_list">
+								    		<ul>
+								    			<li class="list-inline-item">
+										    		<a href="{% url 'lodges:edit-options' item.id %}" data-toggle="tooltip" data-placement="top" title="Edit"><span class="flaticon-edit"></span></a>
+								    			</li>
+								    			<li class="list-inline-item">
+										    		<a href="#" data-toggle="tooltip" data-placement="top" title="Delete"><span class="flaticon-trash"></span></a>
+								    			</li>
+								    		</ul>
+								    	</td>
+								    </tr>
+									{% endfor %}
+									
 									{% for item in bnb %}
 									<tr>
 								      <th scope="row">
@@ -146,6 +197,7 @@
 								    	</td>
 								    </tr>
 									{% endfor %}
+
 									{% for item in properties %}
 								    <tr>
 								      <th scope="row">

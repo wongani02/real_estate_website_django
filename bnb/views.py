@@ -329,7 +329,6 @@ def createBNBInstance(request):
         # return redirect('bnb:error-page')
         return redirect('bnb:bnb-details-create')
 
-
     
 ###### edit views #######
 
@@ -361,6 +360,7 @@ def editDetailsView(request, pk):
     return render(request, 'bnb/update/bnb-details.html', context)
 
 
+#not complete
 def editRoomsView(request, pk):
 
     bnb = Property.objects.get(id=pk)
@@ -380,7 +380,9 @@ def editRoomsView(request, pk):
         if room_edit_form.is_valid():
 
             for form in room_edit_form:
-                form.save
+                form.bnb.id = pk
+                form.save()
+                
 
             messages.success(request, 'Edit successful!!!')
             return redirect('bnb:edit-rooms', pk)
@@ -400,23 +402,62 @@ def editRoomsView(request, pk):
 
 def editLocationView(request, pk):
 
-    context = {
+    bnb = Property.objects.get(id=pk)
 
+    if request.method == 'POST':
+        form = BnblocationEditForm(request.POST, instance=bnb)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Edit successful!!!')
+            return redirect('bnb:edit-location', pk)
+    else:
+        form = BnblocationEditForm(instance=bnb)
+
+    context = {
+        'form': form,
+        'pk': pk
     }
     return render(request, 'bnb/update/bnb-location.html', context)
 
 
 def editImagesView(request, pk):
 
+    images = PropertyImage.objects.filter(property_id=pk)
+
+    if request.method == 'POST':
+        image = request.FILES.get('file')
+        instance = BNBImage.objects.create(image=image)
+
+        PropertyImage.objects.create(
+            property_id=pk,
+            image_id=instance.id
+        )
+
     context = {
-        
+        'images': images,
+        'pk': pk,
     }
     return render(request, 'bnb/update/bnb-images.html', context)
 
 
 def editAmenitiesView(request, pk):
-    context = {
 
+    bnb = Property.objects.get(id=pk)
+    amenites = PropertyAmenity.objects.get(property=bnb)
+
+    if request.method =='POST':
+        form = BnBAmenitiesForm(request.POST, instance=amenites)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Edit successful!!!')
+            return redirect('bnb:edit-amenities', pk)
+
+    else:
+        form = BnBAmenitiesForm(instance=amenites)
+
+    context = {
+        'form': form,
+        'pk': pk,
     }
     return render(request, 'bnb/update/bnb-amenities.html', context)
 
