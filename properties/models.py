@@ -204,7 +204,7 @@ class Images(models.Model):
     date = models.DateTimeField(_("Date Uploaded"), auto_now=True, null=True)
 
     def __str__(self):
-        return '{} - {}'.format(self.image, self.date)
+        return '{} - {}'.format(self.file, self.date)
 
 
 # Videos table

@@ -52,7 +52,7 @@ class AdvancedSearch(generic.ListView):
 
     def post(self, request, *args, **kwargs):
         filter = AdvancedSearchFilter(request.POST, queryset=Property.objects.all())
-        print("Filter: ", filter)
+
         result = ({
             'results': filter,
             # 'results': Property.objects.all(),
@@ -70,8 +70,7 @@ class PropertiesHome(generic.ListView):
         blogs = BlogPost.objects.filter(is_active=True).order_by('-created')[:4]
         # forms 
         search_form = SearchForm()
-        # print(search_form)
-
+        
         context = {
             'property': property, 'search': search_form,
             'recents': recents, 'lodges': lodges,
@@ -426,15 +425,19 @@ class CreatePropertyMediaListing(generic.CreateView):
             amenity_ = self.create_amenity_link(property_.id, _amenities)
 
             # Create property images instance
-            images_ = self.create_property_images
+            images_ = self.create_property_images(property_, request.FILES.getlist('file'))
             
             # Save all objects
-            self.save_objects(property_, amenity_, images_)
+            status = self.save_objects(property_, amenity_, images_)
 
-            return HttpResponseRedirect(reverse('properties:home'))
-            
-            
-        
+            if status:
+                # Delete all sessions
+                del request.session['step_1'],
+                del request.session['step_2']
+                
+                return redirect('accounts:dashboard')
+            else: 
+                return render(request, self.template_name, {'form': form})  
     
     """
     Function creates property object with the following parameters
@@ -501,9 +504,9 @@ class CreatePropertyMediaListing(generic.CreateView):
         images_ = []
 
         # try:
-        for image in object:
+        for _image_ in object:
             image_ = Images.objects.create(
-                property=property_, image=image,
+                property=property_, file=_image_,
             )
 
             # Add image objects to list
@@ -515,17 +518,26 @@ class CreatePropertyMediaListing(generic.CreateView):
     Function saves all property, amenity and images objects to db
     """
     def save_objects(self, _property_, _amenities_, _images_):
-        # Save Property object
-        _property_.save()
+        try:
+            # Save Property object
+            _property_.save()
 
-        # Save amenities objects
-        for _amenity_ in _amenities_:
-            _amenity_.save()
+            # Save amenities objects
+            for _amenity_ in _amenities_:
+                _amenity_.save()
 
-        # Save images objects
-        for _image_ in _images_:
-            _image_.save()
+            # Save images objects
+            for _image_ in _images_:
+                _image_.save()
 
+            return True
+        except:
+            return False
+
+
+def redirectUser(request):
+    return redirect('accounts:dashboard')
+      
 class DateEncoder(DjangoJSONEncoder): 
 
     def default(self, obj):

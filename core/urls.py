@@ -30,7 +30,12 @@ urlpatterns = [
 
     # accounts url
     path('accounts/', include('users.urls', namespace='accounts')),
+
+    # lodges url
     path('lodges/', include('lodges.urls', namespace='lodges')),
+
+    # payments url
+    path('payments/', include('payments.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
