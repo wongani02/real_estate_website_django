@@ -79,7 +79,7 @@ class BNBImage(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='bnb_image')
-    image = models.ForeignKey(BNBImage, on_delete=models.CASCADE, null=True, blank=True)
+    image = models.ForeignKey(BNBImage, on_delete=models.CASCADE, null=True, blank=True, )
     is_feature = models.BooleanField(_("Featured"), default=False)
 
     def __str__(self):

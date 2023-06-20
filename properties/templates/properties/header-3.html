@@ -1,0 +1,48 @@
+ {% load static %}
+ <!-- Main Header Nav -->
+  <header class="header-nav menu_style_home_one home2_style navbar-scrolltofixed stricky main-menu">
+    <div class="container-fluid"> 
+      <!-- Ace Responsive Menu -->
+      <nav> 
+        <!-- Menu Toggle btn-->
+        <div class="menu-toggle">
+        	<img class="nav_logo_img img-fluid" src="{% static 'images/header-logo.svg' %}" alt="header-logo.svg">
+          <button type="button" id="menu-btn">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+        </div>
+        <a href="index.html" class="navbar_brand float-left dn-md">
+					<img class="logo1 img-fluid" src="{% static 'images/header-logo.svg' %}" alt="header-logo.svg">
+					<img class="logo2 img-fluid" src="{% static 'images/header-logo2.svg' %}" alt="header-logo2.svg">
+					<span>Houzing</span>
+				</a> 
+        <!-- Responsive Menu Structure-->
+        <ul id="respMenu" class="ace-responsive-menu custom_menu_space_home2 text-center wa" data-menu-style="horizontal">
+          <li> <a href="#"><span class="title">Home</span></a>
+           
+          </li>
+          <li> <a href="#"><span class="title">Listing</span></a>
+            
+          </li>
+          <li> <a href="#"><span class="title">Property</span></a>
+           
+          </li>
+          <li> <a href="#"><span class="title">Pages</span></a>
+            
+          </li>
+          <li><a href="page-contact.html">Contact</a></li>
+        </ul>
+        <ul id="respMenu2" class="ace-responsive-menu widget_menu_home2 wa" data-menu-style="horizontal">
+         {% if request.user.is_authenticated %}
+          <li class="list-inline-item list_s"><a href="{% url 'accounts:dashboard' %}" class="btn" ><span class="flaticon-user"></span></a></li>
+          <li class="list-inline-item add_listing"><a href="{% url 'accounts:onbording-1' %}"><span class="icon flaticon-button"></span><span class="dn-lg"> Create Listing</span></a></li>
+          {% else %}
+          <li class="list-inline-item list_s"><a href="#" class="btn" data-toggle="modal" data-target="#logInModal"><span class="flaticon-user"></span></a></li>
+          <li class="list-inline-item add_listing"><a href="{% url 'accounts:login' %}"><span class="icon flaticon-button"></span><span class="dn-lg"> Create Listing</span></a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>

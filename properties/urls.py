@@ -30,4 +30,8 @@ urlpatterns = [
     path('agent/list/', views.AgentList.as_view(), name='agent-list'),
     path('search/simple/', views.SimpleSearch.as_view(), name='simple-search'),
     path('search/advanced/', views.AdvancedSearch.as_view(), name='advanced-search'),
+
+    #HTMX urls
+    path('lodge-list/', views.LodgesHTMXView.as_view(), name='lodges-htmx'),
+    path('bnb-list-htmx/', views.BnbHTMXView.as_view(), name='bnb-htmx'),
 ]

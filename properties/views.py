@@ -14,6 +14,7 @@ from properties.models import *
 from properties.forms import *
 from properties.filters import AdvancedSearchFilter
 from properties.charts import *
+from bnb.models import Property as BNB
 
 import json
 import ast
@@ -64,20 +65,67 @@ class AdvancedSearch(generic.ListView):
 class PropertiesHome(generic.ListView):
     
     def get(self, request):
-        property = Property.objects.filter(is_active=True).filter(is_featured=True)
-        recents = Property.objects.order_by('-created_at')[:5]
-        lodges = Lodge.objects.prefetch_related("pictures").filter(is_active=True)
+
+        #properties pagination for load more functionality
+        properties = Property.objects.filter(is_active=True)
+        property_paginator = Paginator(properties, 4)
+        property_page_number = request.GET.get('page', 1)
+        property_obj = property_paginator.get_page(property_page_number)
+
+        #blogs
         blogs = BlogPost.objects.filter(is_active=True).order_by('-created')[:4]
+
         # forms 
         search_form = SearchForm()
-        # print(search_form)
 
         context = {
-            'property': property, 'search': search_form,
-            'recents': recents, 'lodges': lodges,
+            'properties': property_obj,
+            
+            'search': search_form,
             'blogs': blogs
         }
+        if request.htmx:
+            return render(request, 'properties/partials/properties-partial.html', context)
+        
         return render(request, 'properties/home.html', context)
+    
+
+class LodgesHTMXView(generic.ListView):
+
+    def get(self, request):
+
+        #lodge pagination for load more functionality
+        lodges = Lodge.objects.prefetch_related("pictures").filter(is_active=True).order_by('-created_at')
+        lodge_paginator = Paginator(lodges, 2)
+        lodge_page_number = request.GET.get('page', 1)
+        lodge_obj = lodge_paginator.get_page(lodge_page_number)
+        
+        context = {
+            'lodges': lodge_obj,
+        }
+
+        if request.htmx:
+            return render(request, 'properties/partials/lodge-partial.html', context)
+        return render(request, 'properties/partials/lodge-partial.html', context)
+    
+
+class BnbHTMXView(generic.ListView):
+
+    def get(self, request):
+
+        #bnb pagination with load more funtionality
+        bnb = BNB.objects.prefetch_related("bnb_image").filter(is_active=True).order_by('-created_at')
+        bnb_paginator = Paginator(bnb, 1)
+        bnb_page_number = request.GET.get('page', 1)
+        bnb_obj = bnb_paginator.get_page(bnb_page_number)
+        
+        context = {
+            'bnb': bnb_obj,
+        }
+
+        if request.htmx:
+            return render(request, 'properties/partials/bnb-partial.html', context)
+        return render(request, 'properties/partials/bnb-partial.html', context)
 
 
 class Contact(generic.DetailView):
@@ -315,6 +363,8 @@ class CreatePropertyListing(generic.CreateView):
             self.request.session.modified = True
             
             return redirect('properties:create-listing-location')
+        else:
+            print(form.errors)
         
         return render(request, self.template_name, {'form': form})
 
@@ -368,6 +418,9 @@ class CreatePropertyLocationListing(generic.CreateView):
             self.request.session.modified = True
 
             return render(request, self.template_next, {}) 
+        
+        else:
+            print(form.errors)
         
         return render(request, self.template_name, {'form': form, 'am_form': amenity})
 
@@ -432,6 +485,8 @@ class CreatePropertyMediaListing(generic.CreateView):
             self.save_objects(property_, amenity_, images_)
 
             return HttpResponseRedirect(reverse('properties:home'))
+        
+        else: print(form.errors)
             
             
         

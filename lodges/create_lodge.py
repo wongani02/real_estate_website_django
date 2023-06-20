@@ -73,13 +73,13 @@ class LodgeCreation():
         for item in image_id:
             if num == 0:
                 LodgeImage.objects.create(
-                    property_id=self.lodge_instance.id,
+                    lodge_id=self.lodge_instance.id,
                     img_id=item,
                     is_feature=True
                 )
             else:
                 LodgeImage.objects.create(
-                    property_id=self.lodge_instance.id,
+                    lodge_id=self.lodge_instance.id,
                     img_id=item,
                     is_feature=False
                 )

@@ -6,6 +6,7 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
+
   <!-- Search Field Modal -->
   <section class="modal fade search_dropdown" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -242,224 +243,93 @@
       </div>
     </div>
   </section>
-  
+
   <!-- Home Design -->
   <section class="home-one home1-overlay bg-home1">
     <div class="container">
-      <div class="row posr">
-        <div class="col-lg-12">
-          <div class="home_content home1 custom_width">
+      <div class="row posr justify-content-center">
+        <div class="col-lg-8">
+          <div class="home_content home2">
             <div class="home-text text-center">
-              <p class="fz18 color-white">It's great to be home!</p>
-              <h2 class="fz50">Find Your Perfect Home</h2>
+              <p class="fz16 color-white ttu">It's great to be home!</p>
+              <h2 class="fz60">Discover a place you'll <br class="dn-lg"> love to live</h2>
             </div>
-            <div class="home_tabs">
-              <ul class="nav justify-content-center nav-tabs" id="myTab2" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="buy-tab" data-toggle="tab" href="#buy" role="tab" aria-controls="buy" aria-selected="true">Lodges and Cottages</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link active" id="rent-tab" data-toggle="tab" href="#rent" role="tab" aria-controls="rent" aria-selected="false">Property</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">BnB's</a>
-                </li>
-              </ul>
-              <div class="tab-content" id="myTabContent2">
-                <!-- Lodges Search form -->
-                <div class="tab-pane fade" id="buy" role="tabpanel" aria-labelledby="buy-tab">
-                  <div class="home_adv_srch_opt">
-                    <div class="wrapper">
-                      <div class="home_adv_srch_form">
-                        <form class="bgc-white p20" method="post" action="{% url 'properties:simple-search' %}">
-                          {% csrf_token %}
-                          <div class="form-row align-items-center">
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style2 mb-2 pl10 pl0-lg">
-                                <label>TYPE</label>
-                                <div class="select-wrap style2-dropdown">
-                                  {{search.property_type}}
-                                  <!-- <select class="selectpicker show-tick" multiple>
-                                    <option value="Apartment">Apartment</option>
-                                    <option value="Condo">Condo</option>
-                                    <option value="Studio">Studio</option>
-                                    <option value="Villa">Villa</option>
-                                  </select> -->
+            <div class="row justify-content-center">
+              <div class="col-xl-12">
+                <div class="home_tabs home4">
+                  <ul class="nav justify-content-center nav-tabs" id="myTab2" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="buy-tab" data-toggle="tab" href="#buy" role="tab" aria-controls="buy" aria-selected="true">Property</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link active" id="rent-tab" data-toggle="tab" href="#rent" role="tab" aria-controls="rent" aria-selected="false">Lodges and Cottages</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">BNB's</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent2">
+                    <div class="tab-pane fade" id="buy" role="tabpanel" aria-labelledby="buy-tab">
+                      <div class="home_adv_srch_opt home4">
+                        <div class="wrapper">
+                          <div class="home_adv_srch_form home2">
+                            <form class="bgc-white">
+                              <div class="form-row">
+                                <div class="col-auto home_form_input">
+                                  <div class="input-group">
+                                    <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
+                                    <input type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                  </div>
+                                </div>
+                                <div class="col-auto home_form_input2">
+                                  <button type="submit" class="btn search-btn"><span class="fa fa-search"></span></button>
                                 </div>
                               </div>
-                            </div>
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style2 mb-2 pl10 pl0-lg">
-                                <label>LOCATION</label>
-                                <div class="select-wrap style2-dropdown">
-                                  {{search.district}}
-                                  <!-- <select class="selectpicker">
-                                    <option value="">All Cities</option>
-                                    <option value="NewYork">New York</option>
-                                    <option value="London">London</option>
-                                    <option value="Paris">Paris</option>
-                                    <option value="Istanbul">Istanbul</option>
-                                  </select> -->
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style1 mb-2 ml0-767">
-                                <label>SEARCH</label>
-                                <div class="select-wrap style1-dropdown">
-                                  <select name="lang" class="form-control js-searchBox">
-                                    <option value="">Eaton Garth</option>
-                                    <option value="EatonGarthPenthouse1">Eaton Garth Penthouse</option>
-                                    <option value="EatonGarthPenthouse2">Eaton Garth Penthouse</option>
-                                    <option value="EatonGarthPenthouse3">Eaton Garth Penthouse</option>
-                                    <option value="Hotels">View All Results</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_adv_srch_form_btn mb20-md">
-                              <div class="adv_srch_btn dropbtn ml0-767" data-toggle="modal" data-target="#staticBackdrop">
-                                <i class="flaticon-setting-lines mr10 mt10 mt0-md flr-520"></i>
-                                Advanced <br class="dn-991"> Search
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_input2">
-                              <button type="submit" class="btn search-btn ml0-767"><span class="fa fa-search"></span> Search</button>
-                            </div>
+                            </form>
                           </div>
-                        </form>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <!-- Properties Search Form -->
-                <div class="tab-pane fade show active" id="rent" role="tabpanel" aria-labelledby="rent-tab">
-                  <div class="home_adv_srch_opt">
-                    <div class="wrapper">
-                      <div class="home_adv_srch_form">
-                        <form class="bgc-white p20" method="post" action="{% url 'properties:simple-search' %}">
-                          {% csrf_token %}
-                          <div class="form-row align-items-center">
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style2 mb-2 pl10 pl0-lg">
-                                <label>TYPE</label>
-                                <div class="select-wrap style2-dropdown">
-                                  {{search.property_type}}
-                                  <!-- <select class="selectpicker show-tick" multiple>
-                                    <option value="Apartment">Apartment</option>
-                                    <option value="Condo">Condo</option>
-                                    <option value="Studio">Studio</option>
-                                    <option value="Villa">Villa</option>
-                                  </select> -->
+                    <div class="tab-pane fade show active" id="rent" role="tabpanel" aria-labelledby="rent-tab">
+                      <div class="home_adv_srch_opt home4">
+                        <div class="wrapper">
+                          <div class="home_adv_srch_form home2">
+                            <form class="bgc-white">
+                              <div class="form-row">
+                                <div class="col-auto home_form_input">
+                                  <div class="input-group">
+                                    <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
+                                    <input type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                  </div>
+                                </div>
+                                <div class="col-auto home_form_input2">
+                                  <button type="submit" class="btn search-btn"><span class="fa fa-search"></span></button>
                                 </div>
                               </div>
-                            </div>
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style2 mb-2 pl10 pl0-lg">
-                                <label>LOCATION</label>
-                                <div class="select-wrap style2-dropdown">
-                                  {{search.district}}
-                                  <!-- <select class="selectpicker">
-                                    <option value="">All Cities</option>
-                                    <option value="NewYork">New York</option>
-                                    <option value="London">London</option>
-                                    <option value="Paris">Paris</option>
-                                    <option value="Istanbul">Istanbul</option>
-                                  </select> -->
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style1 mb-2 ml0-767">
-                                <label>SEARCH</label>
-                                <div class="select-wrap style1-dropdown">
-                                  <select name="lang" class="form-control js-searchBox">
-                                    <option value="">Eaton Garth</option>
-                                    <option value="EatonGarthPenthouse1">Eaton Garth Penthouse</option>
-                                    <option value="EatonGarthPenthouse2">Eaton Garth Penthouse</option>
-                                    <option value="EatonGarthPenthouse3">Eaton Garth Penthouse</option>
-                                    <option value="Hotels">View All Results</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_adv_srch_form_btn mb20-md">
-                              <div class="adv_srch_btn dropbtn ml0-767" data-toggle="modal" data-target="#staticBackdrop">
-                                <i class="flaticon-setting-lines mr10 mt10 mt0-md flr-520"></i>
-                                Advanced <br class="dn-991"> Search
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_input2">
-                              <button type="submit" class="btn search-btn ml0-767"><span class="fa fa-search"></span> Search</button>
-                            </div>
+                            </form>
                           </div>
-                        </form>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <!-- Bnbs Search Form -->
-                <div class="tab-pane fade" id="sold" role="tabpanel" aria-labelledby="sold-tab">
-                  <div class="home_adv_srch_opt">
-                    <div class="wrapper">
-                      <div class="home_adv_srch_form">
-                        <form class="bgc-white p20" method="post" action="{% url 'bnb:simple-search' %}">
-                          {% csrf_token %}
-                          <div class="form-row align-items-center">
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style2 mb-2 pl10 pl0-lg">
-                                <label>TYPE</label>
-                                <div class="select-wrap style2-dropdown">
-                                  {{search.bnb_type}}
-                                  <!-- <select class="selectpicker show-tick" multiple>
-                                    <option value="Apartment">Apartment</option>
-                                    <option value="Condo">Condo</option>
-                                    <option value="Studio">Studio</option>
-                                    <option value="Villa">Villa</option>
-                                  </select> -->
+                    <div class="tab-pane fade" id="sold" role="tabpanel" aria-labelledby="sold-tab">
+                      <div class="home_adv_srch_opt home2">
+                        <div class="wrapper">
+                          <div class="home_adv_srch_form home2">
+                            <form class="bgc-white">
+                              <div class="form-row">
+                                <div class="col-auto home_form_input">
+                                  <div class="input-group">
+                                    <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
+                                    <input type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                  </div>
+                                </div>
+                                <div class="col-auto home_form_input2">
+                                  <button type="submit" class="btn search-btn"><span class="fa fa-search"></span></button>
                                 </div>
                               </div>
-                            </div>
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style2 mb-2 pl10 pl0-lg">
-                                <label>LOCATION</label>
-                                <div class="select-wrap style2-dropdown">
-                                  {{search.district}}
-                                  <!-- <select class="selectpicker">
-                                    <option value="">All Cities</option>
-                                    <option value="NewYork">New York</option>
-                                    <option value="London">London</option>
-                                    <option value="Paris">Paris</option>
-                                    <option value="Istanbul">Istanbul</option>
-                                  </select> -->
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_input mb15-md">
-                              <div class="form-group style1 mb-2 ml0-767">
-                                <label>SEARCH</label>
-                                <div class="select-wrap style1-dropdown">
-                                  <select name="lang" class="form-control js-searchBox">
-                                    <option value="">Eaton Garth</option>
-                                    <option value="EatonGarthPenthouse1">Eaton Garth Penthouse</option>
-                                    <option value="EatonGarthPenthouse2">Eaton Garth Penthouse</option>
-                                    <option value="EatonGarthPenthouse3">Eaton Garth Penthouse</option>
-                                    <option value="Hotels">View All Results</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_adv_srch_form_btn mb20-md">
-                              <div class="adv_srch_btn dropbtn ml0-767" data-toggle="modal" data-target="#staticBackdrop">
-                                <i class="flaticon-setting-lines mr10 mt10 mt0-md flr-520"></i>
-                                Advanced <br class="dn-991"> Search
-                              </div>
-                            </div>
-                            <div class="col-auto home_form_input2">
-                              <button type="submit" class="btn search-btn ml0-767"><span class="fa fa-search"></span> Search</button>
-                            </div>
+                            </form>
                           </div>
-                        </form>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -471,7 +341,66 @@
       </div>
     </div>
   </section>
-  
+
+    <!-- Property Cities  -->
+  <section class="bgc-alice-blue">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="main-title text-center">
+            <h2>Discover Our Listings</h2>
+            <p>Discover some of the most popular listings in ''users location'' based on user reviews and ratings.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="popular_listing_sliders row">
+            <!-- Nav tabs -->
+            <div class="nav nav-tabs mb50 col-lg-12 justify-content-center" role="tablist">
+              <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Property</a>
+
+              <a class="nav-link" id="nav-shopping-tab" data-toggle="tab" hx-trigger="click" hx-get="{% url 'properties:lodges-htmx' %}" hx-target="#htmx-lodges" hx-swap="outerHTML" href="#nav-shopping" role="tab" aria-controls="nav-shopping" aria-selected="false">Lodges and Cottages</a>
+
+              <a class="nav-link" id="nav-hotels-tab" data-toggle="tab" href="#nav-hotels" hx-trigger="click" hx-get="{% url 'properties:bnb-htmx' %}" hx-target="#htmx-bnb" hx-swap="outerHTML" role="tab" aria-controls="nav-hotels" aria-selected="false">Bnb's</a>
+
+              <!-- <a class="nav-link" id="nav-destination-tab" data-toggle="tab" href="#nav-destination" role="tab" aria-controls="nav-destination" aria-selected="false">Houses</a> -->
+            </div>
+            <!-- Tab panes -->
+            <div class="tab-content col-lg-12 " id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab ">
+                 <div class="row"> 
+                  
+                  {% include 'properties/partials/properties-partial.html' %}
+
+                </div>
+              </div>
+
+              <div class="tab-pane fade" id="nav-shopping" role="tabpanel" aria-labelledby="nav-shopping-tab">
+                <div  class="row">
+                  <div id="htmx-lodges" class="div">
+
+                  </div>
+                </div>
+                
+              </div>
+
+
+              <div class="tab-pane fade" id="nav-hotels" role="tabpanel" aria-labelledby="nav-hotels-tab">
+                <div class="row"> 
+                  <div id="htmx-bnb" class="div">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% comment %}
   <!-- Feature Properties -->
   <section id="feature-property" class="feature-property">
     <div class="container">
@@ -624,6 +553,7 @@
       </div>
     </div>
   </section>
+  {% endcomment %}
   
   <!-- Our Divider -->
   <section class="divider home-style1 parallax" data-stellar-background-ratio="0.2">
@@ -640,6 +570,7 @@
     </div>
   </section>
  
+{% comment %}
   <!-- Recent Property For Rent -->
   <section class="recent-property pb70">
     <div class="container">
@@ -700,6 +631,7 @@
       </div>
     </div>
   </section>
+{% endcomment %}
 
   <!-- Property Cities -->
   <section id="property-city" class="property-city pb70 bb1">
@@ -808,7 +740,6 @@
           </div>
         </div>
         {% endfor %}
-        
       </div>
     </div>
   </section>

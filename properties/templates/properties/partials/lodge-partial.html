@@ -1,0 +1,46 @@
+{% load static %}
+    <!-- hx-trigger="revealed" 
+    hx-get="{% url 'properties:lodges-htmx' %}?page={{lodges.number|add:1}}"
+    hx-swap="afterend"
+    hx-target="this" -->
+<!-- <div class="row">  -->
+    {% for lodge in lodges %}
+    {% if forloop.last %}
+    <div 
+    class="col-lg-4 " 
+    
+    >
+        {% else %}
+        <div class="col-lg-4">
+        {% endif %}
+        <div class="feat_property map">
+            <div class="thumb">
+            <a href="#"><img class="img-whp" src="{% static 'images/property/location.png' %}" alt="location.png"></a>
+            </div>
+            <div class="details">
+            <div class="tc_content">
+                <h4><a href="page-listing-single-v3.html">New York</a></h4>
+                <p><span class="heading-color">359</span> listings for sale <br> Median listing price <span class="heading-color">$147,350</span></p>
+            </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    
+    {% if lodges.has_next %}
+    
+        <div id="load-more-lodges" class="nav nav-tabs mb50 col-lg-12 justify-content-center">
+            <button 
+            class="nav-link load-more-btn"
+            hx-get="{% url 'properties:lodges-htmx' %}?page={{lodges.next_page_number}}"
+            hx-target="#load-more-lodges"
+            hx-swap="outerHTML"
+            >Load more...</button>
+        </div>
+    
+    {% endif %}
+    
+<!-- </div> -->
+
