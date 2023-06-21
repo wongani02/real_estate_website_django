@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
 from pathlib import Path
 import mimetypes
 import os
@@ -179,3 +178,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 USE_THOUSAND_SEPARATOR = True
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ianlois50@gmail.com'
+EMAIL_HOST_PASSWORD = 'utfx fugq lnsu plrz'  # App generated password by google
+DEFAULT_FROM_EMAIL = 'ianlois50@gmail.com'

@@ -18,6 +18,7 @@ urlpatterns = [
     path('create/property/step/1/', views.CreatePropertyListing.as_view(), name='create-listing'),
     path('create/property/step/2/', views.CreatePropertyLocationListing.as_view(), name='create-listing-location'),
     path('create/property/step/3/', views.CreatePropertyMediaListing.as_view(), name='create-media-location'),
+    path('redirect/dashboard', views.redirectUser, name='redirect-user'),
 
 
     path('listing/edit/<uuid:pk>/', views.EditPropertyListing.as_view(), name='edit-listing'),

@@ -1,0 +1,97 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+
+{% block googlemaps_scripts%}
+  <script defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-lnP0y7-eryejE9-ZKMwVdFMR7hzfz54&libraries=places&callback=initializeGeocoder">
+  </script>
+{% endblock googlemaps_scripts%}
+
+{% block title %}Property Listing{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+
+
+	<!-- Our Coming Soon Page -->
+	<section class="our-coming-soon">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-6">
+					<div class="error_page footer_apps_widget text-center">
+						<img class="img-fluid" src="{{qr.image.url}}" alt="coming-soon.png">
+					</div>
+				</div>
+				<div class="col-xl-6">
+					<div class="error_page footer_apps_widget">
+						<div class="erro_code"><h1>E-Ticket Confirmation.</h1></div>
+						<ol>
+              <li>1. Your E-Ticket (QR Code) acts as a digital ticket for the accommodation</li>
+              <li>2. The E-Ticket contains important information about your reservation</li>
+              <li>3. Save this E-Ticket to your device for easy access during your stay</li>
+              <li>4. Remember to present this E-Ticket upon arrival at your destination</li>
+              <li>5. For security purposes, please do not share this E-Ticket</li>
+              <li>6. Feel free to reach out to the support team for any E-Ticket issues</li>
+            </ol>
+						<div class="event_counter_plugin_container mt30 mb20">
+							<div class="event_counter_plugin_content">
+								<ul>
+									<li><span id="days"></span><div class="time_text">days</div></li>
+									<li><span id="hours"></span><div class="time_text">Hours</div></li>
+									<li><span id="minutes"></span><div class="time_text">Minutes</div></li>
+									<li><span id="seconds"></span><div class="time_text">Seconds</div></li>
+								</ul>
+							</div>
+						</div>
+            
+						<a href="{% url 'payments:download' property.id %}"><button class="btn btn-primary mb-2">Download</button></a>
+            <a href=""><button class="btn btn-primary mb-2">Finish</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Our Footer -->
+  {% include 'properties/footer.html' %}
+<a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
+</div>
+
+<script>
+  var geocoder;
+    var map;
+    var lat = parseFloat({{property.lat}})
+    var lon = parseFloat({{property.lon}})
+    var address = "{{property.location_area}}"
+
+    function initializeGeocoder() {
+        geocoder = new google.maps.Geocoder();
+
+        var latlng = new google.maps.LatLng(lat, lon);
+        var mapOptions = {
+            zoom: 15,
+            center: latlng
+        }
+        map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location,
+                    draggable: false,
+                    title: "Afrihuts",
+                    // icon: iconurl
+                });
+
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+      }
+
+</script>
+{% endblock %}
