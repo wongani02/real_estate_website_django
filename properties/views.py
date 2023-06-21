@@ -26,10 +26,13 @@ class SimpleSearch(generic.ListView):
     paginate_by = 12
     context_object_name = 'properties'
 
+
     def post(self, request):
+        q = request.POST.get('property_search')
+
         qs = Property.objects.filter(
-            Q(property_type__icontains=request.POST.get('property_type')) | Q(district__id__iexact=request.POST.get('district'))
-        ).filter(is_active=True).order_by('created_at').distinct()
+            Q(property_type__icontains=q) | Q(district__district_name__icontains=q) | Q(property_cat__name__icontains=q) | Q(property_status__icontains=q) | Q(location_area__icontains=q) | Q(name__icontains=q)
+        ).filter(is_active=True).order_by('?').distinct()
 
         # Set up a 12 object pagination with all properties
         p = Paginator(qs, 12)

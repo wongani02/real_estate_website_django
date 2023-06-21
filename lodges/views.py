@@ -6,6 +6,8 @@ from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
 from django.contrib import messages
+from django.db.models import Q 
+from django.core.paginator import Paginator
 
 from .create_lodge import LodgeCreation as LodgeCreationClass
 from .models import Amenity, LodgeImage, Lodge, Image
@@ -412,3 +414,29 @@ def editLodgePolicies(request, pk):
 
     }
     return render(request, 'lodges/edit/policies.html', context)
+
+
+#services
+def searchView(request):
+
+    if request.method == 'POST':
+        q = request.POST['lodge_search']
+
+        results = Lodge.objects.filter(
+            Q(name__icontains=q) | Q(street_name__icontains=q) | Q(city__icontains=q) | Q(map_location__icontains=q) | Q(country__icontains=q)
+            ).filter(is_active=True).order_by('?').distinct()
+        
+    # print(results)
+    # lodge_paginator = Paginator(results, 2)
+    # lodge_page_number = request.GET.get('page', 1)
+    # lodge_obj = lodge_paginator.get_page(lodge_page_number)
+
+    context = {
+        'lodges': results
+    }
+
+    if request.htmx:
+        return render(request, 'lodges/partials/search-results.html', context)
+
+    return render(request, 'lodges/search/lodge-results.html', context)
+

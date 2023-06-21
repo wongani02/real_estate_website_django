@@ -20,7 +20,8 @@
   <!-- Favicon -->
   <link href="{% static 'images/favicon.ico' %}" sizes="128x128" rel="shortcut icon" type="image/x-icon" />
   <link href="{% static 'images/favicon.ico' %}" sizes="128x128" rel="shortcut icon" />
-
+  <!-- datepicker css -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <!-- Google maps block scripts -->
   
   <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-lnP0y7-eryejE9-ZKMwVdFMR7hzfz54&libraries=places&callback=initializeGeocoder"></script>
@@ -40,6 +41,9 @@
 
   <!-- htmx cdn -->
   <script src="https://unpkg.com/htmx.org@1.9.0"></script>
+
+  <!-- date picker files -->
+
 
   <!-- Highcharts block script links -->
   {% block highcharts_scripts %}
@@ -172,120 +176,15 @@
     <nav id="menu" class="stylehome1">
       <ul>
         <li><a href="{% url 'properties:home' %}"><span>Home</span></a>
-          <!-- <ul>
-            <li><a href="index.html">Home V1</a></li>
-            <li><a href="index2.html">Home V2</a></li>
-            <li><a href="index3.html">Home V3</a></li>
-            <li><a href="index4.html">Home V4</a></li>
-            <li><a href="index5.html">Home V5</a></li>
-            <li><a href="index6.html">Home V6</a></li>
-            <li><a href="index7.html">Home V7</a></li>
-            <li><a href="index8.html">Home V8</a></li>
-            <li><a href="index9.html">Home V9</a></li>
-            <li><a href="index10.html">Home V10</a></li>
-          </ul> -->
         </li>
-        <li><span>Listing</span>
-          <ul>
-            <li><span>Agent</span>
-              <ul>
-                <li><a href="page-agent-list.html">Agent List</a></li>
-                <li><a href="page-agent-single.html">Agent Single</a></li>
-              </ul>
-            </li>
-            <li><span>Agency</span>
-              <ul>
-                <li><a href="page-agency-list.html">Agency List</a></li>
-                <li><a href="page-agency-single.html">Agency Single</a></li>
-              </ul>
-            </li>
-            <li><span>User Detils</span>
-              <ul>
-                <li><a href="page-dashboard.html">Dashboard</a></li>
-                <li><a href="page-dashboard-profile.html">My Profile</a></li>
-                <li><a href="page-dashboard-property.html">My Listings</a></li>
-                <li><a href="{% url 'properties:create-listing' %}">New Listings</a></li>
-                <li><a href="page-dashboard-favorites.html">Favorites</a></li>
-                <li><a href="page-dashboard-save-search.html">Save Search</a></li>
-                <li><a href="page-dashboard-invoices.html">My Invoice</a></li>
-                <li><a href="page-dashboard-message.html">Inbox</a></li>
-                <li><a href="page-dashboard-logout.html">Logout</a></li>
-              </ul>
-            </li>
-          </ul>
+        <li><a href=""><span>Tips and Resources</span></a>
+          
         </li>
-        <li><span>Property</span>
-          <ul>
-            <li><span>Listing Styles</span>
-              <ul>
-                <li><a href="page-listing-v1.html">Listing v1</a></li>
-                <li><a href="page-listing-v2.html">Listing v2</a></li>
-                <li><a href="page-listing-v3.html">Listing v3</a></li>
-                <li><a href="page-listing-v4.html">Listing v4</a></li>
-                <li><a href="page-listing-v5.html">Listing v5</a></li>
-                <li><a href="page-listing-v6.html">Listing v6</a></li>
-                <li><a href="page-listing-all.html">Listing All</a></li>
-              </ul>
-            </li>
-            <li><span>Listing Map</span>
-              <ul>
-                <li><a href="page-listing-v7.html">Map v1</a></li>
-                <li><a href="page-listing-v8.html">Map v2</a></li>
-                <li><a href="page-listing-v9.html">Map v3</a></li>
-                <li><a href="page-listing-v10.html">Map v4</a></li>
-                <li><a href="page-listing-v11.html">Map v5</a></li>
-                <li><a href="page-listing-v12.html">Map v6</a></li>
-                <li><a href="page-listing-v13.html">Map v7</a></li>
-              </ul>
-            </li>
-            <li><span>Listing Single</span>
-              <ul>
-                <li><a href="page-listing-single-v1.html">Single V1</a></li>
-                <li><a href="page-listing-single-v2.html">Single V2</a></li>
-                <li><a href="page-listing-single-v3.html">Single V3</a></li>
-                <li><a href="page-listing-single-v4.html">Single V4</a></li>
-                <li><a href="page-listing-single-v5.html">Single V5</a></li>
-                <li><a href="page-listing-single-v6.html">Single V6</a></li>
-                <li><a href="page-listing-single-v7.html">Single V7</a></li>
-                <li><a href="page-listing-single-v8.html">Single V8</a></li>
-              </ul>
-            </li>
-          </ul>
+        <li><a href=""><span>Help</span></a>
+          
         </li>
-        <li><span>Pages</span>
-          <ul>
-            <li><span>Shop</span>
-              <ul>
-                <li><a href="page-shop.html">Shop Pages</a></li>
-                <li><a href="page-shop-single.html">Shop Single</a></li>
-                <li><a href="page-shop-cart.html">Cart</a></li>
-                <li><a href="page-shop-checkout.html">Checkout</a></li>
-                <li><a href="page-shop-order.html">Order</a></li>
-              </ul>
-            </li>
-            <li><a href="page-about.html">About Us</a></li>
-    				<li><span>Blog</span>
-    					<ul>
-                <li><a href="page-blog-grid.html">Blog Grid</a></li>
-                <li><a href="page-blog-grid-sidebar.html">Blog Grid Sidebar</a></li>
-                <li><a href="page-blog-details.html">Blog Details</a></li>
-                <li><a href="page-blog-list.html">Blog List</a></li>
-                <li><a href="page-blog-single.html">Blog Single</a></li>
-                <li><a href="page-blog-single2.html">Blog Single v2</a></li>
-    					</ul>
-    				</li>
-            <li><a href="page-coming-soon.html">Coming Soon</a></li>
-            <li><a href="page-gallery.html">Gallery</a></li>
-            <li><a href="page-faq.html">Faq</a></li>
-            <li><a href="page-login.html">My Account</a></li>
-            <li><a href="page-pricing.html">Pricing V1</a></li>
-            <li><a href="page-compare.html">Compare</a></li>
-            <li><a href="page-error.html">404 Page</a></li>
-            <li><a href="page-terms.html">Terms and Conditions</a></li>
-            <li><a href="page-ui-element.html">UI Elements</a></li>
-          </ul>
-        </li>
-        <li><a href="page-contact.html">Contact</a></li>
+        <li class="cl_btn"><a class="btn btn-block btn-lg btn-thm rounded" href="{% url 'properties:create-listing' %}"><span class="icon flaticon-button mr5"></span> Discover</a></li>
+        <!-- <li><a href="page-contact.html">Discover</a></li> -->
         <li class="cl_btn"><a class="btn btn-block btn-lg btn-thm rounded" href="{% url 'properties:create-listing' %}"><span class="icon flaticon-button mr5"></span> Create Listing</a></li>
       </ul>
     </nav>
@@ -297,6 +196,7 @@
 <a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a> </div>
 <!-- Wrapper End --> 
 
+<!-- <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script> -->
 <script src="{% static 'js/popper.min.js' %}"></script> 
 <script src="{% static 'js/bootstrap.min.js' %}"></script> 
 <script src="{% static 'js/jquery.mmenu.all.js' %}"></script> 
@@ -320,11 +220,15 @@
 
 <!--include sweetify-->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.28/dist/sweetalert2.all.min.js"></script>
-  
+
+
 {% block map-scripts %}
 {% endblock map-scripts %}
 
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+              
+                    
 <!-- Custom script for all pages --> 
 <script src="{% static 'js/script.js' %}"></script>
 

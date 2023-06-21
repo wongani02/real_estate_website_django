@@ -5,8 +5,6 @@
 {% endblock header %}
 {% block title %}Home{% endblock %}
 {% block content %}
-
-
   <!-- Search Field Modal -->
   <section class="modal fade search_dropdown" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -259,13 +257,13 @@
                 <div class="home_tabs home4">
                   <ul class="nav justify-content-center nav-tabs" id="myTab2" role="tablist">
                     <li class="nav-item" role="presentation">
-                      <a class="nav-link" id="buy-tab" data-toggle="tab" href="#buy" role="tab" aria-controls="buy" aria-selected="true">Property</a>
+                      <a class="nav-link" id="buy-tab" data-toggle="tab" href="#buy" role="tab" aria-controls="buy" aria-selected="true">BNB's</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                      <a class="nav-link active" id="rent-tab" data-toggle="tab" href="#rent" role="tab" aria-controls="rent" aria-selected="false">Lodges and Cottages</a>
+                      <a class="nav-link active" id="rent-tab" data-toggle="tab" href="#rent" role="tab" aria-controls="rent" aria-selected="false">Property</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                      <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">BNB's</a>
+                      <a class="nav-link" id="sold-tab" data-toggle="tab" href="#sold" role="tab" aria-controls="sold" aria-selected="false">Lodges and Cottages</a>
                     </li>
                   </ul>
                   <div class="tab-content" id="myTabContent2">
@@ -273,12 +271,13 @@
                       <div class="home_adv_srch_opt home4">
                         <div class="wrapper">
                           <div class="home_adv_srch_form home2">
-                            <form class="bgc-white">
+                            <form method="post" action="{% url 'bnb:search' %}" class="bgc-white">
+                              {% csrf_token %}
                               <div class="form-row">
                                 <div class="col-auto home_form_input">
                                   <div class="input-group">
                                     <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
-                                    <input type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                    <input name="bnb_search" type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
                                   </div>
                                 </div>
                                 <div class="col-auto home_form_input2">
@@ -294,12 +293,13 @@
                       <div class="home_adv_srch_opt home4">
                         <div class="wrapper">
                           <div class="home_adv_srch_form home2">
-                            <form class="bgc-white">
+                            <form method="post" action="{% url 'properties:simple-search' %}" class="bgc-white">
+                              {% csrf_token %}
                               <div class="form-row">
                                 <div class="col-auto home_form_input">
                                   <div class="input-group">
                                     <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
-                                    <input type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                    <input type="text" name="property_search" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
                                   </div>
                                 </div>
                                 <div class="col-auto home_form_input2">
@@ -315,12 +315,13 @@
                       <div class="home_adv_srch_opt home2">
                         <div class="wrapper">
                           <div class="home_adv_srch_form home2">
-                            <form class="bgc-white">
+                            <form method="post" action="{% url 'lodges:search' %}" class="bgc-white">
+                              {% csrf_token %}
                               <div class="form-row">
                                 <div class="col-auto home_form_input">
                                   <div class="input-group">
                                     <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
-                                    <input type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                    <input type="text" class="form-control form_control" name="lodge_search" placeholder="Enter an address, neighborhood, city, or ZIP code">
                                   </div>
                                 </div>
                                 <div class="col-auto home_form_input2">
@@ -761,5 +762,6 @@
   </section>
   {% endif %}
   {% include 'properties/footer.html' %}
+ 
   {% endblock content %}
   

@@ -10,6 +10,9 @@ urlpatterns = [
     path('lodge-listing/', views.lodgeListingView, name='lodge-listings'),
     path('lodge-detail/<uuid:pk>/', views.lodgeDetailView, name='lodge-detail'),
 
+    #search
+    path('search/', views.searchView, name='search'),
+
     #handlers
     path('create-location-location/', views.createLodgeLocation, name='lodge-location'),
     path('upload-images/', views.fileUploadView, name='file_upload'),

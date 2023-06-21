@@ -1,0 +1,74 @@
+{% load static %}
+
+{% for item in lodges %}
+    <div class="col-sm-6 col-lg-12">
+        <div class="feat_property list listing">
+            <div class="thumb">
+                {% for image in item.pictures.all %}
+                {% if image.is_feature %}
+                <img class="img-whp" loading="lazy" src="{{image.img.img.url}}" alt="fl1.jpg">
+                {% endif %}
+                {% endfor %}
+                <div class="thmb_cntnt">
+                <!-- <ul class="tag mb0">
+                    <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                </ul>
+                <ul class="tag2 mb0">
+                    <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul> -->
+                </div>
+                <div class="thmb_cntnt2">
+                <ul class="listing_gallery mb0">
+                    <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{item.pictures.count}}</a></li>
+                    <!-- <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li> -->
+                </ul>
+                </div>
+            </div>
+            <div class="details">
+                <div class="tc_content">
+                <div class="wrapper float-left fn-md">
+                    <h4><a href="page-listing-single-v8.html">{{item.name}}</a></h4>
+                    <p>{{item.map_location}}</p>
+                    <h5>Room Types</h5>
+                    <ul class="prop_details mb0">
+                    {% for room in  item.rooms.all %}
+                    <li class="">{{room.room_type}} <span class="heading-color fw600">${{room.price_per_night}}/night</span></li>
+                    {% endfor %}
+                    
+                    </ul>
+                </div>
+                <div class="wrapper2 text-center tal-md float-right fn-md">
+                    <div class="title">Call: 202-555-0191</div>
+                    <a href="{% url 'lodges:lodge-detail' item.id %}" class="btn">DETAILS</a>
+                </div>
+                </div>
+                <div class="fp_footer">
+                <ul class="fp_meta float-left mb0">
+                    <li class="list-inline-item">
+                    <!-- <a href="#"><small><del class="body-color">$2,800/mo</del></small><br> -->
+                    <!-- <span class="heading-color fw600">$2,300/mo</span> -->
+                <!-- </a> -->
+                    </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% if lodges.has_next %}
+
+<div id="load-more-lodges" class="nav nav-tabs mb50 col-lg-12 justify-content-center">
+    <button 
+    class="nav-link load-more-btn"
+    hx-post="{% url 'lodges:search' %}?page={{lodges.next_page_number}}"
+    hx-target="#load-more-lodges"
+    hx-swap="outerHTML"
+    >Load more...</button>
+</div>
+{% endif %}

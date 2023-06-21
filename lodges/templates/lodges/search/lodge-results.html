@@ -1,18 +1,17 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}bnb Search{% endblock title %}
+{% block title %}search results{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
 {% block content %}
-
-
-
+ 
   <!-- Listing Grid View -->
-  <section class="our-listing pb30-991">
+  <section style="position: relative;" class="our-listing pb30-991">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
+
+      <div  class="row">
+        <div style="position: fixed!important;" class="col-lg-12">
           <div class="listing_sidebar dn db-lg">
             <div class="sidebar_content_details style3">
               <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
@@ -83,11 +82,21 @@
                       </div>
                     </div>
                   </li>
+                  
                   <li class="search_area">
                     <div class="form-group">
-                      <input type="text" class="form-control form_control" placeholder="Min. Area">
+                      <input type="text" id="demo" class="form-control form_control" placeholder="Min. Area">
                     </div>
                   </li>
+                  <script>
+                    $('#demo').daterangepicker({
+                        "startDate": "06/15/2023",
+                        "endDate": "06/21/2023",
+                        "minDate": "06/21/2023"
+                    }, function(start, end, label) {
+                    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+                    });
+                  </script>
                   <li class="search_area">
                     <div class="form-group">
                       <input type="text" class="form-control form_control" placeholder="Max. Area">
@@ -108,7 +117,7 @@
                       </div>
                     </div>
                   </li>
-                  <li>
+                  <!-- <li>
                     <div class="sidebar_accordion_widget mt40">
                       <div id="accordion2" class="panel-group">
                         <div class="panel">
@@ -180,7 +189,7 @@
                         </div>
                       </div>
                     </div>
-                  </li>
+                  </li> -->
                   <li>
                     <div class="search_option_button text-center mt25">
                       <button type="submit" class="btn btn-block btn-thm mb25">Search</button>
@@ -200,12 +209,10 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="breadcrumb_content style2 mb100">
-            <h2 class="breadcrumb_title">Blantyre Real Estate & Homes For Sale</h2>
+            <h2 class="breadcrumb_title">NY Real Estate & Homes For Sale</h2>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
-              <li class="breadcrumb-item">Search</li>
-              <li class="breadcrumb-item">{{search_type}}</li>
-              <li class="breadcrumb-item active" aria-current="page">Property</li>
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Grid Default</li>
             </ol>
           </div>
         </div>
@@ -221,8 +228,8 @@
             <div class="listing_filter_row dif db-767">
               <div class="col-sm-12 col-md-4 col-lg-4 col-xl-5">
                 <div class="left_area tac-xsd mb30-767">
-                  <p class="mb0 mt10"><span class="heading-color">{{count}}</span> Showing</p> 
-                </div> 
+                  <p class="mb0 mt10"><span class="heading-color">13,474</span> Showing</p>
+                </div>
               </div>
               <div class="col-sm-12 col-md-8 col-lg-8 col-xl-7">
                 <div class="listing_list_style tac-767">
@@ -244,31 +251,19 @@
             </div>
           </div>
           <div class="row">
-            
-            {% for result in results %}
-            <div class="col-lg-6 col-xl-4">
-              <div class="feat_property">
+
+            {% comment %}
+            {% for item in lodges %}
+            <div class="col-sm-6 col-lg-12">
+              <div class="feat_property list listing">
                 <div class="thumb">
-                  
-                  {% for image in result.property_images.all %}
-                    
-                    {% if image.is_feature %}
-                    <img class="img-whp" src="{{image.file.url}}" alt="fl1.jpg">
-                    {% endif %}
-                      
-                  {% endfor %}
-                    
-                  
+                  <img class="img-whp" src="images/property/fl1.jpg" alt="fl1.jpg">
                   <div class="thmb_cntnt">
                     <ul class="tag mb0">
-                      
-                      {% if result.is_featured %}
                       <li class="list-inline-item"><a href="#">FEATURED</a></li>
-                      {% endif %}
-                        
                     </ul>
                     <ul class="tag2 mb0">
-                      <li class="list-inline-item"><a href="#">{{result.property_type}}</a></li>
+                      <li class="list-inline-item"><a href="#">FOR SALE</a></li>
                     </ul>
                   </div>
                   <div class="thmb_cntnt2">
@@ -280,27 +275,26 @@
                 </div>
                 <div class="details">
                   <div class="tc_content">
-                    <div class="badge_icon"><a href="#"><img src="{% static 'images/agent/3.png' %}" alt="3.png"></a></div>
-                    <h4><a href="{% url 'properties:property-single' result.id %}">{{result.name}}</a></h4>
-                    <p>{{result.location_area}}</p>
-                    <ul class="prop_details mb0">
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span> <br>{{result.no_rooms}} Beds</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span> <br>{{result.no_baths}} Bath</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span> <br>{{result.no_garages}} Garage</a></li>
-                      <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span> <br>{{result.compound_area}} Sq Ft</a></li>
-                    </ul>
+                    <div class="wrapper float-left fn-md">
+                      <h4><a href="page-listing-single-v8.html">New Apartment Nice Wiew</a></h4>
+                      <p>Quincy St, Brooklyn, NY, USA</p>
+                      <ul class="prop_details mb0">
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
+                      </ul>
+                    </div>
+                    <div class="wrapper2 text-center tal-md float-right fn-md">
+                      <div class="title">Call: 202-555-0191</div>
+                      <button class="btn">DETAILS</button>
+                    </div>
                   </div>
                   <div class="fp_footer">
                     <ul class="fp_meta float-left mb0">
                       <li class="list-inline-item">
-                        <a href="#">
-                          
-                          {% if result.prev_price %}
-                          <small><del class="body-color">MWK {{result.prev_price}}/mo</del></small><br>
-                          {% endif %}
-                            
-                          <span class="heading-color fw600">MWK {{result.price}}/mo</span>
-                        </a>
+                        <a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
+                        <span class="heading-color fw600">$2,300/mo</span></a>
                       </li>
                     </ul>
                     <ul class="fp_meta float-right mb0">
@@ -313,48 +307,9 @@
               </div>
             </div>
             {% endfor %}
-              
-            <div class="col-lg-12">
-              <div class="mbp_pagination mt10">
-                <ul class="page_navigation">
-                  <!-- Check if there are any previous pages, disable button if not -->
-                  {% if results.has_previous %}
-                  <li class="page-item"><a class="page-link" href="?page={{results.previous_page_number}}" tabindex="-1"><span class="fa fa-arrow-left"></span></a></li>
-                  {% else %}
-                  <li class="page-item"><a class="page-link disabled" href="#" aria-disabled="true" tabindex="-1"><span class="fa fa-arrow-left"></span></a></li>
-                  {% endif %}
-                    
-                  <!-- Show previous page number if there is a previous page -->
-                  {% if results.has_previous %}
-                  <li class="page-item"><a class="page-link" href="?page={{results.previous_page_number}}">{{results.previous_page_number}}</a></li>
-                  {% endif %}
+            {% endcomment %}
 
-                  <!-- Show current page number -->
-                  <!-- <li class="page-item"><span class="page-numbers current">{{results.number}}</span></li> -->
-                  <li class="page-item active" aria-current="page"><a class="page-link">{{results.number}}<span class="sr-only">{{results.number}}</span></a></li>
-
-                  <!-- Show next page number if there is a next page -->
-                  {% if results.has_next %}
-                  <li class="page-item"><a class="page-link" href="?page={{results.next_page_number}}">{{results.next_page_number}}</a></li>  
-                  
-                  <!-- ellipsis for styling -->
-                  <li class="page-item"><a class="page-link" href="#">...</a></li>
-                  
-                  <!-- Show total number of pages -->
-                  <li class="page-item"><a class="page-link" href="?page={{results.paginator.num_pages}}">{{results.paginator.num_pages}}</a></li>
-                  {% endif %}
-                    
-                  <!-- Check if there is a next page, disable button if not -->
-                
-                {% if results.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{results.paginator.num_pages}}"><span class="fa fa-arrow-right"></span></a></li>  
-                {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{results.paginator.num_pages}}"><span class="fa fa-arrow-right"></span></a></li>  
-                {% endif %}
-                  
-                </ul>
-              </div>
-            </div>
+            {% include 'lodges/partials/search-results.html' %}
           </div>
         </div>
         <div class="col-xl-3">
@@ -620,5 +575,10 @@
     </div>
   </section>
 
+  <!-- Our Footer -->
   {% include 'properties/footer.html' %}
-  {% endblock %}
+  <!-- datepicker script -->
+   
+<a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
+</div>
+{% endblock content %}
