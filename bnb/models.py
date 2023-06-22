@@ -1,10 +1,19 @@
+import qrcode
+import uuid
+import os
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.files import File
+from django.core.files.base import ContentFile
+
+from io import BytesIO
+from PIL import Image, ImageDraw
 
 from properties.models import Districts
 
-import uuid
 
 User = settings.AUTH_USER_MODEL
 
@@ -84,16 +93,74 @@ class PropertyImage(models.Model):
 
     def __str__(self):
         return f"{self.property} - {self.id}"
+    
+
 
 
 class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    check_in = models.DateField()
-    check_out = models.DateField()
-    num_guests = models.PositiveIntegerField(_("Number of Guests"))
-    is_paid = models.BooleanField(default=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name='user_bnb_booking')
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True, related_name='bnb_bookings')
+    check_in = models.DateField(null=True)
+    check_out = models.DateField(null=True)
+    num_guests = models.PositiveIntegerField(_("Number of Guests"), null=True)
+    qr_code = models.ImageField(upload_to='bnb_qr_codes/', null=True, blank=True)
+    ref_code = models.CharField(max_length=10, null=True, blank=True)
+    is_paid = models.BooleanField(default=False, null=True)
+    is_active = models.BooleanField(default=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.property.title}"
+    
+
+    def save(self, *args, **kwargs):
+
+        #QR code
+        qr_code_img = self.generate_qr_code()
+        frame = f'qr_code-{self.user.name}'+'.png'
+        self.qr_code.save(frame, File(qr_code_img), save=False)
+
+        #validate booking
+        self.validate_booking()
+
+        super().save(*args, **kwargs)
+    
+
+    def generate_qr_code(self):
+        # taking the logo image 
+        Logo_link = staticfiles_storage.path('images/header-logo3.png')
+        logo = Image.open(Logo_link)
+        # taking base width
+        basewidth = 100
+        # adjust image size
+        wpercent = (basewidth/float(logo.size[0]))
+        hsize = int((float(logo.size[1])*float(wpercent)))
+        logo = logo.resize((basewidth, hsize), Image.ANTIALIAS)
+        QRcode = qrcode.QRCode(
+            error_correction=qrcode.constants.ERROR_CORRECT_H
+        )
+        # taking data
+        data = f'{self.user.name}'
+        # adding data to QRcode
+        QRcode.add_data(data)
+        # generating QR code
+        QRcode.make()
+        # taking color 
+        QRcolor = 'Blue'
+        # adding color to QR code
+        QRimg = QRcode.make_image(
+            fill_color=QRcolor, back_color="white").convert('RGB')
+        # set size of QR code
+        pos = ((QRimg.size[0] - logo.size[0]) // 2,
+            (QRimg.size[1] - logo.size[1]) // 2)
+        QRimg.paste(logo, pos)
+        # save the QR code generated
+        file_stream = BytesIO()
+        QRimg.save(file_stream, 'PNG')
+        file_stream.seek(0)
+        return file_stream
+    
+    def validate_booking(self):
+        pass
+        
+
 

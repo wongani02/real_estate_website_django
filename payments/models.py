@@ -40,7 +40,7 @@ class Payment(models.Model):
         settings.AUTH_USER_MODEL, 
         null=True, 
         on_delete=models.RESTRICT)
-    full_name = models.CharField(max_length=50)
+    full_name = models.CharField(max_length=50, null=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=100, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -48,8 +48,8 @@ class Payment(models.Model):
     total_paid = models.DecimalField(max_digits=10, null=True,  decimal_places=1)
     order_key = models.CharField(max_length=200, null=True)
     payment_option = models.ForeignKey(PaymentOption, on_delete=models.CASCADE, null=True)
-    billing_status = models.BooleanField(default=False)
-    qr_code = models.ForeignKey(QRCode, on_delete=models.CASCADE)
+    billing_status = models.BooleanField(default=False, null=True)
+    qr_code = models.ForeignKey(QRCode, on_delete=models.CASCADE, null=True)
     
     def generate_qr_code(content_dict):
         qr_content = ""
