@@ -5,12 +5,15 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 from properties.models import Property
 from bnb.models import Property as BNB
 from lodges.models import Lodge
 from .utils import generate_ref_code
 from io import BytesIO
+
+from PIL import Image
 
 class QRCode(models.Model):
     class Meta:
@@ -121,6 +124,4 @@ class Invoice(models.Model):
 
 # class LodgePayment(Payment):
 #     lodge = models.ForeignKey(LodgePayment, on_delete=models.CASCADE, null=True)
-
-
 

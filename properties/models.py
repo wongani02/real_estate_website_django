@@ -231,3 +231,21 @@ class PropertyAmenityLink(models.Model):
     def __str__(self) -> str:
         return '{} - {} - {}'.format(self.id, self._property, self.amenity)
 
+class TempImageStore(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='temp_images/')
+
+    """
+    Delete associated file
+    """
+    def delete(self, *args, **kwargs):
+        import os 
+
+        if self.image:
+            file_path = os.path.join(settings.MEDIA_ROOT, str(self.file))
+
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        
+        # Call superclass method
+        super(TempImageStore, self).delete(*args, **kwargs)

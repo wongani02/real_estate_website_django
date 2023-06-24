@@ -44,13 +44,16 @@
                                 </div>
                             </form>
                             <div class="text-right mt-4">
-                                <a type="button" class="btn btn-thm listing_save_btn" href="{% url 'properties:offers' %}">Finish</a>
+                                <button class="btn btn-thm listing_save_btn" id="process-btn">Process</button>
+                                <a type="button" class="btn btn-thm listing_save_btn" href="{% url 'properties:complete' %}">Finish</a>
                             </div>
 
                             <script>
-                                Dropzone.options.myDropzone = {
+                                var myDropZone = new Dropzone("#y-dz", {
                                     paramName: "file", // The name of the file parameter to be sent to the server
                                     maxFilesize: 5, // Maximum file size in megabytes
+                                    autoProcessQueue: false,
+                                    parallelUploads: Infinity,
                                     acceptedFiles: ".jpg,.jpeg,.png", // Accepted file types
                                     init: function() {
                                         this.on("success", function(file, response) {
@@ -62,7 +65,11 @@
                                         console.error(errorMessage);
                                         });
                                     }
-                                  };
+                                  });
+
+                                  var button = document.getElementById('process-btn');
+
+                                  button.addEventListener("click", function () {myDropZone.processQueue()});
                             </script>
                             
                             <div class="col-lg-5">

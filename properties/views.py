@@ -4,6 +4,7 @@ from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q 
+from django.views import View
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
 
@@ -15,6 +16,7 @@ from properties.forms import *
 from properties.filters import AdvancedSearchFilter
 from properties.charts import *
 from bnb.models import Property as BNB
+from users.models import User
 
 import json
 import ast
@@ -322,8 +324,10 @@ class CreatePropertyListing(generic.CreateView):
 
     def get(self, request):
         # Check for existence of incomplete session and append data
+        # del self.request.session['step_1']
         if 'step_1' in self.request.session:
             # Add existing session data to form
+            # del self.request.session['step_1']
             session_data = json.loads(self.request.session['step_1'])
             session_data['year_built'] = date.fromisoformat(session_data['year_built'])
 
@@ -463,6 +467,113 @@ class PaymentOptions(generic.View):
         }
         return render(request, 'properties/payments/payment-options.html', context)
 
+
+def save_data(request):
+    print("called")
+    
+    # avoid queryset error 
+    error = Property.objects.all()
+    # Get session data and save to database
+    property_info = json.loads(request.session['step_1'])
+    location_info = json.loads(request.session['step_2'])
+
+    #  Create property instance
+    property_, _amenities = create_property(request, property_info, location_info)
+    
+    # Create amenity instance
+    create_amenity_link(request, property_.id, _amenities)
+
+    # Create property images instance
+    create_property_images(request, property_, request.user.username)
+    
+    # Delete all sessions 
+    del request.session['step_1']
+    del request.session['step_2']
+    
+    request.session['property_id'] = str(property_.id)
+    
+    return redirect('properties:offers')
+
+"""
+Function creates property object with the following parameters
+object1: property information session object
+object2: property location session object
+"""
+def create_property(request, object1, object2):
+    from users.models import User
+    
+    # Create PropertyCategory object
+    cat = PropertyCategory.objects.get(name=object1['property_cat'])
+    
+    # Create district object
+    dis = Districts.objects.get(district_name=object2['district'])
+
+    # Get agent object
+    agent = User.objects.get(username=request.user.username)
+
+    _property = Property.objects.create(
+    # session: step_1
+    name=object1['name'], desc=object1['desc'], property_area=object1['property_area'], 
+    compound_area=object1['compound_area'], year_built=object1['year_built'], price=object1['price'],
+    property_type=object1['property_type'], property_status=object1['property_status'],
+    property_cat=cat, no_garages=object1['no_garages'], no_rooms=object1['no_rooms'],
+    no_baths=object1['no_baths'],
+    # session: step_2
+    location_area=object2['location_area'], district=dis, lat=object2['lat'],
+    lon=object2['lon'], agent=agent
+    )
+
+    return _property, object2['amenities']
+    
+"""
+Function creates and saves links created between the Property and Amenity classes
+"""
+def create_amenity_link(request, property_id, objects):
+    # List to hold amenity instances
+    amenities_ = []
+
+    # Convert str object to dict
+    objects = ast.literal_eval(objects)
+
+    # Create Property instance 
+    property_ = Property.objects.get(pk=property_id)
+
+    # Loop and create through list of amenities
+    for object in objects:
+        # Get amenity object
+        object = Amenities.objects.get(name=object)
+        amenity = PropertyAmenityLink.objects.create(
+        _property=property_, amenity=object
+        )
+
+        # Add amenity obbjects to list
+        amenities_.append(amenity)
+
+    return amenities_
+
+"""
+Function creates property images instances
+"""
+def create_property_images(request, property_, object_):
+    # List to hold image instances
+    images_ = []
+
+    # Get user instance
+    user = User.objects.get(username=object_)
+
+    # Filter all temporary images of the user
+    temp = TempImageStore.objects.filter(user=user)
+
+    for temp_obj in temp:
+        images = Images()
+        images.property = property_
+        images.file = temp_obj.image
+        images.save()
+        temp_obj.delete()
+
+
+
+
 """
 CBV gets and saves property data, amenities and images
 """
@@ -479,7 +590,7 @@ class CreatePropertyMediaListing(generic.CreateView):
         if 'step_3' in self.request.session:
             # Add existing session data to form
             session_data = self.request.session['step_3']
-            # property_form = PropertyInfoCreationForm(initial=session_data)
+            
             property_form = ImagesCreationForm()
         else:
             # Create a new and empty form
@@ -490,137 +601,23 @@ class CreatePropertyMediaListing(generic.CreateView):
         })
     
     # POST request handles session data and sends user to next page
-    def post(self, request):
+    def post(self, request, **kwargs):
         # Get form data
         form = ImagesCreationForm(request.POST, request.FILES)
 
-        property_info = request.session['step_1']
-        location_info = request.session['step_2']
+        print("post: ", request.FILES.getlist('file'))
 
         if form.is_valid():
-            # Get session data and save to database
-            property_info = json.loads(request.session['step_1'])
-            location_info = json.loads(request.session['step_2'])
-
-            #  Create property instance
-            property_, _amenities = self.create_property(property_info, location_info)
-            
-            # Create amenity instance
-            amenity_ = self.create_amenity_link(property_.id, _amenities)
+            # Get user instance
+            agent = User.objects.get(username=self.request.user.username)
 
             # Create property images instance
-            images_ = self.create_property_images(property_, request.FILES.getlist('file'))
-            
-            # Save all objects
-            status = self.save_objects(property_, amenity_, images_)
+            images_ = TempImageStore(user=agent, image=request.FILES.getlist('file'))
 
-            if status:
-                # Delete all sessions
-                del request.session['step_1'],
-                del request.session['step_2']
-                
-                request.session['property_id'] = str(property_.id)
-                print(request.session['property_id'])
-                return redirect('accounts:dashboard')
-            else: 
-                return render(request, self.template_name, {'form': form})  
+            return redirect('accounts:dashboard')
+              
     
-    """
-    Function creates property object with the following parameters
-    object1: property information session object
-    object2: property location session object
-    """
-    def create_property(self, object1, object2):
-        from users.models import User
-        
-        # Create PropertyCategory object
-        cat = PropertyCategory.objects.get(name=object1['property_cat'])
-        
-        # Create district object
-        dis = Districts.objects.get(district_name=object2['district'])
-
-        # Get agent object
-        agent = User.objects.get(username=self.request.user.username)
-
-        _property = Property.objects.create(
-        # session: step_1
-        name=object1['name'], desc=object1['desc'], property_area=object1['property_area'], 
-        compound_area=object1['compound_area'], year_built=object1['year_built'], price=object1['price'],
-        property_type=object1['property_type'], property_status=object1['property_status'],
-        property_cat=cat, no_garages=object1['no_garages'], no_rooms=object1['no_rooms'],
-        no_baths=object1['no_baths'],
-        # session: step_2
-        location_area=object2['location_area'], district=dis, lat=object2['lat'],
-        lon=object2['lon'], agent=agent
-        )
-
-        return _property, object2['amenities']
-        
-    """
-    Function creates and saves links created between the Property and Amenity classes
-    """
-    def create_amenity_link(self, property_id, objects):
-        # List to hold amenity instances
-        amenities_ = []
-
-        # Convert str object to dict
-        objects = ast.literal_eval(objects)
-
-        # Create Property instance 
-        property_ = Property.objects.get(pk=property_id)
-
-        # Loop and create through list of amenities
-        for object in objects:
-            # Get amenity object
-            object = Amenities.objects.get(name=object)
-            amenity = PropertyAmenityLink.objects.create(
-            _property=property_, amenity=object
-            )
-
-            # Add amenity obbjects to list
-            amenities_.append(amenity)
-
-        return amenities_
     
-    """
-    Function creates property images instances
-    """
-    def create_property_images(self, property_, object):
-        # List to hold image instances
-        images_ = []
-
-        # try:
-        for _image_ in object:
-            image_ = Images.objects.create(
-                property=property_, file=_image_,
-            )
-
-            # Add image objects to list
-            images_.append(image_)
-        return images_
-
-
-    """
-    Function saves all property, amenity and images objects to db
-    """
-    def save_objects(self, _property_, _amenities_, _images_):
-        try:
-            # Save Property object
-            _property_.save()
-
-            # Save amenities objects
-            for _amenity_ in _amenities_:
-                _amenity_.save()
-
-            # Save images objects
-            for _image_ in _images_:
-                _image_.save()
-
-            return True
-        except:
-            return False
-
-
 def redirectUser(request):
     return redirect('accounts:dashboard')
       
