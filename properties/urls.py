@@ -20,6 +20,9 @@ urlpatterns = [
     path('create/property/step/3/', views.CreatePropertyMediaListing.as_view(), name='create-media-location'),
     path('redirect/dashboard', views.redirectUser, name='redirect-user'),
 
+    #payment offers
+    path('payments/offer/', views.OfferPackage.as_view(), name='offers'),
+    path('payment/options/', views.PaymentOptions.as_view(), name='payment-options'),
 
     path('listing/edit/<uuid:pk>/', views.EditPropertyListing.as_view(), name='edit-listing'),
     path('listing/delete/<uuid:pk>/', views.DeletePropertyListing.as_view(), name='delete-listing'),

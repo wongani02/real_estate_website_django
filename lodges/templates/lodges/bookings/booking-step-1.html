@@ -1,0 +1,124 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}lodge Booking{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+<style>
+.contact_icon_box{
+  position: relative;
+}
+.contact_icon_box .icon{
+  background-color: rgba(0, 97, 223, .03);
+  border-radius: 50%;
+  height: 70px;
+  line-height: 70px;
+  margin-right: 20px;
+  text-align: center;
+  width: 70px;
+}
+.contact_icon_box .icon span{
+  color: #0061DF;
+  font-size: 24px;
+}
+.contact_icon_box .details .title{
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.contact_icon_box .details p{
+  font-size: 14px;
+  line-height: 30px;
+}
+</style>
+	<!-- Inner Page Breadcrumb -->
+	<!-- <section class="inner_page_breadcrumb">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-xl-6">
+					<div class="breadcrumb_content">
+						<h2 class="breadcrumb_title">Contact Us</h2>
+						<ol class="breadcrumb">
+					    <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
+					    <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section> -->
+
+	<!-- Our Contact -->
+  <section class="our-contact">
+    <div class="container">
+
+
+        <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="form_grid mt10">
+            <h2 class="text-center mb50">Enter Your Dates</h2>
+            <form class="contact_form" name="contact_form" action="#" method="post" novalidate>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input name="form_name" class="form-control" required="required" type="text" placeholder="Name">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input name="form_email" class="form-control required email" required="required" type="email" placeholder="Email">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <input name="daterange" class="form-control required email" required="required" type="text" placeholder="What's this About?">
+                  </div>
+                </div>
+                
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+          <div class="main-title text-center">
+            <h2>Booked Dates For This Room</h2>
+            <p>Below are some of the booked dates for this room</p>
+            <ul class="list-inline-item mt10">
+                <li><p>Room Type:</p></li>
+                <li><p>Price per night:</p></li>
+                <li><p>num of Children:</p></li>
+                <li><p>num of Adults:</p></li>
+                <li><p>num of Beds:</p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  <script>
+    $(function() {
+
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'center',
+            "alwaysShowCalendars": true,
+            "startDate": `${month}/${day}/${year}`,
+            // "endDate": `${month}/${day}/${year}`,
+            "minDate": `${month}/${day}/${year}`
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
+</script>
+{% include 'properties/footer.html' %}
+{% endblock content %}

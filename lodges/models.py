@@ -1,10 +1,14 @@
+import uuid
+import datetime
+
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from ckeditor.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
-import uuid
+from django.http import HttpResponseRedirect
+
 
 
 class Lodge(models.Model):
@@ -27,12 +31,13 @@ class Lodge(models.Model):
     class Meta:
         verbose_name = 'Lodge'
         verbose_name_plural = 'Lodges'
+        ordering = ['-created_at',]
     
     def __str__(self):
         return self.name
 
 
-class Room(models.Model):
+class RoomCategory(models.Model):
     
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, related_name='rooms')
     room_type = models.CharField(max_length=255, null=True)
@@ -40,13 +45,57 @@ class Room(models.Model):
     children = models.PositiveSmallIntegerField(default=1, null=True)
     beds = models.PositiveSmallIntegerField(default=1, null=True)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveSmallIntegerField(
+        default=True, 
+        null=True, 
+        help_text='How many of these rooms are there?'
+    )
 
     class Meta:
-        verbose_name = 'Room'
-        verbose_name_plural = 'Rooms'
+        verbose_name = 'Room Categry'
+        verbose_name_plural = 'Rooms Categories'
     
     def __str__(self):
         return f"{self.lodge.name} - Room {self.room_type}"
+
+
+class AvailableRoomManager(models.Manager):
+    def get_queryset(self):
+        return super(AvailableRoomManager, self).get_queryset().filter(is_booked=False)
+
+
+class Room(models.Model):
+    room_category = models.ForeignKey(RoomCategory, on_delete=models.CASCADE, null=True, related_name='room_s')
+    is_booked = models.BooleanField(null=True, default=False)
+
+    objects = models.Manager()
+    available = AvailableRoomManager()
+
+    def __str__(self):
+        return f'Lodge: {self.room_category.lodge.name} - Room Category: {self.room_category.room_type} - Booked: {self.is_booked} '
+
+
+class Restrictions(models.Model):
+    restriction = models.CharField(max_length=1000, null=True)
+
+    def __str__(self):
+        return f'{self.restriction}'
+    
+    class Meta:
+        verbose_name = 'Restrictions'
+        verbose_name_plural = 'Restrictions'
+
+
+class LodgeRestrictions(models.Model):
+    lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='lodge_restriction')
+    restriction = models.ManyToManyField(Restrictions, related_name='lodge_restr')
+
+    class Meta:
+        verbose_name = 'Lodge Restrictions'
+        verbose_name_plural = 'Lodge Restrictions' 
+
+    def __str__(self):
+        return f'{self.lodge.name}'
 
 
 class Amenity(models.Model):
@@ -70,6 +119,30 @@ class LodgeAmenity(models.Model):
 
     def __str__(self):
         return f"{self.amenity.name} ({self.lodge.name} - Room {self.lodge.city})"
+    
+
+class Policy(models.Model):
+    policy = models.TextField(null=True)
+
+    def __str__(self):
+        return f'policy {self.id}'
+
+
+class LodgeCancellationPolicy(models.Model):
+    lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='lodge_policies')
+    policy = models.ForeignKey(Policy, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f'{self.lodge.name}'
+
+
+class LodgeReview(models.Model):
+    lodge = models.ForeignKey(Lodge, null=True, on_delete=models.CASCADE, related_name='lodge_reviews')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, related_name='user_reviews')
+    review = models.TextField(null=True)
+
+    def __str__(self):
+        return f'{self.user.username}\'s review for - {self.lodge.name}'
 
 
 class Image(models.Model):
@@ -99,19 +172,55 @@ class LodgeImage(models.Model):
 
 class Booking(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookings')
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='bookings')
-    check_in = models.DateTimeField()
-    check_out = models.DateTimeField()
-    num_guests = models.IntegerField()
-    created_at = models.DateTimeField(default=timezone.now)
-
+    # lodge = models.ForeignKey(Lodge, null=True, on_delete=models.CASCADE, related_name='lodge_bookings')
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='room_bookings')
+    check_in = models.DateTimeField(null=True)
+    check_out = models.DateTimeField(null=True)
+    num_guests = models.IntegerField(null=True)
+    number_of_nights = models.PositiveSmallIntegerField(default=1, null=True)
+    note = models.TextField(null=True, help_text='leave a special note, eg we might arrive late')
+    is_active = models.BooleanField(null=True, default=False)
+    checked_in = models.BooleanField(null=True, default=False)
+    cancelled = models.BooleanField(null=True, default=False)
+    qr_code = models.ImageField(upload_to='bnb_qr_codes/', null=True, blank=True)
+    ref_code = models.CharField(max_length=10, null=True, blank=True)
+    is_paid = models.BooleanField(default=False, null=True)
+    updated = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)
+   
     class Meta:
         verbose_name = 'Booking'
         verbose_name_plural = 'Bookings'
 
     def __str__(self):
-        return f"{self.user.username} - {self.room.lodge.name} - Room {self.room.type}"
+        return f"{self.user.username} - {self.room.room_category.lodge.name} - Room {self.room.room_category.room_type}"
+    
+    def save(self, *args, **kwargs):
+        availability = self.check_booking_availability()
+        if not availability:
+            return ValueError
+        super().save(*args, **kwargs)
 
+    def check_booking_availability(self):
+        availability_list = []
+        booking_list = Booking.objects.filter(room=self.room.id)
+        for booking in booking_list:
+            if booking.check_in >self.check_out or booking.check_out <self.check_in:
+                availability_list.append(True)
+            else:
+                availability_list.append(False)
+
+        return all(availability_list)
+
+    
+class Guests(models.Model):
+    booking = models.ForeignKey(Booking, null=True, on_delete=models.CASCADE, related_name='lodge_guests')
+    full_name = models.CharField(null=True, max_length=300)
+    email = models.EmailField(null=True)
+    phone_number = models.CharField(max_length=14, null=True)
+
+    def __str__(self):
+        return f'{self.full_name} - {self.phone_number}'
 
 
 #blog tables

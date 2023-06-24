@@ -43,7 +43,7 @@ class Payment(models.Model):
     full_name = models.CharField(max_length=50, null=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=100, null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
     updated = models.DateTimeField(auto_now=True)
     total_paid = models.DecimalField(max_digits=10, null=True,  decimal_places=1)
     order_key = models.CharField(max_length=200, null=True)

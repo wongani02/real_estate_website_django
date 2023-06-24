@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.formsets import formset_factory, BaseFormSet
-from .models import Amenity, LodgeAmenity, Lodge, Room
+from .models import Amenity, LodgeAmenity, Lodge, RoomCategory
 
 
 class LodgeCreationForm(forms.Form):
@@ -51,6 +51,9 @@ class RoomCreationForm(forms.Form):
     )
     price = forms.CharField(
         widget=forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Price per night'}),required=True
+    )
+    quantity= forms.CharField(
+        widget=forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'How many of these rooms are availble?'}),required=True
     )
 
 
@@ -146,8 +149,8 @@ class LodgeLocationEditView(forms.ModelForm):
 class LodgeRoomsEditForm(forms.ModelForm):
 
     class Meta:
-        model = Room
-        fields = ['room_type', 'adults', 'children', 'beds', 'price_per_night']
+        model = RoomCategory
+        fields = ['room_type', 'adults', 'children', 'beds', 'price_per_night', 'quantity']
         widgets = {
             'room_type': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': ' Room type eg. Duluxe, Presidential...'}),
             'adults': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'number of adults'}),

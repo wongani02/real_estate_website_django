@@ -436,6 +436,33 @@ class CreatePropertyLocationListing(generic.CreateView):
         return str(_list)
 
 
+class OfferPackage(generic.View):
+
+    def get(self, request):
+
+
+
+        context = {
+            
+        }
+        return render(request, 'properties/payments/offer-package.html', context)
+
+
+class PaymentOptions(generic.View):
+
+    def get(self, request):
+        context = {
+
+        }
+        return render(request, 'properties/payments/payment-options.html', context)
+    
+
+    def post(self, request):
+        context = {
+
+        }
+        return render(request, 'properties/payments/payment-options.html', context)
+
 """
 CBV gets and saves property data, amenities and images
 """
@@ -492,6 +519,8 @@ class CreatePropertyMediaListing(generic.CreateView):
                 del request.session['step_1'],
                 del request.session['step_2']
                 
+                request.session['property_id'] = str(property_.id)
+                print(request.session['property_id'])
                 return redirect('accounts:dashboard')
             else: 
                 return render(request, self.template_name, {'form': form})  

@@ -33,20 +33,35 @@ class LodgeCreation():
         return self.lodge_instance.id
 
 
-    def create_rooms(self, rooms=[]):
+    def create_room_categories(self, rooms=[]):
         self.room_ids = []
         for item in rooms:
-            self.lodge_room = Room.objects.create(
+            self.lodge_room = RoomCategory.objects.create(
                 lodge_id=self.lodge_instance.id,
                 room_type=item['room_type'],
                 adults=item['adults'],
                 children=item['children'],
                 beds=item['beds'],
                 price_per_night=item['price'],
+                quantity=item['quantity']
             )
             self.room_ids.append(self.lodge_room.id)
 
         return self.room_ids
+    
+    
+    def create_rooms(self):
+
+        for room_type_id in self.room_ids:
+
+            room_cat = RoomCategory.objects.get(id=room_type_id)
+
+            num = 0
+            while num < room_cat.quantity:
+                Room.objects.create(
+                    room_category_id=room_type_id,
+                )
+                num += 1
 
 
     def assign_amenities(self, selected=[]):
@@ -94,4 +109,3 @@ class LodgeCreation():
         del self.session['lodge_amenites']
 
     
-

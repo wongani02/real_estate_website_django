@@ -1,9 +1,19 @@
 from django.contrib import admin
-from .models import Lodge, Room, Amenity, LodgeAmenity, LodgeImage, Booking, BlogPost, BlogImage, BlogCategory, About, Image
+from .models import *
 
 
 class LodgeAmenityInline(admin.TabularInline):
     model = LodgeAmenity
+    extra = 0
+
+
+class LodgePolicyInline(admin.StackedInline):
+    model=LodgeCancellationPolicy
+    extra = 0
+
+
+class LodgeRestrictionsInline(admin.TabularInline):
+    model = LodgeRestrictions
     extra = 0
 
 
@@ -12,21 +22,36 @@ class PictureInline(admin.TabularInline):
     extra = 0
 
 
-class RoomInline(admin.TabularInline):
-    model = Room
+class RoomCategoryInline(admin.StackedInline):
+    model = RoomCategory
     extra = 0
 
 
 @admin.register(Lodge)
 class LodgeAdmin(admin.ModelAdmin):
     list_display = ('name', 'street_name', 'city', 'map_location', 'country',)
-    inlines = [RoomInline, LodgeAmenityInline, PictureInline]
+    inlines = [
+        RoomCategoryInline, 
+        LodgeAmenityInline, 
+        LodgeRestrictionsInline, 
+        PictureInline, 
+        LodgePolicyInline
+    ]
 
 
-@admin.register(Room)
-class RoomAdmin(admin.ModelAdmin):
-    list_display = ('lodge', 'room_type', 'adults', 'price_per_night',)
+# @admin.register(RoomCategory)
+# class RoomAdmin(admin.ModelAdmin):
+#     list_display = ('lodge', 'room_type', 'adults', 'price_per_night',)
     # inlines = [ PictureInline]
+
+@admin.register(Policy)
+class PolicyAdmin(admin.ModelAdmin):
+    list_display = ['policy']
+
+
+@admin.register(Restrictions)
+class RestrictionAdmin(admin.ModelAdmin):
+    list_display = ['restriction']
 
 
 @admin.register(Amenity)
@@ -65,4 +90,10 @@ class AboutAdmin(admin.ModelAdmin):
     list_display = ['company_name', 'email', 'phone_number']
 
 
-admin.site.register(Image)
+# @admin.register(Room)
+# class LodgeRoomAdmin(admin.ModelAdmin):
+#     list_display = ['is_booked']
+    
+
+# admin.site.register(Image)
+admin.site.register(Room)

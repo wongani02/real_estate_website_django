@@ -154,7 +154,8 @@ def handleRoomForm(request):
                     'adults': form.cleaned_data['adults'],
                     'children': form.cleaned_data['children'],
                     'beds': form.cleaned_data['beds'],
-                    'price': form.cleaned_data['price']
+                    'price': form.cleaned_data['price'],
+                    'quantity': form.cleaned_data['quantity'],
                 }
 
                 rooms.append(room_detials)
@@ -173,6 +174,7 @@ def handleRoomForm(request):
                 'children': x['children'],
                 'beds': x['beds'],
                 'price': x['price'],
+                'quantity': x['quantity'],
                 } for x in session['lodge_rooms']]) 
             
         else:
@@ -246,6 +248,7 @@ def fileUploadView(request):
 
 
 @login_required
+@transaction.atomic
 def createLodgeInstanceView(request):
     session = request.session
 
@@ -262,8 +265,11 @@ def createLodgeInstanceView(request):
                 user_id=request.user.id
                 )
             
-            #create rooms
-            lodge_instance.create_rooms(rooms=session['lodge_rooms'])
+            #create room categories
+            lodge_instance.create_room_categories(rooms=session['lodge_rooms'])
+
+            #create lodge rooms
+            lodge_instance.create_rooms()
 
             #create lodge ameneities
             lodge_instance.assign_amenities(selected=session['lodge_amenites'])
@@ -440,3 +446,11 @@ def searchView(request):
 
     return render(request, 'lodges/search/lodge-results.html', context)
 
+
+def bookingDetailsView(request, lodge, room):
+
+    context = {
+
+    }
+
+    return render(request, 'lodges/bookings/booking-step-1.html', context)

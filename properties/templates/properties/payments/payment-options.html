@@ -1,0 +1,127 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}payments{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+	<!-- Our Dashbord -->
+	<script src="https://unpkg.com/htmx.org@1.9.0"></script>
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">Payment Methods</h2>
+								
+							</div>
+						</div>
+					</div>
+				<div class="row">
+				<div class="col-lg-12">
+				  <!-- amenitites -->
+				  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		          <div class="new_property_form col-lg-12 justfy-content-center">
+					<h4 class="mb30">Select a payment method</h4>
+					 <script src="https://www.paypal.com/sdk/js?client-id=AfDx3yQgVBzG5LfDvijqX53CGeGf2cdxY8tCsf9xS-vgkcT3yJUPJ_e3uKbnfMHUr6yH-SgnXZ2N4rEi&currency=USD&locale=en_MW"></script>
+					<div class="Place-order">
+						<div id="paypal-button-container"></div> 
+					</div>
+		          </div>			  
+				</div>
+				
+				</div>
+					<div class="row mt50">
+						<div class="col-lg-12 text-center">
+							<p class="mb0">Copyright © 2021 Afrihuts.com All Right Reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script>
+		function getCookie(name) {
+			let cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				const cookies = document.cookie.split(';');
+				for (let i = 0; i < cookies.length; i++) {
+					const cookie = cookies[i].trim();
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+		const csrftoken = getCookie('csrftoken');
+		
+		function initPayPalButton() {
+			paypal.Buttons({
+			style: {
+				shape: 'rect',
+				color: 'gold',
+				layout: 'vertical',
+				label: 'paypal',
+		
+			},
+			createOrder: function (data, actions) {
+				return actions.order.create({
+				purchase_units: [{
+					"amount": {
+					"currency_code": "USD",
+					"value": '{{0.5}}'
+					}
+				}]
+				});
+			},
+			onCancel(data) {
+				// Show a cancel page, or return to cart
+				console.log('cancelled')
+			},
+			onApprove: function (data, actions) {
+				//get payment data on payment approval
+				var url = "/process-payment"
+				return actions.order.capture().then(function(orderData) {
+					return fetch(url, {
+						method: 'POST',
+						headers: {
+							'content-type': 'application/json',
+							'X-CSRFToken': csrftoken,
+						},
+						body: JSON.stringify({
+							orderID: data.orderID,
+							name: orderData.payer.name.given_name,
+							email: orderData.payer.email_address,
+							fullname: orderData.purchase_units[0].shipping.name.full_name,
+							totalPaid: orderData.purchase_units[0].amount.value,
+							orderId: orderData.id,
+							countryCode: orderData.purchase_units[0].shipping.address.country_code,
+							postalCode: orderData.purchase_units[0].shipping.address.postal_code,
+							address_1: orderData.purchase_units[0].shipping.address.address_line_1,
+							address_2: orderData.purchase_units[0].shipping.address.admin_area_2,
+						})
+						}).then(function () {
+							location.href = "/success-page";
+						})
+					})
+			},
+			onError(err) {
+				// For example, redirect to a specific error page
+				window.location.href = "/error";
+			}
+			}).render('#paypal-button-container');
+		}
+		initPayPalButton();
+		
+	</script>
+	
+{% endblock %}

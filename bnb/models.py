@@ -103,6 +103,11 @@ class Booking(models.Model):
     check_in = models.DateField(null=True)
     check_out = models.DateField(null=True)
     num_guests = models.PositiveIntegerField(_("Number of Guests"), null=True)
+    number_of_nights = models.PositiveSmallIntegerField(default=1, null=True)
+    note = models.TextField(null=True, help_text='leave a special note, eg we might arrive late')
+    is_active = models.BooleanField(null=True, default=False)
+    checked_in = models.BooleanField(null=True, default=False)
+    cancelled = models.BooleanField(null=True, default=False)
     qr_code = models.ImageField(upload_to='bnb_qr_codes/', null=True, blank=True)
     ref_code = models.CharField(max_length=10, null=True, blank=True)
     is_paid = models.BooleanField(default=False, null=True)
@@ -160,6 +165,10 @@ class Booking(models.Model):
         return file_stream
     
     def validate_booking(self):
+        pass
+
+
+    def calc_number_of_nights(self):
         pass
         
 

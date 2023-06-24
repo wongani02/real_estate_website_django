@@ -32,4 +32,7 @@ urlpatterns = [
     path('edit/<uuid:pk>/amenities/', views.editLodgeAmenities, name='edit-amenities'),
     path('edit/<uuid:pk>/images/', views.editLodgeImages, name='edit-images'),
     path('edit/<uuid:pk>/policies/', views.editLodgePolicies, name='edit-policies'),
+
+    #bookings
+    path('lodge-detail/<uuid:lodge>/booking/<int:room>/', views.bookingDetailsView, name='booking-step-1'),
 ]
