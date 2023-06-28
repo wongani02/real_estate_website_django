@@ -57,41 +57,7 @@
   {% include 'properties/footer.html' %}
 <a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
 </div>
-
 <script>
-  var geocoder;
-    var map;
-    var lat = parseFloat({{property.lat}})
-    var lon = parseFloat({{property.lon}})
-    var address = "{{property.location_area}}"
-
-    function initializeGeocoder() {
-        geocoder = new google.maps.Geocoder();
-
-        var latlng = new google.maps.LatLng(lat, lon);
-        var mapOptions = {
-            zoom: 15,
-            center: latlng
-        }
-        map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-    
-
-        geocoder.geocode({ 'address': address }, function (results, status) {
-            if (status == 'OK') {
-                map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location,
-                    draggable: false,
-                    title: "Afrihuts",
-                    // icon: iconurl
-                });
-
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-      }
-
+  window.onload = function () {console.log("Second: ", countDown); console.log("TIME: ", me)}
 </script>
 {% endblock %}

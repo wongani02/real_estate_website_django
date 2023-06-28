@@ -52,6 +52,7 @@ class PropertyInfoCreationForm(forms.ModelForm):
         fields = ['name', 'desc', 'property_area', 'compound_area', 'year_built', 'price',
                   'property_type', 'property_status', 'property_cat', 'no_garages','no_rooms', 'no_baths',
         ]
+        required = "__all__"
         widgets = {
             'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
                 'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
