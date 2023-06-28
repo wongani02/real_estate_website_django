@@ -506,7 +506,6 @@ def getAvailableRoomTypes(request, lodge):
 def bookingDetailsView(request, **kwargs):
     session = request.session
     rooms = kwargs.get('room_list')
-    print(type(rooms))
     session['room_list'] = rooms
     
     if request.method == 'POST':
@@ -570,7 +569,6 @@ def bookingPaymentView(request, **kwargs):
         'room_list': kwargs.get('room_list'),
     }
     return render(request, 'lodges/bookings/booking-step-2.html', context)
-
 
 
 @login_required

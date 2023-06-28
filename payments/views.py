@@ -6,7 +6,7 @@ from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
 
 from users.models import User
-from payments.models import PropertyPayment, BnbPayment, LodgeBookingPayment, PaymentOption, QRCode
+from payments.models import PropertyPayment, BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode
 from properties.models import Property
 from bnb.models import Property as BnB
 from lodges.models import Lodge, About
@@ -74,10 +74,10 @@ def generate_lodges_code(request):
     }
 
     # Get returned QRCode object
-    qr = BnbPayment.generate_qr_code(content)
+    qr = BnbBookingPayment.generate_qr_code(content)
 
     # Create payments object
-    payment = BnbPayment.objects.create(
+    payment = BnbBookingPayment.objects.create(
         user=user, email=user.email, full_name=user.name,
         payment_option=PaymentOption.objects.first(),
         property=_property_, qr_code=qr

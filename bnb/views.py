@@ -1,19 +1,23 @@
+import json
+
 from operator import itemgetter
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q 
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory, modelformset_factory
 from django.contrib import messages
 
 from lodges.forms import RequiredFormSet
+from payments.models import BnbBookingPayment, PaymentOption
 
 from bnb.models import *
 from bnb.create_bnb import BNB
 from bnb.forms import *
+from bnb.utils import *
 
 
 class BnbList(generic.ListView):
@@ -46,10 +50,10 @@ class BnbDetail(generic.DetailView):
     template_name = 'bnb/bnb-detail.html'
 
     def get(self, request, **kwargs):
-        qs = Property.objects.get(id=kwargs.get('pk'))
-        imgs = PropertyImage.objects.filter(property=kwargs.get('pk'))
+        qs = Property.active_bnb.get(id=kwargs.get('pk'))
+        
         context = {
-            'property': qs, 'images': imgs
+            'bnb': qs,
         }
 
         return render(request, self.template_name, context)
@@ -477,3 +481,122 @@ def editPoliciesView(request, pk):
 
 
 #services
+def searchBNBAvailability(request, pk):
+
+    date_range = request.POST.get('daterange')
+    quantity = request.POST.get('quantity')
+    request.session['bnb_dates'] = date_range
+
+    bnb=Property.active_bnb.get(id=pk)
+
+    check_in, check_out = format_dates(date_range)
+
+    availability = check_room_availability(bnb=bnb.id, check_in=check_in, check_out=check_out)
+
+    print(availability)
+    context = {
+        'available':availability,
+        'dates': date_range,
+        'qty': quantity,
+        'bnb':bnb,
+        'num_nights': calc_number_of_nights(check_in, check_out),
+    }
+    return render(request, 'bnb/partials/availability-results.html', context)
+
+
+def bnbBookingDetailsView(request, **kwargs):
+    session = request.session
+
+    if request.method == 'POST':
+        form = BNBBookingForm(request.POST)
+        if form.is_valid():
+            request.session['bnb_booking_data'] = {
+                'name': form.cleaned_data['guest_name'],
+                'email': form.cleaned_data['guest_email'],
+                'note': form.cleaned_data['note'],
+            }
+            return redirect(
+                'bnb:payment', 
+                kwargs.get('pk'), 
+                kwargs.get('qty'), 
+                kwargs.get('nights')
+                )
+    
+    else:
+        if 'bnb_booking_data' in request.session:
+            form = BNBBookingForm(initial={
+                'guest_name': session['bnb_booking_data']['name'],
+                'guest_email': session['bnb_booking_data']['email'],
+                'note': session['bnb_booking_data']['note']
+            })
+        else:
+            form = BNBBookingForm()
+    context = {
+        'form': form,
+        'dates':session['bnb_dates'],
+        'qty':kwargs.get('qty'),
+    }
+    return render(request, 'bnb/booking/booking-details.html', context)
+
+
+def bnbPaymentView(request, **kwargs):
+    session = request.session
+    bnb = Property.objects.get(id=kwargs.get('pk'))
+    print(kwargs.get('nights'), type(int(kwargs.get('nights'))), type(kwargs.get('nights')))
+
+    cancellation_policy = bnb.bnb_policies.first()
+
+    total_price = bnb.price_per_night*kwargs.get('nights')
+
+    check_in, check_out = format_dates(session['bnb_dates'])
+
+    context = {
+        'bnb_cancellation': cancellation_policy,
+        'num_nights': kwargs.get('nights'),
+        'qty': kwargs.get('qty'),
+        'total': total_price,
+        'bnb': bnb, 'check_in': check_in, 'check_out':check_out,
+        'guest': request.session['bnb_booking_data'],
+    }
+    return render(request, 'bnb/booking/payment-page.html', context)
+
+
+@login_required
+def processPayment(request, **kwargs):
+    session = request.session
+    check_in, check_out = format_dates(session['bnb_dates'])
+    print(check_in, check_out)
+
+    booking_instance = Booking.objects.create(
+        user_id=request.user.id,
+        property_id=kwargs.get('pk'),
+        email=session['bnb_booking_data']['email'],
+        full_name=session['bnb_booking_data']['name'],
+        phone_number='',
+        check_in=check_in,
+        check_out=check_out,
+        num_guests=kwargs.get('qty'),
+        note=session['bnb_booking_data']['note'],
+        number_of_nights= kwargs.get('nights'),
+    )
+    print(booking_instance)
+
+    body = json.loads(request.body)
+
+    payment = BnbBookingPayment.objects.create(
+        user_id=request.user.id,
+        bnb_id=kwargs.get('pk'),
+        booking_id=booking_instance.id,
+        full_name=body['fullname'],
+        email=body['email'],
+        total_paid=body['totalPaid'],
+        order_key=body['orderId'],
+        payment_option=PaymentOption.objects.first(),
+        billing_status=True,
+    )
+    print(payment)
+
+    update_booking = Booking.objects.filter(id=booking_instance.id)
+    update_booking.update(is_paid=True)
+
+    return JsonResponse('done', safe=False)

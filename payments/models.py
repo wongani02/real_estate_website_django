@@ -8,7 +8,7 @@ from django.core.files.storage import default_storage
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 from properties.models import Property
-from bnb.models import Property as BNB
+from bnb.models import Property as BNB, Booking as BNBBooking
 from lodges.models import Lodge, Booking as LodgeBooking
 from .utils import generate_ref_code
 from io import BytesIO
@@ -92,8 +92,9 @@ class PropertyPayment(Payment):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True, related_name="property_payment")
 
 
-class BnbPayment(Payment):
+class BnbBookingPayment(Payment):
     bnb = models.ForeignKey(BNB, on_delete=models.CASCADE, null=True)
+    booking = models.ForeignKey(BNBBooking, on_delete=models.CASCADE, null=True)
 
 
 class LodgeBookingPayment(Payment):

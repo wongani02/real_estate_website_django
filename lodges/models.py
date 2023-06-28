@@ -181,6 +181,24 @@ class LodgeImage(models.Model):
         return f"{self.lodge.name} - Room {self.lodge.city} Picture"
 
 
+class ActiveBookingsManager(models.Manager):
+
+    def get_queryset(self):
+        super(ActiveBookingsManager, self).get_queryset().filter(is_active=True)
+
+
+class CancelledBookingsManager(models.Manager):
+
+    def get_queryset(self):
+        return super(CancelledBookingsManager, self).get_queryset().filter(cancelled=True)
+
+
+class CheckedInBookingsManager(models.Manager):
+
+    def get_queryset(self):
+        return super(CheckedInBookingsManager, self).get_queryset().filter(checked_in=True)
+
+
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookings')
@@ -203,6 +221,11 @@ class Booking(models.Model):
     is_paid = models.BooleanField(default=False, null=True)
     updated = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)
+
+    objects = models.Manager()
+    active_bookings = ActiveBookingsManager()
+    cancelled_bookings = CancelledBookingsManager()
+    check_in_bookings = CheckedInBookingsManager()
    
     class Meta:
         verbose_name = 'Booking'
