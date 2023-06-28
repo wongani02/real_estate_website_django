@@ -132,10 +132,22 @@ def bnbDetailsView(request):
             )
         else:
             form = BNBDetailsForm()
+
+    
     context = {
         'form': form,
     }
     return render(request, 'bnb/create/bnb-details-creation.html', context)
+
+def update_views(_property):
+    from datetime import datetime
+
+    date = datetime.now().strftime('%Y-%m-%d')
+    property_view, created = BnbViews().objects.get_or_create(property=_property, date=date)
+
+    # Update entry
+    property_view.views += 1
+    property_view.save()
 
 
 @login_required

@@ -1,5 +1,7 @@
 {% extends 'properties/index.html' %}
 {% load static %}
+{% load counter_tag %}
+{% load custom_tag %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -90,8 +92,9 @@
 								    <tr>
 								      <th scope="col">Listing Title</th>
 								      <th scope="col">Date Published</th>
-								      <th scope="col">Status</th>
-								      <th scope="col">View</th>
+								      <th scope="col">Type</th>
+									  <th scope="col">Verification</th>
+								      <th scope="col">Views</th>
 								      <th scope="col">Action</th>
 								    </tr>
 								  </thead>
@@ -120,8 +123,6 @@
 					                    <p>{{item.street_name}}, {{item.city}}, {{item.country}}</p>
 					                    <div class="fp_meta">
 					                    	<a href="#">
-					                    		<!-- <small><del class="body-color">$2,800/mo</del></small>  -->
-												<!-- <br> -->
 					                    		<span class="heading-color fw600">{{item.price_per_night}}</span>
 					                    	</a>
 					                    </div>
@@ -131,9 +132,10 @@
 								      </th>
 								      <td>{{item.created_at}}</td>
 									  {% if is_active %}
-								      <td class="text-thm">Published</td>
+								      <td class=".">{% verbose_name item %}s</td>
 									  {% endif %}
-								      <td>5.933</td>
+									  <td class="">{{item.verification}}ss</td>
+								      <td>{% number_of_bnbs item.id %}</td>
 								    	<td class="editing_list">
 								    		<ul>
 								    			<li class="list-inline-item">
@@ -152,7 +154,7 @@
 								      <th scope="row">
 					              <div class="feat_property list property">
 					                <div class="thumb"> 
-										{% for image in item.images.all %}
+										{% for image in item.bnb_image.all %}
 										{% if image.is_feature %}
 										<img class="img-whp" src="{{image.image.image.url}}" alt="s1.png">
 										{% endif %}
@@ -184,7 +186,9 @@
 									  {% if is_active %}
 								      <td class="text-thm">Published</td>
 									  {% endif %}
-								      <td>5.933</td>
+									  <td class="">{% verbose_name item %}</td>
+									  <td class="">{{item.verification}}</td>
+								      <td>{% number_of_lodges item.id %}</td>
 								    	<td class="editing_list">
 								    		<ul>
 								    			<li class="list-inline-item">
@@ -205,7 +209,7 @@
 					                <div class="thumb"> 
 										{% for image in item.property_images.all %}
 										{% if image.is_feature %}
-										<img class="img-whp" src="{{image.image.url}}" alt="s1.png">
+										<img class="img-whp" src="{{image.file.url}}" alt="s1.png">
 										{% endif %}
 										{% endfor %}
 					                  <div class="thmb_cntnt">
@@ -234,12 +238,13 @@
 					              </div>
 								      </th>
 								      <td>{{item.created_at}}</td>
-								      <td class="pending_color">{{item.property_status}}</td>
-								      <td>5.933</td>
+								      <td class="">{% verbose_name item %}</td>
+									  <td class="">{{item.verification}}</td>
+								      <td>{% number_of_properties item.id %}</td>
 								    	<td class="editing_list">
 								    		<ul>
 								    			<li class="list-inline-item">
-										    		<a href="{% url 'properties:edit-listing' item.id %}" data-toggle="tooltip" data-placement="top" title="Edit"><span class="flaticon-edit"></span></a>
+										    		<a href="{% url 'properties:edit-listing-options' item.id %}" data-toggle="tooltip" data-placement="top" title="Edit"><span class="flaticon-edit"></span></a>
 								    			</li>
 								    			<li class="list-inline-item">
 										    		<form name="delete-form" id="delete-form">	

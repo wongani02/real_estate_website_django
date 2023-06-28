@@ -20,7 +20,7 @@ class AdvancedSearchFilter(django_filters.FilterSet):
     class Meta:
         model = Property
         fields = [
-            'no_rooms', 'no_baths', 'no_garages', 'status',
+            'no_rooms', 'no_baths', 'no_garages',
             'property_type', 'district', 'price', 'compound_area',
             'amenities',
         ] 

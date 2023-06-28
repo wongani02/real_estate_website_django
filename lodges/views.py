@@ -10,7 +10,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 from .create_lodge import LodgeCreation as LodgeCreationClass
-from .models import Amenity, LodgeImage, Lodge, Image
+from .models import Amenity, LodgeImage, Lodge, Image, LodgesViews
 from .forms import *
 
 # Create your views here.
@@ -26,10 +26,24 @@ def lodgeListingView(request):
 
 def lodgeDetailView(request, pk):
     lodge = get_object_or_404(Lodge, pk=pk)
+
+    # Update the number of views
+    update_views(lodge)
+
     context = {
         'lodge': lodge,
     }
     return render(request, 'lodges/lodge-detail.html', context)
+
+def update_views(_property):
+    from datetime import datetime
+
+    date = datetime.now().strftime('%Y-%m-%d')
+    property_view, created = LodgesViews.objects.get_or_create(property=_property, date=date)
+
+    # Update entry
+    property_view.views += 1
+    property_view.save()
 
 
 @login_required

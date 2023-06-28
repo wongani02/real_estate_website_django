@@ -5,11 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Sum
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
+from django.template.loader import render_to_string, get_template
+from django.contrib.sites.shortcuts import get_current_site
 
 from bnb.models import Property as BNBProperty
-from lodges.models import Lodge
+from lodges.models import Lodge, About
 from properties.models import Property, PropetyViews
 from properties.charts import all_property_views_chart
+from payments.utils import EmailThread
+from core import settings
 
 from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm
 from .helpers import auth_user_should_not_access
@@ -68,9 +73,10 @@ def RegisterView(request):
             user.save()
             auth = authenticate(email=email, password=register_form.cleaned_data['password'])
             if auth is not None:
-                login(request, auth)
-                return redirect('accounts:dashboard')
-            messages.success(request, 'Account created successfully')
+                if regMail(request, email):
+                    login(request, auth)
+                    return redirect('accounts:dashboard')
+                messages.success(request, 'Account created successfully')
             return redirect('accounts:login')
         
     else :
@@ -80,6 +86,45 @@ def RegisterView(request):
         'register_form':register_form,
     }
     return render(request, 'users/auth-page.html', context)
+
+def regMail(request, email):
+    # Get company object
+    company = About.objects.first()
+
+    # Get current site
+    current_site = get_current_site(request)
+
+    # Create emails subject
+    subject = "Welcome to " + company.company_name
+
+    # Create context variables
+    context = {
+         'company': company.company_name, 'company_addr': company.address,
+         'company_tel': company.phone_number, 'user': client, 'current_site': current_site,
+         'support': ''
+    }
+
+    # Create email body
+    email_body = render_to_string('users/users-email.html', context)
+    plain_text = strip_tags(email_body)
+
+    # Create email sender
+    from_email = settings.EMAIL_HOST_USER
+
+    # Create email recepient
+    to_email = email
+
+    # Create email object
+    email = EmailMultiAlternatives(subject, plain_text, from_email, [to_email])
+
+    # Attach email html image to email
+    email.attach_alternative(email_body, 'text/html')
+
+    # Send email via thread
+    EmailThread(email).start()
+
+    return True
+
 
 
 def logoutView(request):

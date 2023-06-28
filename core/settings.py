@@ -95,7 +95,8 @@ TEMPLATES = [
             ],
             # For custom tag library
             'libraries': {
-                'custom_tag': 'bnb.template tags.custom_tags'
+                'custom_tag': 'bnb.template tags.custom_tags',
+                'counter_tag': 'properties.tags.counter'
             }
         },
     },
