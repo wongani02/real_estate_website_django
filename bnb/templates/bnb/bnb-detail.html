@@ -1,38 +1,52 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}BnB Detail{% endblock title %}
+{% block title %}BNB Detail{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
 {% block content %}
+
   <!-- Listing Single Property -->
-  <section class="listing-title-area pb50">
+  <section class="listing-title-area pb0">
+    
     <div class="container">
-      <div class="row mb30">
+      <div class="row mb10">
         <div class="col-lg-7 col-xl-7">
           <div class="single_property_title mt30-767">
             <div class="breadcrumb_content style3">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'bnb:bnb-list' %}">BnB's</a></li>
-                <li class="breadcrumb-item active style2" aria-current="page">{{property.title}}</li>
+              <ol class="breadcrumb mb0">
+                <li class="breadcrumb-item"><a href="#">BNB's</a></li>
+                <!-- <li class="breadcrumb-item"><a href="#">Apartment</a></li> -->
+                <li class="breadcrumb-item active style2" aria-current="page">{{bnb.title}}</li>
               </ol>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb30">
+        <div class="col-lg-8 col-xl-8">
+          <div class="single_property_title mt30-767">
             <div class="media">
               <div class="media-body">
-                <h2 class="mt-0">{{property.title}}</h2>
-                <p>{{property.state}}, {{property.city}}</p>
+                <h2 class="mt-0 text-uppercase">{{bnb.title}}</h2>
+                <div class="df db-400 mb20-400">
+                  <p class="mr10 text-monospace">{{bnb.country}}</p>
+                  <a href="#" class="theme_badge mr10">FEATURED</a>
+                  <a href="#" class="theme_badge2 mr10">Hot Offer</a>
+                  <!-- <a href="#" class="theme_badge3">FOR SALE</a> -->
+                </div>
                 <ul class="prop_details mb0">
-                  <li class="list-inline-item mr20"><a class="mr20" href="#"><span class="flaticon-bed pr5 vam"></span> {{property.num_bedrooms}}  Bedrooms</a></li>
-                  <li class="list-inline-item mr20"><a class="mr20" href="#"><span class="flaticon-picture pr5 vam"></span> {{images.count}} Images</a></li>
+                  <li class="list-inline-item mr20"><a class="mr20" href="#"><span class="flaticon-bed pr5 vam"></span> {{bnb.bnb_rooms.count}} Rooms </a></li>
+                  
+                  <li class="list-inline-item mr20"><a href="#"><span class="flaticon-calendar pr5 vam"></span> {{bnb.bnb_images.count}} Images</a></li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-5 col-xl-5">
+        <div class="col-lg-4 col-xl-4">
           <div class="single_property_social_share_content text-right tal-md">
-            <div class="spss style2 mt30">
+            <div class="spss style2">
               <ul class="mb0">
                 <li class="list-inline-item icon"><a href="#"><span class="flaticon-share"></span></a></li>
                 <li class="list-inline-item"><a href="#">Share</a></li>
@@ -40,136 +54,196 @@
                 <li class="list-inline-item"><a href="#">Save</a></li>
               </ul>
             </div>
-            <div class="price mt20 mb10"><h3><small class="mr10">
-            {% if property.prev_price %}
-              <del>MWK {{property.prev_price}}/night</del>
-            {% endif %}
-              </small> MWK {{property.price_per_night}}/night</h3></div>
-            <p class="mb0">Est. Mortgage</p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-7">
-          <div class="row">
-            <div class="col-lg-12 pr0 pl15-767 pr15-767">
-              <div class="spls_style_two mb30-md">
-                
-                {% for image in images|slice:":1" %}
-                <a class="popup-img" href="{{image.image.image.url}}">
-                  <img class="img-fluid first-img" src="{{image.image.image.url}}" alt="1.jpg">
-                </a>  
-                {% endfor %}
-                  
-                
-                <a href="#"><span class="baddge_left">FEATURED</span></a>
-                <!-- <a href="#"><span class="baddge_right">FOR SALE</span></a> -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-5">
-            
-          <div class="row">
-            {% for item in images %}
-            <div class="col-sm-4 col-lg-4 pr5 pr15-767">
-              <div class="spls_style_two mb10">
-                <a class="popup-img" href="{{item.image.image.url}}"><img class="img-fluid w100" src="{{item.image.image.url}}" alt="2.jpg"></a>
-              </div>
-            </div>
-            {% endfor %}
-            
-            <!-- <div class="col-sm-4 col-lg-4 pr5 pr15-767">
-              <div class="spls_style_two mb10">
-                <a class="popup-img" href="images/property/10.jpg"><img class="img-fluid w100" src="images/property/10.jpg" alt="10.jpg"></a>
-                <div class="overlay popup-img">
-                  <h3 class="title">+4</h3>
-                </div>
-              </div>
-            </div> -->
+            <div class="price mt20 mb10"><h3>${{bnb.price_per_night}}/night</h3></div>
+            <!-- <p class="mb0">Est. Mortgage</p> -->
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Agent Single Grid View -->
-  <section class="our-agent-single pt0 pb70">
+
+   <div class="single_page_listing_tab">
     <div class="container">
       <div class="row">
-        <div class="col-md-12 col-lg-9">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="listing_single_description mb60">
-                <h4 class="mb30">Description</h4>
-                <p class="first-para mb25">{{property.description|safe}}</p>
-                
-              </div>
-            </div>
-            <!-- <div class="col-lg-12">
-              <div class="property_attachment_area pb40 bb1">
-                <h4 class="mb15">Documents</h4>
-                <ul class="document_list mb0">
-                  <li class="list-inline-item"><span class="icon flaticon-file"></span>&nbsp;&nbsp;test_property.pdf <a class="tdu text-thm" href="#">Download</a></li>
-                  <li class="list-inline-item"><span class="icon flaticon-file"></span>&nbsp;&nbsp;test_property.pdf <a class="tdu text-thm" href="#">Download</a></li>
-                  <li class="list-inline-item"><span class="icon flaticon-file"></span>&nbsp;&nbsp;test_property.pdf <a class="tdu text-thm" href="#">Download</a></li>
-                </ul>
-              </div>
-            </div> -->
-            <div class="col-lg-12">
-              <div class="location_details pb40 mt50 bb1">
-                <div class="row">
-                  <div class="col-lg-12">
-                    <h4 class="mb15">Location</h4>
-                  </div>
-                  <div class="col-md-6 col-lg-6 col-xl-4">
-                    <ul class="list-inline-item mb0">
-                      <li><p>Bnb Location:</p></li>
-                      <li><p>{{property.country}}</p></li>
-                    </ul>
-                  </div>
-                  <div class="col-lg-12">
-                    <div class="property_sp_map mt30">
-                      <div class="h400 bdrs3" id="map-canvas"></div>
+        <div class="col-lg-12">
+          <ul class="nav nav-tabs" id="myTab2" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="slider-tab" data-toggle="tab" href="#slider_tabs" role="tab" aria-controls="slider_tabs" aria-selected="true"><span class="flaticon-picture color-white"></span></a>
+            </li>
+           
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="tab-content" id="myTabContent2">
+            <div class="tab-pane fade show active" id="slider_tabs" role="tabpanel" aria-labelledby="slider-tab">
+                <!-- 10th Home Slider -->
+              <div class="home10-mainslider">
+                <div class="container p0">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      
+                      <div class="property_sp3_slider psp_v5">
+                        {% for image in bnb.bnb_image.all %}
+                        <div class="item">
+                          <div class="sps_content">
+                            <div class="thumb">
+                              <div class="single_product">
+                                <div class="single_item">
+                                  <div class="thumb"><img class="img-fluid bdrs3" src="{{image.image.image.url}}" alt="18.jpg"></div>
+                                </div>
+                                <a class="product_popup popup-img" href="{{image.image.image.url}}"><span class="flaticon-zoom-in"></span></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Agent Single Grid View -->
+  <section class="our-agent-single pt0 pb70">
+    <div class="container">
+      <div class="row justify-content-center ">
+        <div class="col-xl-9">
+          <div class="row">
+
+            <!-- bnb description -->
             <div class="col-lg-12">
-              <div class="additional_details pb40 mt50 bb1">
-                <div class="row">
-                  <div class="col-lg-12">
-                    <h4 class="mb15">Available Rooms</h4>
+              <div class="listing_single_description mt50  bb1">
+                <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline">Description</h4>
+                <p class="first-Description mb25 text-monospace">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>  
+              </div>
+            </div>
+
+            <!--  check bnb availability -->
+            <div class="col-lg-12 mt30">
+              <div class="form_grid ">
+                <h4 style="text-decoration: underline;" class=" mb10">Check Availability</h4>
+                <form 
+                class="contact_form" 
+                name="contact_form" 
+                hx-target="#availability" 
+                hx-swap="outerHTML" 
+                hx-post="{% url 'bnb:search-availability' bnb.id %}" 
+                >
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="daterange">Select Your Dates</label>
+                        <input 
+                        name="daterange" 
+                        id="date-range"
+                        class="form-control required email" 
+                        required="required" 
+                        type="text" 
+                        placeholder="Enter your dates">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="quantity">Enter Number of Rooms</label>
+                        <input name="quantity" class="form-control required" max="{{bnb.max_num_of_guests}}" required type='number' placeholder="Number of guests (max {{bnb.max_num_of_guests}})">
+                      </div>
+                    </div>
+                    <button
+                    type="submit" class="col-md-2 btn btn-thm">Check Availability</button>
                   </div>
-                  {% for item in property.bnb_rooms.all %}
-                  <div class="col-md-6 col-lg-6 col-xl-4">
-                    <h4 class="mb15">Room {{forloop.counter}}</h4>
-                    <ul class="list-inline-item">
-                      <!-- <li><p>Room Type:</p></li> -->
-                      <!-- <li><p>Price:</p></li> -->
-                      <li><p>Max number Of adults:</p></li>
-                      <li><p>Number of baths:</p></li>
-                      <li><p>Number of beds:</p></li>
-                    </ul>
-                    <ul class="list-inline-item">
-                      <!-- <li><p><span>{{item.type}}</span></p></li> -->
-                      <!-- <li><p><span>${{item.price_per_night}}</span></p></li> -->
-                      <li><p><span>{{item.num_adults}}</span></p></li>
-                      <li><p><span>{{item.num_baths}}</span></p></li>
-                      <li><p><span>{{item.num_beds}}</span></p></li>
-                    </ul>
-                  </div>
-                  {% endfor %}
-                  
+                </form>
+              </div>
+            </div>
+
+            <div id="availability">
+
+            </div>
+
+            <!-- bnb cancellation policy -->
+            <div class="col-lg-12">
+              <div class="listing_single_description mt50  bb1">
+                  <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline">BNB Cancellation Policy</h4>
+                  <p class="first-Description mb25 text-monospace">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>  
                 </div>
               </div>
             </div>
+
+
+            <!-- bnb rooms -->
             <div class="col-lg-12">
               <div class="additional_details pb40 mt50 bb1">
                 <div class="row">
                   <div class="col-lg-12">
-                    <h4 class="mb30">Features</h4>
+                    <h4 style="text-decoration: underline;" class="mb15 text-decoration-underline">Where you'll sleep </h4>
+                  </div>
+                  {% for room_cat in bnb.bnb_rooms.all %}
+                  <div class="col-md-6 col-lg-6 col-xl-6">
+                    <h5>Room {{forloop.counter}}</h5>
+                    <div class="col-auto">
+                      <ul class="list-inline-item">
+                        <li><p>Number of Beds:</p></li>                        
+                        <li><p>num of Adults:</p></li>
+                        <li><p>num of bathrooms:</p></li>
+                      </ul>
+                      <ul class="list-inline-item">
+                        <li><p><span>{{room_cat.num_beds}}</span></p></li>
+                        <li><p><span>{{room_cat.num_adults}}</span></p></li>                      
+                        <li><p><span>{{room_cat.num_baths}}</span></p></li>
+                      </ul>                     
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+            <!-- bnb location -->
+            <div class="col-lg-12">
+              <div class="location_details pb40 mt50 bb1">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h4 style="text-decoration: underline;" class="mb15">Location</h4>
+                  </div>
+                  <div class="col-md-6 col-lg-6 col-xl-4">
+                    <ul class="list-inline-item mb0">
+                      <li><p>Street location: </p> {{bnb.street_name}}</li>
+                    </ul>
+                    
+                  </div>
+                  <div class="col-md-6 col-lg-6 col-xl-4">
+                    <ul class="list-inline-item mb0">
+                      <li><p>Map location:</p>{{bnb.country}}</li>
+                      
+                    </ul>
+                    
+                  </div>
+                  
+                  <div class="col-lg-12">
+                    <div class="property_sp_map mt30">
+                      <div class="h300 bdrs3" id="map-canvas"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- bnb amenities -->
+            <div class="col-lg-12">
+              <div class="additional_details pb40 mt50 bb1">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h4 style="text-decoration: underline;" class="mb30">Amenities</h4>
                   </div>
                   <div class="col-sm-6 col-xl-3">
                     <div class="listing_feature_iconbox mb30">
@@ -302,179 +376,119 @@
                 </div>
               </div>
             </div>
-            
-            <!-- <div class="col-lg-12">
-              <div class="property_sp_videos pb40 mt50 bb1">
-                <ul class="nav nav-tabs" id="myTab2" role="tablist">
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="property-tab" data-toggle="tab" href="#property" role="tab" aria-controls="property" aria-selected="true">Property Video</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="virtual-tab" data-toggle="tab" href="#virtual" role="tab" aria-controls="virtual" aria-selected="false">360° Virtual Tour</a>
-                  </li>
-                </ul>
-                <div class="tab-content" id="myTabContent2">
-                  <div class="tab-pane fade show active" id="property" role="tabpanel" aria-labelledby="property-tab">
-                    <div class="listing_single_video">
-                      <div class="property_video">
-                        <div class="thumb"><img class="pro_img img-fluid w100" src="images/listing/lspv.jpg" alt="lspv.jpg">
-                          <div class="overlay_icon"><a class="video_popup_btn popup-youtube" href="https://www.youtube.com/watch?v=oqNZOOWF8qM"><span class="flaticon-play-button"></span></a></div>
-                        </div>
+
+            <!-- bnb restrictions section -->
+            <div class="col-lg-12">
+              <div class="additional_details pb40 mt50 bb1">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h4 style="text-decoration: underline;" class="mb30">BNB Restrictions</h4>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-air-conditioner"></span></div>
+                      <div class="details">
+                        <div class="title">Air Conditioning</div>
                       </div>
                     </div>
                   </div>
-                  <div class="tab-pane fade" id="virtual" role="tabpanel" aria-labelledby="virtual-tab">
-                    <div class="listing_single_video">
-                      <div class="property_video">
-                        <div class="thumb"><img class="pro_img img-fluid w100" src="images/listing/lspv.jpg" alt="lspv.jpg">
-                          <div class="overlay_icon"><a class="video_popup_btn popup-youtube" href="https://www.youtube.com/watch?v=oqNZOOWF8qM"><span class="flaticon-play-button"></span></a></div>
-                        </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-grass"></span></div>
+                      <div class="details">
+                        <div class="title">Lawn</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-refrigerator"></span></div>
+                      <div class="details">
+                        <div class="title">Refrigerator</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-liquid-soap"></span></div>
+                      <div class="details">
+                        <div class="title">Washer</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-barbecue"></span></div>
+                      <div class="details">
+                        <div class="title">Barbeque</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-laundry"></span></div>
+                      <div class="details">
+                        <div class="title">Laundry</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-sauna"></span></div>
+                      <div class="details">
+                        <div class="title">Sauna</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-dumbbell"></span></div>
+                      <div class="details">
+                        <div class="title">Gym</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-outdoor-shower"></span></div>
+                      <div class="details">
+                        <div class="title">Outdoor Shower</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-coaxial"></span></div>
+                      <div class="details">
+                        <div class="title">TV Cable</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xl-3">
+                    <div class="listing_feature_iconbox mb30">
+                      <div class="icon float-left mr10"><span class="flaticon-chair"></span></div>
+                      <div class="details">
+                        <div class="title">Dining room</div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div> -->
-            <div class="col-lg-12">
-              <div class="property_sp_tour_info pb40 mt50 bb1">
-                <h4 class="mb30">Schedule Booking</h4>
-                <form class="mb40" action="#">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <input class="form-control form_control" type="text" placeholder="Date">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="my_profile_setting_input ui_kit_select_search form-group">
-                        <select class="selectpicker" data-live-search="true" data-width="100%">
-                          <option data-tokens="9:00AM">10:00 AM</option>
-                          <option data-tokens="9:00AM">10:30 AM</option>
-                          <option data-tokens="9:00AM">11:00 AM</option>
-                          <option data-tokens="9:00AM">11:30 AM</option>
-                          <option data-tokens="9:00AM">12:00 PM</option>
-                          <option data-tokens="9:00AM">12:30 PM</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <h4 class="mb30">Your Information</h4>
-                <form action="#">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <input class="form-control form_control" type="text" placeholder="Name">
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <input class="form-control form_control" type="text" placeholder="Phone">
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <input class="form-control form_control" type="email" placeholder="Email">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <textarea class="form-control mb30" rows="4" placeholder="Enter Your Message"></textarea>
-                        <button type="submit" class="btn btn-thm submit_btn mt10">SUBMIT A TOUR REQUEST</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
 
+            <!-- bnb reviews -->
             <div class="col-lg-12">
               <div class="custom_reivews pb50 mt50 bb1 row">
                 <div class="col-lg-12">
-                  <h4 class="mb25">4.67 (14 reviews)</h4>
-                </div>
-                <div class="col-lg-2">
-                  <div class="title">Cleanliness</div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="text-right">
-                    <div class="review_content">
-                      <div class="review_line"></div>
-                      <div class="review_point">4.7</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-2">
-                  <div class="title">Accuracy</div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="text-right">
-                    <div class="review_content">
-                      <div class="review_line"></div>
-                      <div class="review_point">4.7</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-2">
-                  <div class="title">Communication</div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="text-right">
-                    <div class="review_content">
-                      <div class="review_line style2"></div>
-                      <div class="review_point">4.9</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-2">
-                  <div class="title">Location</div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="text-right">
-                    <div class="review_content">
-                      <div class="review_line style2"></div>
-                      <div class="review_point">4.9</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-2">
-                  <div class="title">Check-in</div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="text-right">
-                    <div class="review_content">
-                      <div class="review_line"></div>
-                      <div class="review_point">4.9</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-2">
-                  <div class="title">Value</div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="text-right">
-                    <div class="review_content">
-                      <div class="review_line style2"></div>
-                      <div class="review_point">4.9</div>
-                    </div>
-                  </div>
+                  <h4 style="text-decoration: underline;" class="mb25">4.67 (14 reviews)</h4>
                 </div>
                 <div class="col-md-6 col-lg-6">
                   <div class="mbp_first mt15">
-                    <!-- <img src="{% static 'images/blog/reviewer1.png' %}" class="mr-3" alt="reviewer1.png"> -->
+                    <img src="{% static 'images/blog/reviewer1.png' %}" class="mr-3" alt="reviewer1.png">
                     <div class="media-body mt15">
                       <h4 class="sub_title mt-0">Jane Cooper</h4>
                       <div class="sspd_postdate fz14 mb20">April 6, 2021 at 3:21 AM
-                        <div class="sspd_review pull-right">
-                          <ul class="mb0 pl15">
-                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            <li class="list-inline-item">(5 reviews)</li>
-                          </ul>
-                        </div>
+                        
                       </div>
                       <p class="fz14 mt10">Every single thing we tried with John was delicious! Found some awesome places we would definitely go back to on our trip. John was also super friendly and passionate about Beşiktaş and Istanbul.</p>
                     </div>
@@ -482,7 +496,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6">
                   <div class="mbp_first mt15">
-                    <!-- <img src="{% static 'images/blog/reviewer2.png' %}" class="mr-3" alt="reviewer2.png"> -->
+                    <img src="{% static 'images/blog/reviewer2.png' %}" class="mr-3" alt="reviewer2.png">
                     <div class="media-body mt15">
                       <h4 class="sub_title mt-0">Bessie Cooper</h4>
                       <div class="sspd_postdate fz14 mb20">April 6, 2021 at 3:21 AM
@@ -503,107 +517,11 @@
                 </div>
               </div>
             </div>
+
+            <!-- bnb review form -->
             <div class="col-lg-12">
               <div class="bsp_reveiw_wrt mt50">
                 <h4>Write a Review</h4>
-                <div class="df db-520">
-                  <table class="table table-responsive table-borderless wa mr50">
-                    <thead>
-                      <tr>
-                        <th class="pl0 body-color fw400" scope="col">Cleanliness</th>
-                        <td>
-                          <div class="sspd_review">
-                            <ul class="mb0 pl15">
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th class="pl0 body-color fw400" scope="row">Accuracy</th>
-                        <td>
-                          <div class="sspd_review">
-                            <ul class="mb0 pl15">
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th class="pl0 body-color fw400" scope="row">Communication</th>
-                        <td>
-                          <div class="sspd_review">
-                            <ul class="mb0 pl15">
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table class="table table-responsive table-borderless wa">
-                    <thead>
-                      <tr>
-                        <th class="pl0 body-color fw400" scope="col">Accuracy</th>
-                        <td>
-                          <div class="sspd_review">
-                            <ul class="mb0 pl15">
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th class="pl0 body-color fw400" scope="row">Location</th>
-                        <td>
-                          <div class="sspd_review">
-                            <ul class="mb0 pl15">
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th class="pl0 body-color fw400" scope="row">Value</th>
-                        <td>
-                          <div class="sspd_review">
-                            <ul class="mb0 pl15">
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                              <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
-                            </ul>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
                 <form class="comments_form">
                   <div class="row">
                     <div class="col-md-6">
@@ -626,49 +544,104 @@
                 </form>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-xl-3 ">
-          <div class="listing_single_sidebar">
-            <div class="sidebar_agent_search_widget mb30">
-              <div class="media">
-                <img class="mr-3 author_img" src="{% static 'images/team/author.png' %}" alt="author.png">
-                <div class="media-body">
-                  <h5 class="mt10 mb5 fz16 heading-color fw600">Darrell Steward</h5>
-                  <p class="mb0">(123)456-7890</p>
-                  <a class="tdu text-thm" href="#">View Listings</a>
-                </div>
-              </div>
-              <div class="agent_search_form">
-                <form action="#">
-                  <div class="form-group input-group mb30">
-                    <input type="text" class="form-control form_control" placeholder="Name">
-                  </div>
-                  <div class="form-group input-group mb30">
-                    <input type="text" class="form-control form_control" placeholder="Phone">
-                  </div>
-                  <div class="form-group input-group mb30">
-                    <input type="email" class="form-control form_control" placeholder="Email">
-                  </div>
-                  <div class="form-group input-group mb30">
-                    <textarea name="form_message" class="form-control" rows="5">Hello, I am interested in [New Apartment]</textarea>
-                  </div>
-                  <div class="ui_kit_checkbox">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1">By submitting this form I agree to Terms of Use</label>
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-block btn-thm mb10">CONTACT PROPERTY</button>
-                  <button type="submit" class="btn btn-block btn-whatsapp mb0">WHATSAPP</button>
-                </form>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
     </div>
   </section>
+<script>
+  var geocoder;
+    var map;
+    var lat = parseFloat({{bnb.lat}})
+    var lon = parseFloat({{bnb.long}})
+    var address = "{{bnb.counrty}}"
 
+    function initializeGeocoder() {
+        geocoder = new google.maps.Geocoder();
+
+        var latlng = new google.maps.LatLng(lat, lon);
+        var mapOptions = {
+            zoom: 15,
+            center: latlng
+        }
+        map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location,
+                    draggable: false,
+                    title: "{{bnb.title}}",
+                    // icon: iconurl
+                });
+
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+                // console.log('failed to decode location')
+            }
+        });
+      }
+
+</script>
+<script>
+    $(function() {
+
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'center',
+            "alwaysShowCalendars": true,
+            "startDate": `${year}/${month}/${day}`,
+            // "endDate": `${month}/${day}/${year}`,
+            "minDate": `${year}/${month}/${day}`,
+            "locale": {
+              "format": "YYYY-MM-DD",
+              "separator": " to ",
+              "applyLabel": "Apply",
+              "cancelLabel": "Cancel",
+              "fromLabel": "From",
+              "toLabel": "To",
+              "customRangeLabel": "Custom",
+              "weekLabel": "W",
+              "daysOfWeek": [
+                  "Su",
+                  "Mo",
+                  "Tu",
+                  "We",
+                  "Th",
+                  "Fr",
+                  "Sa"
+              ],
+              "monthNames": [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December"
+              ],
+              "firstDay": 1
+          },
+
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            
+        });
+    });
+</script>
   {% include 'properties/footer.html' %}
 {% endblock %}

@@ -158,3 +158,21 @@ class LodgeRoomsEditForm(forms.ModelForm):
             'beds': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Number of beds'}),
             'price_per_night': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Price per night'})
         }
+
+
+#booking form 
+class LodgeBookingForm(forms.Form):
+    guest_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Guest full Name'})
+    )
+    guest_email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class':'form_control form-control', 'placeholder':' (this email will be used for your reservation communication)'})
+    )
+    note = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form_control form-control','placeholder': 'Special requests (optional)', 'rows':3})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['note'].label = 'Special requests cannot be guaranteed – but the property will do its best to meet your needs. You can always make a special request after your booking is complete!'
+        self.fields['note'].required = False

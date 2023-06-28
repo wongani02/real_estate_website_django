@@ -30,4 +30,12 @@ urlpatterns = [
     path('bnb/edit/<uuid:pk>/rooms/', views.editRoomsView, name='edit-rooms'),
     path('edit/<uuid:pk>/amenities/', views.editAmenitiesView, name='edit-amenities'),
     path('edit/<uuid:pk>/policies/', views.editPoliciesView, name='edit-policies'),
+
+    #booking
+    path('bnb-detail/<uuid:pk>/booking/<int:qty>/<int:nights>/booking-details/', views.bnbBookingDetailsView, name='booking-details'),
+    path('bnb-detail/<uuid:pk>/booking/<int:qty>/<int:nights>/booking-details/payment/', views.bnbPaymentView, name='payment'),
+    path('bnb-detail/<uuid:pk>/booking/<int:qty>/<int:nights>/booking-details/process/', views.processPayment, name='process-booking'),
+
+    #htmx
+    path('bnb/search-availability/<uuid:pk>/', views.searchBNBAvailability, name='search-availability')
 ]

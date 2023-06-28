@@ -27,7 +27,7 @@
             <div class="details">
                 <div class="tc_content">
                 <div class="wrapper float-left fn-md">
-                    <h4><a href="page-listing-single-v8.html">{{item.name}}</a></h4>
+                    <h4><a class="text-uppercase" href="{% url 'lodges:lodge-detail' item.id %}">{{item.name}}</a></h4>
                     <p>{{item.map_location}}</p>
                     <h5>Room Types</h5>
                     <ul class="prop_details mb0">

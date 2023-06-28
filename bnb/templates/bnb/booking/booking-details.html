@@ -1,6 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}lodge Booking{% endblock title %}
+{% block title %}BNB Booking{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -61,14 +61,14 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <!-- <input name="form_name" class="form-control" required="required" type="text" placeholder="Name"> -->
+                    
                     {{form.guest_name.label}}
                     {{form.guest_name}}
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-group">
-                    <!-- <input name="form_name" class="form-control" required="required" type="text" placeholder="Name"> -->
+                    
                     {{form.guest_email.label}}
                     {{form.guest_email}}
                   </div>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input name="form_qty" value="Number of rooms: {{qty}}" class="form-control required email" required="required" readonly type="email" placeholder="Number of rooms">
+                    <input name="form_qty" value="Number of guests: {{qty}}" class="form-control required email" required="required" readonly type="email" placeholder="Number of rooms">
                   </div>
                 </div>
                 <div class="col-sm-12">

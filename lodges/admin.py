@@ -61,7 +61,7 @@ class AmenityAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('user', 'room', 'check_in', 'check_out', 'num_guests', 'created_at',)
+    list_display = ('user',  'check_in', 'check_out', 'num_guests', 'created_at',)
 
 
 #blog admin

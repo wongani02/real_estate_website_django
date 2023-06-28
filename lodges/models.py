@@ -10,6 +10,11 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 
+class ActiveLodgeManager(models.Manager):
+
+    def get_queryset(self):
+        return super(ActiveLodgeManager, self).get_queryset().filter(is_active=True)
+
 
 class Lodge(models.Model):
     VERIFIED = 'VERIFIED'
@@ -43,6 +48,10 @@ class Lodge(models.Model):
     is_active = models.BooleanField(default=False, null=True)
     verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
 
+    objects = models.Manager()
+    active_lodges = ActiveLodgeManager()
+
+
     class Meta:
         verbose_name = 'Lodge'
         verbose_name_plural = 'Lodges'
@@ -53,7 +62,7 @@ class Lodge(models.Model):
 
 
 class RoomCategory(models.Model):
-    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, related_name='rooms')
     room_type = models.CharField(max_length=255, null=True)
     adults = models.PositiveSmallIntegerField(default=2, null=True)
@@ -74,7 +83,9 @@ class RoomCategory(models.Model):
         return f"{self.lodge.name} - Room {self.room_type}"
 
 
+'''custom room manager to return available rooms only'''
 class AvailableRoomManager(models.Manager):
+
     def get_queryset(self):
         return super(AvailableRoomManager, self).get_queryset().filter(is_booked=False)
 
@@ -87,7 +98,7 @@ class Room(models.Model):
     available = AvailableRoomManager()
 
     def __str__(self):
-        return f'Lodge: {self.room_category.lodge.name} - Room Category: {self.room_category.room_type} - Booked: {self.is_booked} '
+        return f'{self.id} Lodge: {self.room_category.lodge.name} - Room Category: {self.room_category.room_type} - Booked: {self.is_booked} '
 
 
 class Restrictions(models.Model):
@@ -185,16 +196,39 @@ class LodgeImage(models.Model):
         return f"{self.lodge.name} - Room {self.lodge.city} Picture"
 
 
+class ActiveBookingsManager(models.Manager):
+
+    def get_queryset(self):
+        super(ActiveBookingsManager, self).get_queryset().filter(is_active=True)
+
+
+class CancelledBookingsManager(models.Manager):
+
+    def get_queryset(self):
+        return super(CancelledBookingsManager, self).get_queryset().filter(cancelled=True)
+
+
+class CheckedInBookingsManager(models.Manager):
+
+    def get_queryset(self):
+        return super(CheckedInBookingsManager, self).get_queryset().filter(checked_in=True)
+
+
 class Booking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookings')
     # lodge = models.ForeignKey(Lodge, null=True, on_delete=models.CASCADE, related_name='lodge_bookings')
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='room_bookings')
-    check_in = models.DateTimeField(null=True)
-    check_out = models.DateTimeField(null=True)
-    num_guests = models.IntegerField(null=True)
+    email = models.EmailField(null=True)
+    full_name = models.CharField(max_length=100, null=True)
+    phone_number = models.CharField(max_length=100, null=True, blank=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='room_bookings', null=True)
+    check_in = models.DateField(null=True)
+    check_out = models.DateField(null=True)
+    num_guests = models.IntegerField(null=True, blank=True, default=1)
     number_of_nights = models.PositiveSmallIntegerField(default=1, null=True)
-    note = models.TextField(null=True, help_text='leave a special note, eg we might arrive late')
-    is_active = models.BooleanField(null=True, default=False)
+    number_of_rooms = models.PositiveSmallIntegerField(default=1, null=True)
+    note = models.TextField(null=True, blank=True, help_text='leave a special note, eg we might arrive late')
+    is_active = models.BooleanField(null=True, default=True)
     checked_in = models.BooleanField(null=True, default=False)
     cancelled = models.BooleanField(null=True, default=False)
     qr_code = models.ImageField(upload_to='bnb_qr_codes/', null=True, blank=True)
@@ -202,19 +236,34 @@ class Booking(models.Model):
     is_paid = models.BooleanField(default=False, null=True)
     updated = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)
+
+    objects = models.Manager()
+    active_bookings = ActiveBookingsManager()
+    cancelled_bookings = CancelledBookingsManager()
+    check_in_bookings = CheckedInBookingsManager()
    
     class Meta:
         verbose_name = 'Booking'
         verbose_name_plural = 'Bookings'
 
+
     def __str__(self):
-        return f"{self.user.username} - {self.room.room_category.lodge.name} - Room {self.room.room_category.room_type}"
+        return f"{self.user.username} -  - Room "
     
+
     def save(self, *args, **kwargs):
+        
+        # check room availability
         availability = self.check_booking_availability()
+
+        # return value error if the room is already booked
         if not availability:
-            return ValueError
+            return ValueError("The room is already booked for the selected dates.")
+        
+        # update room status when room has been booked
+        # self.update_availablity()
         super().save(*args, **kwargs)
+    
 
     def check_booking_availability(self):
         availability_list = []
@@ -226,6 +275,11 @@ class Booking(models.Model):
                 availability_list.append(False)
 
         return all(availability_list)
+    
+
+    # method to update room availability
+    def update_availablity(self):
+        Room.available.filter(id=self.room.id).update(is_booked=True)
 
     
 class Guests(models.Model):
