@@ -1,5 +1,7 @@
+import json
+
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.decorators.http import require_POST
 from django.forms.formsets import formset_factory
 from django.forms import modelformset_factory
@@ -9,9 +11,13 @@ from django.contrib import messages
 from django.db.models import Q 
 from django.core.paginator import Paginator
 
+from payments.models import LodgeBookingPayment, PaymentOption
+
 from .create_lodge import LodgeCreation as LodgeCreationClass
-from .models import Amenity, LodgeImage, Lodge, Image
+from .models import Amenity, LodgeImage, Lodge, Image, Booking
 from .forms import *
+from .utils import check_room_availability, format_dates, process_data, calc_number_of_nights
+
 
 # Create your views here.
 
@@ -428,9 +434,9 @@ def searchView(request):
     if request.method == 'POST':
         q = request.POST['lodge_search']
 
-        results = Lodge.objects.filter(
+        results = Lodge.active_lodges.filter(
             Q(name__icontains=q) | Q(street_name__icontains=q) | Q(city__icontains=q) | Q(map_location__icontains=q) | Q(country__icontains=q)
-            ).filter(is_active=True).order_by('?').distinct()
+            ).order_by('?').distinct()
         
     # print(results)
     # lodge_paginator = Paginator(results, 2)
@@ -447,10 +453,190 @@ def searchView(request):
     return render(request, 'lodges/search/lodge-results.html', context)
 
 
-def bookingDetailsView(request, lodge, room):
+def getAvailableRoomTypes(request, lodge):
+
+    date_range = request.POST.get('daterange')
+    quantity = request.POST.get('quantity')
+    request.session['date_range'] = date_range
+
+    start_date, end_date = format_dates(date_range)
+
+    #get lodge to check availablilty
+    lodge = Lodge.active_lodges.get(id=lodge)
+
+    #get all room types associated with the lodge
+    lodge_room_types = lodge.rooms.all()
+
+    #initialise an empty available rooms array
+    avalable_rooms = []
+
+    #get available rooms only from each room type
+    for room_type in lodge_room_types:
+        
+        #check availability of each room 
+        for room in room_type.room_s.all():
+
+            availability = check_room_availability(room=room.id, check_in=start_date, check_out=end_date)
+            print(availability, room.id)
+            # if available create a dictionary with all data
+            if availability:
+                
+                data = {
+                    'room_type_id': room_type.id,
+                    'room_id': room.id,
+                    'availability': availability,
+                }
+                
+                # append the data to the list on available rooms
+                avalable_rooms.append(data)
+
+    # processed data
+    processed_data = process_data(avalable_rooms)
+    print(processed_data)
+                
+    context = {
+        'lodge': lodge,
+        'data': processed_data,
+        'qty': int(quantity),
+        
+    }
+    return render(request, 'lodges/partials/available-roomtypes.html', context)
+
+
+def bookingDetailsView(request, **kwargs):
+    session = request.session
+    rooms = kwargs.get('room_list')
+    print(type(rooms))
+    session['room_list'] = rooms
+    
+    if request.method == 'POST':
+        form = LodgeBookingForm(request.POST)
+        if form.is_valid():
+            request.session['lodge_booking_data'] = {
+                'name': form.cleaned_data['guest_name'],
+                'email': form.cleaned_data['guest_email'],
+                'note': form.cleaned_data['note'],
+            }
+            return redirect(
+                'lodges:booking-step-2', 
+                kwargs.get('lodge'), 
+                kwargs.get('room'), 
+                kwargs.get('qty'),
+                kwargs.get('room_list')
+                )
+    
+    else:
+        if 'lodge_booking_data' in request.session:
+            form = LodgeBookingForm(initial={
+                'guest_name': session['lodge_booking_data']['name'],
+                'guest_email': session['lodge_booking_data']['email'],
+                'note': session['lodge_booking_data']['note']
+            })
+        else:
+            form = LodgeBookingForm()
 
     context = {
-
+        'form': form,
+        'dates': request.session['date_range'],
+        'qty': kwargs.get('qty')
     }
-
     return render(request, 'lodges/bookings/booking-step-1.html', context)
+
+
+def bookingPaymentView(request, **kwargs):
+    
+    room_type = RoomCategory.objects.get(id=kwargs.get('room'))
+
+    room_price = room_type.price_per_night
+
+    date_range = request.session['date_range']
+
+    check_in, check_out = format_dates(date_range)
+
+    num_nights = calc_number_of_nights(check_in=check_in, check_out=check_out)
+
+    qty = kwargs.get('qty')
+
+    total_price = (room_price*num_nights)*qty
+
+    context = {
+        'guest': request.session['lodge_booking_data'],
+        'total_price': total_price,
+        'num_nights': num_nights,
+        'check_in': check_in,
+        'check_out': check_out,
+        'num_rooms': qty,
+        'room_type': room_type,
+        'room_list': kwargs.get('room_list'),
+    }
+    return render(request, 'lodges/bookings/booking-step-2.html', context)
+
+
+
+@login_required
+def processPaymentView(request, **kwargs):
+    lodge = Lodge.objects.get(id=kwargs.get('lodge'))
+    date_range = request.session['date_range']
+    check_in, check_out = format_dates(date_range)
+    num_nights = calc_number_of_nights(check_in=check_in, check_out=check_out)
+    booking_ids = []
+    number_of_rooms = kwargs.get('qty')
+    rooms_available = kwargs.get('room_list')
+    print(type(rooms_available), rooms_available)
+    
+    
+    number_of_bookings = 0
+    if number_of_rooms > rooms_available:
+        number_of_bookings = rooms_available
+    else:
+        number_of_bookings = number_of_rooms
+
+    room_cat = RoomCategory.objects.get(id=kwargs.get('room'))
+    rooms = room_cat.room_s.all()
+    
+    rooms_to_be_booked = []
+
+    for room in rooms:
+        availability = check_room_availability(room=room.id, check_in=check_in, check_out=check_out) 
+        if availability:
+            rooms_to_be_booked.append(room.id)
+            print(rooms_to_be_booked)
+
+    count = 0
+    while count < number_of_bookings:
+        booking_instance = Booking.objects.create(
+            user_id=request.user.id,
+            room_id=rooms_to_be_booked[count],
+            email=request.session['lodge_booking_data']['email'],
+            full_name=request.session['lodge_booking_data']['name'],
+            check_in=check_in, 
+            check_out=check_out,
+            number_of_nights=num_nights,
+            number_of_rooms=number_of_rooms,
+            note=request.session['lodge_booking_data']['note'],
+        )
+        booking_ids.append(booking_instance.id)
+        print(count, number_of_bookings)
+        count += 1
+
+    body = json.loads(request.body)
+    
+    payment = LodgeBookingPayment.objects.create(
+        user_id=request.user.id,
+        lodge_id=lodge.id,
+        full_name=body['fullname'],
+        email=body['email'],
+        total_paid=body['totalPaid'],
+        order_key=body['orderId'],
+        payment_option=PaymentOption.objects.first(),
+        billing_status=True,
+    )
+    payment_id = payment.id
+
+    for booking in booking_ids:
+        payment.booking.add(booking)
+
+    booking = Booking.objects.filter(id__in=booking_ids)
+    booking.update(is_paid=True)
+
+    return JsonResponse('payment complete', safe=False)

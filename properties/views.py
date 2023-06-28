@@ -98,8 +98,8 @@ class LodgesHTMXView(generic.ListView):
     def get(self, request):
 
         #lodge pagination for load more functionality
-        lodges = Lodge.objects.prefetch_related("pictures").filter(is_active=True).order_by('-created_at')
-        lodge_paginator = Paginator(lodges, 2)
+        lodges = Lodge.active_lodges.prefetch_related("pictures").order_by('?')
+        lodge_paginator = Paginator(lodges, 3)
         lodge_page_number = request.GET.get('page', 1)
         lodge_obj = lodge_paginator.get_page(lodge_page_number)
         

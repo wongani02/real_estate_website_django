@@ -6,9 +6,9 @@
 {% endblock header %}
 {% block content %}
 
-
   <!-- Listing Single Property -->
   <section class="listing-title-area pb0">
+    
     <div class="container">
       <div class="row mb10">
         <div class="col-lg-7 col-xl-7">
@@ -139,20 +139,64 @@
               </div>
             </div>
 
-            <!-- lodge rooms -->
+            <!--  check lodge availability -->
+            <div class="col-lg-12 mt30">
+              <div class="form_grid ">
+                <h4 style="text-decoration: underline;" class=" mb10">Check Availability</h4>
+                <form 
+                class="contact_form" 
+                name="contact_form" 
+                hx-target="#available-rooms" 
+                hx-swap="outerHTML" 
+                hx-post="{% url 'lodges:search-available-rooms' lodge.id %}" 
+                >
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="daterange">Select Your Dates</label>
+                        <input 
+                        name="daterange" 
+                        id="date-range"
+                        class="form-control required email" 
+                        required="required" 
+                        type="text" 
+                        placeholder="Enter your dates">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="quantity">Enter Number of Rooms</label>
+                        <input name="quantity" class="form-control required email" value="1" required type='number' placeholder="How many rooms?">
+                      </div>
+                    </div>
+                    <button
+                    type="submit" class="col-md-2 btn btn-thm">Check Availability</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div id="available-rooms">
+
+            </div>
+
+            <!-- lodge rooms categories-->
+            {% comment %}
             <div class="col-lg-12">
               <div class="additional_details pb40 mt50 bb1">
                 <div class="row">
                   <div class="col-lg-12">
-                    <h4 style="text-decoration: underline;" class="mb15 text-decoration-underline">Available Rooms</h4>
+                    <h4 style="text-decoration: underline;" class="mb15 text-decoration-underline">Room Categories </h4>
                   </div>
+
                   {% for room_cat in lodge.rooms.all %}
-                  <p></p>
+                  
                   <div class="col-md-6 col-lg-6 col-xl-6">
                     <div class="col-auto">
                       <ul class="list-inline-item">
                         <li><p>Room Type:</p></li>
-                        <li><p>Price per night: {{room_cat.room_s.count}} </p></li>
+                        <li><p>Price per night: </p></li>
                         <li><p>num of Children:</p></li>
                         <li><p>num of Adults:</p></li>
                         <li><p>num of Beds:</p></li>
@@ -166,12 +210,13 @@
                       </ul>
                       
                     </div>
-                    <a href="{% url 'lodges:booking-step-1' lodge.id room_cat.id %}" class="ml-4 btn btn-thm">Book Room</a>
+                    <!-- <a href="{% url 'lodges:booking-step-1' lodge.id room_cat.id %}" class="ml-4 btn btn-thm">Book Room</a> -->
                   </div>
                   {% endfor %}
                 </div>
               </div>
             </div>
+            {% endcomment %}
 
             <!-- lodge location -->
             <div class="col-lg-12">
@@ -552,6 +597,61 @@
       }
 
 </script>
+<script>
+    $(function() {
 
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'center',
+            "alwaysShowCalendars": true,
+            "startDate": `${year}/${month}/${day}`,
+            // "endDate": `${month}/${day}/${year}`,
+            "minDate": `${year}/${month}/${day}`,
+            "locale": {
+              "format": "YYYY-MM-DD",
+              "separator": " to ",
+              "applyLabel": "Apply",
+              "cancelLabel": "Cancel",
+              "fromLabel": "From",
+              "toLabel": "To",
+              "customRangeLabel": "Custom",
+              "weekLabel": "W",
+              "daysOfWeek": [
+                  "Su",
+                  "Mo",
+                  "Tu",
+                  "We",
+                  "Th",
+                  "Fr",
+                  "Sa"
+              ],
+              "monthNames": [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December"
+              ],
+              "firstDay": 1
+          },
+
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            
+        });
+    });
+</script>
   {% include 'properties/footer.html' %}
 {% endblock %}

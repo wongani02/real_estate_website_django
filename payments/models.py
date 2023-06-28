@@ -8,7 +8,7 @@ from django.core.files.storage import default_storage
 
 from properties.models import Property
 from bnb.models import Property as BNB
-from lodges.models import Lodge
+from lodges.models import Lodge, Booking as LodgeBooking
 from .utils import generate_ref_code
 from io import BytesIO
 
@@ -49,7 +49,7 @@ class Payment(models.Model):
     order_key = models.CharField(max_length=200, null=True)
     payment_option = models.ForeignKey(PaymentOption, on_delete=models.CASCADE, null=True)
     billing_status = models.BooleanField(default=False, null=True)
-    qr_code = models.ForeignKey(QRCode, on_delete=models.CASCADE, null=True)
+    qr_code = models.ForeignKey(QRCode, on_delete=models.CASCADE, null=True, blank=True)
     
     def generate_qr_code(content_dict):
         qr_content = ""
@@ -93,8 +93,9 @@ class BnbPayment(Payment):
     bnb = models.ForeignKey(BNB, on_delete=models.CASCADE, null=True)
 
 
-class LodgePayment(Payment):
-    lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True)
+class LodgeBookingPayment(Payment):
+    lodge= models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='lodge_booking_payments')
+    booking = models.ManyToManyField(LodgeBooking, related_name='bookings_payments')
 
 
 class Invoice(models.Model):

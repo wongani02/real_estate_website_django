@@ -32,100 +32,204 @@
   line-height: 30px;
 }
 </style>
-	<!-- Inner Page Breadcrumb -->
-	<!-- <section class="inner_page_breadcrumb">
+	
+
+  <!-- Our FAQ -->
+	<section class="our-faq pb0">
 		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-xl-6">
-					<div class="breadcrumb_content">
-						<h2 class="breadcrumb_title">Contact Us</h2>
-						<ol class="breadcrumb">
-					    <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
-					    <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
-						</ol>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="main-title text-center">
+            <h2>One last Step!!!</h2>
+            <p>lets complete the booking with a payment :)</p> 
+          </div>
+        </div>
+      </div>
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2">
+					<div class="faq_content mb40">
+						<div class="faq_according">
+							<div class="accordion" id="accordionExample">
+						  	<div class="card">
+							    <div class="card-header active" id="headingOne">
+							    	<h4 class="mb-0">
+						        	<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Booking Details</button>
+							   		</h4>
+							    </div>
+							    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+								    <div class="card-body">
+										<div class="justify-center text-center">
+											<h4>ROOM DETAILS</h4>
+											<p>ROOM TYPE : {{room_type.room_type}}</p>
+											<p>NUMBER OF NIGHTS : {{num_nights}}</p>
+											<p>NUMBER OF ROOMS : {{qty}}</p>
+											<p>CHECK IN : {{check_in}}</p>
+											<p>CHECK OUT : {{check_out}}</p>
+											<p>TOTAL PRICE : {{total_price}}</p>
+											<hr>
+											<h4>GUEST DETAILS</h4>
+											<p>NAME : {{guest.name}}</p>
+											<p>EMAIL : {{guest.email}}</p>
+											<p>NOTE : {{quest.note}}</p>
+										</div>
+								    </div>
+							    </div>
+						    </div>
+
+						    <!-- <div class="card">
+						    	<div class="card-header" id="headingTwo">
+						    		<h4 class="mb-0">
+					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Model sentence structures, to generate</button>
+						    		</h4>
+						    	</div>
+						    	<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+					      		<div class="card-body">
+                      <p class="mb30">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>
+                      <p>The residence is comprised of 5 bedrooms, 2 master bathrooms, 4 on-suite guest bathrooms, 2 powder rooms, 2 offices, 2 dressing rooms, a media room, an oversized eat-in gourmet chef's kitchen, and a sprawling 1,100 square-foot Great Room perfectly situated in the prime southwest corner of the floor.</p>
+						     		 </div>
+						    	</div>
+						    </div>
+						    <div class="card">
+							    <div class="card-header" id="headingThree">
+							    	<h4 class="mb-0">
+						        	<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Model sentence structures, to generate</button>
+							    	</h4>
+							    </div>
+							    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample" style="">
+							    	<div class="card-body">
+                      <p class="mb30">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>
+                      <p>The residence is comprised of 5 bedrooms, 2 master bathrooms, 4 on-suite guest bathrooms, 2 powder rooms, 2 offices, 2 dressing rooms, a media room, an oversized eat-in gourmet chef's kitchen, and a sprawling 1,100 square-foot Great Room perfectly situated in the prime southwest corner of the floor.</p>
+							    	</div>
+							    </div>
+								</div>
+						    <div class="card">
+							    <div class="card-header" id="headingFour">
+							    	<h4 class="mb-0">
+						        	<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">Finibus Bonorum et Malorum by Cicero are also</button>
+							    	</h4>
+							    </div>
+							    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample" style="">
+							    	<div class="card-body">
+                      <p class="mb30">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>
+                      <p>The residence is comprised of 5 bedrooms, 2 master bathrooms, 4 on-suite guest bathrooms, 2 powder rooms, 2 offices, 2 dressing rooms, a media room, an oversized eat-in gourmet chef's kitchen, and a sprawling 1,100 square-foot Great Room perfectly situated in the prime southwest corner of the floor.</p>
+							    	</div>
+							    </div>
+  							</div>
+                <div class="card">
+                  <div class="card-header" id="headingFive">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">Letraset sheets containing Lorem Ipsum passages</button>
+                    </h2>
+                  </div>
+                  <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample2">
+                    <div class="card-body">
+                      <p class="mb30">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>
+                      <p>The residence is comprised of 5 bedrooms, 2 master bathrooms, 4 on-suite guest bathrooms, 2 powder rooms, 2 offices, 2 dressing rooms, a media room, an oversized eat-in gourmet chef's kitchen, and a sprawling 1,100 square-foot Great Room perfectly situated in the prime southwest corner of the floor.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingSix">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Can I pay my own taxes and insurance?</button>
+                    </h2>
+                  </div>
+                  <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample2">
+                    <div class="card-body">
+                      <p class="mb30">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>
+                      <p>The residence is comprised of 5 bedrooms, 2 master bathrooms, 4 on-suite guest bathrooms, 2 powder rooms, 2 offices, 2 dressing rooms, a media room, an oversized eat-in gourmet chef's kitchen, and a sprawling 1,100 square-foot Great Room perfectly situated in the prime southwest corner of the floor.</p>
+                    </div>
+                  </div>
+                </div> -->
+                
+							<script src="https://www.paypal.com/sdk/js?client-id=AfDx3yQgVBzG5LfDvijqX53CGeGf2cdxY8tCsf9xS-vgkcT3yJUPJ_e3uKbnfMHUr6yH-SgnXZ2N4rEi&currency=USD&locale=en_MW"></script>
+							<div class="Place-order">
+							<div id="paypal-button-container"></div> 
+							</div>
+						</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section> -->
-
-	<!-- Our Contact -->
-  <section class="our-contact">
-    <div class="container">
-
-
-        <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="form_grid mt10">
-            <h2 class="text-center mb50">Enter Your Dates</h2>
-            <form class="contact_form" name="contact_form" action="#" method="post" novalidate>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input name="form_name" class="form-control" required="required" type="text" placeholder="Name">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input name="form_email" class="form-control required email" required="required" type="email" placeholder="Email">
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <input name="daterange" class="form-control required email" required="required" type="text" placeholder="What's this About?">
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <textarea name="form_message" class="form-control required" rows="6" required placeholder="Enter Your Message"></textarea>
-                  </div>
-                  <div class="form-group mb0">
-                    <button type="button" class="btn btn-thm">SUBMIT</button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="main-title text-center">
-            <h2>Booked Dates For This Room</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            <ul class="list-inline-item mt10">
-                <li><p>Room Type:</p></li>
-                <li><p>Price per night:</p></li>
-                <li><p>num of Children:</p></li>
-                <li><p>num of Adults:</p></li>
-                <li><p>num of Beds:</p></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  </section>
-  <script>
-    $(function() {
-
-        const date = new Date();
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-
-        $('input[name="daterange"]').daterangepicker({
-            opens: 'center',
-            "alwaysShowCalendars": true,
-            "startDate": `${month}/${day}/${year}`,
-            // "endDate": `${month}/${day}/${year}`,
-            "minDate": `${month}/${day}/${year}`
-        }, function(start, end, label) {
-            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-        });
-    });
-</script>
+	</section>
+	<script>
+		function getCookie(name) {
+			let cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				const cookies = document.cookie.split(';');
+				for (let i = 0; i < cookies.length; i++) {
+					const cookie = cookies[i].trim();
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+		const csrftoken = getCookie('csrftoken');
+		
+		function initPayPalButton() {
+			paypal.Buttons({
+			style: {
+				shape: 'rect',
+				color: 'gold',
+				layout: 'vertical',
+				label: 'paypal',
+		
+			},
+			createOrder: function (data, actions) {
+				return actions.order.create({
+				purchase_units: [{
+					"amount": {
+					"currency_code": "USD",
+					"value": '{{0.5}}'
+					}
+				}]
+				});
+			},
+			onCancel(data) {
+				// Show a cancel page, or return to cart
+				console.log('cancelled')
+			},
+			onApprove: function (data, actions) {
+				//get payment data on payment approval
+				var url = "{% url 'lodges:process-payment' room_type.lodge.id room_type.id num_rooms room_list %}"
+				return actions.order.capture().then(function(orderData) {
+					return fetch(url, {
+						method: 'POST',
+						headers: {
+							'content-type': 'application/json',
+							'X-CSRFToken': csrftoken,
+						},
+						body: JSON.stringify({
+							orderID: data.orderID,
+							name: orderData.payer.name.given_name,
+							email: orderData.payer.email_address,
+							fullname: orderData.purchase_units[0].shipping.name.full_name,
+							totalPaid: orderData.purchase_units[0].amount.value,
+							orderId: orderData.id,
+							countryCode: orderData.purchase_units[0].shipping.address.country_code,
+							postalCode: orderData.purchase_units[0].shipping.address.postal_code,
+							address_1: orderData.purchase_units[0].shipping.address.address_line_1,
+							address_2: orderData.purchase_units[0].shipping.address.admin_area_2,
+						})
+						}).then(function () {
+							location.href = "{% url 'accounts:dashboard' %}";
+						})
+					})
+			},
+			onError(err) {
+				// For example, redirect to a specific error page
+				// window.location.href = "/error";
+				console.log('error')
+			}
+			}).render('#paypal-button-container');
+		}
+		initPayPalButton();
+		
+	</script>
 {% include 'properties/footer.html' %}
 {% endblock content %}

@@ -34,5 +34,10 @@ urlpatterns = [
     path('edit/<uuid:pk>/policies/', views.editLodgePolicies, name='edit-policies'),
 
     #bookings
-    path('lodge-detail/<uuid:lodge>/booking/<int:room>/', views.bookingDetailsView, name='booking-step-1'),
+    path('lodge-detail/<uuid:lodge>/booking/<uuid:room>/<int:qty>/<int:room_list>/', views.bookingDetailsView, name='booking-step-1'),
+    path('lodge-detail/<uuid:lodge>/booking/<uuid:room>/<int:qty>/<int:room_list>/payments/', views.bookingPaymentView, name='booking-step-2'),
+    path('process-payment/<uuid:lodge>/booking/<uuid:room>/<int:qty>/<int:room_list>/', views.processPaymentView, name='process-payment'),
+
+    #htmx urls
+    path('search-rooms/<uuid:lodge>/', views.getAvailableRoomTypes, name='search-available-rooms'),
 ]

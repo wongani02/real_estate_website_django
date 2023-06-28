@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.core.mail import EmailMessage
 
 from users.models import User
-from payments.models import PropertyPayment, BnbPayment, LodgePayment, PaymentOption, QRCode
+from payments.models import PropertyPayment, BnbPayment, LodgeBookingPayment, PaymentOption, QRCode
 from properties.models import Property
 from bnb.models import Property as BnB
 from lodges.models import Lodge
@@ -106,10 +106,10 @@ def generate_bnbs_code(request):
     }
 
     # Get returned QRCode object
-    qr = LodgePayment.generate_qr_code(content)
+    qr = LodgeBookingPayment.generate_qr_code(content)
 
     # Create payments object
-    payment = LodgePayment.objects.create(
+    payment = LodgeBookingPayment.objects.create(
         user=user, email=user.email, full_name=user.name,
         payment_option=PaymentOption.objects.first(),
         property=_property_, qr_code=qr

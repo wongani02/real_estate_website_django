@@ -1,0 +1,45 @@
+{% load static %}
+<!-- lodge rooms -->
+    <div class="col-lg-12" id="available-rooms">
+        <div class="additional_details pb40 mt50 bb1">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="mb15 text-center ">Available Rooms</h4>
+                </div>
+
+                {% for room_cat in data %}
+                
+                <div class="col-md-6 col-lg-6 col-xl-6">
+                    {% if qty > room_cat.room_data|length %}
+                    <a href="#" class="theme_badge2 p-1">only {{room_cat.room_data|length}} rooms available</a>
+                    {% else %}
+                    <a href="#" class="theme_badge p-1">Greate Deal</a>
+                    {% endif %}
+                    <div class="col-auto">
+                        <ul class="list-inline-item">
+                        <li><p>Room Type:</p></li>
+                        <li><p>Price per night: </p></li>
+                        <li><p>num of Children:</p></li>
+                        <li><p>num of Adults:</p></li>
+                        <li><p>num of Beds:</p></li>
+                        <li><p>num of available rooms: </p></li>
+                        </ul>
+                        <ul class="list-inline-item">
+                        <li><p><span>{{room_cat.room_type.room_type}}</span></p></li>
+                        <li><p><span>${{room_cat.room_type.price_per_night}}</span></p></li>
+                        <li><p><span>{{room_cat.room_type.children}}</span></p></li>
+                        <li><p><span>{{room_cat.room_type.adults}}</span></p></li>                      
+                        <li><p><span>{{room_cat.room_type.beds}}</span></p></li>
+                        <li><p><span>{{room_cat.room_data|length}}</span></p></li>
+                        </ul>
+                        
+                    </div>
+                    
+                    <a href="{% url 'lodges:booking-step-1' lodge.id room_cat.room_type.id qty room_cat.rooms|length %}" class="ml-4 btn btn-thm">Book Room</a>
+                    
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
