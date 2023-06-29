@@ -14,7 +14,7 @@ from django.core.paginator import Paginator
 from payments.models import LodgeBookingPayment, PaymentOption
 
 from .create_lodge import LodgeCreation as LodgeCreationClass
-from .models import Amenity, LodgeImage, Lodge, Image, Booking
+from .models import Amenity, LodgeImage, Lodge, Image, LodgesViews, Booking
 from .forms import *
 from .utils import check_room_availability, format_dates, process_data, calc_number_of_nights
 
@@ -32,10 +32,24 @@ def lodgeListingView(request):
 
 def lodgeDetailView(request, pk):
     lodge = get_object_or_404(Lodge, pk=pk)
+
+    # Update the number of views
+    update_views(lodge)
+
     context = {
         'lodge': lodge,
     }
     return render(request, 'lodges/lodge-detail.html', context)
+
+def update_views(_property):
+    from datetime import datetime
+
+    date = datetime.now().strftime('%Y-%m-%d')
+    property_view, created = LodgesViews.objects.get_or_create(property=_property, date=date)
+
+    # Update entry
+    property_view.views += 1
+    property_view.save()
 
 
 @login_required

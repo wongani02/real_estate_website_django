@@ -6,12 +6,14 @@
       <nav> 
         <!-- Menu Toggle btn-->
         <div class="menu-toggle">
-        	<img class="nav_logo_img img-fluid" src="{% static 'images/header-logo.svg' %}" alt="header-logo.svg">
-          <button type="button" id="menu-btn">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
+        	<a href="{% url 'properties:home' %}">
+            <img class="nav_logo_img img-fluid" src="{% static 'images/web_img/logo-white.png' %}" alt="header-logo.svg">
+            <button type="button" id="menu-btn">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </a>
         </div>
         <a href="{% url 'properties:home' %}" class="navbar_brand float-left dn-md">
 					<img class="logo1 img-fluid my-auto " style="max-height: 50px;" src="{% static 'images/web_img/logo-white.png' %}" alt="header-logo.svg">
@@ -27,7 +29,7 @@
           </li>
           <li> <a href="{% url 'properties:blog-list' %}"><span class="title">Tips and Resources</span></a>
           </li>
-          <li> <a href="{% url 'properties:about' %}"><span class="title">Discover</span></a>
+          <li> <a href="{% url 'properties:discover' %}"><span class="title">Discover</span></a>
           </li>
           <li><a href="{% url 'properties:about' %}">Help</a></li>
 

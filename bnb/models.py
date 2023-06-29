@@ -52,6 +52,20 @@ class ActiveBNBManager(models.Manager):
 
 
 class Property(models.Model):
+    VERIFIED = 'VERIFIED'
+    PENDING = 'PENDING'
+    DECLINED = 'DECLINED'
+
+    VERIFICATION = [
+        (VERIFIED, _("Verified")),
+        (PENDING, _("Pending")),
+        (DECLINED, _("Declined"))
+    ]
+
+    class Meta:
+        verbose_name = 'BnB'
+        verbose_name_plural = 'BnBs'
+
     id=models.UUIDField(_("BNB ID"), primary_key=True, default=uuid.uuid4, editable=False)
     host = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(_("BnB Name"), max_length=255)
@@ -71,6 +85,7 @@ class Property(models.Model):
     long = models.CharField(max_length=255, null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
 
     objects = models.Manager()
     active_bnb = ActiveBNBManager()
@@ -274,3 +289,8 @@ class Booking(models.Model):
         return all(availability_list)
         
 
+class BnbViews(models.Model):
+    id = models.AutoField(primary_key=True)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='bnb_views')
+    date = models.DateField(auto_now=True)
+    views = models.PositiveIntegerField(default=0)

@@ -17,6 +17,20 @@ class ActiveLodgeManager(models.Manager):
 
 
 class Lodge(models.Model):
+    VERIFIED = 'VERIFIED'
+    PENDING = 'PENDING'
+    DECLINED = 'DECLINED'
+    
+    VERIFICATION = [
+        (VERIFIED, _("Verified")),
+        (PENDING, _("Pending")),
+        (DECLINED, _("Declined"))
+    ]
+
+    class Meta:
+        verbose_name = 'Lodge'
+        verbose_name_plural = 'Lodges'
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True)
@@ -32,6 +46,7 @@ class Lodge(models.Model):
     long = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False, null=True)
+    verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
 
     objects = models.Manager()
     active_lodges = ActiveLodgeManager()
@@ -374,3 +389,10 @@ class About(models.Model):
 
     def __str__(self):
         return 'do not add, just edit this one'
+
+
+class LodgesViews(models.Model):
+    id = models.AutoField(primary_key=True)
+    property = models.ForeignKey(Lodge, on_delete=models.CASCADE, related_name='lodges_views')
+    date = models.DateField(auto_now=True)
+    views = models.PositiveIntegerField(default=0)

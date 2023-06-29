@@ -1,0 +1,670 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block header %}
+    {% include 'properties/header.html' %}
+{% endblock header %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  
+  <!-- Home Design -->
+  <section class="home-one home5_style">
+    <div class="container-fluid p0">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="main-banner-wrapper">
+            <div class="banner-style-one owl-theme owl-carousel">
+              <div class="slide slide-one" style="background-image: url({% static 'images/web_img/dillon.jpg' %});height: 860px;"></div>
+              <div class="slide slide-one" style="background-image: url({% static 'images/web_img/pietro.jpg' %});height: 860px;"></div>
+              <!-- <div class="slide slide-one" style="background-image: url(images/home/3.jpg);height: 860px;"></div> -->
+            </div>
+            <div class="carousel-btn-block banner-carousel-btn">
+              <!-- <span class="carousel-btn left-btn"><i class="flaticon-left-arrow left"></i></span>
+              <span class="carousel-btn right-btn"><i class="flaticon-right-arrow right"></i></span> -->
+            </div><!-- /.carousel-btn-block banner-carousel-btn -->
+          </div><!-- /.main-banner-wrapper -->
+        </div>
+      </div>
+    </div>
+    <div class="container home_iconbox_container">
+      <div class="row posr justify-content-center">
+        <div class="col-xl-8">
+          <div class="home_content home5">
+            <div class="home-text text-center mb25">
+              <h2 class="fz60">Discover Real Estate Marvels</h2>
+              <p class="fz16 color-white mb20">Find unique homes offering unparalled charm and style</p>
+            </div>
+            
+            <div class="row">
+              <div class="col-lg-12 text-center">
+                <em><p class="color-white mb25 fz15">What we offer</p></em>
+                <ul class="home5_iconbox mb0">
+                  <li class="list-inline-item">
+                    <div class="icon">
+                      <span class="flaticon-home"></span>
+                    </div>
+                    <div class="details">
+                      <p>Houses</p>
+                    </div>
+                  </li>
+                  <li class="list-inline-item">
+                    <div class="icon">
+                      <span class="flaticon-apartment"></span>
+                    </div>
+                    <div class="details">
+                      <p>Apartments</p>
+                    </div>
+                  </li>
+                  <li class="list-inline-item">
+                    <div class="icon">
+                      <span class="flaticon-business-and-trade"></span>
+                    </div>
+                    <div class="details">
+                      <p>Lodges</p>
+                    </div>
+                  </li>
+                  <li class="list-inline-item">
+                    <div class="icon">
+                      <span class="flaticon-villa"></span>
+                    </div>
+                    <div class="details">
+                      <p>Villas</p>
+                    </div>
+                  </li>
+                  <li class="list-inline-item dn-520">
+                    <div class="icon">
+                      <span class="flaticon-living-room"></span>
+                    </div>
+                    <div class="details">
+                      <p>BnB's</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explore Citys -->
+  <section class="hot_localtion bgc-alice-blue pb70">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+          <div class="main-title text-center">
+            <h2>Explore Cities</h2>
+            <p>Dive into the unique character of different cities and their breathtaking locations.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Only load 8 random locations -->
+        {% for city in citys %}
+          
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+          <div class="property_city_home6 tac-767">
+            <div class="thumb"><img class="w100" src="images/property/pc18.jpg" alt="pc18.jpg"></div>
+            <div class="details">
+              <h4><a href="page-listing-single-v3.html">Miami</a></h4>
+              <p>62 Listings</p>
+            </div>
+          </div>
+        </div>
+        
+        {% endfor %}
+          
+      </div>
+    </div>
+  </section>
+
+  <!-- Hot this week -->
+  <section class="divider home5 bg-img5 parallax" data-stellar-background-ratio="0.2">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-xl-3">
+          <div class="modern_appartment_widget home5">
+            <h2 class="title text-white mb20">Hot This Week</h2>
+            <p class="fz16 text-white mb20">Some of the top trending listings this week that may suit your taste!</p>
+            <a class="btn" href="page-listing-all.html">vıew all</a>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="feat_property all_listing_style4 home5">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/fl1.jpg" alt="fl1.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$7,500/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">New Apartment Nice Wiew</a></h4>
+                <p>Quincy St, Brooklyn, NY, USA</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="feat_property all_listing_style4 home5">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/fl2.jpg" alt="fl2.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$5,250/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">Skyper Pool Apartment</a></h4>
+                <p>112 Glenwood Ave Hyde Park, Boston, MA</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="feat_property all_listing_style4 home5">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/fl3.jpg" alt="fl3.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$5,250/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">New Caledonian Wharf</a></h4>
+                <p>251 SW 6th Ln Florida City, FL</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Discover our best deals -->
+  <section class="feature-property">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="main-title text-center">
+            <h2>Discover Our Best Deals</h2>
+            <p>Explore distinctive features, amenities, and the essence of special listings.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-xl-3">
+          <div class="feat_property all_listing_style4">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/fl1.jpg" alt="fl1.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$7,500/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">New Apartment Nice Wiew</a></h4>
+                <p>Quincy St, Brooklyn, NY, USA</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="feat_property all_listing_style4">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/fl2.jpg" alt="fl2.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$5,250/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">Skyper Pool Apartment</a></h4>
+                <p>112 Glenwood Ave Hyde Park, Boston, MA</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="feat_property all_listing_style4">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/fl3.jpg" alt="fl3.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$5,250/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">New Caledonian Wharf</a></h4>
+                <p>251 SW 6th Ln Florida City, FL</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="feat_property all_listing_style4">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/fl4.jpg" alt="fl4.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">SOLD</a></li>
+                  <li class="list-inline-item"><a href="#">SOLD</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$5,250/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">Spacious Family Home</a></h4>
+                <p>4 W 21st St Flatiron District, New York, NY</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="feat_property all_listing_style4">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/bdh55.jpg" alt="bdh55.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$7,500/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">New Apartment Nice Wiew</a></h4>
+                <p>Quincy St, Brooklyn, NY, USA</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="feat_property all_listing_style4">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/bdh56.jpg" alt="bdh56.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$5,250/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">Skyper Pool Apartment</a></h4>
+                <p>112 Glenwood Ave Hyde Park, Boston, MA</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="feat_property all_listing_style4">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/bdh57.jpg" alt="bdh57.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$5,250/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">New Caledonian Wharf</a></h4>
+                <p>251 SW 6th Ln Florida City, FL</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="feat_property all_listing_style4">
+            <div class="thumb">
+              <img class="img-whp" src="images/property/bdh58.jpg" alt="bdh58.jpg">
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">SOLD</a></li>
+                  <li class="list-inline-item"><a href="#">SOLD</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      <small><del>$2,800/mo</del></small><br>
+                      <span class="fw600">$5,250/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="page-listing-single-v8.html">Spacious Family Home</a></h4>
+                <p>4 W 21st St Flatiron District, New York, NY</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          <div class="load_more_btn text-center mt20">
+            <a class="btn btn-lg btn-thm" href="#">LOAD MORE</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    
+
+  <!-- Our Footer -->
+  {% include 'properties/footer.html' %}
+ 
+  {% endblock content %}
+  

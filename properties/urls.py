@@ -25,7 +25,16 @@ urlpatterns = [
     path('payments/offer/', views.OfferPackage.as_view(), name='offers'),
     path('payment/options/', views.PaymentOptions.as_view(), name='payment-options'),
 
-    path('listing/edit/<uuid:pk>/', views.EditPropertyListing.as_view(), name='edit-listing'),
+    # discover
+    path('discover/', views.discover, name='discover'),
+
+    # Edit 
+    path('listing/edit/<uuid:pk>/', views.editPropertyOptions, name='edit-listing-options'),
+    path('listing/edit/<uuid:pk>/details/', views.EditPropertyDetails.as_view(), name='edit-listing-details'),
+    path('listing/edit/<uuid:pk>/media/', views.EditPropertyMedia.as_view(), name='edit-listing-media'),
+    path('listing/edit/<uuid:pk>/others/', views.EditPropertyLocationAmenities.as_view(), name='edit-listing-others'),
+    path('listing/edit/<uuid:pk>/policies/', views.EditPropertyPolicies.as_view(), name='edit-listing-policies'),
+    
     path('listing/delete/<uuid:pk>/', views.DeletePropertyListing.as_view(), name='delete-listing'),
     path('listing/amenity/create/', views.create_amenities, name='create-amenity'),
     path('blog/list/', views.BlogList.as_view(), name='blog-list'),

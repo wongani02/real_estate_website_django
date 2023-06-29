@@ -88,6 +88,9 @@ class Property(models.Model):
     SOLD = "SOLD"
     AVAILABLE = "AVAILABLE"
     PENDING = 'PENDING'
+    VERIFIED = 'VERIFIED'
+    PENDING = 'PENDING'
+    DECLINED = 'DECLINED'
     class Meta:
         verbose_name = 'Property'
         verbose_name_plural = 'Properties'
@@ -95,6 +98,12 @@ class Property(models.Model):
     PROPERTY_TYPE = [
         (SALE, _("Sale")),
         (RENT, _("Rent")),
+    ]
+
+    VERIFICATION = [
+        (VERIFIED, _("Verified")),
+        (PENDING, _("Pending")),
+        (DECLINED, _("Declined"))
     ]
 
     STATUS = [
@@ -125,7 +134,7 @@ class Property(models.Model):
     no_rooms = models.PositiveIntegerField(_("Number of Rooms"), default=2)
     no_baths = models.PositiveIntegerField(_("Number of Baths"), default=1)
     desc = RichTextField(_("Description"))
-    status = models.BooleanField(_("Property Status"), default=False)
+    verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING, related_name='property_district')
     created_at = models.DateTimeField(auto_now=True, null=True)
     is_featured = models.BooleanField(_("if Featured"), default=False, null=True)
@@ -234,6 +243,7 @@ class PropertyAmenityLink(models.Model):
 class TempImageStore(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='temp_images/')
+    date = models.DateTimeField(auto_now=True)
 
     """
     Delete associated file

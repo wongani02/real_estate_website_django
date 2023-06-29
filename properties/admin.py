@@ -25,7 +25,7 @@ class NearbyPlacesModelAdmin(admin.StackedInline):
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
     inlines = [NearbyPlacesModelAdmin, ImageModelAdmin , VideoModelAdmin]
-    list_display = ['name', 'price', 'status', 'property_type']
+    list_display = ['name', 'price', 'property_type']
 
 
 @admin.register(PropertyCategory)

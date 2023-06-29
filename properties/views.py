@@ -273,26 +273,99 @@ class AgentDetails(generic.DetailView):
     
 
 
-class EditPropertyListing(generic.UpdateView):
+def editPropertyOptions(request, pk):
+    context = {'pk': pk}
+
+    return render(request, 'properties/edit/index.html', context)
+
+class EditPropertyDetails(generic.UpdateView):
     model = Property
     success_url = '/'
-    template_name = 'properties/page-dashboard-edit-property.html'
+    template_name = 'properties/edit/details.html'
 
     def get(self, request, **kwargs):
         model = Property.objects.get(id=kwargs.get('pk'))
-        form = PropertyEditForm(instance=model)
+        form = PropertyInfoCreationForm(instance=model)
 
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'pk': model.id})
 
     def post(self, request, **kwargs):
         model = Property.objects.get(id=kwargs.get('pk'))
-        form = PropertyEditForm(request.POST, instance=model)
+        form = PropertyInfoCreationForm(request.POST, instance=model)
 
         if form.is_valid():
             form.save(commit=True)
 
             return redirect(self.success_url)
+        return render(request, self.template_name, {'form': form, 'pk': model.id})
 
+class EditPropertyLocationAmenities(generic.UpdateView):
+    model = Property
+    template_name = 'properties/edit/location.html'
+
+    def get(self, request, **kwargs):
+        model = Property.objects.get(id=kwargs.get('pk'))
+        form = PropertyLocationCreationForm(instance=model)
+
+        return render(request, self.template_name, {'form': form, 'pk': model.id})
+
+    def post(self, request):
+        model = Property.objects.get(id=kwargs.get('pk'))
+        form = PropertyLocationCreationForm(request.POST, instance=model)
+
+        if form.is_valid():
+            form.save(commit=True)
+
+            return redirect(self.success_url)
+        return render(request, self.template_name, {'form': form, 'pk': model.id})
+
+class EditPropertyPolicies(generic.UpdateView):
+    model = Property
+    template_name = ''
+
+    def get(self, request):
+        model = Property.objects.get(id=kwargs.get('pk'))
+        form = PropertyLocationCreationForm(instance=model)
+
+        return render(request, self.template_name, {'form': form, 'pk': model.id})
+
+    def post(self, request):
+        model = Property.objects.get(id=kwargs.get('pk'))
+        form = PropertyLocationCreationForm(request.POST, instance=model)
+
+        if form.is_valid():
+            form.save(commit=True)
+
+            return redirect(self.success_url)
+        return render(request, self.template_name, {'form': form, 'pk': model.id})
+
+
+"""
+CBV edits property images
+image deletion has not yet been included
+"""
+class EditPropertyMedia(generic.UpdateView):
+    model = Images
+    template_name = 'properties/edit/images.html'
+
+    def get(self, request, **kwargs):
+        images = self.model.objects.filter(property=kwargs.get('pk'))
+
+        return render(request, self.template_name, {'images': images, 'pk': kwargs.get('pk')})
+
+    def post(self, request):
+        # Get files from request
+        images = request.FILES.get('file')
+
+        # Create property object
+        property_ = Property.objects.get(id=kwargs.get('pk'))
+
+        # Create image instances
+        instance = Images.objects.create(
+            property=property_, image=images
+        )
+
+        return render(request, self.template_name, {'images': images, 'pk': kwargs.get('pk')})
 
 class DeletePropertyListing(generic.DeleteView):
     model = Property
@@ -324,7 +397,7 @@ class CreatePropertyListing(generic.CreateView):
 
     def get(self, request):
         # Check for existence of incomplete session and append data
-        # del self.request.session['step_1']
+        print("Status: ", 'step_1' in self.request.session)
         if 'step_1' in self.request.session:
             # Add existing session data to form
             # del self.request.session['step_1']
@@ -452,6 +525,13 @@ class OfferPackage(generic.View):
         return render(request, 'properties/payments/offer-package.html', context)
 
 
+def discover(request):
+    citys = Districts.objects.all().order_by("?")[:8]
+
+    context = {'citys': citys}
+
+    return render(request, 'properties/discover.html', context)
+
 class PaymentOptions(generic.View):
 
     def get(self, request):
@@ -469,8 +549,6 @@ class PaymentOptions(generic.View):
 
 
 def save_data(request):
-    print("called")
-    
     # avoid queryset error 
     error = Property.objects.all()
     # Get session data and save to database
@@ -552,7 +630,11 @@ def create_amenity_link(request, property_id, objects):
     return amenities_
 
 """
-Function creates property images instances
+Function saves property images from the temporary table
+to a permant images tables. The temporary images and table entries
+are deleted once the operation is complete.
+The first image saved in the temporary table is selected as the featured 
+image for the property
 """
 def create_property_images(request, property_, object_):
     # List to hold image instances
@@ -562,7 +644,10 @@ def create_property_images(request, property_, object_):
     user = User.objects.get(username=object_)
 
     # Filter all temporary images of the user
-    temp = TempImageStore.objects.filter(user=user)
+    temp = TempImageStore.objects.filter(user=user).order_by('date')
+
+    # Counter to determine featured image
+    counter = 1
 
     for temp_obj in temp:
         images = Images()
@@ -575,7 +660,10 @@ def create_property_images(request, property_, object_):
 
 
 """
-CBV gets and saves property data, amenities and images
+CBV gets and saves images to a temporary database table.
+These images are later on transferred to a permanent table when the user
+completes the payments process. At the same time, the temporary files are
+deleted from the database
 """
 class CreatePropertyMediaListing(generic.CreateView):
     model = Property
@@ -605,13 +693,11 @@ class CreatePropertyMediaListing(generic.CreateView):
         # Get form data
         form = ImagesCreationForm(request.POST, request.FILES)
 
-        print("post: ", request.FILES.getlist('file'))
-
         if form.is_valid():
             # Get user instance
             agent = User.objects.get(username=self.request.user.username)
 
-            # Create property images instance
+            # Create a temporary property images instance
             images_ = TempImageStore(user=agent, image=request.FILES.getlist('file'))
 
             return redirect('accounts:dashboard')
