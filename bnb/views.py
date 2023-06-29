@@ -91,8 +91,7 @@ class SimpleSearch(generic.ListView):
 
         return render(request, self.template_name, context)
 
-#Bnb creation views
-
+######## Bnb creation views ############
 
 @login_required
 def bnbDetailsView(request):
@@ -257,7 +256,7 @@ def bnbAmenitiesView(request):
             # print(amenity_list)
             session['bnb_amenites'] = amenity_list
 
-            return redirect('bnb:bnb-images-add')    
+            return redirect('bnb:bnb-restrictions-add')    
     else:
         form = BnBAmenitiesForm()
 
@@ -268,10 +267,61 @@ def bnbAmenitiesView(request):
 
 
 @login_required
+def bnbRestrictions(request):
+    session = request.session
+    if 'bnb_amenites' not in session:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    
+    restriction_list = []
+    if request.method == 'POST':
+        form = BnBRestrictionsForm(request.POST)
+        if form.is_valid():
+            for restriction in form.cleaned_data['restriction']:
+                restriction_list.append({
+                    'id': restriction.id,
+                    'name': restriction.restriction
+                })
+            print(restriction_list)
+            session['bnb_restriction_details'] = restriction_list
+
+            return redirect('bnb:bnb-policies-add')    
+    else:
+        form = BnBRestrictionsForm()
+
+    context = {
+        'form':form,
+    }
+    return render(request, 'bnb/create/bnb-restrictions.html', context)
+
+
+@login_required
+def bnbPoliciesView(request):
+    session = request.session
+    if 'bnb_restriction_details' not in session:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+     
+    if request.method == 'POST':
+        form = BNBPolicyForm(request.POST)
+        if form.is_valid():    
+            print(form.cleaned_data['policy'])
+            session['bnb_policies'] = form.cleaned_data['policy'].id
+
+            return redirect('bnb:bnb-images-add')    
+    else:
+        form = BNBPolicyForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'bnb/create/bnb-policies.html', context)
+
+
+@login_required
 def bnbImagesView(request):
     session = request.session
 
-    if 'bnb_amenites' not in session:
+    if 'bnb_policies' not in session:
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
     uploaded_images = None
@@ -328,6 +378,12 @@ def createBNBInstance(request):
             
             #assign amenities
             bnb.assign_ameneities(selected=session['bnb_amenites'])
+
+            #assign restriction
+            bnb.assign_restrictions(selected=session['bnb_restriction_details'])
+
+            #create cancellation policy
+            bnb.create_cancellation_policy(policy_id=session['bnb_policies'])
 
             #append images
             bnb.assign_images(image_id=session['bnb_img_session'])

@@ -18,7 +18,7 @@
 						{% include 'users/dashboard-nav.html' %}
 						<div class="col-lg-12 mb50">
 							<div class="breadcrumb_content">
-								<h2 class="breadcrumb_title">Lodge amenities </h2>
+								<h2 class="breadcrumb_title">BNB amenities </h2>
 								
 							</div>
 						</div>
@@ -29,8 +29,6 @@
 				  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		          <div class="new_property_form">
 					<h4 class="mb30">Select Available amenities</h4>
-					<button class="btn btn-thm" type="button" onclick="{selectAll()}" >Select All</button>
-					<button class="btn btn-thm" type="button" onclick="{deSelectAll()}" >Remove All</button>
 					<form method="post" action="{% url 'bnb:bnb-amenities-add' %}">
                     {% csrf_token %}
 					<div class="ui_kit_select_search form-group list_hightlights df mt20">

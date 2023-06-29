@@ -198,10 +198,10 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="breadcrumb_content style2 mb100">
-            <h2 class="breadcrumb_title">NY Real Estate & Homes For Sale</h2>
+            <h2 class="breadcrumb_title">Afrihuts BNB's</h2>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Grid Default</li>
+              <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Search results</li>
             </ol>
           </div>
         </div>
@@ -259,29 +259,29 @@
                   </div>
                   <div class="thmb_cntnt2">
                     <ul class="listing_gallery mb0">
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                      <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{bnb.bnb_image.count}}</a></li>
+                      <!-- <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li> -->
                     </ul>
                   </div>
                 </div>
                 <div class="details style7">
                   <div class="tc_content">
                     <div class="wrapper float-left fn-md">
-                      <h4><a href="page-listing-single-v8.html">{{bnb.title}}</a></h4>
+                      <h4><a href="{% url 'bnb:bnb-detail' bnb.id %}" class="text-uppercase ">{{bnb.title}}</a></h4>
                       <p>{{bnb.country}}</p>
                       <ul class="prop_details mb0">
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
-                        <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>{{bnb.bnb_rooms.count}} Beds</a></li>
+                        <!-- <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath </a></li> -->
+                        <li class="list-inline-item"><a href="#"><span class="flaticon-user pr5"></span> <br>{{bnb.max_num_of_guests}} Guests </a></li>
+                        
                       </ul>
                     </div>
                   </div>
                   <div class="fp_footer">
                     <ul class="fp_meta float-left mb0">
                       <li class="list-inline-item">
-                        <a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
-                        <span class="heading-color fw600">$2,300/mo</span></a>
+                        <a href="{% url 'bnb:bnb-detail' bnb.id %}">
+                        <span class="heading-color fw600">${{bnb.price_per_night}}/night</span></a>
                       </li>
                     </ul>
                     <ul class="fp_meta float-right mb0">

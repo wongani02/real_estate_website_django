@@ -72,6 +72,21 @@ class LodgeCreation():
         for item in selected:
             amenity_instance.amenity.add(item['id'])
 
+    def assign_restrictions(self, selected=[]):
+        restriction_instance = LodgeRestrictions.objects.create(
+            lodge_id = self.lodge_instance.id
+        )
+
+        for item in selected:
+            restriction_instance.restriction.add(item['id'])
+
+
+    def create_cancellation_policy(self, policy_id):
+        policy_instance = LodgeCancellationPolicy.objects.create(
+            lodge_id=self.lodge_instance.id,
+            policy_id=policy_id,
+        )
+
 
     @transaction.atomic
     def save_image(self, image):
@@ -107,5 +122,7 @@ class LodgeCreation():
         del self.session['lodge_location_details']
         del self.session['lodge_rooms']
         del self.session['lodge_amenites']
+        del self.session['lodge_restriction']
+        del self.session['lodge_policies']
 
     

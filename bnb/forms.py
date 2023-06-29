@@ -1,5 +1,5 @@
 from django import forms
-from .models import Amenity, PropertyAmenity, PropertyType, BNBRoom, BNBImage, Property
+from .models import *
 
 
 class BNBDetailsForm(forms.Form):
@@ -73,6 +73,34 @@ class BnBAmenitiesForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['amenity'].queryset = Amenity.objects.all()
+
+
+class BnBRestrictionsForm(forms.ModelForm):
+    
+    class Meta:
+        model = BNBRestrictions
+        fields = ['restriction']
+        widgets = {
+            'restriction': forms.CheckboxSelectMultiple()
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['restriction'].queryset = Restrictions.objects.all()
+
+
+class BNBPolicyForm(forms.ModelForm):
+
+    class Meta:
+        model = BNBCancellationPolicy
+        fields = ['policy']
+        widgets = {
+            'policy': forms.RadioSelect()
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['policy'].queryset = Policy.active_policy_manager.all()
 
 
 #edit forms

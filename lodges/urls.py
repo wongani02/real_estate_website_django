@@ -19,7 +19,10 @@ urlpatterns = [
     path('amenties-handler/', views.handleAmenities, name='amenties-handler'),
     path('room-form-handler/', views.handleRoomForm, name='room-form-handler'),
     path('lodge-info-handler/', views.handleLodge, name='lodge-info-handler'),
+    path('lodge-info-restrictions/', views.lodgeRestrictions, name='lodge-restrictions'),
+    path('lodge-info-policies/', views.lodgePoliciesView, name='lodge-policies'),
     path('lodge-documents-and-images/', views.uploadLodgeDocumnetAndImages, name='lodge-documents'),
+    
 
     #create lodge instance
     path('create-lodge-instance/', views.createLodgeInstanceView, name='create-lodge-instance'),

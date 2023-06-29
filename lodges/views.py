@@ -208,7 +208,7 @@ def handleAmenities(request):
             print(amenity_list)
             session['lodge_amenites'] = amenity_list
 
-            return redirect('lodges:lodge-documents')
+            return redirect('lodges:lodge-restrictions')
         else:
             print(ameneity_form.errors)
         
@@ -221,9 +221,63 @@ def handleAmenities(request):
 
 
 @login_required
-def uploadLodgeDocumnetAndImages(request):
+def lodgeRestrictions(request):
     session = request.session
     if 'lodge_amenites' not in session:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    
+    restriction_list = []
+    if request.method == 'POST':
+        form = LodgeRestrictionsForm(request.POST)
+        if form.is_valid():
+            for restriction in form.cleaned_data['restriction']:
+                restriction_list.append({
+                    'id': restriction.id,
+                    'name': restriction.restriction
+                })
+            
+            session['lodge_restriction'] = restriction_list
+            print(session['lodge_restriction'])
+
+            return redirect('lodges:lodge-policies')    
+    else:
+        form = LodgeRestrictionsForm()
+
+    context = {
+        'form':form,
+    }
+    return render(request, 'lodges/create-lodge-restrictions.html', context)
+
+
+@login_required
+def lodgePoliciesView(request):
+    session = request.session
+    print('here')
+    if 'lodge_restriction' not in session:
+        print('redirecting')
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    print('inside')
+    if request.method == 'POST':
+        form = LodgePolicyForm(request.POST)
+        if form.is_valid():    
+            print(form.cleaned_data['policy'])
+            session['lodge_policies'] = form.cleaned_data['policy'].id
+
+            return redirect('lodges:lodge-documents')    
+    else:
+        form = LodgePolicyForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'lodges/create-lodge-policies.html', context)
+
+
+
+@login_required
+def uploadLodgeDocumnetAndImages(request):
+    session = request.session
+    if 'lodge_policies' not in session:
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
     uploaded_images = None
@@ -279,6 +333,12 @@ def createLodgeInstanceView(request):
 
             #create lodge ameneities
             lodge_instance.assign_amenities(selected=session['lodge_amenites'])
+
+            #create lodge restrisctions
+            lodge_instance.assign_restrictions(selected=session['lodge_restriction'])
+
+            #create lodge policy
+            lodge_instance.create_cancellation_policy(policy_id=session['lodge_policies'])
 
             #assign images
             lodge_instance.add_images(image_id=session['img_session'])

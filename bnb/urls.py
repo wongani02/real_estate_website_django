@@ -17,6 +17,8 @@ urlpatterns = [
     path('create/step-3/', views.bnbRoomCreateView, name='bnb-room'),
     path('create/step-4/', views.bnbAmenitiesView, name='bnb-amenities-add'),
     path('create/step-5/', views.bnbImagesView, name='bnb-images-add'),
+    path('create/restrictions/', views.bnbRestrictions, name='bnb-restrictions-add'),
+    path('create/polices/', views.bnbPoliciesView, name='bnb-policies-add'),
 
     #handler
     path('bnb-images/upload', views.bnbImageHandler, name='bnb-image-handler'),

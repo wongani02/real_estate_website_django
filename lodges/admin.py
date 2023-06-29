@@ -46,7 +46,7 @@ class LodgeAdmin(admin.ModelAdmin):
 
 @admin.register(Policy)
 class PolicyAdmin(admin.ModelAdmin):
-    list_display = ['policy']
+    list_display = ['policy_title']
 
 
 @admin.register(Restrictions)

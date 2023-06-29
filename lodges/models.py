@@ -132,11 +132,25 @@ class LodgeAmenity(models.Model):
         return f"{self.amenity.name} ({self.lodge.name} - Room {self.lodge.city})"
     
 
+class ActivePolicyManager(models.Manager):
+
+    def get_queryset(self):
+        return super(ActivePolicyManager, self).get_queryset().filter(is_active=True)
+    
+
 class Policy(models.Model):
-    policy = models.TextField(null=True)
+    policy_title = models.CharField(max_length=500,null=True)
+    policy_description = RichTextField(null=True)
+    number_of_days = models.PositiveSmallIntegerField(
+        help_text='number of days before check in acceptable for booking cancellation',
+        default=1,
+        )
+    is_active = models.BooleanField(default=True)
+
+    active_policy_manager  = ActivePolicyManager()
 
     def __str__(self):
-        return f'policy {self.id}'
+        return f'{self.policy_title} \n {self.policy_description}'
 
 
 class LodgeCancellationPolicy(models.Model):

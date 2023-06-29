@@ -10,6 +10,8 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.base import ContentFile
 
+from ckeditor.fields import RichTextField
+
 from io import BytesIO
 from PIL import Image, ImageDraw
 
@@ -128,11 +130,24 @@ class PropertyImage(models.Model):
         return f"{self.property} - {self.id}"
     
 
+class ActivePolicyManager(models.Manager):
+
+    def get_queryset(self):
+        return super(ActivePolicyManager, self).get_queryset().filter(is_active=True)
+
 class Policy(models.Model):
-    policy = models.TextField(null=True)
+    policy_title = models.CharField(max_length=500,null=True)
+    policy_description = RichTextField(null=True)
+    number_of_days = models.PositiveSmallIntegerField(
+        help_text='number of days before check in acceptable for booking cancellation',
+        default=1,
+        )
+    is_active = models.BooleanField(default=True)
+
+    active_policy_manager  = ActivePolicyManager()
 
     def __str__(self):
-        return f'policy {self.id}'
+        return f'{self.policy_title} \n {self.policy_description}'
 
 
 class BNBCancellationPolicy(models.Model):

@@ -174,7 +174,10 @@
             <div class="col-lg-12">
               <div class="listing_single_description mt50  bb1">
                   <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline">BNB Cancellation Policy</h4>
-                  <p class="first-Description mb25 text-monospace">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>  
+                  {% for policy in bnb.bnb_policies.all %}
+                  <h5>{{policy.policy.policy_title}}</h5>
+                  <p class="first-Description mb25 text-monospace">{{policy.policy.policy_description|safe}}</p>  
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -553,8 +556,8 @@
 <script>
   var geocoder;
     var map;
-    var lat = parseFloat({{bnb.lat}})
-    var lon = parseFloat({{bnb.long}})
+    var lat = parseFloat({{bnb.long}})
+    var lon = parseFloat({{bnb.lat}})
     var address = "{{bnb.counrty}}"
 
     function initializeGeocoder() {

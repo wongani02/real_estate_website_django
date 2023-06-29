@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.formsets import formset_factory, BaseFormSet
-from .models import Amenity, LodgeAmenity, Lodge, RoomCategory
+from .models import *
 
 
 class LodgeCreationForm(forms.Form):
@@ -94,6 +94,36 @@ class LodgeAmenities(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['amenity'].queryset = Amenity.objects.all()
+
+
+class LodgeRestrictionsForm(forms.ModelForm):
+    
+    class Meta:
+        model = LodgeRestrictions
+        fields = ['restriction']
+        widgets = {
+            'restriction': forms.CheckboxSelectMultiple()
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['restriction'].queryset = Restrictions.objects.all()
+
+
+class LodgePolicyForm(forms.ModelForm):
+
+    class Meta:
+        model = LodgeCancellationPolicy
+        fields = ['policy']
+        widgets = {
+            'policy': forms.RadioSelect()
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['policy'].queryset = Policy.active_policy_manager.all()
+
+
 
 
 #edit formscountry

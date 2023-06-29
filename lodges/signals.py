@@ -4,10 +4,10 @@ from django.db.models.signals import post_save, pre_save
 from .models import RoomCategory, Booking
 
 
-@receiver(post_save, sender=RoomCategory)
-def post_save_create_rooms(sender, instance, created, *args, **kwargs):
-    if created:
-        print('here')
+# @receiver(post_save, sender=RoomCategory)
+# def post_save_create_rooms(sender, instance, created, *args, **kwargs):
+#     if created:
+#         print('here')
         # num = 0
         # while num < instance.quantity:
         #     Room.objects.create(

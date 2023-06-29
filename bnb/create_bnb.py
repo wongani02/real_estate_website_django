@@ -52,6 +52,22 @@ class BNB:
             amenity_instance.amenity.add(amenity['id'])
 
 
+    def assign_restrictions(self, selected=[]):
+        restriction_instance = BNBRestrictions.objects.create(
+            bnb_id = self.bnb_instance.id
+        )
+
+        for item in selected:
+            restriction_instance.restriction.add(item['id'])
+
+
+    def create_cancellation_policy(self, policy_id):
+        policy_instance = BNBCancellationPolicy.objects.create(
+            bnb_id=self.bnb_instance.id,
+            policy_id=policy_id,
+        )
+
+
     @transaction.atomic
     def save_images(self, image):
         #save image method
@@ -86,4 +102,6 @@ class BNB:
         del self.session['bnb_location_details']
         del self.session['bnb_amenites']
         del self.session['bnb_rooms']
+        del self.session['bnb_policies']
+        del self.session['bnb_restriction_details']
         
