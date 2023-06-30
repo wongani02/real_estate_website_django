@@ -20,6 +20,7 @@ from users.models import User
 
 import json
 import ast
+import shutil, os
 
 
 
@@ -72,7 +73,7 @@ class PropertiesHome(generic.ListView):
     def get(self, request):
 
         #properties pagination for load more functionality
-        properties = Property.objects.filter(is_active=True)
+        properties = Property.objects.all()
         property_paginator = Paginator(properties, 4)
         property_page_number = request.GET.get('page', 1)
         property_obj = property_paginator.get_page(property_page_number)
@@ -648,10 +649,16 @@ def create_property_images(request, property_, object_):
 
     for temp_obj in temp:
         images = Images.objects.create(property=property_, file=temp_obj.image)
-        # images.property = property_
-        # images.file = temp_obj.image
         images.save()
-        # temp_obj.delete()
+        name = str(temp_obj.image.name).split('/')
+
+        # move file on filesystem
+        source_path = temp_obj.image.path
+        destination_path = '/property_images/'
+        shutil.move(source_path, destination_path)
+
+        # delete temporary image object
+        temp_obj.delete()
 
     # Get all image objects related to the property
     images = Images.objects.filter(property=property_).order_by('date')
