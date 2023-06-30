@@ -9,7 +9,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from users.models import User
 from payments.models import BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode, Payment
 from properties.models import Property
-from bnb.models import Property as BnB
+from bnb.models import Property as BnB, Booking as BNBBooking
 from lodges.models import Lodge, About
 from core import settings
 from payments.utils import EmailThread
@@ -42,7 +42,9 @@ def generate_lodges_code(request):
         payment = BnbBookingPayment.objects.get(order_key=booking_id)
 
         # Get data from booking table
-        booking = payment.booking.first()
+        booking = payment.booking.id
+
+        booking = BNBBooking.objects.get(id=booking)
 
     # Get relavant qr data
     content = {
