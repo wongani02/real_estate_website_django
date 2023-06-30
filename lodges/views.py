@@ -656,7 +656,6 @@ def processPaymentView(request, **kwargs):
     rooms_available = kwargs.get('room_list')
     print(type(rooms_available), rooms_available)
     
-    
     number_of_bookings = 0
     if number_of_rooms > rooms_available:
         number_of_bookings = rooms_available
@@ -703,7 +702,7 @@ def processPaymentView(request, **kwargs):
         payment_option=PaymentOption.objects.first(),
         billing_status=True,
     )
-    payment_id = payment.id
+    payment_id = payment.order_key
 
     for booking in booking_ids:
         payment.booking.add(booking)
