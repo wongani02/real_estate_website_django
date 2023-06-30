@@ -1,51 +1,27 @@
 {% load static %}
 
 {% for i in bnb %}
-<div class="col-lg-3">
-    <div class="feat_property">
-        <div class="thumb"> <img class="img-whp" src="{% static 'images/property/fl1.jpg' %}" alt="fl1.jpg">
-            <div class="thmb_cntnt">
-            <ul class="tag mb0">
-                <li class="list-inline-item"><a href="#">FEATURED</a></li>
-            </ul>
-            <ul class="tag2 mb0">
-                <li class="list-inline-item"><a href="#">FOR SALE</a></li>
-            </ul>
+    <div class="col-lg-4 " >
+        <div class="feat_property map">
+            <div class="thumb">
+            <a href="{% url 'bnb:bnb-detail' i.id %}">
+                {% for image in i.bnb_image.all %}
+                {% if image.is_feature %}
+                <img class="img-whp" loading="lazy" src="{{image.image.image.url}}" alt="location.png">
+                {% endif %}
+                {% endfor %}
+            </a>
             </div>
-            <div class="thmb_cntnt2">
-            <ul class="listing_gallery mb0">
-                <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
-            </ul>
-            </div>
-        </div>
-        <div class="details">
+            <div class="details">
             <div class="tc_content">
-                <div class="badge_icon"><a href="#"><img src="images/agent/1.png" alt="1.png"></a></div>
-                <h4><a href="page-listing-single-v8.html">New Apartment Nice Wiew</a></h4>
-                <p>Quincy St, Brooklyn, NY, USA</p>
-                <ul class="prop_details mb0">
-                    <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
-                    <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
-                    <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
-                    <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
-                </ul>
+                <h4><a class="text-uppercase" href="{% url 'bnb:bnb-detail' i.id %}">{{i.title}}</a></h4>
+                <p><span class="heading-color">{{i.country}}</span><br> <span class="heading-color">{{i.price_per_night}}/night</span></p>
             </div>
-            <div class="fp_footer">
-                <ul class="fp_meta float-left mb0">
-                    <li class="list-inline-item"><a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
-                    <span class="heading-color fw600">$7,500/mo</span></a></li>
-                </ul>
-                <ul class="fp_meta float-right mb0">
-                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
-                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
-                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
-                </ul>
             </div>
         </div>
     </div>
-</div>
 {% endfor %}
+
 {% if bnb.has_next %}
     <div id="load-more-bnbs" class="nav nav-tabs mb50 col-lg-12 justify-content-center">
         <button 

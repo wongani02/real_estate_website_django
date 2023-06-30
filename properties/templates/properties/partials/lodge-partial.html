@@ -15,12 +15,18 @@
         {% endif %}
         <div class="feat_property map">
             <div class="thumb">
-            <a href="#"><img class="img-whp" src="{% static 'images/property/location.png' %}" alt="location.png"></a>
+            <a href="{% url 'lodges:lodge-detail' lodge.id %}">
+                {% for image in lodge.pictures.all %}
+                {% if image.is_feature %}
+                <img class="img-whp" loading="lazy" src="{{image.img.img.url}}" alt="location.png">
+                {% endif %}
+                {% endfor %}
+            </a>
             </div>
             <div class="details">
             <div class="tc_content">
-                <h4><a href="page-listing-single-v3.html">New York</a></h4>
-                <p><span class="heading-color">359</span> listings for sale <br> Median listing price <span class="heading-color">$147,350</span></p>
+                <h4><a class="text-uppercase" href="{% url 'lodges:lodge-detail' lodge.id %}">{{lodge.name}}</a></h4>
+                <p><span class="heading-color"></span> {{lodge.map_location}}<span class="heading-color"></span></p>
             </div>
             </div>
         </div>

@@ -3,14 +3,23 @@
 {% for property in properties %}
 <div class="col-lg-3">
     <div class="feat_property">
-        <div class="thumb"> <img class="img-whp" src="{% static 'images/property/fl1.jpg' %}" alt="fl1.jpg">
+        <div class="thumb"> 
+            {% for image in property.property_images.all %}
+            {% if image.is_feature %}
+            <img class="img-whp" src="{{image.file.url}}" alt="fl1.jpg">
+            {% endif %}
+            {% endfor %}
             <div class="thmb_cntnt">
+            {% if property.is_featured %}
             <ul class="tag mb0">
                 <li class="list-inline-item"><a href="#">FEATURED</a></li>
             </ul>
+            {% endif %}
+            {% if property.property_type == 'SALE' %}
             <ul class="tag2 mb0">
                 <li class="list-inline-item"><a href="#">FOR SALE</a></li>
             </ul>
+            {% endif %}
             </div>
             <div class="thmb_cntnt2">
             <ul class="listing_gallery mb0">
@@ -21,20 +30,20 @@
         </div>
         <div class="details">
             <div class="tc_content">
-                <div class="badge_icon"><a href="#"><img src="images/agent/1.png" alt="1.png"></a></div>
-                <h4><a href="page-listing-single-v8.html">New Apartment Nice Wiew</a></h4>
-                <p>Quincy St, Brooklyn, NY, USA</p>
+                <div class="badge_icon"></div>
+                <h4><a href="{% url 'properties:property-single' property.id %}">{{property.name}}</a></h4>
+                <p>{{property.location_area}}</p>
                 <ul class="prop_details mb0">
-                    <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>4 Beds</a></li>
-                    <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>5 Bath</a></li>
-                    <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>1 Garage</a></li>
-                    <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>1200 Sq Ft</a></li>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-bed pr5"></span> <br>{{property.no_rooms}} Beds</a></li>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-bath pr5"></span> <br>{{property.no_baths}} Bath</a></li>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-car pr5"></span> <br>{{property.no_garages}} Garage</a></li>
+                    <li class="list-inline-item"><a href="#"><span class="flaticon-ruler pr5"></span> <br>{{property.compound_area}} Sq Ft</a></li>
                 </ul>
             </div>
             <div class="fp_footer">
                 <ul class="fp_meta float-left mb0">
-                    <li class="list-inline-item"><a href="#"><small><del class="body-color">$2,800/mo</del></small><br>
-                    <span class="heading-color fw600">$7,500/mo</span></a></li>
+                    <li class="list-inline-item">
+                    <span class="heading-color fw600">${{property.price}} {% if property.property_type == 'RENT' %}/mo{% endif %} </span></a></li>
                 </ul>
                 <ul class="fp_meta float-right mb0">
                     <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
