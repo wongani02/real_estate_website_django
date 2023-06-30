@@ -8,7 +8,7 @@ from django.views import View
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
 
-from datetime import date
+from datetime import date, datetime, timedelta
 
 from lodges.models import Lodge, About, BlogPost, BlogCategory
 from properties.models import *
@@ -651,7 +651,7 @@ def create_property_images(request, property_, object_):
         # images.property = property_
         # images.file = temp_obj.image
         images.save()
-        temp_obj.delete()
+        # temp_obj.delete()
 
     # Get all image objects related to the property
     images = Images.objects.filter(property=property_).order_by('date')
@@ -730,3 +730,5 @@ def create_amenities(request):
     db.refresh_from_db()
 
     return HttpResponse({'success': 200})
+
+
