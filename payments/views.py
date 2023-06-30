@@ -172,7 +172,7 @@ def send_mail(request, buffer, filename, client, _property_):
     formatted_date, current_tz, time = get_current_time_data()
 
     # Create emails subject
-    subject = "QR Code for " + _property_.name
+    subject = "QR Code for " + client
 
     # Create context variables
     context = {
