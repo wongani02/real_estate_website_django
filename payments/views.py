@@ -27,10 +27,6 @@ def generate_lodges_code(request):
     # Create a user object
     user = User.objects.get(username=request.user.username)
 
-    # Create a property object
-    # modify this object
-    _property_ = Property.objects.first()
-
     # Get data from booking session
     if 'lodge_booking' in request.session:
         payment_id = request.session['lodge_booking']
@@ -63,7 +59,7 @@ def generate_lodges_code(request):
         _property_ = payment.lodge
 
         # delete session
-        # del request.session['lodge_booking']
+        del request.session['lodge_booking']
 
     if 'bnb_booking' in request.session:
         # Get returned QRCode object
@@ -191,24 +187,17 @@ def send_mail(request, buffer, filename, _property_, client):
     to_email = request.session['booking_email']
 
     # delete session
-    # del request.session['booking_email']
-
-    print("TO: ", to_email)
-    print("FROM: ", from_email)
-    print("subject: ", subject)
-    print("TEXT: ", plain_text)
+    del request.session['booking_email']
 
     # Create email object
-    email = EmailMultiAlternatives(subject, "plain text", from_email, [to_email])
-    # email = send_mail(subject, email_body, from_email, [to_email], t=email_body)
-    
+    email = EmailMultiAlternatives(subject, plain_text, from_email, [to_email])
+
     # Attach qr code and email html image to email
-    # email.attach(filename, buffer, 'image/png')
-    # email.attach_alternative(email_body, 'text/html')
+    email.attach(filename, buffer, 'image/png')
+    email.attach_alternative(email_body, 'text/html')
 
     # Send email via thread
-    email.send()
-    # EmailThread(email).start()
+    EmailThread(email).start()
 
 
 """
