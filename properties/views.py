@@ -652,9 +652,15 @@ def create_property_images(request, property_, object_):
         images.save()
         name = str(temp_obj.image.name).split('/')
 
+        # create property_image folder if it does not exist
+        to_directory = settings.MEDIA_ROOT + '\\property_images\\'
+
+        if not os.path.exists(to_directory):
+            os.makedirs(to_directory)
+
         # move file on filesystem
         source_path = temp_obj.image.path
-        destination_path = '/property_images/' + name[-1]
+        destination_path = to_directory + name[-1]
         shutil.move(source_path, destination_path)
 
         # delete temporary image object
