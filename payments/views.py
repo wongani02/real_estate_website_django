@@ -149,6 +149,7 @@ def download_qr_code(request, **kwargs):
         pass
     
     # Get username - email of recepient
+    print("name: ", name)
     client = User.objects.get(username=request.user.username)
 
     # Send email qr to user
@@ -160,7 +161,7 @@ def download_qr_code(request, **kwargs):
 """
 Function sends qr code to email recepient
 """
-def send_mail(request, buffer, filename, _property_, client):
+def send_mail(request, buffer, filename, client, _property_):
     # Get company object
     company = About.objects.first()
 

@@ -35,7 +35,7 @@ class Lodge(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True)
     contact_email = models.EmailField(_('contact email'), null=True)
-    contact_phone = models.CharField(_('contact phone number'), max_length=12, null=True)
+    contact_phone = models.CharField(_('contact phone number'), max_length=13, null=True)
     street_name = models.CharField(max_length=255, null=True)
     city = models.CharField(max_length=255, null=True)
     map_location = models.CharField(max_length=255, null=True)
