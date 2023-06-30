@@ -19,6 +19,7 @@ from datetime import datetime
 import datetime as d
 import qrcode, pytz
 import uuid
+import qrcode, pytz, json
 
 
 """
@@ -36,6 +37,17 @@ def generate_lodges_code(request):
 
         booking = payment.booking.first()
 
+        # Get booking content
+        booking_content = get_lodge_booking_content(booking)  
+
+        # Get returned QRCode object
+        qr = LodgeBookingPayment.generate_qr_code(booking_content)
+
+        _property_ = payment.lodge
+
+        # delete session
+        del request.session['lodge_booking']
+
     if 'bnb_booking' in request.session:
         booking_id = request.session['bnb_booking']
 
@@ -46,7 +58,27 @@ def generate_lodges_code(request):
 
         booking = BNBBooking.objects.get(id=booking)
 
-    # Get relavant qr data
+        # Get booking content
+        booking_content = get_bnb_booking_content(booking)
+
+        # Get returned QRCode object
+        qr = BnbBookingPayment.generate_qr_code(booking_content)
+        
+        _property_ = payment.bnb
+
+        # Delete session
+        del request.session['bnb_booking']
+
+    # Save model instance
+    payment.save()
+    
+    # Add qr data to session
+    qr_content(request, booking_content)
+    
+    return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_})
+
+
+def get_lodge_booking_content(booking):
     content = {
         'Property Name': booking.room.room_category.lodge.name, 'Property Location': booking.room.room_category.lodge.map_location,
         'Reference Code': booking.ref_code, 'Username': booking.full_name, 'Email': booking.email, 'Check In': booking.check_in, 
@@ -54,48 +86,18 @@ def generate_lodges_code(request):
         'Number of Nights': booking.number_of_nights, 'Number of Guests': booking.num_guests
     }
 
-    if 'lodge_booking' in request.session:
-
-        # Get returned QRCode object
-        qr = LodgeBookingPayment.generate_qr_code(content)
-
-        _property_ = payment.lodge
-
-        # delete session
-        del request.session['lodge_booking']
-
-    if 'bnb_booking' in request.session:
-        # Get returned QRCode object
-        qr = BnbBookingPayment.generate_qr_code(content)
-        
-        _property_ = payment.bnb
-
-        # Delete session
-        del request.session['bnb_booking']
+    return content
 
 
-    # Save model instance
-    payment.save()
-
-    # Get booking content
-    booking_content = get_booking_content(booking)
-    
-    # Add qr data to session
-    qr_content(request, content)
-    
-    return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_})
-
-
-def get_booking_content(booking):
+def get_bnb_booking_content(booking):
     content = {
-        'property_name': booking.room.room_category.lodge.name, 'property_location': booking.room.room_category.lodge.map_location,
-        'ref_code': booking.ref_code, 'username': booking.full_name, 'email': booking.email, 'check_in': booking.check_in, 
-        'check_out': booking.check_out, 'created_at': booking.created_at, 'no_rooms': booking.number_of_rooms,
-        'no_nights': booking.number_of_nights, 'guests': booking.num_guests
+        'Property Name': booking.property.title, 'Property Location': booking.property.street_name,
+        'Reference Code': booking.ref_code, 'Username': booking.full_name, 'Email': booking.email, 'Check In': booking.check_in, 
+        'Check Out': booking.check_out, 'Created On': booking.created_at,
+        'Number of Nights': booking.number_of_nights, 'Number of Guests': booking.num_guests
     }
 
     return content
-
 
 
 """

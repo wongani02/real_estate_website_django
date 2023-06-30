@@ -4,6 +4,7 @@ import uuid
 import os
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -219,6 +220,7 @@ class Booking(models.Model):
     ref_code = models.CharField(max_length=10, null=True, blank=True)
     is_paid = models.BooleanField(default=False, null=True)
     is_active = models.BooleanField(default=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)
 
     #model managers
     objects = models.Manager()
