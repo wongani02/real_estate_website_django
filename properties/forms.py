@@ -27,13 +27,13 @@ class SearchForm(forms.ModelForm):
             'amenities',
         ] 
         widgets = {
-            'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
-                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
-            }),
-            'district': forms.Select(choices=Districts.objects.all(), attrs={
-                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
-                'title': 'Village'
-            }),
+            # 'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
+            #     'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
+            # }),
+            # 'district': forms.Select(choices=Districts.objects.all(), attrs={
+            #     'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
+            #     'title': 'Village'
+            # }),
         }
 
 class PropertyInfoCreationForm(forms.ModelForm):
@@ -61,37 +61,37 @@ class PropertyInfoCreationForm(forms.ModelForm):
         ]
         required = "__all__"
         widgets = {
-            'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
-                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
-                'title': 'Property Listing Type'
-            }),
-            'property_status': forms.Select(choices=Property.STATUS, attrs={
-                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
-            }),
-            'year_built': forms.DateInput(attrs={
-                'type': 'date', 'class': 'form-control form_control'
-            }),
-            'name': forms.TextInput(attrs={
-                'class': 'form_control form-control', 'placeholder': 'Name of Property'
-            }),
-            'no_rooms': forms.NumberInput(attrs={
-                'class': 'form_control form-control', 'placeholder': 'Rooms'
-            }),
-            'no_baths': forms.NumberInput(attrs={
-                'class': 'form_control form-control', 'placeholder': 'Baths'
-            }),
-            'no_garages': forms.NumberInput(attrs={
-                'class': 'form_control form-control', 'placeholder': 'Garages'
-            }),
-            'compound_area': forms.NumberInput(attrs={
-                'class': 'form_control form-control', 'placeholder': 'Compound Area (metres)'
-            }),
-            'property_area': forms.NumberInput(attrs={
-                'class': 'form_control form-control', 'placeholder': 'Property Area (meters)'
-            }),
-            'price': forms.TextInput(attrs={
-                'class': 'form_control form-control', 'placeholder': 'Price'
-            }),
+            # 'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
+            #     'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
+            #     'title': 'Property Listing Type'
+            # }),
+            # 'property_status': forms.Select(choices=Property.STATUS, attrs={
+            #     'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Status', 
+            # }),
+            # 'year_built': forms.DateInput(attrs={
+            #     'type': 'date', 'class': 'form-control form_control'
+            # }),
+            # 'name': forms.TextInput(attrs={
+            #     'class': 'form_control form-control', 'placeholder': 'Name of Property'
+            # }),
+            # 'no_rooms': forms.NumberInput(attrs={
+            #     'class': 'form_control form-control', 'placeholder': 'Rooms'
+            # }),
+            # 'no_baths': forms.NumberInput(attrs={
+            #     'class': 'form_control form-control', 'placeholder': 'Baths'
+            # }),
+            # 'no_garages': forms.NumberInput(attrs={
+            #     'class': 'form_control form-control', 'placeholder': 'Garages'
+            # }),
+            # 'compound_area': forms.NumberInput(attrs={
+            #     'class': 'form_control form-control', 'placeholder': 'Compound Area (metres)'
+            # }),
+            # 'property_area': forms.NumberInput(attrs={
+            #     'class': 'form_control form-control', 'placeholder': 'Property Area (meters)'
+            # }),
+            # 'price': forms.TextInput(attrs={
+            #     'class': 'form_control form-control', 'placeholder': 'Price'
+            # }),
         }
 
 
@@ -109,10 +109,10 @@ class PropertyLocationCreationForm(forms.ModelForm):
             'amenities', 'lat', 'lon',
         ]
         widgets = {
-            'district': forms.Select(choices=Districts.objects.all(), attrs={
-                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
-                'title': 'Village'
-            }),
+            # 'district': forms.Select(choices=Districts.objects.all(), attrs={
+            #     'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
+            #     'title': 'Village'
+            # }),
         }
 
 class PropertyCategoryCreationForm(forms.ModelForm):

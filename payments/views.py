@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils.html import strip_tags
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
+from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
 
 from users.models import User
-from payments.models import PropertyPayment, BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode
+from payments.models import BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode, Payment
 from properties.models import Property
 from bnb.models import Property as BnB
 from lodges.models import Lodge, About
@@ -22,111 +23,75 @@ import qrcode, pytz
 """
 Function creates and returns a qr code to template for the properties model
 """
-def generate_properties_code(request):
-    # Create a user object
-    user = User.objects.get(username=request.user.username)
-
-    # Create a property object
-    # modify this object
-    _property_ = Property.objects.first()
-
-    # Get relavant qr data
-    content = {
-        'property_name': _property_.name, 'property_location': _property_.location_area,
-        'price': _property_.price, 'username': user.username 
-    }
-
-    # Get returned QRCode object
-    qr = PropertyPayment.generate_qr_code(content)
-
-    # Create payments object
-    payment = PropertyPayment.objects.create(
-        user=user, email=user.email, full_name=user.name,
-        payment_option=PaymentOption.objects.first(),
-        property=_property_, qr_code=qr
-    )
-
-    # Save model instance
-    payment.save()
-    
-    # Add qr data to session
-    qr_content(request, content)
-    
-    return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_})
-
-
-
-"""
-Function creates and returns a qr code to template for the properties model
-"""
 def generate_lodges_code(request):
     # Create a user object
     user = User.objects.get(username=request.user.username)
 
-    # Create a property object
-    # modify this object
-    _property_ = BnB.objects.first()
+    # Get data from booking session
+    if 'lodge_booking' in request.session:
+        payment_id = request.session['lodge_booking']
+
+        payment = LodgeBookingPayment.objects.get(pk=payment_id)
+
+        booking = payment.booking.first()
+
+    if 'bnb_booking' in request.session:
+        booking_id = request.session['bnb_booking']
+
+        payment = BnbBookingPayment.objects.get(pk=payment_id)
+
+        # Get data from booking table
+        booking = payment.booking.first()
 
     # Get relavant qr data
     content = {
-        'property_name': _property_.title, 'owner': _property_.host, 'property_location': _property_.street_name,
-        'price': _property_.price_per_night,
+        'Property Name': booking.room.room_category.lodge.name, 'Property Location': booking.room.room_category.lodge.map_location,
+        'Reference Code': booking.ref_code, 'Username': booking.full_name, 'Email': booking.email, 'Check In': booking.check_in, 
+        'Check Out': booking.check_out, 'Created On': booking.created_at, 'Number of Rooms': booking.number_of_rooms,
+        'Number of Nights': booking.number_of_nights, 'Number of Guests': booking.num_guests
     }
 
-    # Get returned QRCode object
-    qr = BnbBookingPayment.generate_qr_code(content)
+    if 'lodge_booking' in request.session:
 
-    # Create payments object
-    payment = BnbBookingPayment.objects.create(
-        user=user, email=user.email, full_name=user.name,
-        payment_option=PaymentOption.objects.first(),
-        property=_property_, qr_code=qr
-    )
+        # Get returned QRCode object
+        qr = LodgeBookingPayment.generate_qr_code(content)
+
+        _property_ = payment.lodge
+
+        # delete session
+        del request.session['lodge_booking']
+
+    if 'bnb_booking' in request.session:
+        # Get returned QRCode object
+        qr = BnbBookingPayment.generate_qr_code(content)
+        
+        _property_ = payment.bnb
+
+        # Delete session
+        del request.session['bnb_booking']
+
 
     # Save model instance
     payment.save()
+
+    # Get booking content
+    booking_content = get_booking_content(booking)
     
     # Add qr data to session
-    qr_content(request, content)
+    qr_content(request, booking_content)
     
     return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_})
 
 
-
-"""
-Function creates and returns a qr code to template for the properties model
-"""
-def generate_bnbs_code(request):
-    # Create a user object
-    user = User.objects.get(username=request.user.username)
-
-    # Create a property object
-    # modify this object
-    _property_ = Lodge.objects.first()
-
-    # Get relavant qr data
+def get_booking_content(booking):
     content = {
-        'property_name': _property_.name, 'property_location': _property_.map_location,
-        'username': user.username 
+        'property_name': booking.room.room_category.lodge.name, 'property_location': booking.room.room_category.lodge.map_location,
+        'ref_code': booking.ref_code, 'username': booking.full_name, 'email': booking.email, 'check_in': booking.check_in, 
+        'check_out': booking.check_out, 'created_at': booking.created_at, 'no_rooms': booking.number_of_rooms,
+        'no_nights': booking.number_of_nights, 'guests': booking.num_guests
     }
 
-    # Get returned QRCode object
-    qr = LodgeBookingPayment.generate_qr_code(content)
-
-    # Create payments object
-    payment = LodgeBookingPayment.objects.create(
-        user=user, email=user.email, full_name=user.name,
-        payment_option=PaymentOption.objects.first(),
-        property=_property_, qr_code=qr
-    )
-
-    # Save model instance
-    payment.save()
-    
-    # Add qr data to session
-    qr_content(request, content)
-
-    return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_})
+    return content
 
 
 
@@ -165,7 +130,18 @@ def download_qr_code(request, **kwargs):
     response["Content-Disposition"] = f"attachment; filename={filename}"
 
     # Get name of property
-    name = Property.objects.get(id=kwargs.get('pk'))
+    try:
+        name = Property.objects.get(id=kwargs.get('pk'))
+    except ObjectDoesNotExist:
+        pass
+    try:
+        name = BnB.objects.get(id=kwargs.get('pk'))
+    except ObjectDoesNotExist:
+        pass
+    try:
+        name = Lodge.objects.get(id=kwargs.get('pk'))
+    except ObjectDoesNotExist:
+        pass
     
     # Get username - email of recepient
     client = User.objects.get(username=request.user.username)
@@ -208,18 +184,21 @@ def send_mail(request, buffer, filename, _property_, client):
     from_email = settings.EMAIL_HOST_USER
 
     # Create email recepient
-    to_email = client.email
+    to_email = request.session['booking_email']
+
+    # delete session
+    del request.session['booking_email']
 
     # Create email object
     email = EmailMultiAlternatives(subject, plain_text, from_email, [to_email])
-    # email = send_mail(subject, email_body, from_email, [to_email], html_message=email_body)
-    
+
     # Attach qr code and email html image to email
     email.attach(filename, buffer, 'image/png')
     email.attach_alternative(email_body, 'text/html')
 
     # Send email via thread
     EmailThread(email).start()
+
 
 """
 Function returns current time data:

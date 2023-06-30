@@ -674,6 +674,9 @@ def processPaymentView(request, **kwargs):
             print(rooms_to_be_booked)
 
     count = 0
+
+    # Make sure to only delete your session variables at the end of the function
+    # Im also using them for some of my code 
     while count < number_of_bookings:
         booking_instance = Booking.objects.create(
             user_id=request.user.id,
@@ -709,5 +712,11 @@ def processPaymentView(request, **kwargs):
 
     booking = Booking.objects.filter(id__in=booking_ids)
     booking.update(is_paid=True)
+
+    # Add payment id to session variable "lodge_booking"
+    request.session['lodge_booking'] = str(payment_id)
+
+    # Add email to session
+    request.session['booking_email'] = request.session['lodge_booking_data']['email']
 
     return JsonResponse('payment complete', safe=False)
