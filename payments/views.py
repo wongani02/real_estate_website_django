@@ -18,6 +18,7 @@ from datetime import datetime
 
 import datetime as d
 import qrcode, pytz
+import uuid
 
 
 """
@@ -29,16 +30,16 @@ def generate_lodges_code(request):
 
     # Get data from booking session
     if 'lodge_booking' in request.session:
-        payment_id = request.session['lodge_booking']
+        payment_key = request.session['lodge_booking']
 
-        payment = LodgeBookingPayment.objects.get(pk=payment_id)
+        payment = LodgeBookingPayment.objects.get(order_key=payment_key)
 
         booking = payment.booking.first()
 
     if 'bnb_booking' in request.session:
         booking_id = request.session['bnb_booking']
 
-        payment = BnbBookingPayment.objects.get(pk=payment_id)
+        payment = BnbBookingPayment.objects.get(order_key=payment_key)
 
         # Get data from booking table
         booking = payment.booking.first()

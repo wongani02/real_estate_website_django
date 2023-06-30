@@ -536,7 +536,7 @@ def getAvailableRoomTypes(request, lodge):
     start_date, end_date = format_dates(date_range)
 
     #get lodge to check availablilty
-    lodge = Lodge.active_lodges.get(id=lodge)
+    lodge = Lodge.objects.get(id=lodge)
 
     #get all room types associated with the lodge
     lodge_room_types = lodge.rooms.all()
@@ -714,7 +714,7 @@ def processPaymentView(request, **kwargs):
     booking.update(is_paid=True)
 
     # Add payment id to session variable "lodge_booking"
-    request.session['lodge_booking'] = str(payment_id)
+    request.session['lodge_booking'] = payment.order_key
 
     # Add email to session
     request.session['booking_email'] = request.session['lodge_booking_data']['email']
