@@ -2,13 +2,17 @@
 
 {% for property in properties %}
 <div class="col-lg-3">
+    
+    {% for property in properties %}
     <div class="feat_property">
+
+        {% for image in property.property_images.all %}
         <div class="thumb"> 
-            {% for image in property.property_images.all %}
+            
             {% if image.is_feature %}
             <img class="img-whp" src="{{image.file.url}}" alt="fl1.jpg">
             {% endif %}
-            {% endfor %}
+ 
             <div class="thmb_cntnt">
             {% if property.is_featured %}
             <ul class="tag mb0">
@@ -28,6 +32,9 @@
             </ul>
             </div>
         </div>
+        {% endfor %}
+            
+        
         <div class="details">
             <div class="tc_content">
                 <div class="badge_icon"></div>
@@ -53,6 +60,9 @@
             </div>
         </div>
     </div>
+    {% endfor %}
+        
+    
 </div>
 {% endfor %}
 {% if properties.has_next %}
