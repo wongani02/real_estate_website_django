@@ -103,7 +103,7 @@
 									<tr>
 								      <th scope="row">
 					              <div class="feat_property list property">
-					                <div class="thumb"> 
+					                <div class="thumb">
 										{% for image in item.pictures.all %}
 										{% if image.is_feature %}
 										<img class="img-whp" src="{{image.image.image.url}}" alt="s1.png">
@@ -131,10 +131,8 @@
 					              </div>
 								      </th>
 								      <td>{{item.created_at}}</td>
-									  {% if is_active %}
-								      <td class=".">{% verbose_name item %}s</td>
-									  {% endif %}
-									  <td class="">{{item.verification}}ss</td>
+								      <td class=".">{% verbose_name item %}</td>
+									  <td class="">{{item.verification}}</td>
 								      <td>{% number_of_bnbs item.id %}</td>
 								    	<td class="editing_list">
 								    		<ul>

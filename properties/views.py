@@ -646,9 +646,6 @@ def create_property_images(request, property_, object_):
     # Filter all temporary images of the user
     temp = TempImageStore.objects.filter(user=user).order_by('date')
 
-    # Counter to determine featured image
-    counter = 1
-
     for temp_obj in temp:
         images = Images()
         images.property = property_
@@ -656,7 +653,15 @@ def create_property_images(request, property_, object_):
         images.save()
         temp_obj.delete()
 
+    # Get all image objects related to the property
+    images = Images.objects.filter(property=property_).order('date')
 
+    for image in images:
+        # make the first image that was uploaded a featured image
+        image.is_feature = True
+
+        # break the loop
+        break
 
 
 """
