@@ -654,7 +654,7 @@ def create_property_images(request, property_, object_):
 
         # move file on filesystem
         source_path = temp_obj.image.path
-        destination_path = '/property_images/'
+        destination_path = '/property_images/' + name
         shutil.move(source_path, destination_path)
 
         # delete temporary image object
