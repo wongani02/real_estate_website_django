@@ -39,7 +39,7 @@ def generate_lodges_code(request):
     if 'bnb_booking' in request.session:
         booking_id = request.session['bnb_booking']
 
-        payment = BnbBookingPayment.objects.get(order_key=payment_key)
+        payment = BnbBookingPayment.objects.get(order_key=booking_id)
 
         # Get data from booking table
         booking = payment.booking.first()

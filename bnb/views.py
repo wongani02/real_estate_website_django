@@ -663,6 +663,7 @@ def processPayment(request, **kwargs):
         billing_status=True,
     )
     print(payment)
+    request.session['bnb_booking'] = payment.order_key
 
     update_booking = Booking.objects.filter(id=booking_instance.id)
     update_booking.update(is_paid=True)
