@@ -78,7 +78,7 @@ def generate_lodges_code(request):
     booking_content = get_booking_content(booking)
     
     # Add qr data to session
-    qr_content(request, booking_content)
+    qr_content(request, content)
     
     return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_})
 

@@ -34,7 +34,7 @@
 							<div class="ff_one">
 								<div class="icon"><span class="flaticon-house"></span></div>
 								<div class="detais">
-									<div class="timer">{{properties}}</div>
+									<div class="timer">{{properties|add:bnbs|add:lodges}}</div>
 									<h4>My Properties</h4>
 								</div>
 							</div>
@@ -78,7 +78,11 @@
 								<div class="application_statics">
 									<h4>Total Likes</h4>
 									<!-- Chart divs come here -->
+									
+									{% comment %}
 									{{chart_views|load_charts:'chart1'}}
+									{% endcomment %}
+										
 								</div>
 							</div>
 						</div>
@@ -141,19 +145,27 @@
 	</section>
 
 	<script>
+		console.log("here")
+		var data = JSON.parse('{{views|escapejs}}');
+
+		var dataArray = [];
+
+		dataArray.push(data[0])
+
+		for (var i = 1; i < data.length; i++) {
+			dataArray.push(data[i])
+		}
+
+		console.log("Array: ", dataArray)
+
 		google.charts.load('current', {'packages': ['corechart']});
 		google.charts.setOnLoadCallback(drawChart);
 
 		function drawChart() {
-			var data = google.visualization.arrayToDataTable([
-				['Year', 'Sales', 'Expenses'],
-				['2004', 1000, 400],
-				['2005', 1500, 125],
-				['2006', 1400, 400]
-			]);
+			var data = google.visualization.arrayToDataTable(dataArray);
 
 			var options = {
-				title: 'Company Performance',
+				title: 'Overall Listing Views',
 				curveType: 'function',
 				legend: {position: 'bottom'}
 			};

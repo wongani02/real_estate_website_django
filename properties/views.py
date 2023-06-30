@@ -646,17 +646,23 @@ def create_property_images(request, property_, object_):
     # Filter all temporary images of the user
     temp = TempImageStore.objects.filter(user=user).order_by('date')
 
-    # Counter to determine featured image
-    counter = 1
-
     for temp_obj in temp:
-        images = Images()
-        images.property = property_
-        images.file = temp_obj.image
+        images = Images.objects.create(property=property_, file=temp_obj.image)
+        # images.property = property_
+        # images.file = temp_obj.image
         images.save()
         temp_obj.delete()
 
+    # Get all image objects related to the property
+    images = Images.objects.filter(property=property_).order_by('date')
 
+    for image in images:
+        # make the first image that was uploaded a featured image
+        image.is_feature = True
+        image.save()
+
+        # break the loop
+        break
 
 
 """
@@ -698,7 +704,8 @@ class CreatePropertyMediaListing(generic.CreateView):
             agent = User.objects.get(username=self.request.user.username)
 
             # Create a temporary property images instance
-            images_ = TempImageStore(user=agent, image=request.FILES.getlist('file'))
+            images_ = TempImageStore(user=agent, image=request.FILES['file'])
+            images_.save()
 
             return redirect('accounts:dashboard')
               

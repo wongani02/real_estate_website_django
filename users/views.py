@@ -9,8 +9,8 @@ from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
 
-from bnb.models import Property as BNBProperty
-from lodges.models import Lodge, About
+from bnb.models import Property as BNBProperty, BnbViews
+from lodges.models import Lodge, About, LodgesViews
 from properties.models import Property, PropetyViews
 from properties.charts import all_property_views_chart
 from payments.utils import EmailThread
@@ -18,6 +18,8 @@ from core import settings
 
 from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm
 from .helpers import auth_user_should_not_access
+
+import json
 
 # Create your views here.
 
@@ -142,8 +144,10 @@ def forgotPassword(request):
 #dasboard views
 @login_required(login_url='accounts:login')
 def dashboardView(request):
-    # Get total number of properties
+    # Get total number of properties, bnbs and lodges owned by user
     no_properties = Property.objects.filter(agent__username=request.user.username).count()
+    no_lodges = Lodge.objects.filter(user__username=request.user.username).count()
+    no_bnbs = BNBProperty.objects.filter(host__username=request.user.username).count()
 
     # Get the total number of views
     no_views = PropetyViews.objects.filter(property__agent__username=request.user.username).aggregate(total_views=Sum('views'))['total_views']
@@ -151,15 +155,45 @@ def dashboardView(request):
     if no_views is None:
         no_views = 0
     
-    # Get chart data for all property views
-    chart_views = all_property_views_chart(request)
+    # Get chart data for all listings
+    data = get_view_data(request)
 
     context = {
-        'properties': no_properties,
-        'chart_views': chart_views,
-        'views': no_views
+        'properties': no_properties, 'bnbs': no_bnbs, 'lodges': no_lodges,
+        'views': json.dumps(data)
     }
     return render(request, 'users/page-dashboard.html', context)
+
+
+def get_view_data(request):
+    # Empty list to hold legends
+    view_data = []
+
+    # get lodges, bnbs, and properties owned by user
+    lodges = Lodge.objects.filter(user__username=request.user.username)
+    bnbs = BNBProperty.objects.filter(host__username=request.user.username)
+    properties = Property.objects.filter(agent__username=request.user.username)
+
+    # append listing names to legend list
+    listing_names = [lodge.name for lodge in lodges] + [bnb.title for bnb in bnbs] + [property.name for property in properties]
+
+    # append names to nested list
+    view_data.append(listing_names)
+
+    # get count data
+    lodge_count = [LodgesViews.objects.filter(property=lodge).aggregate(total_views=Sum('views'))['total_views'] for lodge in lodges]
+    bnb_count = [BnbViews.objects.filter(property=bnb).aggregate(total_views=Sum('views'))['total_views'] for bnb in bnbs]
+    property_count = [PropetyViews.objects.filter(property=_property).aggregate(total_views=Sum('views'))['total_views'] for _property in properties]
+
+    # append count data to nested list in order of listing names
+    view_data.append(lodge_count)
+    # view_data.append(bnb_count)
+    # view_data.append(property_count)
+
+    print("View Data: ", view_data)
+
+    return view_data
+
 
 
 @login_required(login_url='accounts:login')
