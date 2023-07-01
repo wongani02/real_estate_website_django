@@ -153,7 +153,7 @@ def download_qr_code(request, **kwargs):
     client = User.objects.get(username=request.user.username)
 
     # Send email qr to user
-    send_mail(request, read, filename, client.username, name)
+    send_mail(request, read, filename, client, name)
 
     return response
 
@@ -172,7 +172,7 @@ def send_mail(request, buffer, filename, client, _property_):
     formatted_date, current_tz, time = get_current_time_data()
 
     # Create emails subject
-    subject = "QR Code for " + client
+    subject = "QR Code for " + client.username
 
     # Create context variables
     context = {
