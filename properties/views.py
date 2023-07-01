@@ -74,7 +74,7 @@ class PropertiesHome(generic.ListView):
 
         #properties pagination for load more functionality
         properties = Property.objects.all()
-        property_paginator = Paginator(properties, 4)
+        property_paginator = Paginator(properties, 1)
         property_page_number = request.GET.get('page', 1)
         property_obj = property_paginator.get_page(property_page_number)
 
