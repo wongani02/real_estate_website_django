@@ -206,9 +206,9 @@
 					              <div class="feat_property list property">
 					                <div class="thumb"> 
 										{% for image in item.property_images.all %}
-										{% if image.is_feature %}
-										<img class="img-whp" src="{{image.file.url}}" alt="s1.png">
-										{% endif %}
+											{% if image.is_feature %}
+											<img class="img-whp" src="{{image.file.url}}" alt="s1.png">s1
+											{% endif %}
 										{% endfor %}
 					                  <div class="thmb_cntnt">
 										{% if item.is_featured %}

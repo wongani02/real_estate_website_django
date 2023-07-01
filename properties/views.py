@@ -648,8 +648,7 @@ def create_property_images(request, property_, object_):
     temp = TempImageStore.objects.filter(user=user).order_by('date')
 
     for temp_obj in temp:
-        images = Images.objects.create(property=property_, file=temp_obj.image)
-        images.save()
+        # get the name of the file
         name = str(temp_obj.image.name).split('/')
 
         # create property_image folder if it does not exist
@@ -662,6 +661,10 @@ def create_property_images(request, property_, object_):
         source_path = temp_obj.image.path
         destination_path = to_directory + name[-1]
         shutil.move(source_path, destination_path)
+
+        # move data from temporary table to permanent
+        images = Images.objects.create(property=property_, file=destination_path)
+        images.save()
 
         # delete temporary image object
         temp_obj.delete()
