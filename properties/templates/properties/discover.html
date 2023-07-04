@@ -1,5 +1,7 @@
 {% extends 'properties/index.html' %}
 {% load static %}
+{% load custom_tag %}
+
 {% block header %}
     {% include 'properties/header.html' %}
 {% endblock header %}
@@ -129,10 +131,141 @@
             <a class="btn" href="page-listing-all.html">vıew all</a>
           </div>
         </div>
+        
+        {% for listing in most_viewed %}
+
+        
+        {% if listing.property.meta_title == 'Property' %}
         <div class="col-sm-6 col-xl-3">
           <div class="feat_property all_listing_style4 home5">
             <div class="thumb">
-              <img class="img-whp" src="images/property/fl1.jpg" alt="fl1.jpg">
+              
+              {% for image in listing.property.property_images.all %}
+              
+              {% if image.is_feature %}
+              <img class="img-whp" src="{{image.file.url}}" alt="fl1.jpg">
+              {% endif %}
+                
+              {% endfor %}
+                
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      
+                      {% if listing.property.prev_price %}
+                      <small><del>MWK {{listing.property.prev_price}}/mo</del></small><br>
+                      {% endif %}
+                        
+                      <span class="fw600">MWK {{listing.property.price}}/mo</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="{% url 'properties:property-single' listing.property.id %}">{% get_listing_name listing.property %}</a></h4>
+                <p>{{listing.property.location_area}}</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> {{listing.property.no_rooms}} Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> {{listing.property.no_baths}} Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> {{listing.property.garages}} Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> {{listing.property.property_area}} m</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% elif listing.property.meta_title == 'BnB' %}
+        <div class="col-sm-6 col-xl-3">
+          <div class="feat_property all_listing_style4 home5">
+            <div class="thumb">
+              
+              {% for image in listing.property.bnb_image.all %}
+              
+              {% if image.is_feature %}
+              <img class="img-whp" src="{{image.image.image.url}}" alt="fl1.jpg">
+              {% endif %}
+                
+              {% endfor %}
+                
+              <div class="thmb_cntnt">
+                <ul class="tag mb0">
+                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
+                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
+                </ul>
+              </div>
+              <div class="thmb_cntnt2 top right">
+                <ul class="listing_gallery mb0">
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                </ul>
+              </div>
+              <div class="fp_footer all_listing_style4">
+                <ul class="fp_meta float-left mb0">
+                  <li class="list-inline-item">
+                    <a href="#">
+                      
+                      {% if listing.property.prev_price %}
+                      <small><del>MWK {{listing.property.prev_price}}/night</del></small><br>
+                      {% endif %}
+                        
+                      <span class="fw600">MWK {{listing.property.price_per_night}}/night</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="fp_meta float-right mb0">
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
+                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="details">
+              <div class="tc_content">
+                <h4><a href="{% url 'bnb:bnb-detail' listing.property.id %}">{% get_listing_name listing.property %}</a></h4>
+                <p>{{listing.property.street_name}}</p>
+                <ul class="prop_details mb0">
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> {{listing.property.num_bedrooms}} Beds</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
+                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% elif listing.property.meta_title == 'Lodge' %}
+        <div class="col-sm-6 col-xl-3">
+          <div class="feat_property all_listing_style4 home5">
+            <div class="thumb">
+              
+              {% for image in listing.property.pictures.all %}
+              
+              {% if image.is_feature %}
+              <img class="img-whp" src="{{image.img.img.url}}" alt="fl1.jpg">
+              {% endif %}
+                
+              {% endfor %}
+                
               <div class="thmb_cntnt">
                 <ul class="tag mb0">
                   <li class="list-inline-item"><a href="#">FEATURED</a></li>
@@ -163,8 +296,8 @@
             </div>
             <div class="details">
               <div class="tc_content">
-                <h4><a href="page-listing-single-v8.html">New Apartment Nice Wiew</a></h4>
-                <p>Quincy St, Brooklyn, NY, USA</p>
+                <h4><a href="{% url 'lodges:lodge-detail' listing.property.id %}">{% get_listing_name listing.property %}</a></h4>
+                <p>{{listing.property.map_location}}</p>
                 <ul class="prop_details mb0">
                   <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
                   <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
@@ -175,98 +308,10 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
-          <div class="feat_property all_listing_style4 home5">
-            <div class="thumb">
-              <img class="img-whp" src="images/property/fl2.jpg" alt="fl2.jpg">
-              <div class="thmb_cntnt">
-                <ul class="tag mb0">
-                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
-                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
-                </ul>
-              </div>
-              <div class="thmb_cntnt2 top right">
-                <ul class="listing_gallery mb0">
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
-                </ul>
-              </div>
-              <div class="fp_footer all_listing_style4">
-                <ul class="fp_meta float-left mb0">
-                  <li class="list-inline-item">
-                    <a href="#">
-                      <small><del>$2,800/mo</del></small><br>
-                      <span class="fw600">$5,250/mo</span>
-                    </a>
-                  </li>
-                </ul>
-                <ul class="fp_meta float-right mb0">
-                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
-                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
-                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="details">
-              <div class="tc_content">
-                <h4><a href="page-listing-single-v8.html">Skyper Pool Apartment</a></h4>
-                <p>112 Glenwood Ave Hyde Park, Boston, MA</p>
-                <ul class="prop_details mb0">
-                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
-                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
-                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
-                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-          <div class="feat_property all_listing_style4 home5">
-            <div class="thumb">
-              <img class="img-whp" src="images/property/fl3.jpg" alt="fl3.jpg">
-              <div class="thmb_cntnt">
-                <ul class="tag mb0">
-                  <li class="list-inline-item"><a href="#">FEATURED</a></li>
-                  <li class="list-inline-item"><a href="#">FOR SALE</a></li>
-                </ul>
-              </div>
-              <div class="thmb_cntnt2 top right">
-                <ul class="listing_gallery mb0">
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
-                </ul>
-              </div>
-              <div class="fp_footer all_listing_style4">
-                <ul class="fp_meta float-left mb0">
-                  <li class="list-inline-item">
-                    <a href="#">
-                      <small><del>$2,800/mo</del></small><br>
-                      <span class="fw600">$5,250/mo</span>
-                    </a>
-                  </li>
-                </ul>
-                <ul class="fp_meta float-right mb0">
-                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
-                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
-                  <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="details">
-              <div class="tc_content">
-                <h4><a href="page-listing-single-v8.html">New Caledonian Wharf</a></h4>
-                <p>251 SW 6th Ln Florida City, FL</p>
-                <ul class="prop_details mb0">
-                  <li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> 4 Beds</a></li>
-                  <li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> 5 Baths</a></li>
-                  <li class="list-inline-item"><a href="#"><span class="flaticon-car"></span><br> 1 Garage</a></li>
-                  <li class="list-inline-item"><a href="#"><span class="flaticon-ruler"></span><br> 1200 Sq Ft</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        {% endif %}
+          
+        {% endfor %}
+          
       </div>
     </div>
   </section>

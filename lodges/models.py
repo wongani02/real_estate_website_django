@@ -9,6 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
+from meta.models import ModelMeta
+
 
 class ActiveLodgeManager(models.Manager):
 
@@ -16,7 +18,7 @@ class ActiveLodgeManager(models.Manager):
         return super(ActiveLodgeManager, self).get_queryset().filter(is_active=True)
 
 
-class Lodge(models.Model):
+class Lodge(ModelMeta, models.Model):
     VERIFIED = 'VERIFIED'
     PENDING = 'PENDING'
     DECLINED = 'DECLINED'
@@ -47,6 +49,9 @@ class Lodge(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False, null=True)
     verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
+
+    # meta variable
+    meta_title = 'Lodge'
 
     objects = models.Manager()
     active_lodges = ActiveLodgeManager()

@@ -12,6 +12,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 
 from ckeditor.fields import RichTextField
+from meta.models import ModelMeta
 
 from io import BytesIO
 from PIL import Image, ImageDraw
@@ -52,7 +53,7 @@ class ActiveBNBManager(models.Manager):
         return super(ActiveBNBManager, self).get_queryset().filter(is_active=True)
 
 
-class Property(models.Model):
+class Property(ModelMeta, models.Model):
     VERIFIED = 'VERIFIED'
     PENDING = 'PENDING'
     DECLINED = 'DECLINED'
@@ -87,6 +88,9 @@ class Property(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
+
+    # meta variable
+    meta_title = 'BnB'
 
     objects = models.Manager()
     active_bnb = ActiveBNBManager()

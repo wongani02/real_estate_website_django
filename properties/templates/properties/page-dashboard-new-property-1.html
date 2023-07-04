@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <form class="contact_form" id="property_creation_form" name="contact_form"
-                    action="{% url 'properties:create-listing' %}" method="post" validate>
+                    action="{% url 'properties:create-listing' choice %}" method="post" validate>
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-12">

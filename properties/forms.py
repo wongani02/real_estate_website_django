@@ -6,6 +6,29 @@ from bnb.models import PropertyType as BnbType
 
 
 
+class PropertyDocumentsForm(forms.ModelForm):
+    class Meta:
+        model = Documents
+        fields = ['name', 'file']
+        widgets = {}
+
+
+class PropertyPolicyForm(forms.ModelForm):
+
+    class Meta:
+        model = Policy
+        fields = ['title']
+        widgets = {
+            'title': forms.RadioSelect()
+        }
+
+        
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['title'].queryset = Policy.active_policy_manager.all()
+        
+
+
 class SearchForm(forms.ModelForm):
     amenities = forms.ModelMultipleChoiceField(
         queryset=Amenities.objects.all(), 
@@ -95,13 +118,30 @@ class PropertyInfoCreationForm(forms.ModelForm):
         }
 
 
-
-
 class PropertyLocationCreationForm(forms.ModelForm):
     amenities = forms.ModelMultipleChoiceField(
         queryset=Amenities.objects.all(), 
         widget=forms.CheckboxSelectMultiple(),
     )
+
+    
+    def __init__(self, *args, **kwargs):
+        super(PropertyLocationCreationForm, self).__init__(*args, **kwargs)
+
+        # get the instance of the property model
+        instance = kwargs.get('instance')
+
+        print("instance: ", instance)
+
+        # retrieve related amenities for the property instance
+        _amenities = PropertyAmenityLink.objects.filter(_property=instance)
+
+        print("amenities: ", _amenities)
+
+        # set the initial values for the amenities field
+        self.fields['amenities'].initial = [amenity.amenity.name for amenity in _amenities]
+    
+
     class Meta:
         model = Property
         fields = [
@@ -112,6 +152,15 @@ class PropertyLocationCreationForm(forms.ModelForm):
             'district': forms.Select(choices=Districts.objects.all(), attrs={
                 'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
                 'title': 'Village'
+            }),
+            'location_area': forms.TextInput(attrs={
+                'class': 'form-control form_control', 'id': 'location_area', 'placeholder': 'Location Name'
+            }),
+            'lat': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'latitude', 'placeholder': 'Latitude', 'readonly': 'true'
+            }),
+            'lon': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'longitude', 'placeholder': 'Longitude', 'readonly': 'true'
             }),
         }
 

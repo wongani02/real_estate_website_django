@@ -15,10 +15,12 @@ urlpatterns = [
     path('properties/pricing/', views.PropertyPricing.as_view(), name='property-pricing'),
 
     # Urls for creating a property listing
-    path('create/property/step/1/', views.CreatePropertyListing.as_view(), name='create-listing'),
+    path('onboarding/properties/', views.get_onbording, name='property-onboarding'),
+    path('create/property/step/1/choice/<str:choice>/', views.CreatePropertyListing.as_view(), name='create-listing'),
     path('create/property/step/2/', views.CreatePropertyLocationListing.as_view(), name='create-listing-location'),
     path('create/property/step/3/', views.CreatePropertyMediaListing.as_view(), name='create-media-location'),
-    path('create/complete/', views.save_data, name='complete'),
+    path('create/property/step/4/', views.CreatePropertyDocuments.as_view(), name='create-documents'),
+    path('create/property/step/5/', views.CreatePropertyPolicy.as_view(), name='create-policy'),
     path('redirect/dashboard/ ', views.redirectUser, name='redirect-user'),
 
     #payment offers
@@ -34,6 +36,7 @@ urlpatterns = [
     path('listing/edit/<uuid:pk>/media/', views.EditPropertyMedia.as_view(), name='edit-listing-media'),
     path('listing/edit/<uuid:pk>/others/', views.EditPropertyLocationAmenities.as_view(), name='edit-listing-others'),
     path('listing/edit/<uuid:pk>/policies/', views.EditPropertyPolicies.as_view(), name='edit-listing-policies'),
+    path('listing/edit/<uuid:pk>/documents/', views.EditPropertyDocuments.as_view(), name='edit-listing-documents'),
     
     path('listing/delete/<uuid:pk>/', views.DeletePropertyListing.as_view(), name='delete-listing'),
     path('listing/amenity/create/', views.create_amenities, name='create-amenity'),

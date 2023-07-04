@@ -19,61 +19,37 @@
 						<div class="col-lg-12 mb50">
 							<div class="breadcrumb_content">
 								<h4 class="breadcrumb_title">Hello, <span class="text-alice-blue">{{request.user.username}}!</span></h4>
-								<h2>Which section of your property would you like to edit?</h2>
+								<h2>What type of property are you looking to post??</h2>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6 ">
-							<a href="{% url 'properties:edit-listing-details' pk %}">
+							<a href="{% url 'properties:create-listing' 'sale' %}">
 								<div class="ff_one">
 									<div class="icon"><span class="flaticon-house"></span></div>
 									<div class="detais">
-										<h4>Property Details</h4>    
+										<h4>Property for Sale</h4>
+										<p>These may include houses, apartments etc</p>
 									</div>
 								</div>
 							</a>
 						</div>
 						<div class="col-md-6 ">
-							<a href="{% url 'properties:edit-listing-others' pk %}">
+							<a href="{% url 'properties:create-listing' 'rent' %}">
 								<div class="ff_one">
 									<div class="icon"><span class="flaticon-house"></span></div>
 									<div class="detais">
-										<h4>Property Location and Amenities</h4>
+										<h4>Property for Rent</h4>
+										<p>These may include houses, apartments etc</p>
 									</div>
 								</div>
 							</a>
 						</div>
-						<div class="col-md-6 ">
-							<a  href="{% url 'properties:edit-listing-media' pk %}">
-								<div class="ff_one">
-									<div class="icon"><span class="flaticon-house"></span></div>
-									<div class="detais">
-										<h4>Property Media</h4>
-									</div>
-								</div>
-							</a>
-						</div>
-						<div class="col-md-6 ">
-							<a  href="{% url 'properties:edit-listing-documents' pk %}">
-								<div class="ff_one">
-									<div class="icon"><span class="flaticon-house"></span></div>
-									<div class="detais">
-										<h4>Property Documents</h4>
-									</div>
-								</div>
-							</a>
-						</div>
-                        <div class="col-md-6 ">
-							<a  href="{% url 'properties:edit-listing-policies' pk %}">
-								<div class="ff_one">
-									<div class="icon"><span class="flaticon-house"></span></div>
-									<div class="detais">
-										<h4>Property Policies</h4>
-									</div>
-								</div>
-							</a>
-						</div>
+
+						
+						
+						
 					</div>
 					<div class="row mt50">
 						<div class="col-lg-12 text-center">

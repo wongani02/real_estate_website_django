@@ -19,7 +19,12 @@
 						<div class="col-lg-12 mb50">
 							<div class="breadcrumb_content">
 								<h2 class="breadcrumb_title">Documents and Image Upload</h2>
-								
+								<!-- <p class="">Ready to jump back in?</p> -->
+								<!-- <ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
+									<li class="breadcrumb-item"><a href="{% url 'lodges:lodge-listings' %}">Lodges</a></li>
+									<li class="breadcrumb-item active style2" aria-current="page">{{lodge.name}}</li>
+								</ol> -->
 							</div>
 						</div>
 					</div>
@@ -29,7 +34,7 @@
 
 					<!-- media files -->
 		          <div class="new_property_form">
-					<h4 class="title mb30">Images of your Property, Rooms and Surrounding</h4>
+					<h4 class="title mb30">Documents of your Property</h4>
 					<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 					<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 		            <style>
@@ -43,7 +48,7 @@
 						}
 					</style>
 
-					<form action="{% url 'properties:edit-listing-media' pk %}" method="post" id="y-dz" class="dropzone dz">
+					<form action="{% url 'properties:create-documents' %}" method="post" id="y-dz" class="dropzone dz">
 						{% csrf_token %}
 						<div class="fallback">
 							<input name="file" type="file" multiple required/>
@@ -52,27 +57,15 @@
 					</form>
 					
 					<div class="col-lg-5">
-					{% if images %}
+					{% if uploaded_images %}
 					<h5 class="title mt-4">Below are your recently uploaded images</h5>
 					<div class="row mt-4">
 						
-						{% for image in images %}
+						{% for image in uploaded_images %}
 						<div class="col-sm-4 col-lg-4 pr5 pr15-767">
 						<div class="spls_style_two mb10">
-							<a class="popup-img" href="{{image.file.url}}"><img class="img-fluid w100" src="{{image.file.url}}" alt="2.jpg"></a>
+							<a class="popup-img" href="{{image.img.url}}"><img class="img-fluid w100" src="{{image.img.url}}" alt="2.jpg"></a>
 						</div>
-                        <div class="div-2"><a class="x" href="#"><p aria-label="Delete" class="x">x</a></p></div>
-                        <style>
-                            .x{
-                                font-size: 20px;
-                                color: red;
-                                font-weight: 900;
-                                cursor: pointer;
-                            }
-                            :hover.x{
-                                color: red;
-                            }
-                        </style>
 						</div>
 						{% endfor %}
 						
@@ -83,7 +76,7 @@
 
 				  <div class="text-right mt-4">
 						<button class="btn btn-thm listing_save_btn" id="process-btn">Process</button>
-                        <button type="submit" class="btn btn-thm listing_save_btn">Save</button>
+                        <a href="{% url 'properties:create-policy' %}" class="btn btn-thm listing_save_btn">Next</a>
                     </div>
 				</div>
 				
@@ -97,7 +90,7 @@
 			</div>
 		</div>
 	</section>
-
+	
 	<script>
 		var myDropZone = new Dropzone("#y-dz", {
 			paramName: "file", // The name of the file parameter to be sent to the server
@@ -121,7 +114,5 @@
 
 			button.addEventListener("click", function () {myDropZone.processQueue()});
 	</script>
-	
-	
 	
 {% endblock %}

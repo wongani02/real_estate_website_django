@@ -61,6 +61,9 @@ INSTALLED_APPS = [
 
     # charts
     'chartit',
+
+    # django apscheduler
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -188,3 +191,25 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ianlois50@gmail.com'
 EMAIL_HOST_PASSWORD = 'utfx fugq lnsu plrz'  # App generated password by google
 DEFAULT_FROM_EMAIL = 'ianlois50@gmail.com'
+
+# configuration for APScheduler
+APPSCHEDULER_JOBSTORES = {
+    'default': {
+        'type': 'sqlalchemy',
+        'url': BASE_DIR / 'db.sqlite3',
+        # 'url': 'postgresql+psycopg2://username:password@hostname:port/database_name',
+        'tablename': 'apscheduler_jobs',
+    }
+}
+
+APPSCHEDULER_EXECUTORS = {
+    'default': {
+        'type': 'threadpool',
+        'max_workers': 1
+    },
+}
+
+APPSCHEDULER_JOB_DEFAULTS = {
+    'coalesce': True,
+    'max_instances': 1
+}

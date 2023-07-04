@@ -3,19 +3,19 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from django.db.models import Q 
+from django.db.models import Q, Sum, Count
 from django.views import View
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
 
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 
-from lodges.models import Lodge, About, BlogPost, BlogCategory
+from lodges.models import Lodge, About, BlogPost, BlogCategory, LodgesViews
 from properties.models import *
 from properties.forms import *
 from properties.filters import AdvancedSearchFilter
 from properties.charts import *
-from bnb.models import Property as BNB
+from bnb.models import Property as BNB, BnbViews
 from users.models import User
 
 import json
@@ -306,6 +306,7 @@ class EditPropertyLocationAmenities(generic.UpdateView):
 
     def get(self, request, **kwargs):
         model = Property.objects.get(id=kwargs.get('pk'))
+
         form = PropertyLocationCreationForm(instance=model)
 
         return render(request, self.template_name, {'form': form, 'pk': model.id})
@@ -321,16 +322,16 @@ class EditPropertyLocationAmenities(generic.UpdateView):
         return render(request, self.template_name, {'form': form, 'pk': model.id})
 
 class EditPropertyPolicies(generic.UpdateView):
-    model = Property
-    template_name = ''
+    model = Policy
+    template_name = 'properties/edit/policies.html'
 
-    def get(self, request):
+    def get(self, request, **kwargs):
         model = Property.objects.get(id=kwargs.get('pk'))
         form = PropertyLocationCreationForm(instance=model)
 
         return render(request, self.template_name, {'form': form, 'pk': model.id})
 
-    def post(self, request):
+    def post(self, request, **kwargs):
         model = Property.objects.get(id=kwargs.get('pk'))
         form = PropertyLocationCreationForm(request.POST, instance=model)
 
@@ -368,6 +369,19 @@ class EditPropertyMedia(generic.UpdateView):
 
         return render(request, self.template_name, {'images': images, 'pk': kwargs.get('pk')})
 
+
+class EditPropertyDocuments(generic.UpdateView):
+    model = Documents
+    template_name = 'properties/edit/documents.html'
+
+    def get(self, request, **kwargs):
+        docs = Documents.objects.filter(property=kwargs.get('pk'))
+
+        return render(request, self.template_name, {'docs': docs, 'pk': kwargs.get('pk')})
+
+    def post(self, request):
+        pass
+
 class DeletePropertyListing(generic.DeleteView):
     model = Property
     success_url = '/'
@@ -396,9 +410,11 @@ class CreatePropertyListing(generic.CreateView):
     template_name = 'properties/page-dashboard-new-property-1.html'
     template_next = 'properties/page-dashboard-new-property-2.html'
 
-    def get(self, request):
+    def get(self, request, **kwargs):
+        # get choice
+        request.session['property_choice'] = kwargs.get('choice')
+
         # Check for existence of incomplete session and append data
-        print("Status: ", 'step_1' in self.request.session)
         if 'step_1' in self.request.session:
             # Add existing session data to form
             # del self.request.session['step_1']
@@ -418,7 +434,7 @@ class CreatePropertyListing(generic.CreateView):
             property_form = PropertyInfoCreationForm()
             
         return render(request, self.template_name, { 
-            'form': property_form, 
+            'form': property_form, 'choice': kwargs.get('choice')
         })
     
     # POST request handles session data and sends user to next page
@@ -447,7 +463,7 @@ class CreatePropertyListing(generic.CreateView):
         else:
             print(form.errors)
         
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form,'choice': kwargs.get('choice')})
 
 
 """
@@ -487,13 +503,20 @@ class CreatePropertyLocationListing(generic.CreateView):
         form = PropertyLocationCreationForm(request.POST)
         amenity = AmenitiesCreationForm(request.POST)
 
+        # get request data
+        data = request.POST
+
         if form.is_valid():
             # Check session for 'incomplete listing' data
             # If session data doesnt match form data, update session
             form.cleaned_data['amenities'] = self.get_amenities(form.cleaned_data['amenities'])
 
-            # Convert form date to string before assignig to session
-            self.request.session['step_2'] = json.dumps(form.cleaned_data, cls=DateEncoder)
+            # Convert form data to string before assignig to session
+            self.request.session['step_2'] = {
+                'amenities': json.dumps(form.cleaned_data, cls=DateEncoder),
+                'location_area': data.get('location_area'), 'lat': data.get('lat'),
+                'lon': data.get('lon'), 'district': data.get('district')
+            }
 
             # Save changes to list 
             self.request.session.modified = True
@@ -513,6 +536,123 @@ class CreatePropertyLocationListing(generic.CreateView):
 
         return str(_list)
 
+"""
+CBV gets and saves images to a temporary database table.
+These images are later on transferred to a permanent table when the user
+completes the payments process. At the same time, the temporary files are
+deleted from the database
+"""
+class CreatePropertyMediaListing(generic.CreateView):
+    model = Property
+    template_name = 'properties/page-dashboard-new-property-3.html'
+    template_next = 'users/page-dashboard.html'
+
+    def get(self, request):
+        # Property Creation form variable
+        property_form = None
+
+        # Check for existence of incomplete session and append data
+        if 'step_3' in self.request.session:
+            # Add existing session data to form
+            session_data = self.request.session['step_3']
+            
+            property_form = ImagesCreationForm()
+        else:
+            # Create a new and empty form
+            property_form = ImagesCreationForm()
+
+        return render(request, self.template_name, { 
+            'form': property_form,
+        })
+    
+    # POST request handles session data and sends user to next page
+    def post(self, request, **kwargs):
+        # Get form data
+        form = ImagesCreationForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            # Get user instance
+            agent = User.objects.get(username=self.request.user.username)
+
+            # Create a temporary property images instance
+            images_ = TempImageStore(user=agent, image=request.FILES['file'])
+            images_.save()
+
+            return redirect('accounts:dashboard')
+              
+    
+
+class CreatePropertyDocuments(generic.CreateView):
+    model = Documents
+    template_name = 'properties/page-dashboard-new-property-4.html'
+
+    def get(self, request):
+        # check for existence of incomplete session and append data
+        # del request.session['property_documents']
+        if 'property_documents' in request.session:
+            session = request.session['property_documents']
+
+            form = PropertyDocumentsForm()
+
+        # create and send empty form
+        else:
+            form = PropertyDocumentsForm(request.GET, request.FILES)
+
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        # get form data
+        form = PropertyDocumentsForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            # get user object
+            user = User.objects.get(username=request.user.username)
+
+            # save document to temporary db table
+            temp = TempDocumentStore.objects.create(
+                user=user, file=request.FILES['file']
+            )
+
+            # redirect user to policy page
+            return redirect('accounts:dashboard')
+
+        return render(request, self.template_name, {'form': form})
+
+
+class CreatePropertyPolicy(generic.CreateView):
+    model = Policy
+    template_name = 'properties/page-dashboard-new-property-5.html'
+
+    def get(self, request):
+        # chech for session data
+        if 'policy_data' in request.POST:
+            session = request.session['policy_data']
+            form = PropertyPolicyForm(initial={
+                'title': session['title'], 'desc': session['desc'],
+                'no_days': session['no_days']
+            })
+
+        else:
+            form = PropertyPolicyForm()
+
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        # get form data
+        form = PropertyPolicyForm(request.POST)
+
+        if form.is_valid():
+            # add data to session
+            request.session['policy_data'] = {
+                'title': request.POST.get('title'), 'desc': request.POST.get('desc'),
+                'no_days': request.POST.get('no_days')
+            }
+
+            # save all data and redirect
+            save_data(request)
+
+        return render(request, self.template_name, {'form': form})
+
 
 class OfferPackage(generic.View):
 
@@ -529,9 +669,34 @@ class OfferPackage(generic.View):
 def discover(request):
     citys = Districts.objects.all().order_by("?")[:8]
 
-    context = {'citys': citys}
+    # get list of most viewed properties
+    most_viewed = most_viewed_property()
+
+    # get featured listings
+
+    context = {'citys': citys, 'most_viewed': most_viewed, }
 
     return render(request, 'properties/discover.html', context)
+
+def most_viewed_property():
+    listings = []
+
+    for model_class in [LodgesViews, BnbViews, PropetyViews]:
+        listings.extend(
+            model_class.objects.annotate(
+                view_count=Count('views', filter=Q(date__lte=datetime.now()))
+            ).order_by('-view_count').distinct()[:7]
+        )
+    
+    return listings
+
+def get_featured_listings():
+    listings = []
+
+    for model_name in [Property, BNB, Lodge]:
+        listings.extend(
+            model_class.objects.filter()[:10]
+        )
 
 class PaymentOptions(generic.View):
 
@@ -564,6 +729,9 @@ def save_data(request):
 
     # Create property images instance
     create_property_images(request, property_, request.user.username)
+
+    # create property documents instance
+    create_property_documents(request, property_, request.user.username)
     
     # Delete all sessions 
     del request.session['step_1']
@@ -680,53 +848,47 @@ def create_property_images(request, property_, object_):
         # break the loop
         break
 
-
 """
-CBV gets and saves images to a temporary database table.
-These images are later on transferred to a permanent table when the user
-completes the payments process. At the same time, the temporary files are
-deleted from the database
+Function saves property documents from the temporary table
+to a permant documents tables. The temporary documents and table entries
+are deleted once the operation is complete.
 """
-class CreatePropertyMediaListing(generic.CreateView):
-    model = Property
-    template_name = 'properties/page-dashboard-new-property-3.html'
-    template_next = 'users/page-dashboard.html'
+def create_property_documents(request, property_, object_):
+    # List to hold document instances
+    images_ = []
 
-    def get(self, request):
-        # Property Creation form variable
-        property_form = None
+    # Get user instance
+    user = User.objects.get(username=object_)
 
-        # Check for existence of incomplete session and append data
-        if 'step_3' in self.request.session:
-            # Add existing session data to form
-            session_data = self.request.session['step_3']
-            
-            property_form = ImagesCreationForm()
-        else:
-            # Create a new and empty form
-            property_form = ImagesCreationForm()
+    # Filter all temporary document of the user
+    temp = TempDocumentStore.objects.filter(user=user).order_by('date')
 
-        return render(request, self.template_name, { 
-            'form': property_form,
-        })
-    
-    # POST request handles session data and sends user to next page
-    def post(self, request, **kwargs):
-        # Get form data
-        form = ImagesCreationForm(request.POST, request.FILES)
+    for temp_obj in temp:
+        # get the name of the file
+        name = str(temp_obj.file.name).split('/')
 
-        if form.is_valid():
-            # Get user instance
-            agent = User.objects.get(username=self.request.user.username)
+        # create property_image folder if it does not exist
+        to_directory = settings.MEDIA_ROOT + '\\property_documents\\'
 
-            # Create a temporary property images instance
-            images_ = TempImageStore(user=agent, image=request.FILES['file'])
-            images_.save()
+        if not os.path.exists(to_directory):
+            os.makedirs(to_directory)
 
-            return redirect('accounts:dashboard')
-              
-    
-    
+        # move file on filesystem
+        source_path = temp_obj.file.path
+        destination_path = to_directory + name[-1]
+        shutil.move(source_path, destination_path)
+
+        # move data from temporary table to permanent
+        doc = Documents.objects.create(
+            property=property_, file=destination_path,
+            name=name[-1]
+        )
+        doc.save()
+
+        # delete temporary image object
+        temp_obj.delete()
+
+
 def redirectUser(request):
     return redirect('accounts:dashboard')
       
@@ -747,4 +909,9 @@ def create_amenities(request):
 
     return HttpResponse({'success': 200})
 
+
+def get_onbording(request, **kwargs):
+    template_name = 'users/onbording-3.html'
+
+    return render(request, template_name)
 

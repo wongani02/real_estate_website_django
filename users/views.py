@@ -72,7 +72,7 @@ def RegisterView(request):
             else:
                 user.is_customer = True
             user.set_password(register_form.cleaned_data['password'])
-            user.save()
+            # user.save()
             auth = authenticate(email=email, password=register_form.cleaned_data['password'])
             if auth is not None:
                 if regMail(request, email):

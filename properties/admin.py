@@ -16,15 +16,19 @@ class VideoModelAdmin(admin.StackedInline):
 class ImageModelAdmin(admin.StackedInline):
     model = Images
 
+class PropertyPolicyModelAdmin(admin.StackedInline):
+    model = PropertyPolicyLink
 
-class NearbyPlacesModelAdmin(admin.StackedInline):
-    model = NearbyPlaces
-    extra = 2
+class PropertyAmenityModelAdmin(admin.StackedInline):
+    model = PropertyAmenityLink
+
+class DocumentModelAdmin(admin.StackedInline):
+    model = Documents
 
 
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
-    inlines = [NearbyPlacesModelAdmin, ImageModelAdmin , VideoModelAdmin]
+    inlines = [PropertyPolicyModelAdmin, DocumentModelAdmin, ImageModelAdmin , VideoModelAdmin]
     list_display = ['name', 'price', 'property_type']
 
 
@@ -44,3 +48,8 @@ admin.site.register(Images)
 admin.site.register(PropetyViews)
 admin.site.register(Likes)
 admin.site.register(TempImageStore)
+admin.site.register(Policy)
+admin.site.register(Documents)
+admin.site.register(TempDocumentStore)
+admin.site.register(PropertyAmenityLink)
+admin.site.register(PropertyPolicyLink)

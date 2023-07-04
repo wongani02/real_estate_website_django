@@ -3,10 +3,12 @@ import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import reverse
+from ckeditor.fields import RichTextField
 
 from core import settings
 
 from ckeditor.fields import RichTextField
+from meta.models import ModelMeta
 
 
 # Specify location to save images
@@ -16,6 +18,7 @@ def image_upload_path(instance, filename):
 # Specify location to save images
 def video_upload_path(instance, filename):
     return settings.MEDIA_ROOT + 'videos/{0}/{1}'.format(instance.property.name, filename)
+
 
 
 # Amenities table
@@ -82,7 +85,7 @@ class Districts(models.Model):
 
 
 # Property table
-class Property(models.Model):
+class Property(ModelMeta, models.Model):
     SALE = "SALE"
     RENT = "RENT"
     SOLD = "SOLD"
@@ -119,14 +122,12 @@ class Property(models.Model):
     location_area = models.CharField(_("Property Location Area"), max_length=100)
     lat = models.CharField(_("Latitude"), max_length=999, blank=True)
     lon = models.CharField(_("Longitude"), max_length=999, blank=True)
-    views = models.PositiveIntegerField(_("Number of Views"), blank=True, default=0)
     eng = models.PositiveIntegerField(_("Number of Engagements"), blank=True, default=0)
     is_paid = models.BooleanField(_("Paid"), default=False)
-    is_active = models.BooleanField(_("Active"), default=True)
+    is_active = models.BooleanField(_("Active"), default=False)
     property_cat = models.ForeignKey(PropertyCategory, on_delete=models.DO_NOTHING)
     property_type = models.CharField(_("Property Type"), choices=PROPERTY_TYPE, default=RENT, max_length=10)
     property_status = models.CharField(_("Available/Sold"), choices=STATUS, default=AVAILABLE, max_length=10)
-    amenities = models.ManyToManyField(Amenities)
     year_built = models.DateField(_("Year Built"), blank=True)
     compound_area = models.PositiveIntegerField(_("Compound Area (metres)"), blank=True, default=0)
     property_area = models.PositiveIntegerField(_("Property Area (metres)"), blank=True, default=0)
@@ -146,6 +147,9 @@ class Property(models.Model):
         on_delete=models.CASCADE, 
         related_name='agent_properties')
     user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_bookmark", blank=True)
+
+    # meta variable
+    meta_title = 'Property'
 
     def __str__(self):
         return '{} - {} - {}'.format(self.name, self.price, self.location_area)
@@ -259,3 +263,70 @@ class TempImageStore(models.Model):
         
         # Call superclass method
         super(TempImageStore, self).delete(*args, **kwargs)
+
+class TempDocumentStore(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    file = models.FileField(null=True, upload_to='temp_documents')
+    date = models.DateTimeField(auto_now=True)
+
+    """
+    Delete associated file
+    """
+    def delete(self, *args, **kwargs):
+        import os 
+
+        if self.file:
+            file_path = os.path.join(settings.MEDIA_ROOT, str(self.file))
+
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        
+        # Call superclass method
+        super(TempDocumentStore, self).delete(*args, **kwargs)
+
+
+class Documents(models.Model):
+    class Meta:
+        verbose_name = 'Document'
+        verbose_name_plural = 'Documents'
+
+    name = models.CharField(_("Document Name"), max_length=40, blank=True)
+    file = models.FileField(_("Document"), null=True)
+    date = models.DateTimeField(_("Uploaded Date"), auto_now=True)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} - {}'.format(self.name, self.date)
+
+class ActivePolicyManager(models.Manager):
+
+    def get_queryset(self):
+        return super(ActivePolicyManager, self).get_queryset().filter(is_active=True)
+    
+
+class Policy(models.Model):
+    title = models.CharField(_("Policy Title"), max_length=500,null=True)
+    desc = RichTextField(_("Policy Description"), null=True)
+    no_days = models.PositiveSmallIntegerField(
+        help_text='number of days before check in acceptable for booking cancellation',
+        default=1,
+    )
+    is_active = models.BooleanField(default=True)
+    active_policy_manager  = ActivePolicyManager()
+
+    def __str__(self):
+        return f'{self.title} \n {self.desc}'
+
+
+class PropertyPolicyLink(models.Model):
+    class Meta: 
+        verbose_name = 'Property Policy Link'
+        verbose_name_plural = 'Property Policy Links'
+        
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    policy = models.ForeignKey(Policy, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} - {}'.format(self.property.name, self.policy.title)
+
+
