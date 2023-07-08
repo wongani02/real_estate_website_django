@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     # Properties app
     'properties.apps.PropertiesConfig',
 
+    # verifications app
+    'verifications',
+
     #users app
     'users',
 

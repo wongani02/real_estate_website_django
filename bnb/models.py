@@ -19,7 +19,6 @@ from PIL import Image, ImageDraw
 
 from properties.models import Districts
 
-
 User = settings.AUTH_USER_MODEL
 
 
@@ -88,6 +87,7 @@ class Property(ModelMeta, models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
+    is_featured = models.BooleanField(_("Featured Listing"), default=False)
 
     # meta variable
     meta_title = 'BnB'

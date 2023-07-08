@@ -53,10 +53,10 @@ class SearchForm(forms.ModelForm):
             'property_type': forms.Select(choices=Property.PROPERTY_TYPE, attrs={
                 'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true', 'title': 'Property Type',
             }),
-            'district': forms.Select(choices=Districts.objects.all(), attrs={
-                'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
-                'title': 'Village'
-            }),
+            # 'district': forms.Select(choices=Districts.objects.all(), attrs={
+            #     'class': 'selectpicker custom-select-lg mb20', 'data-width': '100%', 'data-live-search': 'true',
+            #     'title': 'Village'
+            # }),
         }
 
 class PropertyInfoCreationForm(forms.ModelForm):
@@ -149,10 +149,10 @@ class PropertyLocationCreationForm(forms.ModelForm):
             'amenities', 'lat', 'lon',
         ]
         widgets = {
-            'district': forms.Select(choices=Districts.objects.all(), attrs={
-                'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
-                'title': 'Village'
-            }),
+            # 'district': forms.Select(choices=Districts.objects.all(), attrs={
+            #     'class': 'selectpicker', 'data-width': '100%', 'data-live-search': 'true',
+            #     'title': 'Village'
+            # }),
             'location_area': forms.TextInput(attrs={
                 'class': 'form-control form_control', 'id': 'location_area', 'placeholder': 'Location Name'
             }),

@@ -43,6 +43,11 @@ def generate_lodges_code(request):
         # Get returned QRCode object
         qr = LodgeBookingPayment.generate_qr_code(booking_content)
 
+        # assign qr code to bnb booking payment object
+        payment.qr_code = qr
+
+        payment.save()
+
         _property_ = payment.lodge
 
         # delete session
@@ -63,6 +68,11 @@ def generate_lodges_code(request):
 
         # Get returned QRCode object
         qr = BnbBookingPayment.generate_qr_code(booking_content)
+
+        # assign qr code to bnb booking payment object
+        payment.qr_code = qr
+
+        payment.save()
         
         _property_ = payment.bnb
 

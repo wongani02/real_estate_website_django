@@ -141,9 +141,9 @@
             </div>
             <div class="price mt20 mb10"><h3><small class="mr10">
               {% if property.prev_price %}
-              <del>MWK {{property.prev_price}}/mo</del>
+              <del>$ {{property.prev_price}}/mo</del>
               {% endif %}
-            </small> MWK {{property.price}}/mo</h3></div>
+            </small> $ {{property.price}}/mo</h3></div>
             <p class="mb0">Est. Mortgage</p>
           </div>
         </div>
@@ -230,7 +230,7 @@
                     </ul>
                     <ul class="list-inline-item">
                       <!-- <li><p><span>HZ27</span></p></li> -->
-                      <li><p><span>MWK {{property.price}}</span></p></li>
+                      <li><p><span>$ {{property.price}}</span></p></li>
                       <li><p><span>{{property.compound_area}} Sq Ft</span></p></li>
                       <li><p><span>{{property.year_built}}</span></p></li>
                     </ul>

@@ -49,6 +49,8 @@ class Lodge(ModelMeta, models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False, null=True)
     verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
+    is_featured = models.BooleanField(_("Featured Listing"), default=False)
+
 
     # meta variable
     meta_title = 'Lodge'

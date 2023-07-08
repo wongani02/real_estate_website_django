@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from django.db.models import Q, Sum, Count
+from django.db.models import Q, Sum, Count, ForeignKey, Value, CASCADE, CharField
 from django.views import View
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
@@ -20,7 +20,7 @@ from users.models import User
 
 import json
 import ast
-import shutil, os
+import shutil, os, random
 
 
 
@@ -667,36 +667,74 @@ class OfferPackage(generic.View):
 
 
 def discover(request):
-    citys = Districts.objects.all().order_by("?")[:8]
-
     # get list of most viewed properties
     most_viewed = most_viewed_property()
 
-    # get featured listings
+    # get all featured properties
+    featured = get_featured_listings()
 
-    context = {'citys': citys, 'most_viewed': most_viewed, }
+    # get featured listings
+    context = {'most_viewed': most_viewed, 'featured': featured}
 
     return render(request, 'properties/discover.html', context)
 
+"""
+Function returns the 3 most viewed properties 
+"""
 def most_viewed_property():
+    propety_views = (
+        PropetyViews.objects.values('property')
+        .annotate(view_count=Sum('views', filter=Q(date__lte=datetime.now())))
+        .annotate(view_type=Value('Property', output_field=CharField()))
+    )
+
+    lodges_views = (
+        LodgesViews.objects.values('property')
+        .annotate(view_count=Sum('views', filter=Q(date__lte=datetime.now())))
+        .annotate(view_type=Value('Lodge', output_field=CharField()))
+    )
+
+    bnb_views = (
+        BnbViews.objects.values('property')
+        .annotate(view_count=Sum('views', filter=Q(date__lte=datetime.now())))
+        .annotate(view_type=Value('BNB', output_field=CharField()))
+    )
+
+    views_ = propety_views.union(lodges_views, bnb_views).order_by('-view_count')[:7]
+
     listings = []
 
-    for model_class in [LodgesViews, BnbViews, PropetyViews]:
-        listings.extend(
-            model_class.objects.annotate(
-                view_count=Count('views', filter=Q(date__lte=datetime.now()))
-            ).order_by('-view_count').distinct()[:7]
-        )
-    
+    for listing_id in views_:
+        try:
+            listings.append(Property.objects.get(pk=listing_id['property']))
+        except:
+            pass
+        try:
+            listings.append(BNB.objects.get(pk=listing_id['property']))
+        except:
+            pass
+        try:
+            listings.append(Lodge.objects.get(pk=listing_id['property']))
+        except:
+            pass
+
     return listings
 
+"""
+Function returns all featured listings
+"""
 def get_featured_listings():
     listings = []
 
     for model_name in [Property, BNB, Lodge]:
         listings.extend(
-            model_class.objects.filter()[:10]
+            model_name.objects.filter(is_featured=True)[:10]
         )
+    
+    # randomize contents of list
+    random.shuffle(listings)
+
+    return listings
 
 class PaymentOptions(generic.View):
 

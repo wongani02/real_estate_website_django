@@ -81,7 +81,7 @@
 											</tr>
 											<tr>
 												
-												{% if v_status == "sucess" %}
+												{% if obj.verification == 'VERIFIED' or obj.verification == 'Verified' %}
 													
 												<td align="left">
 													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
@@ -92,11 +92,11 @@
 													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">If you have any questions or need assistance, our support team is here to help. Feel free to reach out to us {{support}}.</div>
 												</td>
 												
-												{% elif v_status == "fail" %}
+												{% elif obj.verification == 'DECLINED' or obj.verification == 'Declined'%}
 
 												<td align="left">
 													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
-													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">We regret to inform you that your property listing verification was not successful. After careful review, we found some issues that prevented us from approving your submission at this time.</div>
+													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">We regret to inform you that your property listing verification was not successful. After careful review, we found some issues that prevented us from approving your submission at this time, some of which include <br>{{issues|safe}}.</div>
 													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
 													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">For a successful verification, please ensure the following: (1) appropriate policies are defined for the property listing. (2) Relevant and valid supporting documents are provided for thenlisting (3) Media of sufficient quality of the property listing is uploaded.</div>
 													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
@@ -104,7 +104,18 @@
 													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
 													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">If you have any questions or need assistance, our support team is here to help. Feel free to reach out to us {{support}}.</div>												
 												</td>
+
+												{% elif p_status == 'pending' %}
 												
+												<td align="left">
+													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
+													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">Your property listing has successfully been sent to our team for review and verification.</div>
+													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
+													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">Please be patient as this process may take up to 72 hours. Any communition herein will be sent to your email address or mobile phone number.</div>
+													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
+													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">If you have any questions or need assistance, our support team is here to help. Feel free to reach out to us {{support}}.</div>												
+												</td>
+
 												{% endif %}
 													
 											</tr>

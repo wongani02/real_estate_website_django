@@ -91,9 +91,7 @@ class Property(ModelMeta, models.Model):
     SOLD = "SOLD"
     AVAILABLE = "AVAILABLE"
     PENDING = 'PENDING'
-    VERIFIED = 'VERIFIED'
-    PENDING = 'PENDING'
-    DECLINED = 'DECLINED'
+    
     class Meta:
         verbose_name = 'Property'
         verbose_name_plural = 'Properties'
@@ -101,12 +99,6 @@ class Property(ModelMeta, models.Model):
     PROPERTY_TYPE = [
         (SALE, _("Sale")),
         (RENT, _("Rent")),
-    ]
-
-    VERIFICATION = [
-        (VERIFIED, _("Verified")),
-        (PENDING, _("Pending")),
-        (DECLINED, _("Declined"))
     ]
 
     STATUS = [
@@ -135,7 +127,6 @@ class Property(ModelMeta, models.Model):
     no_rooms = models.PositiveIntegerField(_("Number of Rooms"), default=2)
     no_baths = models.PositiveIntegerField(_("Number of Baths"), default=1)
     desc = RichTextField(_("Description"))
-    verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING, related_name='property_district')
     created_at = models.DateTimeField(auto_now=True, null=True)
     is_featured = models.BooleanField(_("if Featured"), default=False, null=True)

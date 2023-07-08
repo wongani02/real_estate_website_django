@@ -36,6 +36,9 @@ urlpatterns = [
 
     # payments url
     path('payments/', include('payments.urls')),
+
+    # verifications url
+    path('verifications/', include('verifications.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
