@@ -257,7 +257,8 @@ class Booking(models.Model):
     is_paid = models.BooleanField(default=False, null=True)
     updated = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)
-
+    is_notified = models.BooleanField(_("Is user notified of the tickets expiry status"), default=False)
+    
     objects = models.Manager()
     active_bookings = ActiveBookingsManager()
     cancelled_bookings = CancelledBookingsManager()

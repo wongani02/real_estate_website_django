@@ -36,6 +36,7 @@
 							<li>6. Feel free to reach out to the support team for any E-Ticket issues</li>
 						</ul>
 						<div class="event_counter_plugin_container mt30 mb20">
+							<h4>This ticket will be elligible for a refund up until <b>{{booking.check_in}}</b>.</h4>
 							<div class="event_counter_plugin_content">
 								<ul>
 									<li><span id="days"></span><div class="time_text">days</div></li>
@@ -43,9 +44,9 @@
 									<li><span id="minutes"></span><div class="time_text">Minutes</div></li>
 									<li><span id="seconds"></span><div class="time_text">Seconds</div></li>
 								</ul>
+								<small>Time to check in.</small>
 							</div>
 						</div>
-            
 						<a href="{% url 'payments:download' property.id %}"><button class="btn btn-primary mb-2">Download</button></a>
             			<a href="{% url 'accounts:dashboard' %}"><button class="btn btn-primary mb-2">Finish</button></a>
 					</div>

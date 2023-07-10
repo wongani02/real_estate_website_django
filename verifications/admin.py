@@ -25,7 +25,7 @@ class ListingAdmin(admin.ModelAdmin):
     )
 
     def save_model(self, request, obj, form, change):
-        print("contents: ", obj)
+        
         # call the parents save_model method to save the object
         super().save_model(request, obj, form, change)
         user = None

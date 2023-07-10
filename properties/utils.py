@@ -4,10 +4,10 @@ from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.html import strip_tags
 
-
 from lodges.models import About
-
+from properties.models import Documents
 from core import settings
+
 
 
 #if a request is an ajax request it will return true
@@ -29,9 +29,7 @@ p_name - property name
 p_status - property status (pending, complete)
 v_status - verification status (success, fail, None)
 """
-def verification_status(to_email=None, p_name=None, p_status=None, client=None, v_status=None, obj=None, issues=None, request=None):
-    print(to_email)
-    
+def verification_status(to_email=None, p_name=None, p_status=None, client=None, v_status=None, obj=None, issues=None, request=None, ticket=None):
     # Get company object
     company = About.objects.first()
     
@@ -42,6 +40,12 @@ def verification_status(to_email=None, p_name=None, p_status=None, client=None, 
         # Create emails subject
         subject = company.company_name + " Property Verification Request"
 
+    elif ticket is not None:
+        mail_template = 'properties/verification/complete-email.html'
+
+        # create emails subject
+        subject = company.company_name + ' E-Ticket Expiry (Status)'
+
     else:
         mail_template = 'properties/verification/complete-email.html'
         
@@ -49,12 +53,15 @@ def verification_status(to_email=None, p_name=None, p_status=None, client=None, 
         subject = company.company_name + " Property Verification"
 
     # Get current site
-    current_site = get_current_site(request)
+    try:
+        current_site = get_current_site(request)
+    except:
+        pass
 
     # Create context variables
     context = {
-         'company_name': company.company_name, 'company_addr': company.address,
-         'company_tel': company.phone_number, 'user': client, 'property': p_name,
+         'company_name': company.company_name, 'company_addr': company.address, 'ticket': ticket,
+         'company_tel': company.phone_number, 'user': client, 'property': p_name, 'obj': obj,
          'current_site': current_site, 'status': p_status, 'support': '#support', 'issues': issues
     }
 
@@ -71,6 +78,8 @@ def verification_status(to_email=None, p_name=None, p_status=None, client=None, 
 
     # Attach email html image to email
     email.attach_alternative(email_body, 'text/html')
-    email.send()
+    # email.send()
+    
     # Send email via thread
-    # EmailThread(email).start()
+    EmailThread(email).start()
+

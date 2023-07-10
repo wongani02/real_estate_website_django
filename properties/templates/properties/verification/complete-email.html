@@ -116,6 +116,17 @@
 													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">If you have any questions or need assistance, our support team is here to help. Feel free to reach out to us {{support}}.</div>												
 												</td>
 
+												{% elif ticket is not None %}
+
+												<td align="left">
+													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
+													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">We would like to notify you of the status and validity of your E-Ticket for {{property}}.</div>
+													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
+													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">Please be aware that your E-Ticket is valid up until {{ticket.check_out}}, and eligible for a refund up until {{ticket.check_in}} as per consented policies and regulations.</div>
+													<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
+													<div class="Montserrat400" style="font-family: Arial, sans-serif; color: #FFFFFF; font-size: 15px; line-height: 21px;">If you have any questions or need assistance, our support team is here to help. Feel free to reach out to us {{support}}.</div>												
+												</td>
+
 												{% endif %}
 													
 											</tr>

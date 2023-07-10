@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.db.models import Q, Sum, Count, ForeignKey, Value, CASCADE, CharField
 from django.views import View
 from django.core.paginator import Paginator
@@ -17,6 +17,7 @@ from properties.filters import AdvancedSearchFilter
 from properties.charts import *
 from bnb.models import Property as BNB, BnbViews
 from users.models import User
+from verifications.views import create_property_listing
 
 import json
 import ast
@@ -209,12 +210,16 @@ class PropertyDetail(generic.DetailView):
         # Get chart objects
         chart = create_properties_views_chart(kwargs.get('pk'))
         chart_likes = create_properties_likes_chart(kwargs.get('pk'))
+
+        # get property documents
+        docs = Documents.objects.filter(property=qs)
         
         context = {
             'property': qs,
             'property_charts': [
                 chart, chart_likes
-            ]
+            ],
+            'docs': docs,
             # 'property_likes': chart_likes,
         }
 
@@ -648,8 +653,11 @@ class CreatePropertyPolicy(generic.CreateView):
                 'no_days': request.POST.get('no_days')
             }
 
-            # save all data and redirect
-            save_data(request)
+            # save all data and get returned property object
+            property_ = save_data(request)
+
+            # create a property verification pending object and notify user
+            create_property_listing(request, property_)
 
         return render(request, self.template_name, {'form': form})
 
@@ -777,7 +785,7 @@ def save_data(request):
     
     request.session['property_id'] = str(property_.id)
     
-    return redirect('properties:offers')
+    return property_
 
 """
 Function creates property object with the following parameters
@@ -952,4 +960,19 @@ def get_onbording(request, **kwargs):
     template_name = 'users/onbording-3.html'
 
     return render(request, template_name)
+
+
+def download_doc(request, **kwargs):
+    # get doc from db
+    doc = Documents.objects.get(pk=kwargs.get('pk'))
+
+    filepath = os.path.join(settings.MEDIA_ROOT, str(doc.file))
+
+    if os.path.exists(filepath):
+        with open(filepath, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type='application/file')
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(filepath)
+
+            return response
+    raise Http404
 

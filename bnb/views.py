@@ -13,6 +13,7 @@ from django.contrib import messages
 
 from lodges.forms import RequiredFormSet
 from payments.models import BnbBookingPayment, PaymentOption
+from verifications.views import create_bnb_listing
 
 from bnb.models import *
 from bnb.create_bnb import BNB
@@ -402,6 +403,9 @@ def createBNBInstance(request):
 
             #clear sessions
             bnb.clear_session()
+
+            # create a bnb pending verification instance and send an email to user
+            create_bnb_listing(request, instance)
 
             return redirect('bnb:bnb-detail', instance)
     except:
