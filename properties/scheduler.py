@@ -12,11 +12,16 @@ def configure_scheduler():
     job1 = 'media'
     job2 = 'tickets'
 
+    # create time values
+    seconds = 59
+    minutes = 0
+    hours = 0
+
     # add the deletion job to run daily at a 12:00 AM
-    scheduler.add_job(delete_temp_media, 'interval', seconds=15, id=job1)
+    scheduler.add_job(delete_temp_media, 'cron', hour=hours, minute=minutes, id=job1)
 
     # add the e-ticket notification job
-    scheduler.add_job(ticket_expiry_notification, 'interval', seconds=15, id=job2)
+    scheduler.add_job(ticket_expiry_notification, 'cron', hour=hours, minute=minutes, id=job2)
 
     # register the scheduler with djangos event system
     register_events(scheduler)

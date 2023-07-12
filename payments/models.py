@@ -7,7 +7,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.contrib.staticfiles.storage import staticfiles_storage
 
-from properties.models import Property
+from properties.models import Property, Receipt
 from bnb.models import Property as BNB, Booking as BNBBooking
 from lodges.models import Lodge, Booking as LodgeBooking
 from .utils import generate_ref_code
@@ -90,6 +90,7 @@ class Payment(models.Model):
 
 class PropertyPayment(Payment):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True, related_name="property_payment")
+    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
 
 
 class BnbBookingPayment(Payment):
@@ -111,7 +112,20 @@ class Invoice(models.Model):
         return ' {}'.format(self.ref_num)
     
     class Meta:
-        abstract = True         
+        abstract = True        
+
+
+class PropertyCharge(models.Model):
+    class Meta:
+        verbose_name = 'Property Charge (ONLY CREATE 1 ENTRY)'
+        verbose_name_plural = 'Property Charges (ONLY CREATE 1 ENTRY)'
+
+    price = models.DecimalField(_("Price charge for all Property Listings"), default=0.0, decimal_places=2, max_digits=9)
+    date = models.DateTimeField(_("Date Created/Amended"), auto_now=True)
+
+    def __str__(self):
+        return '{} - {}'.format(self.price, self.date)
+ 
 
 
 #will work on these letter

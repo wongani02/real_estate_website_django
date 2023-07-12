@@ -14,19 +14,16 @@ class PropertyDocumentsForm(forms.ModelForm):
 
 
 class PropertyPolicyForm(forms.ModelForm):
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['title'].queryset = Policy.active_policy_manager.all()
 
     class Meta:
-        model = Policy
-        fields = ['title']
+        model = PropertyPolicyLink
+        fields = ['policy']
         widgets = {
-            'title': forms.RadioSelect()
-        }
-
-        
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['title'].queryset = Policy.active_policy_manager.all()
-        
+            'policy': forms.widgets.RadioSelect(),
+        }        
 
 
 class SearchForm(forms.ModelForm):
@@ -185,6 +182,22 @@ class AmenitiesCreationForm(forms.ModelForm):
                 'name': 'amenity_desc', 'id': 'amenity_desc', 'class': 'form-control',
             })
         }
+
+class PropertyPaymentDetailForm(forms.Form):
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Client Full Name'})
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class':'form_control form-control', 'placeholder':' (this email will be used for your payment communication and records)'})
+    )
+    note = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form_control form-control','placeholder': 'Special requests (optional)', 'rows':3})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['note'].label = 'Special requests cannot be guaranteed – but the property will do its best to meet your needs. You can always make a special request after your booking is complete!'
+        self.fields['note'].required = False
 
 
 class ImagesCreationForm(forms.ModelForm):

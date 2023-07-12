@@ -1,6 +1,8 @@
 import uuid
 
 from django.db import models
+from django.utils import timezone
+from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import reverse
 from ckeditor.fields import RichTextField
@@ -303,10 +305,10 @@ class Policy(models.Model):
         default=1,
     )
     is_active = models.BooleanField(default=True)
-    active_policy_manager  = ActivePolicyManager()
+    active_policy_manager = ActivePolicyManager()
 
     def __str__(self):
-        return f'{self.title} \n {self.desc}'
+        return f'{self.title}: {strip_tags(self.desc)}'
 
 
 class PropertyPolicyLink(models.Model):
@@ -319,5 +321,29 @@ class PropertyPolicyLink(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.property.name, self.policy.title)
+
+
+class Receipt(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='property_payment')
+    note = models.TextField(null=True, blank=True, help_text='leave a special note, eg we might arrive late')
+    is_active = models.BooleanField(null=True, default=True)
+    cancelled = models.BooleanField(null=True, default=False)
+    qr_code = models.ImageField(upload_to='property_qr_codes/', null=True, blank=True)
+    ref_code = models.CharField(max_length=10, null=True, blank=True)
+    is_paid = models.BooleanField(default=False, null=True)
+    updated = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name = 'Receipt'
+        verbose_name_plural = 'Receipts'
+
+
+    def __str__(self):
+        return f"{self.user.username} - {self.property}"
 
 
