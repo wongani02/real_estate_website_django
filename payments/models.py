@@ -90,7 +90,7 @@ class Payment(models.Model):
 
 class PropertyPayment(Payment):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True, related_name="property_payment")
-    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
+    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, null=True)
 
 
 class BnbBookingPayment(Payment):

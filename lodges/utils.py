@@ -54,6 +54,8 @@ def format_dates(date_value):
     return dates[0], dates[1]
 
 
+# function that calculates the number of nights given the 
+# check in and chack out dates
 def calc_number_of_nights(check_in, check_out):
     delta = check_in - check_out
     nights = abs(delta.days)

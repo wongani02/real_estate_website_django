@@ -13,7 +13,7 @@
                     {% if qty > room_cat.room_data|length %}
                     <a href="#" class="theme_badge2 p-1">only {{room_cat.room_data|length}} rooms available</a>
                     {% else %}
-                    <a href="#" class="theme_badge p-1">Greate Deal</a>
+                    <a href="#" style="background-color: rgb(14, 172, 53);" class="theme_badge p-1">Greate Deal</a>
                     {% endif %}
                     <div class="col-auto">
                         <ul class="list-inline-item">
@@ -34,8 +34,12 @@
                         </ul>
                         
                     </div>
-                    
+                    {% if qty > room_cat.room_data|length %}
+                    <button disabled class="ml-4 btn btn-thm">Book Room</button>
+                    <!-- <a href="{% url 'lodges:booking-step-1' lodge.id room_cat.room_type.id qty room_cat.rooms|length %}" class="ml-4 btn btn-thm">Book Room</a> -->
+                    {% else %}
                     <a href="{% url 'lodges:booking-step-1' lodge.id room_cat.room_type.id qty room_cat.rooms|length %}" class="ml-4 btn btn-thm">Book Room</a>
+                    {% endif %}
                     
                 </div>
                 {% empty %}

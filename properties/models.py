@@ -325,7 +325,7 @@ class PropertyPolicyLink(models.Model):
 
 class Receipt(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='property_payment')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='property_payment', null=True)
     note = models.TextField(null=True, blank=True, help_text='leave a special note, eg we might arrive late')
     is_active = models.BooleanField(null=True, default=True)
     cancelled = models.BooleanField(null=True, default=False)

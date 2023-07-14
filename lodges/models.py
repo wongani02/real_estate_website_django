@@ -8,6 +8,7 @@ from ckeditor.fields import RichTextField
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.utils.html import strip_tags
 
 from meta.models import ModelMeta
 
@@ -169,7 +170,7 @@ class Policy(models.Model):
     active_policy_manager  = ActivePolicyManager()
 
     def __str__(self):
-        return f'{self.policy_title} \n {self.policy_description}'
+        return f'{self.policy_title}: {strip_tags(self.policy_description)}'
 
 
 class LodgeCancellationPolicy(models.Model):

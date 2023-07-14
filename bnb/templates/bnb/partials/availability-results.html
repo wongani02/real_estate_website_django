@@ -6,7 +6,7 @@
                 
                 {% if available %}
                 <div class="col-lg-12">
-                    <h4 class="mb15 text-center ">Proceed to booking :)</h4>
+                    <h4 class="mb15 text-center ">Proceed to booking </h4>
                     <p class="text-center">BNB is available for booking on your selected dates {{dates}}</p>
                     <div class="row justify-content-center">
                         <a href="{% url 'bnb:booking-details' bnb.id qty num_nights %}" class="col-md-2 btn btn-thm p-2">Book BNB</a>
@@ -15,7 +15,7 @@
                 {% endif %}
                 {% if not available %}
                 <div class="col-lg-12">
-                    <h4 class="mb15 text-center ">No available rooms on those days :(</h4>
+                    <h4 class="mb15 text-center ">No available rooms on those days </h4>
                     <p class="text-center">Please check its availability on different dates</p>
                 </div> 
                 {% endif %} 

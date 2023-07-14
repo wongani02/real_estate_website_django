@@ -30,6 +30,7 @@ urlpatterns = [
     path('payment/options/', views.PaymentOptions.as_view(), name='payment-options'),
     path('process/details/', views.process_payment_detail, name='process-details'),
     path('process/payment/', views.process_payment_view, name='process-payment'),
+    path('process-payemnt/', views.payment_approved, name='pay-process'),
 
     # discover
     path('discover/', views.discover, name='discover'),

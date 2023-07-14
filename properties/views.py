@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, JsonResponse, Http404
 from django.db.models import Q, Sum, Count, ForeignKey, Value, CASCADE, CharField
 from django.views import View
 from django.core.paginator import Paginator
@@ -17,7 +17,7 @@ from properties.filters import AdvancedSearchFilter
 from properties.charts import *
 from bnb.models import Property as BNB, BnbViews
 from users.models import User
-from payments.models import PropertyPayment, PropertyCharge
+from payments.models import PropertyPayment, PropertyCharge, PaymentOption
 from verifications.views import create_property_listing
 
 import json
@@ -583,8 +583,7 @@ class CreatePropertyMediaListing(generic.CreateView):
             images_ = TempImageStore(user=agent, image=request.FILES['file'])
             images_.save()
 
-            return redirect('accounts:dashboard')
-              
+            return redirect('accounts:dashboard')           
     
 
 class CreatePropertyDocuments(generic.CreateView):
@@ -679,8 +678,6 @@ def process_payment_detail(request, *kwargs):
         # get form data
         form = PropertyPaymentDetailForm(request.POST)
 
-        print()
-
         if form.is_valid():
             # add form data to session variable
             request.session['property_payment_data'] = {
@@ -709,44 +706,45 @@ def process_payment_detail(request, *kwargs):
 
 
 def process_payment_view(request, **kwargs):
-    if request.method == 'POST':
-        # get property object
-        property = Property.objects.get(id=kwargs.get('pk'))
 
-        # get user object
-        user = User.objects.get(username=request.user.username)
+    # if request.method == 'POST':
+        # # get property object
+        # property = Property.objects.get(id=kwargs.get('pk'))
 
-        # get form body
-        body = json.loads(request.body)
+        # # get user object
+        # user = User.objects.get(username=request.user.username)
 
-        # crete a receipts instance
-        receipt = Receipt.objects.create(
-            user=user,
-            note='',
-            property=property,
-            is_paid=True,
-        )
+        # # get form body
+        # body = json.loads(request.body)
 
-        # create a property payment instance
-        payment = PropertyPayment.objects.create(
-            user=user,
-            property=property,
-            full_name=body['fullname'],
-            email=body['email'],
-            total_paid=body['totalPaid'],
-            order_key=body['orderId'],
-            payment_option=PaymentOption.objects.first(),
-            billing_status=True,
-            receipts=receipt
-        )
+        # # crete a receipts instance
+        # receipt = Receipt.objects.create(
+        #     user=user,
+        #     note='',
+        #     property=property,
+        #     is_paid=True,
+        # )
 
-        # Add payment id to session variable "lodge_booking"
-        request.session['property_payment'] = payment.order_key
+        # # create a property payment instance
+        # payment = PropertyPayment.objects.create(
+        #     user=user,
+        #     property=property,
+        #     full_name=body['fullname'],
+        #     email=body['email'],
+        #     total_paid=body['totalPaid'],
+        #     order_key=body['orderId'],
+        #     payment_option=PaymentOption.objects.first(),
+        #     billing_status=True,
+        #     receipts=receipt
+        # )
 
-        # Add email to session
-        request.session['payment_email'] = request.session['property_payment_data']['email']
+        # # Add payment id to session variable "lodge_booking"
+        # request.session['property_payment'] = payment.order_key
 
-        return JsonResponse('payment complete', safe=False)
+        # # Add email to session
+        # request.session['payment_email'] = request.session['property_payment_data']['email']
+
+        # return JsonResponse('payment complete', safe=False)
 
     # get total charge price
     charge = PropertyCharge.objects.first()
@@ -771,7 +769,42 @@ def payment_approved(request):
     # create a property verification pending object and notify user
     create_property_listing(request, property_) 
 
-    return redirect('properties')
+    # payment processing
+
+    # get user object
+    user = User.objects.get(username=request.user.username)
+
+    # get form body
+    body = json.loads(request.body)
+
+    # crete a receipts instance
+    receipt = Receipt.objects.create(
+        user=user,
+        note='',
+        property_id=property_.id,
+        is_paid=True,
+    )
+
+    # create a property payment instance
+    payment = PropertyPayment.objects.create(
+        user=user,
+        property_id=property_.id,
+        full_name=body['fullname'],
+        email=body['email'],
+        total_paid=body['totalPaid'],
+        order_key=body['orderId'],
+        payment_option=PaymentOption.objects.first(),
+        billing_status=True,
+        receipts=receipt
+    )
+
+    # Add payment id to session variable "property_payment"
+    request.session['property_payment'] = payment.order_key
+
+    # Add email to session
+    request.session['payment_email'] = request.session['property_payment_data']['email']
+
+    return JsonResponse('payment complete', safe=False)
 
 
 """
@@ -1069,6 +1102,7 @@ def get_featured_listings():
 
     return listings
 
+
 class PaymentOptions(generic.View):
 
     def get(self, request):
@@ -1087,7 +1121,8 @@ class PaymentOptions(generic.View):
 
 def redirectUser(request):
     return redirect('accounts:dashboard')
-      
+
+   
 class DateEncoder(DjangoJSONEncoder): 
 
     def default(self, obj):

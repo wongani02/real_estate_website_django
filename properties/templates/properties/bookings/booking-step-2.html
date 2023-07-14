@@ -115,7 +115,7 @@
 				purchase_units: [{
 					"amount": {
 					"currency_code": "USD",
-					"value": "{{0.5}"
+					"value": "0.5"
 					}
 				}]
 				});
@@ -126,7 +126,7 @@
 			},
 			onApprove: function (data, actions) {
 				//get payment data on payment approval
-				var url = "{% url 'properties:process-payment' %}"
+				var url = "{% url 'properties:pay-process' %}"
 				return actions.order.capture().then(function(orderData) {
 					return fetch(url, {
 						method: 'POST',
@@ -147,7 +147,7 @@
 							address_2: orderData.purchase_units[0].shipping.address.admin_area_2,
 						})
 						}).then(function () {
-							location.href = "{% url 'payments:create-qr-code' %}";
+							location.href = "{% url 'accounts:dashboard' %}";
 						})
 					})
 			},

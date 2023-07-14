@@ -7,6 +7,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django.utils.html import strip_tags
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.base import ContentFile
@@ -167,7 +168,7 @@ class Policy(models.Model):
     active_policy_manager  = ActivePolicyManager()
 
     def __str__(self):
-        return f'{self.policy_title} \n {self.policy_description}'
+        return f'{self.policy_title}  {strip_tags(self.policy_description)}'
 
 
 class BNBCancellationPolicy(models.Model):
