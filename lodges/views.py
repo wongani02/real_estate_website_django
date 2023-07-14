@@ -13,11 +13,18 @@ from django.core.paginator import Paginator
 
 from payments.models import LodgeBookingPayment, PaymentOption
 from verifications.views import create_lodge_listing
+from bnb.forms import ReviewForm
 
 from .create_lodge import LodgeCreation as LodgeCreationClass
 from .models import Amenity, LodgeImage, Lodge, Image, LodgesViews, Booking
 from .forms import *
-from .utils import check_room_availability, format_dates, process_data, calc_number_of_nights
+from .utils import (
+    check_room_availability, 
+    format_dates, 
+    process_data, 
+    calc_number_of_nights,
+    check_user_eligibility,
+    )
 
 
 # Create your views here.
@@ -34,13 +41,36 @@ def lodgeListingView(request):
 def lodgeDetailView(request, pk):
     lodge = get_object_or_404(Lodge, pk=pk)
 
+    # get user eligibility to make a review
+    user = request.user
+    review_form = None
+    eligibility = None
+    if user.is_authenticated:
+        eligibility = check_user_eligibility(user, lodge)
+        if eligibility:
+            review_form = ReviewForm()
+
     # Update the number of views
     update_views(lodge)
 
+    # get reviews
+    reviews = LodgeReview.objects.filter(lodge=lodge).order_by('-created')
+    review_paginator = Paginator(reviews, 2)
+    review_page_number = request.GET.get('page', 1)
+    review_obj = review_paginator.get_page(review_page_number)
+
     context = {
         'lodge': lodge,
+        'reviews': review_obj,
+        'review_form': review_form,
+        'eligibility':eligibility,
     }
+
+    if request.htmx:
+        return render(request, 'lodges/partials/review-partial.html', context)
+    
     return render(request, 'lodges/lodge-detail.html', context)
+
 
 def update_views(_property):
     from datetime import datetime
@@ -197,6 +227,7 @@ def handleRoomForm(request):
         return render(request, 'lodges/create-lodge-rooms.html', {'room_form': room_form})
 
 
+@login_required
 def handleAmenities(request):
     session = request.session
     if 'lodge_rooms' not in session:
@@ -508,11 +539,6 @@ def searchView(request):
             Q(name__icontains=q) | Q(street_name__icontains=q) | Q(city__icontains=q) | Q(map_location__icontains=q) | Q(country__icontains=q)
             ).order_by('?').distinct()
         
-    # print(results)
-    # lodge_paginator = Paginator(results, 2)
-    # lodge_page_number = request.GET.get('page', 1)
-    # lodge_obj = lodge_paginator.get_page(lodge_page_number)
-
     context = {
         'lodges': results
     }
@@ -521,6 +547,21 @@ def searchView(request):
         return render(request, 'lodges/partials/search-results.html', context)
 
     return render(request, 'lodges/search/lodge-results.html', context)
+
+
+def handleReviews(request, pk):
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            LodgeReview.objects.create(
+                user_id=request.user.id,
+                lodge_id=pk,
+                review=form.cleaned_data['review']
+            )
+            return render(request, 'lodges/partials/review-posted.html')
+
+    return render(request, 'lodges/partials/review-posted.html')
 
 
 def getAvailableRoomTypes(request, lodge):
@@ -677,6 +718,7 @@ def processPaymentView(request, **kwargs):
         booking_instance = Booking.objects.create(
             user_id=request.user.id,
             room_id=rooms_to_be_booked[count],
+            lodge=lodge,
             email=request.session['lodge_booking_data']['email'],
             full_name=request.session['lodge_booking_data']['name'],
             check_in=check_in, 
@@ -716,3 +758,4 @@ def processPaymentView(request, **kwargs):
     request.session['booking_email'] = request.session['lodge_booking_data']['email']
 
     return JsonResponse('payment complete', safe=False)
+

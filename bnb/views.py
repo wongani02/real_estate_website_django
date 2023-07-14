@@ -51,11 +51,31 @@ class BnbDetail(generic.DetailView):
     template_name = 'bnb/bnb-detail.html'
 
     def get(self, request, **kwargs):
-        qs = Property.active_bnb.get(id=kwargs.get('pk'))
-        
+        bnb = Property.objects.get(id=kwargs.get('pk'))
+        user = request.user
+        review_form = None
+        eligibility = None
+        if user.is_authenticated:
+            eligibility = check_user_eligibility(user, bnb)
+            if eligibility:
+                review_form = ReviewForm()
+
+        reviews = BNBReview.objects.filter(bnb=bnb).order_by('-created')
+
+        review_paginator = Paginator(reviews, 2)
+        review_page_number = request.GET.get('page', 1)
+        review_obj = review_paginator.get_page(review_page_number)
+
         context = {
-            'bnb': qs,
+            'bnb': bnb,
+            'review_form':review_form,
+            'eligibility':eligibility,
+            'reviews': review_obj,
         }
+
+        if request.htmx:
+            
+            return render(request, 'bnb/partials/review-partial.html', context)
 
         return render(request, self.template_name, context)
 
@@ -142,6 +162,7 @@ def bnbDetailsView(request):
         'form': form,
     }
     return render(request, 'bnb/create/bnb-details-creation.html', context)
+
 
 def update_views(_property):
     from datetime import datetime
@@ -576,6 +597,21 @@ def searchBNBAvailability(request, pk):
     return render(request, 'bnb/partials/availability-results.html', context)
 
 
+def handleReviews(request, pk):
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            BNBReview.objects.create(
+                user_id=request.user.id,
+                bnb_id=pk,
+                review=form.cleaned_data['review']
+            )
+            return render(request, 'bnb/partials/review-posted.html')
+
+    return render(request, 'bnb/partials/review-posted.html')
+
+
 def bnbBookingDetailsView(request, **kwargs):
     session = request.session
 
@@ -674,3 +710,5 @@ def processPayment(request, **kwargs):
     update_booking.update(is_paid=True)
 
     return JsonResponse('done', safe=False)
+
+

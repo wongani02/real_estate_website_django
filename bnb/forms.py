@@ -251,3 +251,10 @@ class BNBBookingForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['note'].label = 'Special requests cannot be guaranteed – but the property will do its best to meet your needs. You can always make a special request after your booking is complete!'
         self.fields['note'].required = False
+
+
+class ReviewForm(forms.Form):
+    review = forms.CharField(widget=forms.Textarea(
+        attrs={'class': 'form_control form-control', 'placeholder': 'Share your experience here', 'rows':2}
+    ))
+    

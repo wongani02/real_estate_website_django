@@ -39,5 +39,6 @@ urlpatterns = [
     path('bnb-detail/<uuid:pk>/booking/<int:qty>/<int:nights>/booking-details/process/', views.processPayment, name='process-booking'),
 
     #htmx
-    path('bnb/search-availability/<uuid:pk>/', views.searchBNBAvailability, name='search-availability')
+    path('bnb/search-availability/<uuid:pk>/', views.searchBNBAvailability, name='search-availability'),
+    path('submit-review/<uuid:pk>/', views.handleReviews, name='submit-review'),
 ]

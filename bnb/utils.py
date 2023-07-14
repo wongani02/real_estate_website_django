@@ -1,6 +1,8 @@
 from datetime import datetime
 from itertools import groupby
 
+from django.db.models import Q
+
 from .models import Booking
 
 
@@ -55,8 +57,32 @@ def format_dates(date_value):
     return dates[0], dates[1]
 
 
+# function that calculates the number of nights
 def calc_number_of_nights(check_in, check_out):
     delta = check_in - check_out
     nights = abs(delta.days)
     return nights
+
+
+# function to check if a user is eligible to write a review
+def check_user_eligibility(user, property):
+
+    # filter bookings by user and property
+    bookings = Booking.objects.filter(Q(user=user)&Q(property=property))
+
+    # initialise an empty eligibility list
+    eligibility_list = []
+
+    # loop through the user bookings
+    for booking in bookings:
+
+        # if user checked in append 'True' to the list else 'False'
+        if booking.checked_in:
+            eligibility_list.append(True)
+        else:
+            eligibility_list.append(False)
+    
+    # if any of the bookings returns true then the user is eligible to create a review
+    return any(eligibility_list)
+        
 

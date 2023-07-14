@@ -56,6 +56,7 @@ class SimpleSearch(generic.ListView):
 
         return render(request, self.template_name, context)
 
+
 class AdvancedSearch(generic.ListView):
     template_name = 'properties/page-listing-v2.html'
 
@@ -69,6 +70,7 @@ class AdvancedSearch(generic.ListView):
         })
 
         return render(request, self.template_name, result)
+
 
 class PropertiesHome(generic.ListView):
     
@@ -168,7 +170,6 @@ class PropertyListingList(generic.ListView):
         }
 
         return context
-
 
 
 class PropertyPricing(generic.ListView):
@@ -284,6 +285,7 @@ def editPropertyOptions(request, pk):
 
     return render(request, 'properties/edit/index.html', context)
 
+
 class EditPropertyDetails(generic.UpdateView):
     model = Property
     success_url = '/'
@@ -305,6 +307,7 @@ class EditPropertyDetails(generic.UpdateView):
             return redirect(self.success_url)
         return render(request, self.template_name, {'form': form, 'pk': model.id})
 
+
 class EditPropertyLocationAmenities(generic.UpdateView):
     model = Property
     template_name = 'properties/edit/location.html'
@@ -325,6 +328,7 @@ class EditPropertyLocationAmenities(generic.UpdateView):
 
             return redirect(self.success_url)
         return render(request, self.template_name, {'form': form, 'pk': model.id})
+
 
 class EditPropertyPolicies(generic.UpdateView):
     model = Policy
@@ -386,6 +390,7 @@ class EditPropertyDocuments(generic.UpdateView):
 
     def post(self, request):
         pass
+
 
 class DeletePropertyListing(generic.DeleteView):
     model = Property
@@ -541,6 +546,7 @@ class CreatePropertyLocationListing(generic.CreateView):
 
         return str(_list)
 
+
 """
 CBV gets and saves images to a temporary database table.
 These images are later on transferred to a permanent table when the user
@@ -640,6 +646,7 @@ class CreatePropertyPolicy(generic.CreateView):
 
         return render(request, self.template_name, {'policy': form})
 
+
 def select_property_policy(request, **kwargs):
     # get form data
     form = PropertyPolicyForm(request.POST)
@@ -655,6 +662,7 @@ def select_property_policy(request, **kwargs):
         return redirect('properties:process-details')
 
     return render(request, 'properties/page-dashboard-new-property-5.html', {'policy': form})
+
 
 def create_policy(request, **kwargs):
     # get request data
@@ -845,6 +853,7 @@ def save_data(request):
     
     return property_
 
+
 """
 Function creates property object with the following parameters
 object1: property information session object
@@ -902,6 +911,7 @@ def create_amenity_link(request, property_id, objects):
         amenities_.append(amenity)
 
     return amenities_
+
 
 """
 Function saves property images from the temporary table

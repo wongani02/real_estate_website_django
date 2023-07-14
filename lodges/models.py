@@ -185,6 +185,7 @@ class LodgeReview(models.Model):
     lodge = models.ForeignKey(Lodge, null=True, on_delete=models.CASCADE, related_name='lodge_reviews')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, related_name='user_reviews')
     review = models.TextField(null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return f'{self.user.username}\'s review for - {self.lodge.name}'
@@ -236,7 +237,7 @@ class CheckedInBookingsManager(models.Manager):
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bookings')
-    # lodge = models.ForeignKey(Lodge, null=True, on_delete=models.CASCADE, related_name='lodge_bookings')
+    lodge = models.ForeignKey(Lodge, null=True, on_delete=models.CASCADE, related_name='lodge_bookings')
     email = models.EmailField(null=True)
     full_name = models.CharField(max_length=100, null=True)
     phone_number = models.CharField(max_length=100, null=True, blank=True)

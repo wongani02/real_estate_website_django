@@ -1,0 +1,26 @@
+
+    {% for item in reviews %}
+    <div id="review" class="col-md-6 col-lg-6">
+        <div class="mbp_first mt15">
+        
+        <div class="media-body mt15">
+            <h4 class="sub_title mt-0">{{item.user.username}}</h4>
+            <div class="sspd_postdate fz14 mb20">{{item.created}}
+            </div>
+            <p class="fz14 mt10">{{item.review}}</p>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+
+    {% if reviews.has_next %}
+    <div id="load-more-lodge-reviews" class="nav  col-lg-12 justify-content-center">
+        <button 
+        class="btn btn-thm"
+        hx-get="{% url 'lodges:lodge-detail' lodge.id %}?page={{reviews.next_page_number}}"
+        hx-target="#load-more-lodge-reviews"
+        hx-swap="outerHTML"
+        >Load more reviews...</button>
+    </div>
+    {% endif %}

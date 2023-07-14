@@ -179,10 +179,11 @@ class BNBCancellationPolicy(models.Model):
         return f'{self.bnb.title}'
 
 
-class LodgeReview(models.Model):
+class BNBReview(models.Model):
     bnb = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='user_reviews')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, related_name='bnb_user_reviews')
     review = models.TextField(null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return f'{self.user.username}\'s review for - {self.bnb.title}'
@@ -217,7 +218,7 @@ class Booking(models.Model):
     check_out = models.DateField(null=True)
     num_guests = models.PositiveIntegerField(_("Number of Guests"), null=True)
     number_of_nights = models.PositiveSmallIntegerField(default=1, null=True)
-    note = models.TextField(null=True, help_text='leave a special note, eg we might arrive late')
+    note = models.TextField(null=True, blank=True, help_text='leave a special note, eg we might arrive late')
     is_active = models.BooleanField(null=True, default=True)
     checked_in = models.BooleanField(null=True, default=False)
     cancelled = models.BooleanField(null=True, default=False)
