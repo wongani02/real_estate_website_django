@@ -273,7 +273,6 @@ class AgentDetails(generic.DetailView):
         return render(request, 'properties/page-agent-single.html')
     
 
-
 def editPropertyOptions(request, pk):
     context = {'pk': pk}
 

@@ -29,7 +29,7 @@ class RoomCategoryInline(admin.StackedInline):
 
 @admin.register(Lodge)
 class LodgeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'street_name', 'city', 'map_location', 'country',)
+    list_display = ('name', 'role', 'map_location',)
     inlines = [
         RoomCategoryInline, 
         LodgeAmenityInline, 

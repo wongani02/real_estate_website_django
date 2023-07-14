@@ -19,16 +19,16 @@
                         <ul class="list-inline-item">
                         <li><p>Room Type:</p></li>
                         <li><p>Price per night: </p></li>
-                        <li><p>num of Children:</p></li>
-                        <li><p>num of Adults:</p></li>
-                        <li><p>num of Beds:</p></li>
-                        <li><p>num of available rooms: </p></li>
+                        <!-- <li><p>num of Children:</p></li> -->
+                        <li><p>Quests:</p></li>
+                        <li><p>Beds:</p></li>
+                        <li><p>Available rooms: </p></li>
                         </ul>
                         <ul class="list-inline-item">
                         <li><p><span>{{room_cat.room_type.room_type}}</span></p></li>
                         <li><p><span>${{room_cat.room_type.price_per_night}}</span></p></li>
-                        <li><p><span>{{room_cat.room_type.children}}</span></p></li>
-                        <li><p><span>{{room_cat.room_type.adults}}</span></p></li>                      
+                        <!-- <li><p><span>{{room_cat.room_type.children}}</span></p></li> -->
+                        <li><p><span>{{room_cat.room_type.max_guests}}</span></p></li>                      
                         <li><p><span>{{room_cat.room_type.beds}}</span></p></li>
                         <li><p><span>{{room_cat.room_data|length}}</span></p></li>
                         </ul>

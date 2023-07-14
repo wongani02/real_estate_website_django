@@ -61,10 +61,8 @@ def createLodgeView(request):
         lodge_form = LodgeCreationForm(
             initial={
                 'property_name': session['lodge_details']['property_name'],
-                'address': session['lodge_details']['address'],
-                'city': session['lodge_details']['city'],
+                'role': session['lodge_details']['role'],
                 'description': session['lodge_details']['description'],
-                'location': session['lodge_details']['location'],
                 'contact_email':session['lodge_details']['contact_email'],
                 'contact_number': session['lodge_details']['contact_number'],
                 'number_of_room_types': session['lodge_details']['number_of_room_types'],
@@ -89,10 +87,8 @@ def handleLodge(request):
         if form.is_valid():
             request.session['lodge_details'] = {
                 'property_name': form.cleaned_data['property_name'],
-                'address': form.cleaned_data['address'],
-                'city': form.cleaned_data['city'],
+                'role': form.cleaned_data['role'],
                 'description': form.cleaned_data['description'],
-                'location': form.cleaned_data['location'],
                 'contact_email':form.cleaned_data['contact_email'],
                 'contact_number': form.cleaned_data['contact_number'],
                 'number_of_room_types': form.cleaned_data['number_of_room_types'],
@@ -166,13 +162,11 @@ def handleRoomForm(request):
         room_form = RoomCreationFormSet(request.POST)
         
         if room_form.is_valid():
-            print('passing')
             for form in room_form:
 
                 room_detials = {
                     'room_type': form.cleaned_data['room_type'],
-                    'adults': form.cleaned_data['adults'],
-                    'children': form.cleaned_data['children'],
+                    'max_guests': form.cleaned_data['max_guests'],
                     'beds': form.cleaned_data['beds'],
                     'price': form.cleaned_data['price'],
                     'quantity': form.cleaned_data['quantity'],
@@ -190,8 +184,7 @@ def handleRoomForm(request):
         if 'lodge_rooms' in session:
             room_form = RoomCreationFormSet(initial=[{
                 'room_type': x['room_type'],
-                'adults':x['adults'],
-                'children': x['children'],
+                'max_guests':x['max_guests'],
                 'beds': x['beds'],
                 'price': x['price'],
                 'quantity': x['quantity'],
@@ -266,11 +259,10 @@ def lodgeRestrictions(request):
 @login_required
 def lodgePoliciesView(request):
     session = request.session
-    print('here')
+    
     if 'lodge_restriction' not in session:
-        print('redirecting')
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
-    print('inside')
+
     if request.method == 'POST':
         form = LodgePolicyForm(request.POST)
         if form.is_valid():    
@@ -285,7 +277,6 @@ def lodgePoliciesView(request):
         'form': form,
     }
     return render(request, 'lodges/create-lodge-policies.html', context)
-
 
 
 @login_required
@@ -338,6 +329,7 @@ def createLodgeInstanceView(request):
                 location=session['lodge_location_details'],
                 user_id=request.user.id
                 )
+            print(lodge)
             
             #create room categories
             lodge_instance.create_room_categories(rooms=session['lodge_rooms'])

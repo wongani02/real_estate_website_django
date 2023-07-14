@@ -38,10 +38,8 @@ class Lodge(ModelMeta, models.Model):
     name = models.CharField(max_length=255, null=True)
     contact_email = models.EmailField(_('contact email'), null=True)
     contact_phone = models.CharField(_('contact phone number'), max_length=13, null=True)
-    street_name = models.CharField(max_length=255, null=True)
-    city = models.CharField(max_length=255, null=True)
+    role = models.CharField(max_length=255, null=True)
     map_location = models.CharField(max_length=255, null=True)
-    country = models.CharField(max_length=255, default='Malawi')
     description = RichTextField(null=True)
     number_of_room_types = models.PositiveSmallIntegerField(null=True, default=2)
     lat = models.CharField(max_length=255, null=True)
@@ -70,8 +68,7 @@ class RoomCategory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     lodge = models.ForeignKey(Lodge, on_delete=models.CASCADE, related_name='rooms')
     room_type = models.CharField(max_length=255, null=True)
-    adults = models.PositiveSmallIntegerField(default=2, null=True)
-    children = models.PositiveSmallIntegerField(default=1, null=True)
+    max_guests  = models.PositiveSmallIntegerField(null=True, default=1)
     beds = models.PositiveSmallIntegerField(default=1, null=True)
     price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveSmallIntegerField(
@@ -81,7 +78,7 @@ class RoomCategory(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Room Categry'
+        verbose_name = 'Room Category'
         verbose_name_plural = 'Rooms Categories'
     
     def __str__(self):
@@ -401,3 +398,4 @@ class LodgesViews(models.Model):
     property = models.ForeignKey(Lodge, on_delete=models.CASCADE, related_name='lodges_views')
     date = models.DateField(auto_now=True)
     views = models.PositiveIntegerField(default=0)
+

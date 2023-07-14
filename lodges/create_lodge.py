@@ -20,15 +20,12 @@ class LodgeCreation():
             name=lodge['property_name'],
             contact_email=lodge['contact_email'],
             contact_phone=lodge['contact_number'],
-            street_name=lodge['address'],
-            city=lodge['city'],
+            role=lodge['role'],
             number_of_room_types=lodge['number_of_room_types'],
             map_location=location['map_location'],
-            country='Malawi',
             description=lodge['description'],
             lat=location['lat'],
             long=location['long'],
-            # cover_img=,
         )
         return self.lodge_instance.id
 
@@ -39,8 +36,7 @@ class LodgeCreation():
             self.lodge_room = RoomCategory.objects.create(
                 lodge_id=self.lodge_instance.id,
                 room_type=item['room_type'],
-                adults=item['adults'],
-                children=item['children'],
+                max_guests=['max_guests'],
                 beds=item['beds'],
                 price_per_night=item['price'],
                 quantity=item['quantity']

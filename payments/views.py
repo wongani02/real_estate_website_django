@@ -5,6 +5,7 @@ from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.decorators import login_required
 
 from users.models import User
 from payments.models import BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode, Payment
@@ -25,6 +26,7 @@ import qrcode, pytz, json
 """
 Function creates and returns a qr code to template for the properties model
 """
+@login_required
 def generate_lodges_code(request):
     # Create a user object
     user = User.objects.get(username=request.user.username)

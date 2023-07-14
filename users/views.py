@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import logout, get_user_model, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Sum
+from django.utils.html import strip_tags
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
@@ -59,7 +60,7 @@ def loginView(request):
     }
     return render(request, 'users/auth-page.html', context)
 
-
+@auth_user_should_not_access
 def RegisterView(request):
     if request.method == 'POST':
         register_form = UserRegistrationForm(request.POST)
@@ -72,7 +73,7 @@ def RegisterView(request):
             else:
                 user.is_customer = True
             user.set_password(register_form.cleaned_data['password'])
-            # user.save()
+            user.save()
             auth = authenticate(email=email, password=register_form.cleaned_data['password'])
             if auth is not None:
                 if regMail(request, email):
@@ -80,6 +81,8 @@ def RegisterView(request):
                     return redirect('accounts:dashboard')
                 messages.success(request, 'Account created successfully')
             return redirect('accounts:login')
+        else: 
+            print(register_form.errors)
         
     else :
         register_form = UserRegistrationForm()
@@ -102,8 +105,8 @@ def regMail(request, email):
     # Create context variables
     context = {
          'company': company.company_name, 'company_addr': company.address,
-         'company_tel': company.phone_number, 'user': client, 'current_site': current_site,
-         'support': ''
+         'company_tel': company.phone_number, 'user': email, 'current_site': current_site,
+         'support': 'support@afrihuts.com'
     }
 
     # Create email body
@@ -207,7 +210,7 @@ def profileView(request):
             p_form.save()
             print('valid')
         else:
-            print('error updating form')
+            print('error updating form', u_form.errors, p_form.errors)
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = UserProfileForm(instance=request.user.profile)

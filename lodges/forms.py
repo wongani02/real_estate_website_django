@@ -7,20 +7,14 @@ class LodgeCreationForm(forms.Form):
     property_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Name of Lodge'})
     )
-    address = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Address'})
-    )
-    city = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'City / District'})
+    role = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'What is your role in the business?'})
     )
     description = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'form_control form-control','placeholder': 'Tell us about your lodge', 'rows':3})
     )
-    location = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control form_control','placeholder': 'location area'})
-    )
     number_of_room_types = forms.CharField(
-        widget=forms.NumberInput(attrs={'class': 'form-control form_control inp','min':0, 'placeholder': 'how many room categories do you have? '})
+        widget=forms.NumberInput(attrs={'class': 'form-control form_control inp','min':1, 'placeholder': 'how many room categories do you have? '})
     )
     contact_email = forms.EmailField(
         widget=forms.EmailInput(attrs={'class':'form_control form-control', 'placeholder':'Contact email'})
@@ -40,11 +34,8 @@ class RoomCreationForm(forms.Form):
     room_type = forms.CharField(widget=forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': ' Room type eg. Duluxe, Presidential...'}),
     required=True
     )
-    adults = forms.CharField(
-        widget=forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'number of adults'}),required=True,
-    )
-    children = forms.CharField(
-        widget=forms.NumberInput(attrs={'class': 'form_control  form-control ', 'min': 0, 'placeholder': ' Number of children'}),required=True
+    max_guests = forms.CharField(
+        widget=forms.NumberInput(attrs={'class': 'form_control  form-control ', 'min': 0, 'placeholder': ' Maximum number of guests'}),required=True
     )
     beds = forms.CharField(
         widget=forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Number of beds'}),required=True
@@ -124,19 +115,15 @@ class LodgePolicyForm(forms.ModelForm):
             self.fields['policy'].queryset = Policy.active_policy_manager.all()
 
 
-
-
 #edit formscountry
 class LodgeDetailsEditForm(forms.ModelForm):
 
     class Meta:
         model=Lodge
-        fields = ['name', 'street_name', 'city', 'country', 'description', 'contact_phone', 'contact_email']
+        fields = ['name', 'role', 'description', 'contact_phone', 'contact_email']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Name of Lodge'}),
-            'street_name': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Address'}),
-            'city': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'City / District'}),
-            'country': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'Country'}),
+            'role': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': 'City / District'}),
             'description': forms.Textarea(attrs={'class': 'form_control form-control','placeholder': 'Tell us about your lodge', 'rows':3}),
             'contact_email': forms.EmailInput(attrs={'class':'form_control form-control', 'placeholder':'Contact email'}),
             'contact_phone': forms.TextInput(attrs={'class': 'form_control form-control','placeholder': 'Contact Number'})
@@ -180,13 +167,13 @@ class LodgeRoomsEditForm(forms.ModelForm):
 
     class Meta:
         model = RoomCategory
-        fields = ['room_type', 'adults', 'children', 'beds', 'price_per_night', 'quantity']
+        fields = ['room_type', 'max_guests', 'beds', 'price_per_night', 'quantity']
         widgets = {
             'room_type': forms.TextInput(attrs={'class': 'form_control form-control', 'placeholder': ' Room type eg. Duluxe, Presidential...'}),
-            'adults': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'number of adults'}),
-            'children': forms.NumberInput(attrs={'class': 'form_control  form-control ', 'min': 0, 'placeholder': ' Number of children'}),
+            'max_guests': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Maximum number of guests'}),
             'beds': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Number of beds'}),
-            'price_per_night': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Price per night'})
+            'price_per_night': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'Price per night'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form_control form-control ', 'min': 0, 'placeholder': 'How many of these rooms are available'})
         }
 
 
