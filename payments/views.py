@@ -26,8 +26,7 @@ import qrcode, pytz, json
 """
 Function creates and returns a qr code to template for the properties model
 """
-@login_required
-def generate_lodges_code(request):
+def generate_code(request):
     # Create a user object
     user = User.objects.get(username=request.user.username)
 
@@ -44,6 +43,11 @@ def generate_lodges_code(request):
 
         # Get returned QRCode object
         qr = LodgeBookingPayment.generate_qr_code(booking_content)
+
+        # assign qr code to bnb booking payment object
+        payment.qr_code = qr
+
+        payment.save()
 
         _property_ = payment.lodge
 
@@ -65,6 +69,11 @@ def generate_lodges_code(request):
 
         # Get returned QRCode object
         qr = BnbBookingPayment.generate_qr_code(booking_content)
+
+        # assign qr code to bnb booking payment object
+        payment.qr_code = qr
+
+        payment.save()
         
         _property_ = payment.bnb
 
@@ -77,7 +86,7 @@ def generate_lodges_code(request):
     # Add qr data to session
     qr_content(request, booking_content)
     
-    return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_})
+    return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_, 'booking': booking})
 
 
 def get_lodge_booking_content(booking):

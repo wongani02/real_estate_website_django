@@ -1,6 +1,8 @@
 import uuid
 
 from django.db import models
+from django.utils import timezone
+from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import reverse
 from ckeditor.fields import RichTextField
@@ -91,9 +93,7 @@ class Property(ModelMeta, models.Model):
     SOLD = "SOLD"
     AVAILABLE = "AVAILABLE"
     PENDING = 'PENDING'
-    VERIFIED = 'VERIFIED'
-    PENDING = 'PENDING'
-    DECLINED = 'DECLINED'
+    
     class Meta:
         verbose_name = 'Property'
         verbose_name_plural = 'Properties'
@@ -101,12 +101,6 @@ class Property(ModelMeta, models.Model):
     PROPERTY_TYPE = [
         (SALE, _("Sale")),
         (RENT, _("Rent")),
-    ]
-
-    VERIFICATION = [
-        (VERIFIED, _("Verified")),
-        (PENDING, _("Pending")),
-        (DECLINED, _("Declined"))
     ]
 
     STATUS = [
@@ -135,7 +129,6 @@ class Property(ModelMeta, models.Model):
     no_rooms = models.PositiveIntegerField(_("Number of Rooms"), default=2)
     no_baths = models.PositiveIntegerField(_("Number of Baths"), default=1)
     desc = RichTextField(_("Description"))
-    verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
     district = models.ForeignKey(Districts, on_delete=models.DO_NOTHING, related_name='property_district')
     created_at = models.DateTimeField(auto_now=True, null=True)
     is_featured = models.BooleanField(_("if Featured"), default=False, null=True)
@@ -312,10 +305,10 @@ class Policy(models.Model):
         default=1,
     )
     is_active = models.BooleanField(default=True)
-    active_policy_manager  = ActivePolicyManager()
+    active_policy_manager = ActivePolicyManager()
 
     def __str__(self):
-        return f'{self.title} \n {self.desc}'
+        return f'{self.title}: {strip_tags(self.desc)}'
 
 
 class PropertyPolicyLink(models.Model):
@@ -328,5 +321,29 @@ class PropertyPolicyLink(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.property.name, self.policy.title)
+
+
+class Receipt(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='property_payment')
+    note = models.TextField(null=True, blank=True, help_text='leave a special note, eg we might arrive late')
+    is_active = models.BooleanField(null=True, default=True)
+    cancelled = models.BooleanField(null=True, default=False)
+    qr_code = models.ImageField(upload_to='property_qr_codes/', null=True, blank=True)
+    ref_code = models.CharField(max_length=10, null=True, blank=True)
+    is_paid = models.BooleanField(default=False, null=True)
+    updated = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name = 'Receipt'
+        verbose_name_plural = 'Receipts'
+
+
+    def __str__(self):
+        return f"{self.user.username} - {self.property}"
 
 

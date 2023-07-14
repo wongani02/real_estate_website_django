@@ -1,0 +1,165 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}Property Payment{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+<style>
+.contact_icon_box{
+  position: relative;
+}
+.contact_icon_box .icon{
+  background-color: rgba(0, 97, 223, .03);
+  border-radius: 50%;
+  height: 70px;
+  line-height: 70px;
+  margin-right: 20px;
+  text-align: center;
+  width: 70px;
+}
+.contact_icon_box .icon span{
+  color: #0061DF;
+  font-size: 24px;
+}
+.contact_icon_box .details .title{
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.contact_icon_box .details p{
+  font-size: 14px;
+  line-height: 30px;
+}
+</style>
+	
+
+  <!-- Our FAQ -->
+	<section class="our-faq pb0">
+		<div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="main-title text-center">
+            <h2>One last Step!!!</h2>
+            <p>lets complete the property listing creation with a payment</p> 
+          </div>
+        </div>
+      </div>
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2">
+					<div class="faq_content mb40">
+						<div class="faq_according">
+							<div class="accordion" id="accordionExample">
+						  	<div class="card">
+							    <div class="card-header active" id="headingOne">
+							    	<h4 class="mb-0">
+						        	<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Payment Details</button>
+							   		</h4>
+							    </div>
+							    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+								    <div class="card-body">
+										<div class="justify-center text-center">
+											<h4>Property Listing Details</h4>
+											<p>Property Name: {{property_name}}</p>
+											<p>Total Price : $ {{total_price.price}}</p>
+											<hr>
+											<h4>Realtor Details</h4>
+											<p>Name : {{name}}</p>
+											<p>Email : {{email}}</p>
+											<p>Note : {{note}}</p>
+										</div>
+								    </div>
+							    </div>
+						    </div>
+
+							<script src="https://www.paypal.com/sdk/js?client-id=AfDx3yQgVBzG5LfDvijqX53CGeGf2cdxY8tCsf9xS-vgkcT3yJUPJ_e3uKbnfMHUr6yH-SgnXZ2N4rEi&currency=USD&locale=en_MW"></script>
+							<div class="Place-order">
+							<div id="paypal-button-container"></div> 
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script>
+		function getCookie(name) {
+			let cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				const cookies = document.cookie.split(';');
+				for (let i = 0; i < cookies.length; i++) {
+					const cookie = cookies[i].trim();
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+		const csrftoken = getCookie('csrftoken');
+
+		function initPayPalButton() {
+			paypal.Buttons({
+			style: {
+				shape: 'rect',
+				color: 'gold',
+				layout: 'vertical',
+				label: 'paypal',
+		
+			},
+			createOrder: function (data, actions) {
+				return actions.order.create({
+				purchase_units: [{
+					"amount": {
+					"currency_code": "USD",
+					"value": "{{0.5}"
+					}
+				}]
+				});
+			},
+			onCancel(data) {
+				// Show a cancel page, or return to cart
+				console.log('cancelled')
+			},
+			onApprove: function (data, actions) {
+				//get payment data on payment approval
+				var url = "{% url 'properties:process-payment' %}"
+				return actions.order.capture().then(function(orderData) {
+					return fetch(url, {
+						method: 'POST',
+						headers: {
+							'content-type': 'application/json',
+							'X-CSRFToken': csrftoken,
+						},
+						body: JSON.stringify({
+							orderID: data.orderID,
+							name: orderData.payer.name.given_name,
+							email: orderData.payer.email_address,
+							fullname: orderData.purchase_units[0].shipping.name.full_name,
+							totalPaid: orderData.purchase_units[0].amount.value,
+							orderId: orderData.id,
+							countryCode: orderData.purchase_units[0].shipping.address.country_code,
+							postalCode: orderData.purchase_units[0].shipping.address.postal_code,
+							address_1: orderData.purchase_units[0].shipping.address.address_line_1,
+							address_2: orderData.purchase_units[0].shipping.address.admin_area_2,
+						})
+						}).then(function () {
+							location.href = "{% url 'payments:create-qr-code' %}";
+						})
+					})
+			},
+			onError(err) {
+				// For example, redirect to a specific error page
+				// window.location.href = "/error";
+				console.log('error')
+			}
+			}).render('#paypal-button-container');
+		}
+		initPayPalButton();
+		
+	</script>
+{% include 'properties/footer.html' %}
+{% endblock content %}

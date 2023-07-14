@@ -8,3 +8,4 @@ from .models import *
 admin.site.register(PaymentOption)
 admin.site.register(LodgeBookingPayment)
 admin.site.register(BnbBookingPayment)
+admin.site.register(PropertyCharge)

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 from pathlib import Path
 import mimetypes
-import os
+import os, sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +48,9 @@ INSTALLED_APPS = [
 
     # Properties app
     'properties.apps.PropertiesConfig',
+
+    # verifications app
+    'verifications',
 
     #users app
     'users',
@@ -117,6 +120,15 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES['postgres'] = {
+#     'ENGINE': '',
+#     'NAME': '',
+#     'USER': '',
+#     'PASSWORD': '',
+#     'HOST': '',
+#     'PORT': '',
+# }
 
 
 # Password validation
@@ -193,23 +205,10 @@ EMAIL_HOST_PASSWORD = 'utfx fugq lnsu plrz'  # App generated password by google
 DEFAULT_FROM_EMAIL = 'ianlois50@gmail.com'
 
 # configuration for APScheduler
-APPSCHEDULER_JOBSTORES = {
-    'default': {
-        'type': 'sqlalchemy',
-        'url': BASE_DIR / 'db.sqlite3',
-        # 'url': 'postgresql+psycopg2://username:password@hostname:port/database_name',
-        'tablename': 'apscheduler_jobs',
-    }
-}
+# APSCHEDULER_DATABASE_ALIAS = 'default'
 
-APPSCHEDULER_EXECUTORS = {
-    'default': {
-        'type': 'threadpool',
-        'max_workers': 1
-    },
-}
+# if 'test' in sys.argv:
+#     APSCHEDULER_DATABASE_ALIAS = 'default'
 
-APPSCHEDULER_JOB_DEFAULTS = {
-    'coalesce': True,
-    'max_instances': 1
-}
+# if 'postgres' in sys.argv:
+#     APSCHEDULER_DATABASE_ALIAS = 'postgres'

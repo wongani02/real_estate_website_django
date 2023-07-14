@@ -1,0 +1,112 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}Property Payment{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+<style>
+.contact_icon_box{
+  position: relative;
+}
+.contact_icon_box .icon{
+  background-color: rgba(0, 97, 223, .03);
+  border-radius: 50%;
+  height: 70px;
+  line-height: 70px;
+  margin-right: 20px;
+  text-align: center;
+  width: 70px;
+}
+.contact_icon_box .icon span{
+  color: #0061DF;
+  font-size: 24px;
+}
+.contact_icon_box .details .title{
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.contact_icon_box .details p{
+  font-size: 14px;
+  line-height: 30px;
+}
+</style>
+	<!-- Inner Page Breadcrumb -->
+	<!-- <section class="inner_page_breadcrumb">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-xl-6">
+					<div class="breadcrumb_content">
+						<h2 class="breadcrumb_title">Contact Us</h2>
+						<ol class="breadcrumb">
+					    <li class="breadcrumb-item"><a href="{% url 'properties:home' %}">Home</a></li>
+					    <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section> -->
+
+	<!-- Our Contact -->
+  <section class="our-contact">
+    <div class="container">
+        <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="form_grid mt10">
+            <h2 class="text-center mb50">Enter Your Details</h2>
+            <form class="contact_form" action="{% url 'properties:process-details' %}" name="contact_form" method="post" validate>
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <!-- <input name="form_name" class="form-control" required="required" type="text" placeholder="Name"> -->
+                    {{form.name.label}}
+                    {{form.name}}
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <!-- <input name="form_name" class="form-control" required="required" type="text" placeholder="Name"> -->
+                    {{form.email.label}}
+                    {{form.email}}
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <!-- <input name="form_name" class="form-control" required="required" type="text" placeholder="Name"> -->
+                    {{form.guest_email.label}}
+                    {{form.guest_email}}
+                  </div>
+                </div>
+                <!-- <div class="col-md-6">
+                  <div class="form-group">
+                    <input name="daterange" value="{{dates}}" class="form-control required " required="required" readonly type="text" placeholder="What's this About?">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input name="form_qty" value="Number of rooms: {{qty}}" class="form-control required email" required="required" readonly type="email" placeholder="Number of rooms">
+                  </div>
+                </div> -->
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    {{form.note.label}}
+                    {{form.note}}
+                  </div>
+                  <div class="form-group mb0">
+                    <button type="submit" class="btn btn-thm">Proceed To Payment</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+{% include 'properties/footer.html' %}
+{% endblock content %}

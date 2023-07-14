@@ -22,10 +22,14 @@ urlpatterns = [
     path('create/property/step/4/', views.CreatePropertyDocuments.as_view(), name='create-documents'),
     path('create/property/step/5/', views.CreatePropertyPolicy.as_view(), name='create-policy'),
     path('redirect/dashboard/ ', views.redirectUser, name='redirect-user'),
+    path('create/property/policy/', views.create_policy, name='create-new-policy'),
+    path('create/property/policy/select', views.select_property_policy, name='select-policy'),
 
     #payment offers
     path('payments/offer/', views.OfferPackage.as_view(), name='offers'),
     path('payment/options/', views.PaymentOptions.as_view(), name='payment-options'),
+    path('process/details/', views.process_payment_detail, name='process-details'),
+    path('process/payment/', views.process_payment_view, name='process-payment'),
 
     # discover
     path('discover/', views.discover, name='discover'),
@@ -51,4 +55,7 @@ urlpatterns = [
     #HTMX urls
     path('lodge-list/', views.LodgesHTMXView.as_view(), name='lodges-htmx'),
     path('bnb-list-htmx/', views.BnbHTMXView.as_view(), name='bnb-htmx'),
+
+    # download document
+    path('download/document/<int:pk>/', views.download_doc, name='download-doc'),
 ]

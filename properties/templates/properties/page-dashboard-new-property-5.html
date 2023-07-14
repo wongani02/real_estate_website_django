@@ -1,6 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}create lodges{% endblock title %}
+{% block title %}Property Creation{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -29,26 +29,24 @@
 				  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		          <div class="new_property_form">
 					<h4 class="mb30">Select a cancellation policy that is best suited for you</h4>
-					<form method="post" action="{% url 'properties:create-policy' %}">
+					<form method="post" action="{% url 'properties:select-policy' %}">
                     {% csrf_token %}
-					<div class="ui_kit_select_search form-group list_hightlights df mt20">
-						<ul class="add_listing selectable-list mx-2">
-                            
-							{% for policy in form.policy %}
-							<li>
-								<div class="custom-control custom-checkbox">
-									{{policy}}
-                                    <h4>{{policy.title|safe}}</h4>
-                                    <p>{{policy.desc|safe}}</p>
-								</div>
-							</li>
-							{% endfor %}
-						</ul>
-                    </div>
+						<div class="ui_kit_select_search form-group list_hightlights df mt20">
+							<ul class="add_listing selectable-list mx-2">
+								{{policy.errors}}
+								<li>
+									<div class="custom-control custom-checkbox">            
+										{{policy.policy|safe}}
+									</div>
+								</li>
+								
+							</ul>
+						</div>
+					
                     <div class="text-right">
-						<a href="{% url 'properties:create-policy' %}" type="button" class="btn btn-thm listing_save_btn">Finish</a>
+						<button class="btn btn-thm listing_save_btn" type="submit">Finish</button>
                     </div>
-					</form>
+				</form>
 		          </div>			  
 				</div>
 				

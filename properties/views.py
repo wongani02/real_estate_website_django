@@ -2,8 +2,8 @@ from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
-from django.db.models import Q, Sum, Count
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.db.models import Q, Sum, Count, ForeignKey, Value, CASCADE, CharField
 from django.views import View
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
@@ -17,10 +17,12 @@ from properties.filters import AdvancedSearchFilter
 from properties.charts import *
 from bnb.models import Property as BNB, BnbViews
 from users.models import User
+from payments.models import PropertyPayment, PropertyCharge
+from verifications.views import create_property_listing
 
 import json
 import ast
-import shutil, os
+import shutil, os, random
 
 
 
@@ -209,12 +211,16 @@ class PropertyDetail(generic.DetailView):
         # Get chart objects
         chart = create_properties_views_chart(kwargs.get('pk'))
         chart_likes = create_properties_likes_chart(kwargs.get('pk'))
+
+        # get property documents
+        docs = Documents.objects.filter(property=qs)
         
         context = {
             'property': qs,
             'property_charts': [
                 chart, chart_likes
-            ]
+            ],
+            'docs': docs,
             # 'property_likes': chart_likes,
         }
 
@@ -624,95 +630,158 @@ class CreatePropertyPolicy(generic.CreateView):
 
     def get(self, request):
         # chech for session data
-        if 'policy_data' in request.POST:
+        if 'policy_data' in request.session:
             session = request.session['policy_data']
             form = PropertyPolicyForm(initial={
-                'title': session['title'], 'desc': session['desc'],
-                'no_days': session['no_days']
+                'policy': session['policy']
             })
 
         else:
             form = PropertyPolicyForm()
 
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'policy': form})
 
-    def post(self, request):
+def select_property_policy(request, **kwargs):
+    # get form data
+    form = PropertyPolicyForm(request.POST)
+    
+    if form.is_valid():
+        # add data to session
+        request.session['policy_data'] = {
+            'policy': request.POST.get('policy')
+        }
+
+        print(request.POST.get('policy'))
+
+        return redirect('properties:process-details')
+
+    return render(request, 'properties/page-dashboard-new-property-5.html', {'policy': form})
+
+def create_policy(request, **kwargs):
+    # get request data
+    data = request.POST
+
+    # create policy object
+    policy = Policy.objects.create(
+        title=data.get('title'),
+        desc=data.get('desc'),
+        no_days=data.get('no_days')
+    )
+
+    policy.refresh_from_db()
+
+    return HttpResponse({'success': 200})
+
+
+def process_payment_detail(request, *kwargs):
+    
+    if request.method == 'POST':
         # get form data
-        form = PropertyPolicyForm(request.POST)
+        form = PropertyPaymentDetailForm(request.POST)
+
+        print()
 
         if form.is_valid():
-            # add data to session
-            request.session['policy_data'] = {
-                'title': request.POST.get('title'), 'desc': request.POST.get('desc'),
-                'no_days': request.POST.get('no_days')
+            # add form data to session variable
+            request.session['property_payment_data'] = {
+                'name': form.cleaned_data['name'],
+                'email': form.cleaned_data['email'],
+                'note': request.POST.get('note') 
             }
 
-            # save all data and redirect
-            save_data(request)
+            return redirect('properties:process-payment')
+    else:
+        # get data from session if it exists
+        if 'property_payment_data' in request.session:
+            # get session variable
+            session = request.session['property_payment_data']
 
-        return render(request, self.template_name, {'form': form})
+            form = PropertyPaymentDetailForm(initial={
+                'name': session['name'],
+                'email': session['email'],
+                'note': session['note']
+            })
+
+        else:
+            form = PropertyPaymentDetailForm(request.GET)
+
+    return render(request, 'properties/bookings/booking-step-1.html', {'form': form})
 
 
-class OfferPackage(generic.View):
+def process_payment_view(request, **kwargs):
+    if request.method == 'POST':
+        # get property object
+        property = Property.objects.get(id=kwargs.get('pk'))
 
-    def get(self, request):
+        # get user object
+        user = User.objects.get(username=request.user.username)
 
+        # get form body
+        body = json.loads(request.body)
 
-
-        context = {
-            
-        }
-        return render(request, 'properties/payments/offer-package.html', context)
-
-
-def discover(request):
-    citys = Districts.objects.all().order_by("?")[:8]
-
-    # get list of most viewed properties
-    most_viewed = most_viewed_property()
-
-    # get featured listings
-
-    context = {'citys': citys, 'most_viewed': most_viewed, }
-
-    return render(request, 'properties/discover.html', context)
-
-def most_viewed_property():
-    listings = []
-
-    for model_class in [LodgesViews, BnbViews, PropetyViews]:
-        listings.extend(
-            model_class.objects.annotate(
-                view_count=Count('views', filter=Q(date__lte=datetime.now()))
-            ).order_by('-view_count').distinct()[:7]
-        )
-    
-    return listings
-
-def get_featured_listings():
-    listings = []
-
-    for model_name in [Property, BNB, Lodge]:
-        listings.extend(
-            model_class.objects.filter()[:10]
+        # crete a receipts instance
+        receipt = Receipt.objects.create(
+            user=user,
+            note='',
+            property=property,
+            is_paid=True,
         )
 
-class PaymentOptions(generic.View):
+        # create a property payment instance
+        payment = PropertyPayment.objects.create(
+            user=user,
+            property=property,
+            full_name=body['fullname'],
+            email=body['email'],
+            total_paid=body['totalPaid'],
+            order_key=body['orderId'],
+            payment_option=PaymentOption.objects.first(),
+            billing_status=True,
+            receipts=receipt
+        )
 
-    def get(self, request):
-        context = {
+        # Add payment id to session variable "lodge_booking"
+        request.session['property_payment'] = payment.order_key
 
-        }
-        return render(request, 'properties/payments/payment-options.html', context)
-    
+        # Add email to session
+        request.session['payment_email'] = request.session['property_payment_data']['email']
 
-    def post(self, request):
-        context = {
+        return JsonResponse('payment complete', safe=False)
 
-        }
-        return render(request, 'properties/payments/payment-options.html', context)
+    # get total charge price
+    charge = PropertyCharge.objects.first()
+
+    # get session data
+    session = request.session['property_payment_data']
+    property_session = json.loads(request.session['step_1'])
+
+    context = {
+        'total_price': charge, 'name': session['name'],
+        'email': session['email'], 'note': session['note'],
+        'property_name': property_session['name']
+    }
+
+    return render(request, 'properties/bookings/booking-step-2.html', context)
 
 
+def payment_approved(request):
+    # save all data and get returned property object
+    property_ = save_data(request)
+
+    # create a property verification pending object and notify user
+    create_property_listing(request, property_) 
+
+    return redirect('properties')
+
+
+"""
+Function calls all other methods required to save a property object
+(1) create_property()
+(2) create_amenity_link
+(3) create_property_images
+(4) create_property_documents
+(5) create_property_policy_link
+"""
 def save_data(request):
     # avoid queryset error 
     error = Property.objects.all()
@@ -731,6 +800,9 @@ def save_data(request):
 
     # create property documents instance
     create_property_documents(request, property_, request.user.username)
+
+    # create property policy
+    create_property_policy_link(request, property_)
     
     # Delete all sessions 
     del request.session['step_1']
@@ -738,7 +810,7 @@ def save_data(request):
     
     request.session['property_id'] = str(property_.id)
     
-    return redirect('properties:offers')
+    return property_
 
 """
 Function creates property object with the following parameters
@@ -770,6 +842,7 @@ def create_property(request, object1, object2):
     )
 
     return _property, object2['amenities']
+
     
 """
 Function creates and saves links created between the Property and Amenity classes
@@ -888,6 +961,130 @@ def create_property_documents(request, property_, object_):
         temp_obj.delete()
 
 
+"""
+Function creates a policy object linked to a property object
+"""
+def create_property_policy_link(request, property_, objects):
+    # get session data
+    session = request.session['policy_data']
+
+    # get policy object
+    obj = Policy.objects.get(pk=session['policy'])
+
+    # create policy object
+    policy = PropertyPolicyLink.objects.create(
+        property=property_,
+        policy=obj
+    )
+    
+
+"""
+Class to be implemented later after additional payment packages have been
+added to the system
+"""
+class OfferPackage(generic.View):
+
+    def get(self, request):
+
+
+
+        context = {
+            
+        }
+        return render(request, 'properties/payments/offer-package.html', context)
+
+
+"""
+Function returns data to the discover page. Calls the following additional functions
+(1) most_viewed_property
+(2) get_featured_listings
+"""
+def discover(request):
+    # get list of most viewed properties
+    most_viewed = most_viewed_property()
+
+    # get all featured properties
+    featured = get_featured_listings()
+
+    # get featured listings
+    context = {'most_viewed': most_viewed, 'featured': featured}
+
+    return render(request, 'properties/discover.html', context)
+
+"""
+Function returns the 3 most viewed properties 
+"""
+def most_viewed_property():
+    propety_views = (
+        PropetyViews.objects.values('property')
+        .annotate(view_count=Sum('views', filter=Q(date__lte=datetime.now())))
+        .annotate(view_type=Value('Property', output_field=CharField()))
+    )
+
+    lodges_views = (
+        LodgesViews.objects.values('property')
+        .annotate(view_count=Sum('views', filter=Q(date__lte=datetime.now())))
+        .annotate(view_type=Value('Lodge', output_field=CharField()))
+    )
+
+    bnb_views = (
+        BnbViews.objects.values('property')
+        .annotate(view_count=Sum('views', filter=Q(date__lte=datetime.now())))
+        .annotate(view_type=Value('BNB', output_field=CharField()))
+    )
+
+    views_ = propety_views.union(lodges_views, bnb_views).order_by('-view_count')[:7]
+
+    listings = []
+
+    for listing_id in views_:
+        try:
+            listings.append(Property.objects.get(pk=listing_id['property']))
+        except:
+            pass
+        try:
+            listings.append(BNB.objects.get(pk=listing_id['property']))
+        except:
+            pass
+        try:
+            listings.append(Lodge.objects.get(pk=listing_id['property']))
+        except:
+            pass
+
+    return listings
+
+"""
+Function returns all featured listings
+"""
+def get_featured_listings():
+    listings = []
+
+    for model_name in [Property, BNB, Lodge]:
+        listings.extend(
+            model_name.objects.filter(is_featured=True)[:10]
+        )
+    
+    # randomize contents of list
+    random.shuffle(listings)
+
+    return listings
+
+class PaymentOptions(generic.View):
+
+    def get(self, request):
+        context = {
+
+        }
+        return render(request, 'properties/payments/payment-options.html', context)
+    
+
+    def post(self, request):
+        context = {
+
+        }
+        return render(request, 'properties/payments/payment-options.html', context)
+
+
 def redirectUser(request):
     return redirect('accounts:dashboard')
       
@@ -913,4 +1110,19 @@ def get_onbording(request, **kwargs):
     template_name = 'users/onbording-3.html'
 
     return render(request, template_name)
+
+
+def download_doc(request, **kwargs):
+    # get doc from db
+    doc = Documents.objects.get(pk=kwargs.get('pk'))
+
+    filepath = os.path.join(settings.MEDIA_ROOT, str(doc.file))
+
+    if os.path.exists(filepath):
+        with open(filepath, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type='application/file')
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(filepath)
+
+            return response
+    raise Http404
 

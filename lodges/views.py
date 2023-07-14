@@ -12,6 +12,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 
 from payments.models import LodgeBookingPayment, PaymentOption
+from verifications.views import create_lodge_listing
 
 from .create_lodge import LodgeCreation as LodgeCreationClass
 from .models import Amenity, LodgeImage, Lodge, Image, LodgesViews, Booking
@@ -351,6 +352,9 @@ def createLodgeInstanceView(request):
 
             #delete session variables after lodge is created
             lodge_instance.clear_session()
+
+            # create a lodge verification pending instance and send an email to the user
+            create_lodge_listing(request, lodge)
 
             return redirect('lodges:lodge-detail', lodge)
 

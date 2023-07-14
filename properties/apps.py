@@ -6,5 +6,4 @@ class PropertiesConfig(AppConfig):
 
     def ready(self):
         from .scheduler import configure_scheduler
-        # configure_scheduler()
-        # print("apps")
+        configure_scheduler()

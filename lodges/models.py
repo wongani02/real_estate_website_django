@@ -47,6 +47,8 @@ class Lodge(ModelMeta, models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False, null=True)
     verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
+    is_featured = models.BooleanField(_("Featured Listing"), default=False)
+
 
     # meta variable
     meta_title = 'Lodge'
@@ -252,7 +254,8 @@ class Booking(models.Model):
     is_paid = models.BooleanField(default=False, null=True)
     updated = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)
-
+    is_notified = models.BooleanField(_("Is user notified of the tickets expiry status"), default=False)
+    
     objects = models.Manager()
     active_bookings = ActiveBookingsManager()
     cancelled_bookings = CancelledBookingsManager()
