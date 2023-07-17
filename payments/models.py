@@ -12,6 +12,8 @@ from bnb.models import Property as BNB, Booking as BNBBooking
 from lodges.models import Lodge, Booking as LodgeBooking
 from .utils import generate_ref_code
 from io import BytesIO
+from meta.models import ModelMeta
+
 
 from PIL import Image
 
@@ -88,19 +90,28 @@ class Payment(models.Model):
         abstract = True
     
 
-class PropertyPayment(Payment):
+class PropertyPayment(ModelMeta, Payment):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, null=True, related_name="property_payment")
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, null=True)
 
+    # meta variable
+    meta_title = 'Property'
 
-class BnbBookingPayment(Payment):
+
+class BnbBookingPayment(ModelMeta, Payment):
     bnb = models.ForeignKey(BNB, on_delete=models.CASCADE, null=True)
     booking = models.ForeignKey(BNBBooking, on_delete=models.CASCADE, null=True)
 
+    # meta variable
+    meta_title = 'BnB'
 
-class LodgeBookingPayment(Payment):
+
+class LodgeBookingPayment(ModelMeta, Payment):
     lodge= models.ForeignKey(Lodge, on_delete=models.CASCADE, null=True, related_name='lodge_booking_payments')
     booking = models.ManyToManyField(LodgeBooking, related_name='bookings_payments')
+
+    # meta variable
+    meta_title = 'Lodge'
 
 
 class Invoice(models.Model):
@@ -120,7 +131,7 @@ class PropertyCharge(models.Model):
         verbose_name = 'Property Charge (ONLY CREATE 1 ENTRY)'
         verbose_name_plural = 'Property Charges (ONLY CREATE 1 ENTRY)'
 
-    price = models.DecimalField(_("Price charge for all Property Listings"), default=0.0, decimal_places=2, max_digits=9)
+    price = models.DecimalField(_("Charge"), default=0.0, decimal_places=2, max_digits=9)
     date = models.DateTimeField(_("Date Created/Amended"), auto_now=True)
 
     def __str__(self):

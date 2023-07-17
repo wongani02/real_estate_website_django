@@ -50,7 +50,11 @@
     
   {% endblock highcharts_scripts %}
           
-
+    <style>
+      .error-message {
+        color: red;
+      }
+    </style>
 
       
 </head>
@@ -144,13 +148,38 @@
                     <div class="form-group input-group mb20">
                       <!-- <input type="password" class="form-control" placeholder="Password"> -->
                       {{register_form.password}}
+                      <div class="popup">
+                        <span class="popuptext" id="myPopup"></span>
+                      </div>
                     </div>
                     <div class="form-group input-group mb30">
                       <!-- <input type="password" class="form-control" placeholder="Re-enter password"> -->
                       {{register_form.password2}}
+                      <div class="col-lg-12">
+                        <span class="error-message" id="myPopup2"></span>
+                      </div>
                     </div>
                     <button type="submit" class="btn btn-signup btn-block btn-dark mb0">REGISTER</button>
                   </form>
+                  <script>
+                    function checkPasswordsMatch(password, confirmPassword) {
+                      return password === confirmPassword;
+                    }
+
+                    function handlePasswordInput() {
+                      const password = document.getElementById("id_password").value;
+                      const confirmPassword = document.getElementById("id_password2").value;
+                      const passwordsMatch = checkPasswordsMatch(password, confirmPassword);
+
+                      if (passwordsMatch) {
+                        document.getElementById("myPopup2").textContent = "";
+                      } else {
+                        document.getElementById("myPopup2").textContent = "Password's Don't Match";
+                      }
+                    }
+
+                    document.getElementById("id_password2").addEventListener("input", handlePasswordInput);
+                  </script>
                 </div>
               </div>
             </div>
@@ -191,6 +220,11 @@
       </ul>
     </nav>
   </div>
+  <style>
+    body {
+      font-family: Helvetica;
+    }
+  </style>
   {% block content %}
   {% endblock %}
   <!-- Our Footer -->

@@ -10,7 +10,12 @@
                 <li><a href="{% url 'accounts:onbording-1' %}"><span class="flaticon-button"></span> Add New Property</a></li>
                 <li><a class="active" href="{% url 'accounts:bookmarks' %}"><span class="flaticon-heart-shape-outline"></span> Bookmarks</a></li>
                 <!-- <li><a href="page-dashboard-save-search.html"><span class="flaticon-magnifiying-glass"></span> Saved Searches</a></li> -->
-                <li><a href="{% url 'accounts:invoices' %}"><span class="flaticon-invoice"></span> My Invoices</a></li>
+				
+				{% if lodges is not 0 or bnbs is not 0 %}
+				<li><a href="{% url 'accounts:select-bookings' %}"><span class="flaticon-invoice"></span> My Bookings</a></li>
+				{% endif %}
+					
+                <li><a href="{% url 'accounts:select-finances' %}"><span class="flaticon-invoice"></span> My Finances</a></li>
                 <li><a href="{% url 'accounts:notifications' %}"><span class="flaticon-mail-inbox-app"></span> Inbox</a></li>
                 <li><a href="{% url 'accounts:logout' %}"><span class="flaticon-logout"></span> Logout</a></li>
             </ul>

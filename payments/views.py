@@ -8,10 +8,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
 
 from users.models import User
-from payments.models import BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode, Payment
-from properties.models import Property
+from payments.models import BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode, Payment, PropertyPayment
+from properties.models import Property, Receipt
 from bnb.models import Property as BnB, Booking as BNBBooking
-from lodges.models import Lodge, About
+from lodges.models import Lodge, About, Booking as LodgeBooking
 from core import settings
 from payments.utils import EmailThread
 from io import BytesIO
@@ -36,7 +36,9 @@ def generate_code(request):
 
         payment = LodgeBookingPayment.objects.get(order_key=payment_key)
 
-        booking = payment.booking.first()
+        booking = payment.booking.id
+
+        booking = LodgeBooking.objects.get(id=booking)
 
         # Get booking content
         booking_content = get_lodge_booking_content(booking)  
@@ -46,6 +48,7 @@ def generate_code(request):
 
         # assign qr code to bnb booking payment object
         payment.qr_code = qr
+        booking.qr_code = qr
 
         payment.save()
 
@@ -54,7 +57,7 @@ def generate_code(request):
         # delete session
         del request.session['lodge_booking']
 
-    if 'bnb_booking' in request.session:
+    elif 'bnb_booking' in request.session:
         booking_id = request.session['bnb_booking']
 
         payment = BnbBookingPayment.objects.get(order_key=booking_id)
@@ -72,6 +75,7 @@ def generate_code(request):
 
         # assign qr code to bnb booking payment object
         payment.qr_code = qr
+        booking.qr_code = qr
 
         payment.save()
         
@@ -80,10 +84,37 @@ def generate_code(request):
         # Delete session
         del request.session['bnb_booking']
 
+    elif 'property_payment' in request.session:
+        payment_id = request.session['property_payment']
+
+        payment = PropertyPayment.objects.get(order_key=payment_id)
+
+        # Get data from receipt table
+        receipt_id = payment.receipt.id
+
+        booking = Receipt.objects.get(id=receipt_id)
+
+        # Get receipt content
+        booking_content = get_property_payment_content(booking)
+
+        # Get returned QRCode object
+        qr = PropertyPayment.generate_qr_code(booking_content)
+
+        # assign qr code to property payment object
+        payment.qr_code = qr
+        booking.qr_code = qr
+
+        payment.save()
+        
+        _property_ = payment.property
+
+        # Delete session
+        del request.session['property_payment']
+
     # Save model instance
     payment.save()
     
-    # Add qr data to session
+    # Add qr data to session to be used on download
     qr_content(request, booking_content)
     
     return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_, 'booking': booking})
@@ -106,6 +137,19 @@ def get_bnb_booking_content(booking):
         'Reference Code': booking.ref_code, 'Username': booking.full_name, 'Email': booking.email, 'Check In': booking.check_in, 
         'Check Out': booking.check_out, 'Created On': booking.created_at,
         'Number of Nights': booking.number_of_nights, 'Number of Guests': booking.num_guests
+    }
+
+    return content
+
+def get_property_payment_content(payment):
+    # get session data
+    session = request.session['property_payment_data']
+
+    # create content
+    content = {
+        'Property Name': payment.property.title, 'Property Location': payment.property.location_area,
+        'Reference Code': payment.ref_code, 'Username': payment.full_name, 'Email': payment.email,
+        'Created On': payment.created_at, 'Amount': payment.total_paid
     }
 
     return content

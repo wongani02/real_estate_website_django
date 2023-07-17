@@ -5,38 +5,18 @@
     {% include 'properties/header-2.html' %}
 {% endblock header %}
 {% block content %}
+
+<style>
+	.error-message {
+		color: red;
+	}
+</style>
 <!-- Our Dashbord -->
 	<section class="our-dashbord dashbord bgc-alice-blue">
 		<div class="container-fluid">
 			<div class="row">
 				<!-- <div class="col-xl-2 dn-lg pl0"></div> -->
 				<div class="col-xl-10">
-					<!-- <div class="row">
-						<div class="col-lg-12">
-							<div class="dashboard_navigationbar dn db-lg">
-								<div class="dropdown">
-									<button onclick="myFunction()" class="dropbtn"><i class="fa fa-bars pr10"></i> Dashboard Navigation</button>
-									<ul id="myDropdown" class="dropdown-content">
-										<li><a href="page-dashboard.html"><span class="flaticon-dashboard"></span> Dashboard</a></li>
-										<li><a href="page-dashboard-profile.html"><span class="flaticon-user"></span> My Profile</a></li>
-										<li><a href="page-dashboard-property.html"><span class="flaticon-house"></span> My Properties List</a></li>
-										<li><a href="page-dashboard-new-property.html"><span class="flaticon-button"></span> Add New Property</a></li>
-										<li><a href="page-dashboard-favorites.html"><span class="flaticon-heart-shape-outline"></span> Favorites</a></li>
-										<li><a href="page-dashboard-save-search.html"><span class="flaticon-magnifiying-glass"></span> Saved Searches</a></li>
-										<li><a href="page-dashboard-invoices.html"><span class="flaticon-invoice"></span> My Invoices</a></li>
-										<li><a href="page-dashboard-message.html"><span class="flaticon-mail-inbox-app"></span> Inbox</a></li>
-										<li><a class="active" href="page-dashboard-logout.html"><span class="flaticon-logout"></span> Logout</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-12 mb50">
-							<div class="breadcrumb_content">
-								<h2 class="breadcrumb_title">Logout</h2>
-								<p class="">Ready to jump back in?</p>
-							</div>
-						</div>
-					</div> -->
 					<div class="row">
 						{% if messages %}
 						{% for message in messages %}
@@ -86,7 +66,7 @@
 						<div class="col-lg-6">
 							<div class="sign_up_form inner_page bgc-white">
 								<h4 class="title">Registration</h4>
-								<form method="post" action="{% url 'accounts:register' %}">
+								<form method="post" action="{% url 'accounts:register' %}" id="register">
 									{% csrf_token %}
 
 									{% if register_form.errors %}
@@ -115,36 +95,47 @@
 									
 								</div>
 								<div class="form-group input-group">
-									<!-- <select class="selectpicker form-control" data-width="100%">
-									<option data-tokens="banking">User role</option>
-									<option data-tokens="digital&creative">User role 2</option>
-									<option data-tokens="retail">User role 3</option>
-									<option data-tokens="humanresource">User role 4</option>
-									</select> -->
 									{{register_form.user_type}}
 									
 								</div>
 								
 								<div class="form-group input-group mb20">
-									<!-- <input type="password" class="form-control" placeholder="Password"> -->
 									{{register_form.password}}
 									
 								</div>
 								<div class="form-group input-group mb30">
-									<!-- <input type="password" class="form-control" placeholder="Re-enter password"> -->
 									{{register_form.password2}}
-									
+									<div class="col-lg-12">
+										<span class="error-message" id="error_popup"></span>
+									</div>
 								</div>
 								<button type="submit" class="btn btn-signup btn-block btn-dark mb0">REGISTER</button>
 								</form>
+								<script>
+									const form = document.getElementById("register");
+									
+									function checkPasswordsMatch(password, confirmPassword) {
+									  return password === confirmPassword;
+									}
+							
+									function handlePasswordInput() {
+									  const password = form.querySelector('input[name="password"]').value;
+									  const confirmPassword = form.querySelector('input[name="password2"]').value;
+									  const passwordsMatch = checkPasswordsMatch(password, confirmPassword);
+							
+									  if (passwordsMatch) {
+										document.getElementById("error_popup").textContent = "";
+									  } else {
+										document.getElementById("error_popup").textContent = "Password's Don't Match";
+									  }
+									}
+							
+									form.querySelector('input[name="password2"]').addEventListener("input", handlePasswordInput);
+								  </script>
 							</div>
 						</div>
 					</div>
-					<div class="row mt50">
-						<div class="col-lg-12 text-center">
-							<p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
-						</div>
-					</div>
+					{% include 'properties/copyright.html' %}
 				</div>
 			</div>
 		</div>

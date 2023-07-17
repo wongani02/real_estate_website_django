@@ -22,7 +22,6 @@ urlpatterns = [
     path('create/property/step/4/', views.CreatePropertyDocuments.as_view(), name='create-documents'),
     path('create/property/step/5/', views.CreatePropertyPolicy.as_view(), name='create-policy'),
     path('redirect/dashboard/ ', views.redirectUser, name='redirect-user'),
-    path('create/property/policy/', views.create_policy, name='create-new-policy'),
     path('create/property/policy/select', views.select_property_policy, name='select-policy'),
 
     #payment offers

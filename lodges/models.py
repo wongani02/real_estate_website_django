@@ -149,7 +149,7 @@ class LodgeAmenity(models.Model):
         verbose_name_plural = 'Lodge Amenities'
 
     def __str__(self):
-        return f"{self.amenity.name} ({self.lodge.name} - Room {self.lodge.city})"
+        return f"{self.amenity.name} ({self.lodge.name} - Room {self.lodge})"
     
 
 class ActivePolicyManager(models.Manager):
