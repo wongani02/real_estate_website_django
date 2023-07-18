@@ -10,11 +10,12 @@ from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
 
-from bnb.models import Property as BNBProperty, BnbViews
-from lodges.models import Lodge, About, LodgesViews
-from properties.models import Property, PropetyViews
+from bnb.models import Property as BNBProperty, BnbViews, Booking as BnbBooking
+from lodges.models import Lodge, About, LodgesViews, Booking as LodgeBooking
+from properties.models import Property, PropetyViews, Receipt
 from properties.charts import all_property_views_chart
 from payments.utils import EmailThread
+from payments.models import PropertyPayment, BnbBookingPayment, LodgeBookingPayment
 from core import settings
 
 from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm
@@ -153,7 +154,11 @@ def dashboardView(request):
     no_bnbs = BNBProperty.objects.filter(host__username=request.user.username).count()
 
     # Get the total number of views
-    no_views = PropetyViews.objects.filter(property__agent__username=request.user.username).aggregate(total_views=Sum('views'))['total_views']
+    no_views = PropetyViews.objects.filter(
+        property__agent__username=request.user.username
+    ).aggregate(
+        total_views=Sum('views')
+    )['total_views']
 
     if no_views is None:
         no_views = 0
@@ -163,10 +168,9 @@ def dashboardView(request):
 
     context = {
         'properties': no_properties, 'bnbs': no_bnbs, 'lodges': no_lodges,
-        'views': json.dumps(data)
+        'views': json.dumps(data),
     }
     return render(request, 'users/page-dashboard.html', context)
-
 
 def get_view_data(request):
     # Empty list to hold legends
@@ -192,8 +196,6 @@ def get_view_data(request):
     view_data.append(lodge_count)
     # view_data.append(bnb_count)
     # view_data.append(property_count)
-
-    print("View Data: ", view_data)
 
     return view_data
 
@@ -253,11 +255,35 @@ def myPropertiesView(request):
 
 
 @login_required(login_url='accounts:login')
-def invoicesView(request):
-    context = {
+def bookingsView(request, **kwargs):
+    # get all booking data
+    bnb_data, lodge_data = get_booking_data(request)
+    bnb_bookings, lodge_bookings = get_booked_listings(request)
 
+    context = {
+        'bnb_data': bnb_data, 'lodge_data': lodge_data,
+        'bnb_bookings': bnb_bookings, 'lodge_bookings': lodge_bookings,
+        'choice': kwargs.get('booking')
     }
-    return render(request, 'users/page-dashboard-invoices.html', context)
+    print(context)
+    return render(request, 'users/page-dashboard-bookings.html', context)
+
+@login_required(login_url='accounts:login')
+def financesView(request, **kwargs):
+    # get finances data
+    finances = get_user_payments(request)
+
+    # get receipts
+    receipts = get_user_receipts(request)
+
+    context = {
+        'choice': kwargs.get('finances'),
+        'finances': finances, 'receipts': receipts
+    }
+
+    print(context)
+
+    return render(request, 'users/page-dashboard-payments.html', context)
 
 
 @login_required(login_url='accounts:login')
@@ -297,3 +323,124 @@ def postPropertyAsView(request, p_type):
         context = {}
     
     return render(request, 'users/onbording-2.html', context)
+
+def direct_bookings(request, **kwargs):
+    return render(request, 'users/onbording-4.html')
+
+def direct_bookings_choice(request, **kwargs):
+    return redirect('accounts:bookings', kwargs.get('booking'))
+
+def direct_finances(request, **kwargs):
+    return render(request, 'users/onbording-5.html')
+
+def direct_finances_choice(request, **kwargs):
+    return redirect('accounts:finances', kwargs.get('finances'))
+
+def get_booked_listings(request):
+    # get user object
+    user = User.objects.get(email=request.user.email)
+
+    # get all bookings made by the user
+    bnbs = BnbBooking.objects.filter(user=user).order_by('-created_at')
+    lodges = LodgeBooking.objects.filter(user=user).order_by('-created_at')
+
+    for bnb in bnbs:
+        print("BNBS", bnb.email)
+
+    for bnb in BnbBooking.objects.all():
+        print("QRY", bnb.email)
+
+    print("USR", user)
+
+    return bnbs, lodges
+
+
+def get_booking_data(request):
+    # get user object
+    user = User.objects.get(email=request.user.email)
+
+    # create lists to hold booking data
+    lodge_list = []
+    bnb_list = []
+
+    # get listings owned by user 
+    bnbs = BNBProperty.objects.filter(host=user)
+    lodges = Lodge.objects.filter(user=user)
+
+    # get all bookings made on the users listings
+    for bnb in bnbs:
+        bnb_list.append(
+            BnbBooking.objects.filter(property=bnb)
+        )
+
+    for lodge in lodges:
+        lodge_list.append(
+            LodgeBooking.objects.filter(room__room_category__lodge__id=lodge.id)
+        )
+
+    return bnb_list, lodge_list
+
+"""
+Function returns all the payments a particular user has made on the site
+"""
+def get_user_payments(request):
+    # get user object
+    user = User.objects.get(email=request.user.email)
+
+    # create list to store data
+    data = []
+
+    for payment in [PropertyPayment, BnbBookingPayment, LodgeBookingPayment]:
+        data.extend(
+            list(
+                payment.objects.filter(user=user)
+            )
+        )
+    
+    # sort list object based on date
+    sorted_data = sorted(data, key=lambda payment: payment.created)
+
+    return sorted_data
+
+"""
+Function gets all the payments made a specific users listings
+"""
+def get_user_receipts(request):
+    # get user object
+    user = User.objects.get(email=request.user.email)
+
+    # create list to hold data
+    data = []
+
+    # get all listings owned by the user that have a payment made to them
+    for receipt in [PropertyPayment, BnbBookingPayment, LodgeBookingPayment]:
+        if receipt.meta_title == 'Property':
+            data.extend(
+            list(
+                receipt.objects.filter(
+                        property__agent=user
+                    )
+                )
+            )
+        elif receipt.meta_title == 'Lodge':
+            data.extend(
+            list(
+                receipt.objects.filter(
+                        lodge__user=user
+                    )
+                )
+            )
+        elif receipt.meta_title == 'BnB':
+            data.extend(
+                list(
+                    receipt.objects.filter(
+                            bnb__host=user
+                        )
+                    )
+                )
+
+    # sort the list based on the date
+    sorted_data = sorted(data, key=lambda receipt: receipt.created)
+
+    return sorted_data
+

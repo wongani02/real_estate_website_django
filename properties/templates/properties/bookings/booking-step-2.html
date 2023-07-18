@@ -147,7 +147,7 @@
 							address_2: orderData.purchase_units[0].shipping.address.admin_area_2,
 						})
 						}).then(function () {
-							location.href = "{% url 'accounts:dashboard' %}";
+							location.href = "{% url 'payments:create-qr-code' %}";
 						})
 					})
 			},

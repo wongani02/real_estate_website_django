@@ -1,0 +1,131 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+	<!-- Our Dashbord -->
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">My Payments</h2>
+								<p>Ready to jump back in!</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="ui_kit_tab style2 mt30"> 
+								<!-- Nav tabs -->
+								<ul class="nav nav-tabs" role="tablist">
+								  <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home2">Payments</a> </li>
+								  <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#menu4">Receipts</a> </li>
+								</ul>
+								<!-- Tab panes -->
+								<div class="tab-content">
+								  <div id="home2" class="container tab-pane active">
+									<div class="invoice_table table-responsive">
+										<table class="table table-borderless">
+										  <thead class="thead-light">
+											<tr>
+											  <th scope="col">#</th>
+											  <th scope="col">Payment Method</th>
+											  <th scope="col">Payment Key</th>
+											  <th scope="col">Full Name</th>
+											  <th scope="col">Phone</th>
+											  <th scope="col">Listing</th>
+											  <th scope="col">Type</th>
+											  <th scope="col">Amount</th>
+											  <th scope="col">Created</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											
+											{% for payment in finances %}
+											<tr>
+												<th scope="row">{{forloop.counter}}</th>
+												<td>{{payment.payment_option.payment_option}}</td>
+												<td>{{payment.order_key}}</td>
+												<td>{{payment.full_name}}</td>
+												<td>{{payment.phone}}</td>
+												
+												{% if payment.meta_title == 'Property' %}
+												<td>{{payment.property.name}}</td>
+												{% elif payment.meta_title == 'BnB' %}
+												<td>{{payment.bnb.title}}</td>
+												{% elif payment.meta_title == 'Lodge' %}
+												<td>{{payment.lodge.name}}</td>
+												{% endif %}
+													
+												<td>{{payment.meta_title}}</td>
+												<td>$ {{payment.total_paid}}</td>
+												<td>{{payment.created}}</td>
+											 </tr>
+											{% endfor %}
+												
+										  </tbody>
+										</table>
+									</div>								  </div>
+								  <div id="menu4" class="container tab-pane fade">
+									<div class="invoice_table table-responsive">
+										<table class="table table-borderless">
+										  <thead class="thead-light">
+											<tr>
+											  <th scope="col">#</th>
+											  <th scope="col">Payment Method</th>
+											  <th scope="col">Payment Key</th>
+											  <th scope="col">Full Name</th>
+											  <th scope="col">Phone</th>
+											  <th scope="col">Listing</th>
+											  <th scope="col">Type</th>
+											  <th scope="col">Amount</th>
+											  <th scope="col">Created</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											
+											{% for receipt in receipts %}
+											<tr>
+												<th scope="row">{{forloop.counter}}</th>
+												<td>{{receipt.payment_option.payment_option}}</td>
+												<td>{{receipt.order_key}}</td>
+												<td>{{receipt.full_name}}</td>
+												<td>{{receipt.phone}}</td>
+												
+												{% if receipt.meta_title == 'Property' %}
+												<td>{{receipt.property.name}}</td>
+												{% elif receipt.meta_title == 'BnB' %}
+												<td>{{receipt.bnb.title}}</td>
+												{% elif receipt.meta_title == 'Lodge' %}
+												<td>{{receipt.lodge.name}}</td>
+												{% endif %}
+													
+												<td>{{receipt.meta_title}}</td>
+												<td>$ {{receipt.total_paid}}</td>
+												<td>{{receipt.created}}</td>
+											 </tr>
+											{% endfor %}
+												
+										  </tbody>
+										</table>
+									</div>		
+									</div>							  
+								</div>
+							  </div>
+						</div>
+					</div>
+					{% include 'properties/copyright.html' %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

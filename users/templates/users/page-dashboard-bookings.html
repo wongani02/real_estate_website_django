@@ -1,0 +1,226 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+	<!-- Our Dashbord -->
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">My Bookings</h2>
+								<p>Ready to jump back in!</p>
+								
+								{% if choice == 'user' %}
+								<small>A list of all the bookings by your customers on your listings.</small>
+								{% elif choice == 'client' %}
+								<small>A list of all the bookings by you on various listings.</small>
+								{% endif %}
+									
+							</div>
+						</div>
+					</div>
+					
+					{% if choice == 'user' %}
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="ui_kit_tab style2 mt30"> 
+								<!-- Nav tabs -->
+								<ul class="nav nav-tabs" role="tablist">
+								  <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home3">Lodge's</a> </li>
+								  <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#menu4">BnB's</a> </li>
+								</ul>
+								<!-- Tab panes -->
+								<div class="tab-content">
+								  <div id="home3" class="container tab-pane active">
+									<div class="invoice_table table-responsive">
+										<table class="table table-borderless">
+										  <thead class="thead-light">
+											<tr>
+											  <th scope="col">#</th>
+											  <th scope="col">Lodge</th>
+											  <th scope="col">User</th>
+											  <th scope="col">Phone</th>
+											  <th scope="col">Cancelled</th>
+											  <th scope="col">Reference</th>
+											  <th scope="col">Created</th>
+											  <th scope="col">Check In</th>
+											  <th scope="col">Check Out</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											
+											{% for bookings in lodge_data %}
+											
+											
+											{% for lodge in bookings %}
+											<tr>
+												<th scope="row">{{forloop.counter}}</th>
+												<td>{{lodge.room.room_category.lodge.name}}</td>
+												<td>{{lodge.full_name}}</td>
+												<td>{{lodge.phone_number}}</td>
+												<td>{{lodge.cancelled}}</td>
+												<td>{{lodge.ref_code}}</td>
+												<td>{{lodge.created_at}}</td>
+												<td>{{lodge.check_in}}</td>
+												<td>{{lodge.check_out}}</td>
+											</tr>	
+											{% endfor %}
+												
+
+											{% endfor %}
+														
+										  </tbody>
+										</table>
+									</div>								  </div>
+								  <div id="menu4" class="container tab-pane fade">
+									<div class="invoice_table table-responsive">
+										<table class="table table-borderless">
+										  <thead class="thead-light">
+											<tr>
+											  <th scope="col">#</th>
+											  <th scope="col">BnB</th>
+											  <th scope="col">User</th>
+											  <th scope="col">Phone</th>
+											  <th scope="col">Cancelled</th>
+											  <th scope="col">Reference</th>
+											  <th scope="col">Created</th>
+											  <th scope="col">Check In</th>
+											  <th scope="col">Check Out</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											
+											{% for bookings in bnb_data %}
+											
+											
+											{% for bnb in bookings %}
+											<tr>
+												<th scope="row">{{forloop.counter}}</th>
+												<td>{{bnb.property.title}}</td>
+												<td>{{bnb.full_name}}</td>
+												<td>{{bnb.phone_number}}</td>
+												<td>{{bnb.cancelled}}</td>
+												<td>{{bnb.ref_code}}</td>
+												<td>{{bnb.created_at}}</td>
+												<td>{{bnb.check_in}}</td>
+												<td>{{bnb.check_out}}</td>
+											</tr>		
+											{% endfor %}
+												
+
+											{% endfor %}
+														
+										  </tbody>
+										</table>
+									</div>								  </div>
+								</div>
+							  </div>
+						</div>
+					</div>
+					{% elif choice == 'client' %}	
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="ui_kit_tab style2 mt30"> 
+								<!-- Nav tabs -->
+								<ul class="nav nav-tabs" role="tablist">
+								  <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home3">Lodge's</a> </li>
+								  <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#menu4">BnB's</a> </li>
+								</ul>
+								<!-- Tab panes -->
+								<div class="tab-content">
+								  <div id="home3" class="container tab-pane active">
+									<div class="invoice_table table-responsive">
+										<table class="table table-borderless">
+										  <thead class="thead-light">
+											<tr>
+											  <th scope="col">#</th>
+											  <th scope="col">Lodge</th>
+											  <th scope="col">User</th>
+											  <th scope="col">Phone</th>
+											  <th scope="col">Cancelled</th>
+											  <th scope="col">Reference</th>
+											  <th scope="col">Created</th>
+											  <th scope="col">Check In</th>
+											  <th scope="col">Check Out</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											
+											{% for lodge in lodge_bookings %}
+											
+											<tr>
+												<th scope="row">{{forloop.counter}}</th>
+												<td>{{lodge.room.room_category.lodge.name}}</td>
+												<td>{{lodge.full_name}}</td>
+												<td>{{lodge.phone_number}}</td>
+												<td>{{lodge.cancelled}}</td>
+												<td>{{lodge.ref_code}}</td>
+												<td>{{lodge.created_at}}</td>
+												<td>{{lodge.check_in}}</td>
+												<td>{{lodge.check_out}}</td>
+											</tr>	
+
+											{% endfor %}
+														
+										  </tbody>
+										</table>
+									</div>								  </div>
+								  <div id="menu4" class="container tab-pane fade">
+									<div class="invoice_table table-responsive">
+										<table class="table table-borderless">
+										  <thead class="thead-light">
+											<tr>
+											  <th scope="col">#</th>
+											  <th scope="col">BnB</th>
+											  <th scope="col">User</th>
+											  <th scope="col">Phone</th>
+											  <th scope="col">Cancelled</th>
+											  <th scope="col">Reference</th>
+											  <th scope="col">Created</th>
+											  <th scope="col">Check In</th>
+											  <th scope="col">Check Out</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											
+											{% for bnb in bnb_bookings %}
+											
+											<tr>
+												<th scope="row">{{forloop.counter}}</th>
+												<td>{{bnb.property.title}}</td>
+												<td>{{bnb.full_name}}</td>
+												<td>{{bnb.phone_number}}</td>
+												<td>{{bnb.cancelled}}</td>
+												<td>{{bnb.ref_code}}</td>
+												<td>{{bnb.created_at}}</td>
+												<td>{{bnb.check_in}}</td>
+												<td>{{bnb.check_out}}</td>
+											</tr>		
+
+											{% endfor %}
+														
+										  </tbody>
+										</table>
+									</div>								  </div>
+								</div>
+							  </div>
+						</div>
+					</div>
+					{% endif %}
+						
+					{% include 'properties/copyright.html' %}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

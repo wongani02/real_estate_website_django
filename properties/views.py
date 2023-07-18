@@ -493,7 +493,7 @@ class CreatePropertyLocationListing(generic.CreateView):
         if 'step_2' in self.request.session:
             
             # Add existing session data to form
-            session_data = json.loads(self.request.session['step_2'])
+            session_data = request.session['step_2']
 
             property_form = PropertyLocationCreationForm(initial={
                 'location_area': session_data['location_area'], 'district': session_data['district'], 
@@ -664,22 +664,6 @@ def select_property_policy(request, **kwargs):
     return render(request, 'properties/page-dashboard-new-property-5.html', {'policy': form})
 
 
-def create_policy(request, **kwargs):
-    # get request data
-    data = request.POST
-
-    # create policy object
-    policy = Policy.objects.create(
-        title=data.get('title'),
-        desc=data.get('desc'),
-        no_days=data.get('no_days')
-    )
-
-    policy.refresh_from_db()
-
-    return HttpResponse({'success': 200})
-
-
 def process_payment_detail(request, *kwargs):
     
     if request.method == 'POST':
@@ -714,46 +698,6 @@ def process_payment_detail(request, *kwargs):
 
 
 def process_payment_view(request, **kwargs):
-
-    # if request.method == 'POST':
-        # # get property object
-        # property = Property.objects.get(id=kwargs.get('pk'))
-
-        # # get user object
-        # user = User.objects.get(username=request.user.username)
-
-        # # get form body
-        # body = json.loads(request.body)
-
-        # # crete a receipts instance
-        # receipt = Receipt.objects.create(
-        #     user=user,
-        #     note='',
-        #     property=property,
-        #     is_paid=True,
-        # )
-
-        # # create a property payment instance
-        # payment = PropertyPayment.objects.create(
-        #     user=user,
-        #     property=property,
-        #     full_name=body['fullname'],
-        #     email=body['email'],
-        #     total_paid=body['totalPaid'],
-        #     order_key=body['orderId'],
-        #     payment_option=PaymentOption.objects.first(),
-        #     billing_status=True,
-        #     receipts=receipt
-        # )
-
-        # # Add payment id to session variable "lodge_booking"
-        # request.session['property_payment'] = payment.order_key
-
-        # # Add email to session
-        # request.session['payment_email'] = request.session['property_payment_data']['email']
-
-        # return JsonResponse('payment complete', safe=False)
-
     # get total charge price
     charge = PropertyCharge.objects.first()
 
@@ -778,6 +722,7 @@ def payment_approved(request):
     create_property_listing(request, property_) 
 
     # payment processing
+    session = request.session['property_payment_data']
 
     # get user object
     user = User.objects.get(username=request.user.username)
@@ -788,7 +733,7 @@ def payment_approved(request):
     # crete a receipts instance
     receipt = Receipt.objects.create(
         user=user,
-        note='',
+        note=session['note'],
         property_id=property_.id,
         is_paid=True,
     )
@@ -827,8 +772,9 @@ def save_data(request):
     # avoid queryset error 
     error = Property.objects.all()
     # Get session data and save to database
+    print("1: ", request.session['step_2'])
     property_info = json.loads(request.session['step_1'])
-    location_info = json.loads(request.session['step_2'])
+    location_info = request.session['step_2']
 
     #  Create property instance
     property_, _amenities = create_property(request, property_info, location_info)
@@ -846,8 +792,8 @@ def save_data(request):
     create_property_policy_link(request, property_)
     
     # Delete all sessions 
-    del request.session['step_1']
-    del request.session['step_2']
+    # del request.session['step_1']
+    # del request.session['step_2']
     
     request.session['property_id'] = str(property_.id)
     
@@ -866,7 +812,8 @@ def create_property(request, object1, object2):
     cat = PropertyCategory.objects.get(name=object1['property_cat'])
     
     # Create district object
-    dis = Districts.objects.get(district_name=object2['district'])
+    print("district: ", object2['district']) 
+    dis = Districts.objects.get(id=object2['district'])
 
     # Get agent object
     agent = User.objects.get(username=request.user.username)

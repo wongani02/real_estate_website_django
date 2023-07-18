@@ -97,3 +97,5 @@ class AboutAdmin(admin.ModelAdmin):
 
 admin.site.register(LodgesViews)
 admin.site.register(Room)
+admin.site.register(RoomCategory)
+admin.site.register(Image)
