@@ -1,0 +1,10 @@
+<ul class="fp_meta float-right mb0 " id="bookmark_bnb{{i.id}}">
+    <li class="list-inline-item">
+        <a 
+        hx-trigger="click"
+        hx-target="#bookmark_bnb{{i.id}}"
+        hx-swap="outerHTML"
+        hx-post="{% url 'bnb:bnb-bookmark' i.id %}" 
+        class="icon" >
+        <span class="flaticon-heart-shape-outline"></span></a></i></li>
+</ul>

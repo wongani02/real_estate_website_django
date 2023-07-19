@@ -44,4 +44,6 @@ urlpatterns = [
     #htmx urls
     path('search-rooms/<uuid:lodge>/', views.getAvailableRoomTypes, name='search-available-rooms'),
     path('submit-review/<uuid:pk>/', views.handleReviews, name='submit-review'),
+    path('bookmark/<uuid:pk>/', views.bookmarkLodge, name='lodge-bookmark'),
+    path('remove-bookmark/<uuid:pk>/', views.removeBookmark, name='remove-bookmark'),
 ]

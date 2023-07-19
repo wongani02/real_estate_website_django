@@ -23,9 +23,14 @@
   <!-- datepicker css -->
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <!-- Google maps block scripts -->
-  
+  <!-- Option 1: Include in HTML -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-lnP0y7-eryejE9-ZKMwVdFMR7hzfz54&libraries=places&callback=initializeGeocoder"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <!-- some import cdns -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.3/dist/cdn.min.js"></script>
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
   <!-- Sweetify CDN -->
   <link type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.28/dist/sweetalert2.min.css" />
@@ -58,7 +63,7 @@
 
       
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 <div class="wrapper">
   <div class="preloader"></div>
   

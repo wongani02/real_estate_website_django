@@ -45,6 +45,7 @@ class Lodge(ModelMeta, models.Model):
     number_of_room_types = models.PositiveSmallIntegerField(null=True, default=2)
     lat = models.CharField(max_length=255, null=True)
     long = models.CharField(max_length=255, null=True)
+    user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="bnb_bookmarks", blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=False, null=True)
     verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)

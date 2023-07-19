@@ -10,14 +10,17 @@ from django.db import IntegrityError, transaction
 from django.contrib import messages
 from django.db.models import Q 
 from django.core.paginator import Paginator
+from django.core.mail import EmailMessage
 
 from payments.models import LodgeBookingPayment, PaymentOption
 from verifications.views import create_lodge_listing
 from bnb.forms import ReviewForm
+from payments.utils import EmailThread
 
 from .create_lodge import LodgeCreation as LodgeCreationClass
 from .models import Amenity, LodgeImage, Lodge, Image, LodgesViews, Booking
 from .forms import *
+from .email_context import *
 from .utils import (
     check_room_availability, 
     format_dates, 
@@ -758,4 +761,42 @@ def processPaymentView(request, **kwargs):
     request.session['booking_email'] = request.session['lodge_booking_data']['email']
 
     return JsonResponse('payment complete', safe=False)
+
+
+# bookmarks
+def bookmarkLodge(request, pk):
+
+    lodge = get_object_or_404(Lodge, pk=pk)
+
+    if request.user.is_authenticated:
+        lodge.user_bookmark.add(request.user)
+        subject = 'Your Lodge Has Been Bookmarked!'
+        message = bookmarked_lodge_email.format(
+            lodge.user.username,
+            lodge.name,
+            lodge.map_location,
+            lodge.id,
+        )
+        email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [lodge.user.email])
+
+        EmailThread(email).start()
+        messages.success(request, f'lodge "{lodge.name}" has been added bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+        return render(request, 'lodges/partials/bookmark-removed.html', {'lodge':lodge})
+
+    return render(request, 'lodges/partials/lodge-bookmarked.html', {'lodge':lodge})
+
+
+def removeBookmark(request, pk):
+
+    lodge = get_object_or_404(Lodge, pk=pk)
+    if request.user.is_authenticated:
+        lodge.user_bookmark.remove(request.user)
+        messages.info(request, f'lodge "{lodge.name}" has been removed bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+
+    return render(request, 'lodges/partials/bookmark-removed.html', {'lodge': lodge})
+
 

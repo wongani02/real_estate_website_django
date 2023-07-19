@@ -16,7 +16,31 @@
             <div class="tc_content">
                 <h4><a class="text-uppercase" href="{% url 'bnb:bnb-detail' i.id %}">{{i.title}}</a></h4>
                 <p><span class="heading-color">{{i.country}}</span><br> <span class="heading-color">{{i.price_per_night}}/night</span></p>
+                <ul class="fp_meta float-right mb0 " id="bookmark_bnb{{i.id}}">
+                {% if user in bnb.user_bookmark.all %}
+                <li class="list-inline-item">
+                    <a 
+                    class="icon" 
+                    hx-trigger="click"
+                    hx-post="{% url 'bnb:remove-bookmark' bnb.id %}" 
+                    hx-swap="outerHTML"
+                    hx-target="#bookmark_bnb{{i.id}}"
+                    >
+                    <i class="bi bi-heart-fill text-danger"></i></a> 
+                </li>
+                {% else %}
+                <li class="list-inline-item">
+                    <a 
+                    hx-trigger="click"
+                    hx-target="#bookmark_bnb{{i.id}}"
+                    hx-swap="outerHTML"
+                    hx-post="{% url 'bnb:bnb-bookmark' i.id %}" 
+                    class="icon" >
+                    <span class="flaticon-heart-shape-outline"></span></a></i></li>
+                {% endif %}
+            </ul>
             </div>
+            
             </div>
         </div>
     </div>

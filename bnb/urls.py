@@ -41,4 +41,6 @@ urlpatterns = [
     #htmx
     path('bnb/search-availability/<uuid:pk>/', views.searchBNBAvailability, name='search-availability'),
     path('submit-review/<uuid:pk>/', views.handleReviews, name='submit-review'),
+    path('bookmark/<uuid:pk>/', views.bookmarkBNB, name='bnb-bookmark'),
+    path('remove-bookmark/<uuid:pk>/', views.removeBookmark, name='remove-bookmark'),
 ]

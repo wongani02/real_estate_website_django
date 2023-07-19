@@ -45,16 +45,33 @@
                     <li class="list-inline-item">
                     <span class="heading-color fw600">${{property.price}} {% if property.property_type == 'RENT' %}/mo{% endif %} </span></a></li>
                 </ul>
-                <ul class="fp_meta float-right mb0">
-                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-resize"></span></a></li>
-                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-add"></span></a></li>
-                    <li class="list-inline-item"><a class="icon" href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
+                <ul class="fp_meta float-right mb0 " id="bookmark_property{{property.id}}">
+                    {% if user in property.user_bookmark.all %}
+                    <li class="list-inline-item">
+                        <a 
+                        class="icon" 
+                        hx-trigger="click"
+                        hx-post="{% url 'properties:remove-bookmark' property.id %}" 
+                        hx-swap="outerHTML"
+                        hx-target="#bookmark_property{{property.id}}"
+                        >
+                        <i class="bi bi-heart-fill text-danger"></i></a> 
+                    </li>
+                    {% else %}
+                    <li class="list-inline-item">
+                        <a 
+                        hx-trigger="click"
+                        hx-target="#bookmark_property{{property.id}}"
+                        hx-swap="outerHTML"
+                        hx-post="{% url 'properties:property-bookmark' property.id %}" 
+                        class="icon" >
+                        <span class="flaticon-heart-shape-outline"></span></a></i></li>
+                    {% endif %}
                 </ul>
+                
             </div>
         </div>
-    </div>
-    
-        
+    </div> 
  
 </div>
 {% endfor %} 
@@ -69,3 +86,7 @@
         >Load more...</button>
     </div>
 {% endif %}
+
+<section id="messages">
+    {% include 'properties/partials/toasts.html' %}
+</section>

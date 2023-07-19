@@ -1,0 +1,16 @@
+
+    <li class="list-inline-item float-right" id="bookmark_lodge{{lodge.id}}">
+        <a 
+        hx-trigger="click"
+        hx-target="#bookmark_lodge{{lodge.id}}"
+        hx-swap="outerHTML"
+        hx-post="{% url 'lodges:lodge-bookmark' lodge.id %}" 
+        class="icon" >
+        <span class="flaticon-heart-shape-outline"></span>
+    </a>
+    </li>
+
+
+<section id="lodge_messages" hx-swap-oob="true" hx-swap="innerHTML">
+    {% include 'properties/partials/toasts.html' %}
+</section>

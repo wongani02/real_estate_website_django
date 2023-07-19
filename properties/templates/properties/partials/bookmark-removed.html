@@ -1,0 +1,16 @@
+<ul class="fp_meta float-right mb0 " id="bookmark_property{{property.id}}">
+    <li class="list-inline-item">
+        <a 
+        hx-trigger="click"
+        hx-target="#bookmark_property{{property.id}}"
+        hx-swap="outerHTML"
+        hx-post="{% url 'properties:property-bookmark' property.id %}" 
+        class="icon" >
+        <span class="flaticon-heart-shape-outline"></span>
+    </a>
+    </li>
+</ul>
+
+<section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+    {% include 'properties/partials/toasts.html' %}
+</section>

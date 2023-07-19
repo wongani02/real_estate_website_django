@@ -1,0 +1,16 @@
+<ul class="fp_meta float-right mb0" id="bookmark_property{{property.id}}">
+    <li class="list-inline-item">
+        <a 
+        class="icon" 
+        hx-trigger="click"
+        hx-post="{% url 'properties:remove-bookmark' property.id %}" 
+        hx-swap="outerHTML"
+        hx-target="#bookmark_property{{property.id}}"
+        >
+        <i class="bi bi-heart-fill text-danger"></i></a> 
+    </li>
+</ul>
+
+<section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+    {% include 'properties/partials/toasts.html' %}
+</section>

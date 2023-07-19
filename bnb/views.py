@@ -1,7 +1,7 @@
 import json
 
 from operator import itemgetter
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q 
@@ -10,15 +10,19 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory, modelformset_factory
 from django.contrib import messages
+from django.conf import settings
+from django.core.mail import EmailMessage
 
 from lodges.forms import RequiredFormSet
 from payments.models import BnbBookingPayment, PaymentOption
 from verifications.views import create_bnb_listing
+from payments.utils import EmailThread
 
 from bnb.models import *
 from bnb.create_bnb import BNB
 from bnb.forms import *
 from bnb.utils import *
+from bnb.email_context import *
 
 
 class BnbList(generic.ListView):
@@ -710,5 +714,42 @@ def processPayment(request, **kwargs):
     update_booking.update(is_paid=True)
 
     return JsonResponse('done', safe=False)
+
+
+
+def bookmarkBNB(request, pk):
+
+    bnb = get_object_or_404(Property, pk=pk)
+
+    if request.user.is_authenticated:
+        bnb.user_bookmark.add(request.user)
+        subject = 'Your Property Has Been Bookmarked!'
+        message = bnb_bookmark_email.format(
+            bnb.host.username,
+            bnb.title,
+            bnb.id,
+            bnb.price_per_night
+        )
+        email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [bnb.host.email])
+
+        EmailThread(email).start()
+        messages.success(request, f'bnb "{bnb.title}" has been added bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+        return render(request, 'bnb/partials/bookmark-removed.html', {'i':bnb})
+
+    return render(request, 'bnb/partials/properties-bookmarked.html', {'i':bnb})
+
+
+def removeBookmark(request, pk):
+
+    bnb = get_object_or_404(Property, pk=pk)
+    if request.user.is_authenticated:
+        bnb.user_bookmark.remove(request.user)
+        messages.info(request, f'property "{bnb.title}" has been removed bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+
+    return render(request, 'bnb/partials/bookmark-removed.html', {'i':bnb})
 
 

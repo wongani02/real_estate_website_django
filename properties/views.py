@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse, Http404
@@ -7,18 +7,22 @@ from django.db.models import Q, Sum, Count, ForeignKey, Value, CASCADE, CharFiel
 from django.views import View
 from django.core.paginator import Paginator
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.mail import EmailMessage
 
 from datetime import date, datetime, timedelta, timezone
 
 from lodges.models import Lodge, About, BlogPost, BlogCategory, LodgesViews
 from properties.models import *
 from properties.forms import *
+from .email_context import bookmark_email_context
 from properties.filters import AdvancedSearchFilter
 from properties.charts import *
 from bnb.models import Property as BNB, BnbViews
 from users.models import User
 from payments.models import PropertyPayment, PropertyCharge, PaymentOption
 from verifications.views import create_property_listing
+from payments.utils import EmailThread
+
 
 import json
 import ast
@@ -1117,4 +1121,40 @@ def download_doc(request, **kwargs):
 
             return response
     raise Http404
+
+
+def bookmarkProperty(request, pk):
+
+    property = get_object_or_404(Property, pk=pk)
+
+    if request.user.is_authenticated:
+        property.user_bookmark.add(request.user)
+        subject = 'Your Property Has Been Bookmarked!'
+        message = bookmark_email_context.format(
+            property.agent.username,
+            property.name,
+            property.id,
+            property.price
+        )
+        email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [property.agent.email])
+
+        EmailThread(email).start()
+        messages.success(request, f'property "{property.name}" has been added bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+        return render(request, 'properties/partials/bookmark-removed.html', {'property':property})
+
+    return render(request, 'properties/partials/properties-bookmarked.html', {'property':property})
+
+
+def removeBookmark(request, pk):
+
+    property = get_object_or_404(Property, pk=pk)
+    if request.user.is_authenticated:
+        property.user_bookmark.remove(request.user)
+        messages.info(request, f'property "{property.name}" has been removed bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+
+    return render(request, 'properties/partials/bookmark-removed.html', {'property':property})
 

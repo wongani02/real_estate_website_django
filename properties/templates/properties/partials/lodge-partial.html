@@ -25,7 +25,31 @@
             </div>
             <div class="details">
             <div class="tc_content">
-                <h4><a class="text-uppercase" href="{% url 'lodges:lodge-detail' lodge.id %}">{{lodge.name}}</a></h4>
+                <ul class="fp_meta mb0">
+                    <h4 class="list-inline-item "><a class="text-uppercase" href="{% url 'lodges:lodge-detail' lodge.id %}">{{lodge.name}}</a></h4>
+                    {% if user in lodge.user_bookmark.all %}
+                    <li class="list-inline-item float-right" id="bookmark_lodge{{lodge.id}}">
+                        <a 
+                        class="icon" 
+                        hx-trigger="click"
+                        hx-post="{% url 'lodges:remove-bookmark' lodge.id %}" 
+                        hx-swap="outerHTML"
+                        hx-target="#bookmark_lodge{{lodge.id}}"
+                        >
+                        <i class="bi bi-heart-fill text-danger"></i></a> 
+                    </li>
+                    {% else %}
+                    <li class="list-inline-item float-right" id="bookmark_lodge{{lodge.id}}">
+                        <a 
+                        hx-trigger="click"
+                        hx-target="#bookmark_lodge{{lodge.id}}"
+                        hx-swap="outerHTML"
+                        hx-post="{% url 'lodges:lodge-bookmark' lodge.id %}" 
+                        class="icon" >
+                        <span class="flaticon-heart-shape-outline"></span></a></i></li>
+                    {% endif %}
+                </ul>
+                <br>
                 <p><span class="heading-color"></span> {{lodge.map_location}}<span class="heading-color"></span></p>
             </div>
             </div>
@@ -49,4 +73,7 @@
     {% endif %}
     
 <!-- </div> -->
+<section id="lodge_messages">
+    {% include 'properties/partials/toasts.html' %}
+</section>
 

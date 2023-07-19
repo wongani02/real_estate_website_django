@@ -55,6 +55,8 @@ urlpatterns = [
     #HTMX urls
     path('lodge-list/', views.LodgesHTMXView.as_view(), name='lodges-htmx'),
     path('bnb-list-htmx/', views.BnbHTMXView.as_view(), name='bnb-htmx'),
+    path('bookmark/<uuid:pk>/', views.bookmarkProperty, name='property-bookmark'),
+    path('remove-bookmark/<uuid:pk>/', views.removeBookmark, name='remove-bookmark'),
 
     # download document
     path('download/document/<int:pk>/', views.download_doc, name='download-doc'),

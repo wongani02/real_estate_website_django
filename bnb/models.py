@@ -85,6 +85,7 @@ class Property(ModelMeta, models.Model):
     prev_price = models.DecimalField(_("Previous Price"), max_digits=8, decimal_places=2, blank=True, null=True)
     lat = models.CharField(max_length=255, null=True)
     long = models.CharField(max_length=255, null=True)
+    user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="property_bookmarks", blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)

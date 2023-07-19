@@ -139,7 +139,7 @@ class Property(ModelMeta, models.Model):
         null=True, 
         on_delete=models.CASCADE, 
         related_name='agent_properties')
-    user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_bookmark", blank=True)
+    user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_property_bookmarks", blank=True)
 
     # meta variable
     meta_title = 'Property'
