@@ -93,6 +93,8 @@ class Property(ModelMeta, models.Model):
     SOLD = "SOLD"
     AVAILABLE = "AVAILABLE"
     PENDING = 'PENDING'
+    VERIFIED = 'VERIFIED'
+    DECLINED = 'DECLINED'
     
     class Meta:
         verbose_name = 'Property'
@@ -107,6 +109,12 @@ class Property(ModelMeta, models.Model):
         (SOLD, _("Sold")),
         (AVAILABLE, _("Available")),
         (PENDING, _("Pending")),
+    ]
+
+    VERIFICATION = [
+        (VERIFIED, _("Verified")),
+        (PENDING, _("Pending")),
+        (DECLINED, _("Declined"))
     ]
 
     id = models.UUIDField(_("Property ID"), primary_key=True, default=uuid.uuid4, editable=False)
@@ -139,7 +147,9 @@ class Property(ModelMeta, models.Model):
         null=True, 
         on_delete=models.CASCADE, 
         related_name='agent_properties')
-    user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_property_bookmarks", blank=True)
+    user_bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="user_bookmark", blank=True)
+    verification = models.CharField(_("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10)
+
 
     # meta variable
     meta_title = 'Property'

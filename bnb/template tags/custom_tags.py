@@ -1,6 +1,8 @@
 from django import template
+from django.db.models import Min, Max
 
 from bnb.models import *
+from lodges.models import RoomCategory
 from properties.models import Images
 
 register = template.Library()
@@ -36,3 +38,15 @@ def get_listing_name(arg):
 @register.simple_tag
 def model_name(arg):
     return arg.__class.__name__
+
+@register.simple_tag
+def get_room_price(arg):
+    result = RoomCategory.objects.filter(lodge__id=arg).aggregate(
+        lowest_price=Min('price_per_night'),
+        highest_price=Max('price_per_night')
+    )
+
+    lowest_price = result['lowest_price']
+    highest_price = result['highest_price']
+
+    return '${} - ${}'.format(lowest_price, highest_price)

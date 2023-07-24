@@ -119,11 +119,11 @@
 					                </div>
 					                <div class="details">
 					                  <div class="tc_content">
-					                    <h4 class="title">{{item.name}} <small class="tag2">FOR SALE</small></h4>
-					                    <p>{{item.street_name}}, {{item.city}}, {{item.country}}</p>
+					                    <h4 class="title">{{item.name}} <small class="tag2">FOR RENT</small></h4>
+					                    <p>{{item.map_location}}</p>
 					                    <div class="fp_meta">
 					                    	<a href="#">
-					                    		<span class="heading-color fw600">{{item.price_per_night}}</span>
+					                    		<span class="heading-color fw600">{% get_room_price item.id %}</span>
 					                    	</a>
 					                    </div>
 					                  </div>
@@ -132,7 +132,7 @@
 								      </th>
 								      <td>{{item.created_at}}</td>
 								      <td class=".">{% verbose_name item %}</td>
-									  <td class="">{{item.verification}}</td>
+									  <td class="">{{item.verification|title}}</td>
 								      <td>{% number_of_bnbs item.id %}</td>
 								    	<td class="editing_list">
 								    		<ul>
@@ -167,12 +167,13 @@
 					                </div>
 					                <div class="details">
 					                  <div class="tc_content">
-					                    <h4 class="title">{{item.name}} <small class="tag2">FOR SALE</small></h4>
+					                    <h4 class="title">{{item.name}} <small class="tag2">FOR RENT</small></h4>
 					                    <p>{{item.street_name}}, {{item.city}}, {{item.country}}</p>
 					                    <div class="fp_meta">
 					                    	<a href="#">
-					                    		
-					                    		<span class="heading-color fw600">{{item.price_per_night}}</span>
+					                    		<!-- <small><del class="body-color">$2,800/mo</del></small>  -->
+												<!-- <br> -->
+					                    		<span class="heading-color fw600">$ {{item.price_per_night}}</span>
 					                    	</a>
 					                    </div>
 					                  </div>
@@ -184,7 +185,7 @@
 								      <td class="text-thm">Published</td>
 									  {% endif %}
 									  <td class="">{% verbose_name item %}</td>
-									  <td class="">{{item.verification}}</td>
+									  <td class="">{{item.verification|title}}</td>
 								      <td>{% number_of_lodges item.id %}</td>
 								    	<td class="editing_list">
 								    		<ul>
@@ -236,7 +237,7 @@
 								      </th>
 								      <td>{{item.created_at}}</td>
 								      <td class="">{% verbose_name item %}</td>
-									  <td class="">{{item.verification}}</td>
+									  <td class="">{{item.verification|title}}</td>
 								      <td>{% number_of_properties item.id %}</td>
 								    	<td class="editing_list">
 								    		<ul>

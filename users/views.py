@@ -238,7 +238,7 @@ def bookmarksView(request):
 def myPropertiesView(request):
     user_id = request.user.id
     #properties
-    properties = Property.objects.all().filter(agent_id=user_id)
+    properties = Property.objects.filter(agent_id=user_id)
 
     #bnbs 
     bnb = BNBProperty.objects.filter(host_id=user_id)
@@ -265,7 +265,7 @@ def bookingsView(request, **kwargs):
         'bnb_bookings': bnb_bookings, 'lodge_bookings': lodge_bookings,
         'choice': kwargs.get('booking')
     }
-    print(context)
+    # print(context)
     return render(request, 'users/page-dashboard-bookings.html', context)
 
 @login_required(login_url='accounts:login')
@@ -281,7 +281,7 @@ def financesView(request, **kwargs):
         'finances': finances, 'receipts': receipts
     }
 
-    print(context)
+    # print(context)
 
     return render(request, 'users/page-dashboard-payments.html', context)
 

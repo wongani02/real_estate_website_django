@@ -67,7 +67,19 @@ INSTALLED_APPS = [
 
     # django apscheduler
     'django_apscheduler',
+
+    # user visits
+    'django_user_agents',
+    'tracking_analyzer',
 ]
+
+ANALYTICAL_INTERNAL_IPS = []
+
+ANALYTICAL_TRACKERS = {
+    'google': {
+        'tracking_id': 'UA-276480723-1',
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,6 +90,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
+
+    # user visit
+    'users.custom_middleware.CustomUserVisitMiddleware',
+
+    # tracker
+    # 'tracking_analyzer.middleware.TrackerMiddleware',
+
+    # user agent
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -184,6 +205,8 @@ mimetypes.add_type(
 X_FRAME_OPTIONS = 'ALLOWALL'
 
 XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
+
+GEOIP_PATH = os.path.join(PROJECT_ROOT, 'geoip')
 
 
 # Default primary key field type

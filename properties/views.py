@@ -816,22 +816,21 @@ def create_property(request, object1, object2):
     cat = PropertyCategory.objects.get(name=object1['property_cat'])
     
     # Create district object
-    print("district: ", object2['district']) 
     dis = Districts.objects.get(id=object2['district'])
 
     # Get agent object
     agent = User.objects.get(username=request.user.username)
 
     _property = Property.objects.create(
-    # session: step_1
-    name=object1['name'], desc=object1['desc'], property_area=object1['property_area'], 
-    compound_area=object1['compound_area'], year_built=object1['year_built'], price=object1['price'],
-    property_type=object1['property_type'], property_status=object1['property_status'],
-    property_cat=cat, no_garages=object1['no_garages'], no_rooms=object1['no_rooms'],
-    no_baths=object1['no_baths'],
-    # session: step_2
-    location_area=object2['location_area'], district=dis, lat=object2['lat'],
-    lon=object2['lon'], agent=agent
+        # session: step_1
+        name=object1['name'], desc=object1['desc'], property_area=object1['property_area'], 
+        compound_area=object1['compound_area'], year_built=object1['year_built'], price=object1['price'],
+        property_type=object1['property_type'], property_status=object1['property_status'],
+        property_cat=cat, no_garages=object1['no_garages'], no_rooms=object1['no_rooms'],
+        no_baths=object1['no_baths'],
+        # session: step_2
+        location_area=object2['location_area'], district=dis, lat=object2['lat'],
+        lon=object2['lon'], agent=agent
     )
 
     return _property, object2['amenities']
@@ -847,8 +846,9 @@ def create_amenity_link(request, property_id, objects):
     # Convert str object to dict
     objects = ast.literal_eval(objects)
 
-    # Create Property instance 
+    # get Property instance 
     property_ = Property.objects.get(pk=property_id)
+
 
     # Loop and create through list of amenities
     for object in objects:
@@ -857,6 +857,7 @@ def create_amenity_link(request, property_id, objects):
         amenity = PropertyAmenityLink.objects.create(
         _property=property_, amenity=object
         )
+        amenity.save()
 
         # Add amenity obbjects to list
         amenities_.append(amenity)
