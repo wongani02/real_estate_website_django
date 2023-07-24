@@ -87,6 +87,15 @@ class RoomCategory(models.Model):
     
     def __str__(self):
         return f"{self.lodge.name} - Room {self.room_type}"
+    
+
+class RoomCategoryImage(models.Model):
+    room_cat = models.ForeignKey(RoomCategory, null=True, on_delete=models.CASCADE, related_name='room_category_img')
+    image= models.ImageField(null=True, upload_to='room_cat_img/')
+    is_feature = models.BooleanField(default=False, null=True)
+
+    def __str__(self):
+        return f'{self.room_cat.room_type}-{self.id}'
 
 
 '''custom room manager to return available rooms only'''
@@ -214,7 +223,7 @@ class LodgeImage(models.Model):
         verbose_name_plural = 'Pictures'
 
     def __str__(self):
-        return f"{self.lodge.name} - Room {self.lodge.city} Picture"
+        return f"{self.lodge.name} - Room {self.lodge.map_location} Picture"
 
 
 class ActiveBookingsManager(models.Manager):

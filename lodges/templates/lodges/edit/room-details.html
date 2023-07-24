@@ -1,0 +1,117 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}edit lodge{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+	<!-- Our Dashbord -->
+	<style>			
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+				margin: 0;
+		}
+
+		input[type=number] {
+			-moz-appearance: textfield;
+		}
+	</style>
+	<script src="https://unpkg.com/htmx.org@1.9.0"></script>
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">Edit lodge room category detials </h2>
+								<p>here you can change the room type details</p>
+							</div>
+						</div>
+					</div>
+				<div class="row">
+				
+				<div class="col-lg-12">
+					<!-- Available room types -->
+		          <div class="new_property_form">
+					<h4 class="title mb30">Room Types Availble at your Lodge</h4>
+		            <form  action="{% url 'lodges:edit-room-cat-details' pk %}" method="post">
+						{% csrf_token %}
+                        {% if room_form.errors %}
+                        <p>Please correct the following errors:</p>
+                        {% for field in room_form %}
+                        {% if field.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ field.label }}: {{ field.errors|striptags }}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+		              <div class="row">
+		                <!-- <h2 class="col-md-12">Room type</h2> -->
+		                <div class="col-md-4">
+							<div class="ui_kit_select_search add_new_property mb30">
+                                {{form.room_type.label}}
+								{{form.room_type}}
+                                {{form.room_type.errors}}
+							</div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+                            {{form.max_guests.label}}
+							{{form.max_guests}}
+                            {{form.max_guests.errors}}
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+                            {{form.beds.label}}
+							{{form.beds}}
+                            {{form.beds.errors}}
+		                  </div>
+		                </div>
+		                <div class="col-md-4">
+		                  <div class="form-group mb30">
+		                    <input name="form_name" class="form-control form_control" type="text" placeholder="Price Prefix  $" disabled>
+		                  </div>
+		                </div>
+						<div class="col-md-4">
+		                  <div class="form-group mb30">
+                            {{form.price_per_night.label}}
+		                    {{form.price_per_night}}
+                            {{form.price_per_night.errors}}
+		                  </div>
+		                </div>
+						<div class="col-md-4">
+		                  <div class="form-group mb30">
+                            {{form.quantity.label}}
+		                    {{form.quantity}}
+                            {{form.quantity.errors}}
+		                  </div>
+		                </div>
+		              </div>
+                      <div class="text-right">
+                        <button type="submit" class="btn btn-thm listing_save_btn">Next</button>
+                    </div>
+		            </form>
+					
+		          </div>
+				</div>
+				</div>
+					<div class="row mt50">
+						<div class="col-lg-12 text-center">
+							<p class="mb0">Copyright © 2021 Afrihuts.com All Right Reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	
+{% endblock %}

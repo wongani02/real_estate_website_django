@@ -447,42 +447,31 @@ def editLodgeLocation(request, pk):
     return render(request, 'lodges/edit/location.html', context)
 
 
-#not complete
 def editLodgeRooms(request, pk):
     lodge = Lodge.objects.get(id=pk)
-    rooms = Room.objects.filter(lodge_id=pk)
-
-    RoomEditFormSet = modelformset_factory(
-        form=LodgeRoomsEditForm, 
-        formset=RequiredFormSet, 
-        extra=lodge.number_of_room_types,
-        max_num=lodge.number_of_room_types,
-        model=Room
-    )
-
-    if request.method == 'POST':
-        room_edit_form = RoomEditFormSet(request.POST)
-        if room_edit_form.is_valid():
-
-            for form in room_edit_form:
-                pass
-                
-            messages.success(request, 'Edit successful!!!')
-            return redirect('lodges:edit-rooms', pk)
-    else:
-        room_edit_form = RoomEditFormSet(initial=[{
-            'room_type': i.room_type,
-            'adults': i.adults,
-            'beds': i.beds,
-            'children': i.children,
-            'price_per_night': i.price_per_night
-        } for i in rooms])
+    room_cats = RoomCategory.objects.filter(lodge_id=lodge.id)
 
     context = {
-        'room_form': room_edit_form,
-        'pk': pk,
+        'room_cats': room_cats,
+        'lodge': lodge,
     }
     return render(request, 'lodges/edit/rooms.html', context)
+
+
+def editRoomCatDetails(request, room_cat):
+    room = RoomCategory.objects.get(id=room_cat)
+    if request.method == 'POST':
+        form = LodgeRoomsEditForm(request.POST, instance=room)
+        if form.is_valid():
+            form.save()
+            return redirect('lodges:edit-rooms', room.lodge.id)
+    else:
+        form = LodgeRoomsEditForm(instance=room)
+    context = {
+        'form': form,
+        'pk':room_cat
+    }
+    return render(request, 'lodges/edit/room-details.html', context)
 
 
 def editLodgeImages(request, pk):
@@ -502,6 +491,20 @@ def editLodgeImages(request, pk):
         'pk': pk,
     }
     return render(request, 'lodges/edit/images.html', context)
+
+
+def deleteLodgeImages(request, pk, image):
+
+    image = Image.objects.filter(id=image).delete()
+
+    images = images = LodgeImage.objects.filter(lodge_id=pk)
+
+
+    context = {
+        'images':images,
+        'pk':pk,
+    }
+    return render(request, 'lodges/partials/lodge-images.html', context)
 
 
 def editLodgeAmenities(request, pk):
@@ -526,10 +529,57 @@ def editLodgeAmenities(request, pk):
 
 
 def editLodgePolicies(request, pk):
-    context = {
 
+    policy = LodgeCancellationPolicy.objects.get(lodge_id=pk)
+
+    if request.method == 'POST':
+        form = LodgePolicyForm(request.POST, instance=policy)
+        if form.is_valid():
+            form.save()
+    else:
+        form = LodgePolicyForm(instance=policy)
+    context = {
+        'form': form,
+        'pk':pk,
     }
     return render(request, 'lodges/edit/policies.html', context)
+
+
+def addLodgeRoomImages(request, room_cat, lodge):
+
+    images = RoomCategoryImage.objects.filter(room_cat_id=room_cat)
+
+    context = {
+        'images': images,
+        'pk':room_cat,
+        'lodge': lodge,
+    }
+    return render(request, 'lodges/edit/lodge-room-images.html', context)
+
+
+def handleRoomImages(request, room_cat):
+    if request.method == 'POST':
+        image = request.FILES.get('file')
+        print(image)
+        RoomCategoryImage.objects.create(
+            room_cat_id=room_cat,
+            image=image
+        )
+    
+    return HttpResponse('uploaded')
+
+def handleDeleteRoomImages(request, image_id, room_cat):
+
+    RoomCategoryImage.objects.filter(id=image_id).delete()
+
+    images = RoomCategoryImage.objects.filter(room_cat_id=room_cat)
+
+    context = {
+        'images':images,
+        'pk':room_cat
+    }
+    return render(request, 'lodges/partials/room-image-list.html', context)
+
 
 
 #services

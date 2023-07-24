@@ -35,6 +35,11 @@ urlpatterns = [
     path('edit/<uuid:pk>/amenities/', views.editLodgeAmenities, name='edit-amenities'),
     path('edit/<uuid:pk>/images/', views.editLodgeImages, name='edit-images'),
     path('edit/<uuid:pk>/policies/', views.editLodgePolicies, name='edit-policies'),
+    path('edit/<uuid:room_cat>/<uuid:lodge>/room-images/', views.addLodgeRoomImages, name='edit-room-images'),
+    path('edit/<uuid:room_cat>/handle-room-images/', views.handleRoomImages, name='handle-room-images'),
+    path('edit/<uuid:room_cat>/room-cat-details/', views.editRoomCatDetails, name='edit-room-cat-details'),
+    path('delete-room-image/<int:image_id>/<uuid:room_cat>/', views.handleDeleteRoomImages, name='delete-room-cat-image'),
+    path('delete-lodge-images/<uuid:pk>/<int:image>/', views.deleteLodgeImages, name='delete-lodge-images'),
 
     #bookings
     path('lodge-detail/<uuid:lodge>/booking/<uuid:room>/<int:qty>/<int:room_list>/', views.bookingDetailsView, name='booking-step-1'),

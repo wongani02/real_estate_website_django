@@ -3,7 +3,7 @@ from itertools import groupby
 
 from django.db.models import Q
 
-from .models import Booking, RoomCategory
+from .models import Booking, RoomCategory, RoomCategoryImage
 
 
 # function to room availability

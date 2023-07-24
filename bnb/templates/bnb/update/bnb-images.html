@@ -54,9 +54,9 @@
 					<div class="col-lg-12">
 					{% if images %}
 					<h5 class="title mt-4">Below are your recently uploaded images</h5>
-					<div class="row mt-4">
+					<div class="row mt-4" id="bnb-images-list">
 						
-						{% for image in images %}
+						<!-- {% for image in images %}
 						<div class="col-sm-4 col-lg-4 pr5 pr15-767">
 						<div class="spls_style_two mb10 div-1">
 							<a class="popup-img" href="{{image.image.image.url}}"><img class="img-fluid w100" src="{{image.image.image.url}}" alt="2.jpg"></a>
@@ -75,8 +75,8 @@
                                 color: red;
                             }
                         </style>
-						{% endfor %}
-						
+						{% endfor %} -->
+						{% include 'bnb/partials/bnb-images-list.html' %}
 					</div>
 					{% endif %}
 

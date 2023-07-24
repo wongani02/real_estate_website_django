@@ -32,6 +32,7 @@ urlpatterns = [
     path('bnb/edit/<uuid:pk>/rooms/', views.editRoomsView, name='edit-rooms'),
     path('edit/<uuid:pk>/amenities/', views.editAmenitiesView, name='edit-amenities'),
     path('edit/<uuid:pk>/policies/', views.editPoliciesView, name='edit-policies'),
+    path('delete-bnb-image/<int:image>/<uuid:pk>/', views.deleteBNBImage, name='delete-bnb-image'),
 
     #booking
     path('bnb-detail/<uuid:pk>/booking/<int:qty>/<int:nights>/booking-details/', views.bnbBookingDetailsView, name='booking-details'),

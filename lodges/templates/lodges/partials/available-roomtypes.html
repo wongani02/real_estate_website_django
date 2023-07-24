@@ -19,15 +19,15 @@
                         <ul class="list-inline-item">
                         <li><p>Room Type:</p></li>
                         <li><p>Price per night: </p></li>
-                        <!-- <li><p>num of Children:</p></li> -->
-                        <li><p>Quests:</p></li>
+                        
+                        <li><p>Guests:</p></li>
                         <li><p>Beds:</p></li>
                         <li><p>Available rooms: </p></li>
                         </ul>
                         <ul class="list-inline-item">
                         <li><p><span>{{room_cat.room_type.room_type}}</span></p></li>
                         <li><p><span>${{room_cat.room_type.price_per_night}}</span></p></li>
-                        <!-- <li><p><span>{{room_cat.room_type.children}}</span></p></li> -->
+                        
                         <li><p><span>{{room_cat.room_type.max_guests}}</span></p></li>                      
                         <li><p><span>{{room_cat.room_type.beds}}</span></p></li>
                         <li><p><span>{{room_cat.room_data|length}}</span></p></li>
@@ -40,8 +40,19 @@
                     {% else %}
                     <a href="{% url 'lodges:booking-step-1' lodge.id room_cat.room_type.id qty room_cat.rooms|length %}" class="ml-4 btn btn-thm">Book Room</a>
                     {% endif %}
-                    
+                    <a type="button" class="ml-4 btn btn-thm" data-toggle="modal" data-target="#images{{room_cat.room_type.id}}">View images</a>
+
+                    <div id="images{{room_cat.room_type.id}}" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg p8">
+                            <div class="modal-content p-8">
+                                {% for image in room_cat.room_type.room_category_img.all %}
+                                <img src="{{image.image.url}}" class="img-fluid" alt="Responsive image">
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
                 {% empty %}
                 <div class="col-lg-12">
                     <h4 class="mb15 text-center ">No available rooms on those days</h4>

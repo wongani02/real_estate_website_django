@@ -95,6 +95,8 @@ class AboutAdmin(admin.ModelAdmin):
 #     list_display = ['is_booked']
     
 
+# admin.site.register(RoomCategoryImage)
+admin.site.register(LodgeReview)
 admin.site.register(LodgesViews)
 admin.site.register(Room)
 admin.site.register(RoomCategory)

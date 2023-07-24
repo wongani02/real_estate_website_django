@@ -2,7 +2,7 @@
 
 {% for i in bnb %}
     <div class="col-lg-4 " >
-        <div class="feat_property map">
+        <div class="feat_property map" style="border-radius: 10px;">
             <div class="thumb">
             <a href="{% url 'bnb:bnb-detail' i.id %}">
                 {% for image in i.bnb_image.all %}

@@ -30,7 +30,7 @@
               <div class="media-body">
                 <h2 class="mt-0 text-uppercase">{{bnb.title}}</h2>
                 <div class="df db-400 mb20-400">
-                  <p class="mr10 text-monospace">{{bnb.country}}</p>
+                  <p class="mr10 ">{{bnb.country}}</p>
                   <a href="#" class="theme_badge mr10">FEATURED</a>
                   <a href="#" class="theme_badge2 mr10">Hot Offer</a>
                   <!-- <a href="#" class="theme_badge3">FOR SALE</a> -->
@@ -124,7 +124,7 @@
             <div class="col-lg-12">
               <div class="listing_single_description mt50  bb1">
                 <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline">Description</h4>
-                <p class="first-Description mb25 text-monospace">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>  
+                <p class="first-Description mb25 ">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>  
               </div>
             </div>
 
@@ -176,7 +176,7 @@
                   <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline">BNB Cancellation Policy</h4>
                   {% for policy in bnb.bnb_policies.all %}
                   <h5>{{policy.policy.policy_title}}</h5>
-                  <p class="first-Description mb25 text-monospace">{{policy.policy.policy_description|safe}}</p>  
+                  <p class="first-Description mb25 ">{{policy.policy.policy_description|safe}}</p>  
                   {% endfor %}
                 </div>
               </div>

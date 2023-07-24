@@ -13,7 +13,7 @@
         {% else %}
         <div class="col-lg-4">
         {% endif %}
-        <div class="feat_property map">
+        <div class="feat_property map " style="border-radius: 10px;">
             <div class="thumb">
             <a href="{% url 'lodges:lodge-detail' lodge.id %}">
                 {% for image in lodge.pictures.all %}

@@ -548,6 +548,19 @@ def editImagesView(request, pk):
     return render(request, 'bnb/update/bnb-images.html', context)
 
 
+def deleteBNBImage(request, image, pk):
+
+    BNBImage.objects.get(id=image).delete()
+
+    images = PropertyImage.objects.filter(property_id=pk)
+
+    context = {
+        'images':images,
+        'pk':pk,
+    }
+    return render(request, 'bnb/partials/bnb-images-list.html', context)
+
+
 def editAmenitiesView(request, pk):
 
     bnb = Property.objects.get(id=pk)
@@ -571,8 +584,21 @@ def editAmenitiesView(request, pk):
 
 
 def editPoliciesView(request, pk):
-    context = {
 
+    bnb = Property.objects.get(id=pk)
+    policy = BNBCancellationPolicy.objects.get(bnb_id=bnb.id)
+
+    if request.method == 'POST':
+        form = BNBPolicyForm(request.POST, instance=policy)
+        if form.is_valid():
+            form.save()
+    else:
+        form = BNBPolicyForm(instance=policy)
+
+
+    context = {
+        'form':form,
+        'pk':pk,
     }
     return render(request, 'bnb/update/bnb-policies.html', context)
 

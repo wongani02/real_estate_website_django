@@ -1,9 +1,9 @@
 {% load static %}
 
 {% for property in properties %}
-<div class="col-lg-3"> 
-    <div class="feat_property">
-        <div class="thumb"> 
+<div class="col-lg-3 "> 
+    <div class="feat_property " style="border-radius: 10px;">
+        <div class="thumb "> 
             {% for image in property.property_images.all %}
             {% if image.is_feature %}
             <img class="img-whp" src="{{image.file.url}}" alt="fl1.jpg">
