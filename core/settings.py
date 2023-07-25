@@ -94,9 +94,6 @@ MIDDLEWARE = [
     # user visit
     'users.custom_middleware.CustomUserVisitMiddleware',
 
-    # tracker
-    # 'tracking_analyzer.middleware.TrackerMiddleware',
-
     # user agent
     'django_user_agents.middleware.UserAgentMiddleware',
 ]

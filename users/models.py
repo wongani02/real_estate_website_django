@@ -106,7 +106,6 @@ class Visitor(models.Model):
     ip_address = models.CharField(max_length=255)
     count = models.IntegerField(default=0)
     request = models.CharField(_("Request"), max_length=999, blank=True)
-    user_agent = models.CharField(_("User Agent"), max_length=999, blank=True)
     page_viewed = models.CharField(_("Page Viewed"), max_length=999, blank=True)
 
     class Meta:

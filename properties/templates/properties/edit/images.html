@@ -54,27 +54,10 @@
 					<div class="col-lg-5">
 					{% if images %}
 					<h5 class="title mt-4">Below are your recently uploaded images</h5>
-					<div class="row mt-4">
+					<div class="row mt-4" id="property-images-list">
 						
-						{% for image in images %}
-						<div class="col-sm-4 col-lg-4 pr5 pr15-767">
-						<div class="spls_style_two mb10">
-							<a class="popup-img" href="{{image.file.url}}"><img class="img-fluid w100" src="{{image.file.url}}" alt="2.jpg"></a>
-						</div>
-                        <div class="div-2"><a class="x" href="#"><p aria-label="Delete" class="x">x</a></p></div>
-                        <style>
-                            .x{
-                                font-size: 20px;
-                                color: red;
-                                font-weight: 900;
-                                cursor: pointer;
-                            }
-                            :hover.x{
-                                color: red;
-                            }
-                        </style>
-						</div>
-						{% endfor %}
+
+						{% include 'properties/partials/properties-images-list.html' %}
 						
 					</div>
 					{% endif %}

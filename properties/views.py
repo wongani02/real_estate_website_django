@@ -19,6 +19,7 @@ from properties.filters import AdvancedSearchFilter
 from properties.charts import *
 from bnb.models import Property as BNB, BnbViews
 from users.models import User
+from users.custom_middleware import process_property_request
 from payments.models import PropertyPayment, PropertyCharge, PaymentOption
 from verifications.views import create_property_listing
 from payments.utils import EmailThread
@@ -209,6 +210,9 @@ class PropertyDetail(generic.DetailView):
 
     def get(self, request, **kwargs):
         qs = Property.objects.get(id=kwargs.get('pk'))
+
+        # get user data
+        process_property_request(request, kwargs.get('pk'))
 
         # Update property views before loading chart
         self.update_views(qs)
@@ -1158,4 +1162,16 @@ def removeBookmark(request, pk):
         messages.error(request, f'Please login to bookmark this property')
 
     return render(request, 'properties/partials/bookmark-removed.html', {'property':property})
+
+
+def deletePropertyImage(request, image, pk):
+    Images.objects.get(id=image).delete()
+
+    images = Images.objects.filter(property_id=pk)
+
+    context = {
+        'images':images,
+        'pk':pk,
+    }
+    return render(request, 'bnb/partials/bnb-images-list.html', context)
 

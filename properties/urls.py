@@ -60,4 +60,7 @@ urlpatterns = [
 
     # download document
     path('download/document/<int:pk>/', views.download_doc, name='download-doc'),
+
+    # delete
+    path('listing/edit/<uuid:pk>/media/<int:image>/delete/', views.deletePropertyImage, name='delete-image'),
 ]
