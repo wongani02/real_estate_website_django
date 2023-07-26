@@ -12,6 +12,8 @@ from .models import Tracker
 
 
 class TrackerAdmin(admin.ModelAdmin):
+    # show_world_map = True
+    highlight_map_areas = True
     date_hierarchy = 'timestamp'
     raw_id_fields = ['user']
     readonly_fields = [
@@ -22,10 +24,12 @@ class TrackerAdmin(admin.ModelAdmin):
     list_filter = [
         ('timestamp', admin.DateFieldListFilter), 'device_type', 'content_type'
     ]
-    list_display = [
-        'details', 'content_object_link', 'timestamp', 'ip_address_link',
+    list_display = (
+        'details',
+        'content_object_link', 'timestamp', 
+        'ip_address_link',
         'ip_country_link', 'ip_city_link', 'user_link',
-    ]
+    )
     ordering = ['-timestamp']
 
     class Media:
@@ -33,7 +37,7 @@ class TrackerAdmin(admin.ModelAdmin):
             'admin/js/vendor/d3/d3.min.js',
             'admin/js/vendor/topojson/topojson.min.js',
             'admin/js/vendor/datamaps/datamaps.world.min.js',
-            'admin/js/vendor/d3-tip/d3-tip.min.js'
+            'admin/js/vendor/d3-tip/d3-tip.min.js',
         ]
 
     def details(self, obj):
@@ -41,7 +45,7 @@ class TrackerAdmin(admin.ModelAdmin):
         Define the 'Details' column rows display.
         """
         return format_html('<a href="{0}">Details</a>'.format(
-            reverse('admin:tracking_analyzer_tracker_change', args=(obj.pk,))))
+            reverse('admin:modified_tracking_analyzer_tracker_change', args=(obj.pk,))))
 
     details.allow_tags = True
     details.short_description = 'Details'
@@ -53,7 +57,7 @@ class TrackerAdmin(admin.ModelAdmin):
         return format_html(
             '<a href="{0}?content_type__id__exact={1}&object_id__exact={2}">'
             '{3}</a>'.format(
-                reverse('admin:tracking_analyzer_tracker_changelist'),
+                reverse('admin:modified_tracking_analyzer_tracker_changelist'),
                 obj.content_type.id,
                 obj.object_id,
                 obj
@@ -70,7 +74,7 @@ class TrackerAdmin(admin.ModelAdmin):
         if obj.ip_address:
             return format_html(
                 '<a href="{0}?ip_address__exact={1}">{1}</a>'.format(
-                    reverse('admin:tracking_analyzer_tracker_changelist'),
+                    reverse('admin:modified_tracking_analyzer_tracker_changelist'),
                     obj.ip_address,
                 )
             )
@@ -87,7 +91,7 @@ class TrackerAdmin(admin.ModelAdmin):
         if obj.ip_country:
             return format_html(
                 '<a href="{0}?ip_country__exact={1}">{2}</a>'.format(
-                    reverse('admin:tracking_analyzer_tracker_changelist'),
+                    reverse('admin:modified_tracking_analyzer_tracker_changelist'),
                     obj.ip_country,
                     obj.ip_country.name
                 )
@@ -105,7 +109,7 @@ class TrackerAdmin(admin.ModelAdmin):
         if obj.ip_city:
             return format_html(
                 '<a href="{0}?ip_city__exact={1}">{1}</a>'.format(
-                    reverse('admin:tracking_analyzer_tracker_changelist'),
+                    reverse('admin:modified_tracking_analyzer_tracker_changelist'),
                     obj.ip_city,
                 )
             )
@@ -122,7 +126,7 @@ class TrackerAdmin(admin.ModelAdmin):
         if obj.user:
             return format_html(
                 '<a href="{0}?user__id__exact={1}">{2}</a>'.format(
-                    reverse('admin:tracking_analyzer_tracker_changelist'),
+                    reverse('admin:modified_tracking_analyzer_tracker_changelist'),
                     obj.user.pk,
                     obj.user
                 )

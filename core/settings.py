@@ -226,7 +226,8 @@ EMAIL_HOST_USER = 'ianlois50@gmail.com'
 EMAIL_HOST_PASSWORD = 'utfx fugq lnsu plrz'  # App generated password by google
 DEFAULT_FROM_EMAIL = 'ianlois50@gmail.com'
 
-
+MAP_HIGHLIGHT_COLOR = '#FF0000'
+MAP_HIGHLIGHT_OPACITY = 0.5
 
 # configuration for APScheduler
 # APSCHEDULER_DATABASE_ALIAS = 'default'

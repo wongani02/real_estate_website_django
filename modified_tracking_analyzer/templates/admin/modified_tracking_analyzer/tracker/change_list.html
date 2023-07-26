@@ -20,6 +20,8 @@
   {% if countries_count %}
     <script>
       var countries = {{ countries_count|safe }};
+
+      console.log({{ countries_count|safe }});
     </script>
     <script src="{% static 'admin/js/world_map.js' %}"></script>
   {% endif %}
