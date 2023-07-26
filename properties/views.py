@@ -1173,5 +1173,17 @@ def deletePropertyImage(request, image, pk):
         'images':images,
         'pk':pk,
     }
-    return render(request, 'bnb/partials/bnb-images-list.html', context)
+    return render(request, 'properties/partials/property-images-list.html', context)
+
+
+def deletePropertyDoc(request, doc, pk):
+    Documents.objects.get(id=image).delete()
+
+    docs = Documents.objects.filter(property_id=pk)
+
+    context = {
+        'docs':docs,
+        'pk':pk,
+    }
+    return render(request, 'properties/partials/property-docs-list.html', context)
 

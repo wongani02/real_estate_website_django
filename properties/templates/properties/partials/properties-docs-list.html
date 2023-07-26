@@ -1,15 +1,16 @@
-{% for image in images %}
+{% for doc in docs %}
 <div class="col-sm-6 col-lg-6 pr5 " >
 <div class="spls_style_two mb10">
-    <a class="popup-img" href="{{image.file.url}}"><img class="img-fluid w100" src="{{image.file.url}}" alt="property image"></a>
+    <a class="popup-img" href="{{doc.file.url}}"><img class="img-fluid w100" src="{{doc.file.url}}" alt="{{doc.name}}"></a>
+	<embed src="{{doc.file.url}}" type="">
 </div>
 <div class="div-2">
     <a 
     class="x" 
     type="button"
     hx-target="#property-images-list"
-    hx-confirm="Are you sure you want to delete this image?"
-    hx-delete="{% url 'properties:delete-property-image' pk image.id %}"
+    hx-confirm="Are you sure you want to delete this document?"
+    hx-delete="{% url 'properties:delete-property-doc' pk doc.id %}"
     >
         <p aria-label="Delete" class="x">x</p>
     </a>
@@ -27,5 +28,5 @@
 </style>
 </div>
 {% empty %}
-<p>no images associated with this property</p>
+<p>no documents associated with this property</p>
 {% endfor %}

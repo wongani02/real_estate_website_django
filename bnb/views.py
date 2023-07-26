@@ -17,6 +17,7 @@ from lodges.forms import RequiredFormSet
 from payments.models import BnbBookingPayment, PaymentOption
 from verifications.views import create_bnb_listing
 from payments.utils import EmailThread
+from users.custom_middleware import process_bnb_request
 
 from bnb.models import *
 from bnb.create_bnb import BNB
@@ -56,6 +57,10 @@ class BnbDetail(generic.DetailView):
 
     def get(self, request, **kwargs):
         bnb = Property.objects.get(id=kwargs.get('pk'))
+
+        # track user that viewed the bnb
+        process_bnb_request(request, kwargs.get('pk'))
+        
         user = request.user
         review_form = None
         eligibility = None

@@ -1,6 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}Property{% endblock title %}
+{% block title %}Dashboard: Edit Property{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -53,29 +53,10 @@
 					
 					<div class="col-lg-5">
 					{% if docs %}
-					<h5 class="title mt-4">Below are your recently uploaded images</h5>
-					<div class="row mt-4">
+					<h5 class="title mt-4">Below are your recently uploaded documents</h5>
+					<div class="row mt-4" id="property-docs-list">
 						
-						{% for doc in docs %}
-						<div class="col-sm-4 col-lg-4 pr5 pr15-767">
-						<div class="spls_style_two mb10">
-							<a class="popup-img" href="{{doc.file.url}}"><img class="img-fluid w100" src="{{doc.file.url}}" alt="2.jpg"></a>
-							<embed src="{{doc.file.url}}" type="">
-						</div>
-                        <div class="div-2"><a class="x" href="#"><p aria-label="Delete" class="x">x</a></p></div>
-                        <style>
-                            .x{
-                                font-size: 20px;
-                                color: red;
-                                font-weight: 900;
-                                cursor: pointer;
-                            }
-                            :hover.x{
-                                color: red;
-                            }
-                        </style>
-						</div>
-						{% endfor %}
+						{% include 'properties/partials/properties-docs-list.html' %}
 						
 					</div>
 					{% endif %}

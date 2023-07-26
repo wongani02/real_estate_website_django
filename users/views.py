@@ -153,28 +153,21 @@ def dashboardView(request):
     no_lodges = Lodge.objects.filter(user__username=request.user.username).count()
     no_bnbs = BNBProperty.objects.filter(host__username=request.user.username).count()
 
-    # Get the total number of views
-    no_views = PropetyViews.objects.filter(
-        property__agent__username=request.user.username
-    ).aggregate(
-        total_views=Sum('views')
-    )['total_views']
-
-    if no_views is None:
-        no_views = 0
-    
-    # Get chart data for all listings
-    data = get_view_data(request)
+    # Get view data for all listings
+    data, count = get_view_data(request)
 
     context = {
         'properties': no_properties, 'bnbs': no_bnbs, 'lodges': no_lodges,
-        'views': json.dumps(data),
+        'views': json.dumps(data), 'listing_views': count[0]
     }
     return render(request, 'users/page-dashboard.html', context)
 
 def get_view_data(request):
     # Empty list to hold legends
     view_data = []
+
+    # variable to hold count data
+    count = 0
 
     # get lodges, bnbs, and properties owned by user
     lodges = Lodge.objects.filter(user__username=request.user.username)
@@ -194,10 +187,13 @@ def get_view_data(request):
 
     # append count data to nested list in order of listing names
     view_data.append(lodge_count)
-    # view_data.append(bnb_count)
-    # view_data.append(property_count)
+    view_data.append(bnb_count)
+    view_data.append(property_count)
 
-    return view_data
+    # aggregate counts
+    count = lodge_count + bnb_count + property_count
+
+    return view_data, count
 
 
 
@@ -343,14 +339,6 @@ def get_booked_listings(request):
     # get all bookings made by the user
     bnbs = BnbBooking.objects.filter(user=user).order_by('-created_at')
     lodges = LodgeBooking.objects.filter(user=user).order_by('-created_at')
-
-    for bnb in bnbs:
-        print("BNBS", bnb.email)
-
-    for bnb in BnbBooking.objects.all():
-        print("QRY", bnb.email)
-
-    print("USR", user)
 
     return bnbs, lodges
 

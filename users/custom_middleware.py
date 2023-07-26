@@ -41,9 +41,9 @@ class CustomUserVisitMiddleware(SessionMiddleware, MiddlewareMixin):
                 user_model =  get_object_or_404(Property, pk=_model.pk)
 
                 # create tracker 
-                # tracker = Tracker.objects.create_from_request(request, user_model)
+                # tracker = Trackevbj , a r.objects.create_from_request(request, user_model)
 
-            print("Tracker: ", tracker)
+            # print("Tracker: ", tracker)
 
             return None
 
