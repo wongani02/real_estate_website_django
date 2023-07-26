@@ -6,7 +6,7 @@ import threading
 function to create a unique 12 character code
 '''
 def generate_ref_code():
-    code = str(uuid.uuid4()).replace("-", "")[:12]
+    code = str(uuid.uuid4()).replace("-", "")[:8]
     return code
 
 

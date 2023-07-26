@@ -54,9 +54,6 @@ def generate_code(request):
 
         _property_ = payment.lodge
 
-        # delete session
-        del request.session['lodge_booking']
-
     elif 'bnb_booking' in request.session:
         booking_id = request.session['bnb_booking']
 
@@ -80,9 +77,6 @@ def generate_code(request):
         payment.save()
         
         _property_ = payment.bnb
-
-        # Delete session
-        del request.session['bnb_booking']
 
     elif 'property_payment' in request.session:
         payment_id = request.session['property_payment']
@@ -204,11 +198,14 @@ def download_qr_code(request, **kwargs):
         pass
     
     # Get username - email of recepient
-    print("name: ", name)
     client = User.objects.get(username=request.user.username)
 
     # Send email qr to user
     send_mail(request, read, filename, client, name)
+
+    # Delete session
+    del request.session['bnb_booking']
+    del request.session['lodge_booking']
 
     return response
 
@@ -230,15 +227,10 @@ def send_mail(request, buffer, filename, client, _property_):
     subject = "QR Code for " + client.username
 
     # Create context variables
-    context = {
-         'company_name': company.company_name, 'company_addr': company.address,
-         'company_tel': company.phone_number, 'user': client, 'property': _property_,
-         'date': formatted_date, 'zone': current_tz, 'time': time, 'qr': buffer,
-         'current_site': current_site
-    }
+    context = get_context(_property_)
 
     # Create email body
-    email_body = render_to_string('payments/payment-email.html', context)
+    email_body = render_to_string('payments/booking-reservation.html', context)
     plain_text = strip_tags(email_body)
 
     # Create email sender
@@ -274,6 +266,31 @@ def get_current_time_data():
 
     return formatted_date, current_tz, current_time
 
+def get_context(property):
+    if property.meta_title == 'Lodge':
+        # use order key to get payment object
+        payment_key = request.session['lodge_booking']
+        payment = LodgeBookingPayment.objects.get(order_key=payment_key)
 
-# qr id
-# property url
+        context = {
+            'company_name': company.company_name, 'company_addr': company.address,
+            'company_tel': company.phone_number, 'user': client, 'property': property,
+            'date': formatted_date, 'zone': current_tz, 'time': time, 'qr': buffer,
+            'current_site': current_site, 'payment': payment
+        }
+
+        return context
+
+    elif property.meta_title == 'BnB':
+        # use order key to get payment object
+        booking_id = request.session['bnb_booking']
+        payment = BnbBookingPayment.objects.get(order_key=booking_id)
+
+        context = {
+            'company_name': company.company_name, 'company_addr': company.address,
+            'company_tel': company.phone_number, 'user': client, 'property': property,
+            'date': formatted_date, 'zone': current_tz, 'time': time, 'qr': buffer,
+            'current_site': current_site, 'payment': payment
+        }
+
+        return context

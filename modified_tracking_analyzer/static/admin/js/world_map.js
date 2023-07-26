@@ -18,11 +18,14 @@ var paletteScale = d3.scale.linear().domain([minValue,maxValue]).range(["#EFEFFF
 countries.forEach(function(item){
   var iso = item[0];
   var value = item[1];
+  console.log("Item: ", item)
   dataset[iso] = {
     requestsPerCountry: value,
     fillColor: paletteScale(value)
   };
 });
+
+console.log("O: ", countries)
 
 new Datamap({
   element: document.getElementById('world-map'),
