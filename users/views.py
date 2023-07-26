@@ -323,14 +323,8 @@ def postPropertyAsView(request, p_type):
 def direct_bookings(request, **kwargs):
     return render(request, 'users/onbording-4.html')
 
-def direct_bookings_choice(request, **kwargs):
-    return redirect('accounts:bookings', kwargs.get('booking'))
-
 def direct_finances(request, **kwargs):
     return render(request, 'users/onbording-5.html')
-
-def direct_finances_choice(request, **kwargs):
-    return redirect('accounts:finances', kwargs.get('finances'))
 
 def get_booked_listings(request):
     # get user object
