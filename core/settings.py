@@ -70,7 +70,9 @@ INSTALLED_APPS = [
 
     # user visits
     'django_user_agents',
-    'tracking_analyzer',
+
+    # modified tracking analyzer library
+    'modified_tracking_analyzer.apps.ModifiedTrackingAnalyzerAppConfig',
 ]
 
 ANALYTICAL_INTERNAL_IPS = []

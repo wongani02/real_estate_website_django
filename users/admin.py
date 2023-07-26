@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import *
-from tracking_analyzer.models import Tracker
 
 # Register your models here.
 

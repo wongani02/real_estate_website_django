@@ -1,0 +1,1 @@
+default_app_config = 'modified_tracking_analyzer.apps.ModifiedTrackingAnalyzerAppConfig'

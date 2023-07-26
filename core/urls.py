@@ -39,6 +39,9 @@ urlpatterns = [
 
     # verifications url
     path('verifications/', include('verifications.urls')),
+
+    # modified tracking library
+    path('tracker/', include('modified_tracking_analyzer.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

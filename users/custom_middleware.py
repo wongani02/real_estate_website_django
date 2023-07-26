@@ -1,6 +1,6 @@
 from django.middleware.common import CommonMiddleware
 from django.shortcuts import redirect
-from tracking_analyzer.models import Tracker
+from modified_tracking_analyzer.models import Tracker
 from ipware import get_client_ip
 
 from django.contrib.sessions.middleware import SessionMiddleware
