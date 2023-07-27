@@ -13,18 +13,18 @@
 					</button>
         </div>
         <a href="{% url 'properties:home' %}" class="navbar_brand float-left dn-md">
-					<img class="logo1 img-fluid " style="max-height: 50px;" src="{% static 'images/web_img/logo-dark.png' %}" alt="header-logo.svg">
-					<img class="logo2 img-fluid my-auto" style="max-height: 50px;" src="{% static 'images/web_img/logo-dark.png' %}" alt="header-logo2.svg">
-					<span>Afrihuts.com</span>
+					<img class="logo1 img-fluid " style="max-height: 50px;" src="{% static 'images/web_img/logos/Afrihuts Logo-01.png' %}" alt="header-logo.svg">
+					<img class="logo2 img-fluid my-auto" style="max-height: 50px;" src="{% static 'images/web_img/logos/Afrihuts Logo-01.png' %}" alt="header-logo2.svg">
+					<!-- <span>Afrihuts.com</span> -->
 				</a> 
         <!-- Responsive Menu Structure-->
         <ul id="respMenu" class="ace-responsive-menu custom_menu_space_home2 wa" data-menu-style="horizontal">
           <li> <a href="{% url 'properties:home' %}"><span class="title">Home</span></a>
           </li>
           </li>
+          <li><a href="{% url 'properties:discover' %}">Discover</a></li>
           <li> <a href="{% url 'properties:blog-list' %}"><span class="title">Tips and Resources</span></a>
           </li>
-          <li><a href="{% url 'properties:discover' %}">Discover</a></li>
           <li><a href="{% url 'properties:contact' %}">Help</a></li>
         </ul>
         <ul id="respMenu2" class="ace-responsive-menu widget_menu_home2 home6 wa" data-menu-style="horizontal">

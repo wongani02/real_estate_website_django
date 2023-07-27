@@ -17,13 +17,18 @@
 						{% include 'users/dashboard-nav.html' %}
 						<div class="col-lg-12 mb50">
 							<div class="breadcrumb_content">
+								{% if choice == 'user' %}
+
+								<h2 class="breadcrumb_title">My Receipts</h2>
+								<p>Ready to jump back in!</p>
+								<small>A list of all the receipts by your customers on your listings.</small>
+								
+								{% elif choice == 'client' %}
+								
 								<h2 class="breadcrumb_title">My Payments</h2>
 								<p>Ready to jump back in!</p>
-
-								{% if choice == 'user' %}
-								<small>A list of all the receipts by your customers on your listings.</small>
-								{% elif choice == 'client' %}
 								<small>A list of all the payments by you on various listings.</small>
+								
 								{% endif %}
 							</div>
 						</div>
@@ -67,11 +72,11 @@
 												<td>{{payment.phone}}</td>
 												
 												{% if payment.meta_title == 'Property' %}
-												<td>{{payment.property.name}}</td>
+												<td><a href="{% url 'properties:property-single' payment.property.pk %}">{{payment.property.name}}</a></td>
 												{% elif payment.meta_title == 'BnB' %}
-												<td>{{payment.bnb.title}}</td>
+												<td><a href="{% url 'bnb:bnb-detail' payment.bnb.pk %}">{{payment.bnb.title}}</a></td>
 												{% elif payment.meta_title == 'Lodge' %}
-												<td>{{payment.lodge.name}}</td>
+												<td><a href="{% url 'lodges:lodge-detail' payment.lodge.pk %}">{{payment.lodge.name}}</a></td>
 												{% endif %}
 													
 												<td>{{payment.meta_title}}</td>
@@ -124,11 +129,11 @@
 												<td>{{receipt.phone}}</td>
 												
 												{% if receipt.meta_title == 'Property' %}
-												<td>{{receipt.property.name}}</td>
+												<td><a href="{% url 'properties:property-single' receipt.property.pk %}">{{receipt.property.name}}</a></td>
 												{% elif receipt.meta_title == 'BnB' %}
-												<td>{{receipt.bnb.title}}</td>
+												<td><a href="{% url 'bnb:bnb-detail' receipt.bnb.pk %}">{{receipt.bnb.title}}</a></td>
 												{% elif receipt.meta_title == 'Lodge' %}
-												<td>{{receipt.lodge.name}}</td>
+												<td><a href="{% url 'lodges:lodge-detail' receipt.lodge.pk %}">{{receipt.lodge.name}}</a></td>
 												{% endif %}
 													
 												<td>{{receipt.meta_title}}</td>
