@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 from django.http import HttpResponse
 from django.utils.html import strip_tags
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
@@ -36,19 +37,27 @@ def generate_code(request):
 
         payment = LodgeBookingPayment.objects.get(order_key=payment_key)
 
-        booking = payment.booking.id
+        booking = payment.booking.all()
+        
+        # variable to hold the number of booking instances
+        no_bookings = 0
 
-        booking = LodgeBooking.objects.get(id=booking)
+        for a in booking:
+            no_bookings += 1
+
+            # ignored existence of any other booking data as the relevant data is 
+            # contained in the payments row. However, multiple bookings can still
+            # be accessed for other purposes other than the creation of a qr code
+            booking = LodgeBooking.objects.get(id=a.id)
 
         # Get booking content
-        booking_content = get_lodge_booking_content(booking)  
+        booking_content = get_lodge_booking_content(booking, no_bookings, request)  
 
         # Get returned QRCode object
         qr = LodgeBookingPayment.generate_qr_code(booking_content)
 
         # assign qr code to bnb booking payment object
         payment.qr_code = qr
-        booking.qr_code = qr
 
         payment.save()
 
@@ -65,7 +74,7 @@ def generate_code(request):
         booking = BNBBooking.objects.get(id=booking)
 
         # Get booking content
-        booking_content = get_bnb_booking_content(booking)
+        booking_content = get_bnb_booking_content(booking, request)
 
         # Get returned QRCode object
         qr = BnbBookingPayment.generate_qr_code(booking_content)
@@ -110,27 +119,48 @@ def generate_code(request):
     
     # Add qr data to session to be used on download
     qr_content(request, booking_content)
+
+    from properties.views import DateEncoder
     
-    return render(request, 'payments/page-coming-soon.html', {'qr': qr, 'property': _property_, 'booking': booking})
+    return render(
+        request, 'payments/page-coming-soon.html', 
+        {
+            'qr': qr, 'property': _property_, 'booking': booking,
+            # 'time': json.dumps(booking.check_in, cls=DateEncoder),
+            'time': booking.check_in
+        }
+    )
 
 
-def get_lodge_booking_content(booking):
+def get_lodge_booking_content(booking, no_bookings, request):
+    # get current site 
+    site = get_current_site(request)
+
+    # get the url for the page
+    page_link = str(site) + str(reverse('lodges:lodge-detail', args=[booking.lodge.id]))
+
     content = {
         'Property Name': booking.room.room_category.lodge.name, 'Property Location': booking.room.room_category.lodge.map_location,
         'Reference Code': booking.ref_code, 'Username': booking.full_name, 'Email': booking.email, 'Check In': booking.check_in, 
-        'Check Out': booking.check_out, 'Created On': booking.created_at, 'Number of Rooms': booking.number_of_rooms,
-        'Number of Nights': booking.number_of_nights, 'Number of Guests': booking.num_guests
+        'Check Out': booking.check_out, 'Created On': booking.created_at, 'Number of Rooms': no_bookings,
+        'Number of Nights': booking.number_of_nights, 'Number of Guests': booking.num_guests, "Url": page_link
     }
 
     return content
 
 
-def get_bnb_booking_content(booking):
+def get_bnb_booking_content(booking, request):
+    # get current site 
+    site = get_current_site(request)
+
+    # get the url for the page
+    page_link = str(site) + str(reverse('lodges:lodge-detail', args=[booking.lodge.id]))
+
     content = {
         'Property Name': booking.property.title, 'Property Location': booking.property.street_name,
         'Reference Code': booking.ref_code, 'Username': booking.full_name, 'Email': booking.email, 'Check In': booking.check_in, 
         'Check Out': booking.check_out, 'Created On': booking.created_at,
-        'Number of Nights': booking.number_of_nights, 'Number of Guests': booking.num_guests
+        'Number of Nights': booking.number_of_nights, 'Number of Guests': booking.num_guests, "Url": page_link,
     }
 
     return content
@@ -204,8 +234,8 @@ def download_qr_code(request, **kwargs):
     send_mail(request, read, filename, client, name)
 
     # Delete session
-    del request.session['bnb_booking']
-    del request.session['lodge_booking']
+    # del request.session['bnb_booking']
+    # del request.session['lodge_booking']
 
     return response
 
@@ -227,7 +257,7 @@ def send_mail(request, buffer, filename, client, _property_):
     subject = "QR Code for " + client.username
 
     # Create context variables
-    context = get_context(_property_)
+    context = get_context(_property_, company, client, request, formatted_date, current_tz, time, buffer, current_site)
 
     # Create email body
     email_body = render_to_string('payments/booking-reservation.html', context)
@@ -240,7 +270,7 @@ def send_mail(request, buffer, filename, client, _property_):
     to_email = request.session['booking_email']
 
     # delete session
-    del request.session['booking_email']
+    # del request.session['booking_email']
 
     # Create email object
     email = EmailMultiAlternatives(subject, plain_text, from_email, [to_email])
@@ -266,7 +296,7 @@ def get_current_time_data():
 
     return formatted_date, current_tz, current_time
 
-def get_context(property):
+def get_context(property, company, client, request, formatted_date, current_tz, time, buffer, current_site):
     if property.meta_title == 'Lodge':
         # use order key to get payment object
         payment_key = request.session['lodge_booking']
