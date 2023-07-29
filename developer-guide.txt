@@ -1,0 +1,4 @@
+install geoip data > py manage.py install_geoip_dataset 
+edit import in tracking analyzer > remove the "u" in "ugettext_lazy"
+deleting the +1 in in line 198 (site-packages\tracking_analyzer\admin.py) > current_pks = response.context_data['cl'].paginator.page( current_page + 1).object_list.values_list('pk', flat=True) 
+change tracking_analyzer.managers.py > object_id = models.UUIDField()

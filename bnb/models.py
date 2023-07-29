@@ -19,6 +19,7 @@ from io import BytesIO
 from PIL import Image, ImageDraw
 
 from properties.models import Districts
+from payments.utils import generate_ref_code
 
 User = settings.AUTH_USER_MODEL
 
@@ -223,8 +224,8 @@ class Booking(models.Model):
     is_active = models.BooleanField(null=True, default=True)
     checked_in = models.BooleanField(null=True, default=False)
     cancelled = models.BooleanField(null=True, default=False)
-    qr_code = models.ImageField(upload_to='bnb_qr_codes/', null=True, blank=True)
-    ref_code = models.CharField(max_length=10, null=True, blank=True)
+    # qr_code = models.ImageField(upload_to='bnb_qr_codes/', null=True, blank=True)
+    ref_code = models.CharField(max_length=10, null=True, blank=True, default=generate_ref_code)
     is_paid = models.BooleanField(default=False, null=True)
     is_active = models.BooleanField(default=True, null=True)
     created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)

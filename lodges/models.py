@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 from django.utils.html import strip_tags
 
 from meta.models import ModelMeta
+from payments.utils import generate_ref_code
 
 
 class ActiveLodgeManager(models.Manager):
@@ -261,8 +262,8 @@ class Booking(models.Model):
     is_active = models.BooleanField(null=True, default=True)
     checked_in = models.BooleanField(null=True, default=False)
     cancelled = models.BooleanField(null=True, default=False)
-    qr_code = models.ImageField(upload_to='bnb_qr_codes/', null=True, blank=True)
-    ref_code = models.CharField(max_length=10, null=True, blank=True)
+    # qr_code = models.ImageField(upload_to='bnb_qr_codes/', null=True, blank=True)
+    ref_code = models.CharField(max_length=10, null=True, blank=True, default=generate_ref_code)
     is_paid = models.BooleanField(default=False, null=True)
     updated = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(default=timezone.now, null=True, editable=False)

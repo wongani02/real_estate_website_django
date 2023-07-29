@@ -28,7 +28,7 @@ class DocumentModelAdmin(admin.StackedInline):
 
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
-    inlines = [PropertyPolicyModelAdmin, DocumentModelAdmin, ImageModelAdmin , VideoModelAdmin]
+    inlines = [PropertyPolicyModelAdmin, DocumentModelAdmin, ImageModelAdmin , VideoModelAdmin, PropertyAmenityModelAdmin]
     list_display = ['name', 'price', 'property_type']
 
 

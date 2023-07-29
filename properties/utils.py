@@ -83,3 +83,5 @@ def verification_status(to_email=None, p_name=None, p_status=None, client=None, 
     # Send email via thread
     EmailThread(email).start()
 
+
+

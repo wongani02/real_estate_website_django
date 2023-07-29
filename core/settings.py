@@ -67,7 +67,21 @@ INSTALLED_APPS = [
 
     # django apscheduler
     'django_apscheduler',
+
+    # user visits
+    'django_user_agents',
+
+    # modified tracking analyzer library
+    'modified_tracking_analyzer.apps.ModifiedTrackingAnalyzerAppConfig',
 ]
+
+ANALYTICAL_INTERNAL_IPS = []
+
+ANALYTICAL_TRACKERS = {
+    'google': {
+        'tracking_id': 'UA-276480723-1',
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,6 +92,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
+
+    # user visit
+    'users.custom_middleware.CustomUserVisitMiddleware',
+
+    # user agent
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -185,6 +205,8 @@ X_FRAME_OPTIONS = 'ALLOWALL'
 
 XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
 
+GEOIP_PATH = os.path.join(PROJECT_ROOT, 'geoip')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -204,7 +226,8 @@ EMAIL_HOST_USER = 'ianlois50@gmail.com'
 EMAIL_HOST_PASSWORD = 'utfx fugq lnsu plrz'  # App generated password by google
 DEFAULT_FROM_EMAIL = 'ianlois50@gmail.com'
 
-
+MAP_HIGHLIGHT_COLOR = '#FF0000'
+MAP_HIGHLIGHT_OPACITY = 0.5
 
 # configuration for APScheduler
 # APSCHEDULER_DATABASE_ALIAS = 'default'

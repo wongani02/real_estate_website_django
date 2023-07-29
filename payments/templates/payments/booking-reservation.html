@@ -1,0 +1,105 @@
+{% load static %}
+{% if property.meta_title == 'Lodge' %}
+
+<div style="width: 100%; height: 100%; position: relative; background: white">
+    <div style="left: 37px; top: 109px; position: absolute; color: black; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word">Your reservation  is  confirmed!</div>
+    <div style="left: 37px; top: 131px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Pack your  bags you  are going to {{property.name}}</div>
+    <div style="left: 45px; top: 365px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{property.name}}</div>
+    <div style="left: 45px; top: 380px; position: absolute; color: #676767; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.number_of_nights}} night(s) , {{payment.booking.num_guests}} guest(s), {{payment.booking.number_of_rooms}} room(s)</div>
+    <div style="left: 49px; top: 478px; position: absolute"><span style="color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Check in<br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.check_in}}<br/>6:00PM</span></div>
+    <div style="left: 51px; top: 528px; position: absolute"><span style="color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Address<br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{property.map_location}}</span></div>
+    <div style="left: 53px; top: 586px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Guest<br/></span><span style="color: #727272; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.num_guests}}<br/></span></div>
+    <div style="left: 53px; top: 634px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Paid Amount<br/></span><span style="color: #8D8D8D; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">$ {{payment.total_paid}}<br/></span></div>
+    <div style="left: 51px; top: 678px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Reservation Code<br/></span><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.ref_code}}<br/></span></div>
+    <div style="left: 51px; top: 775px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{property.name}} is your host <br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Contact your host cordinate on arrival time<br/>and other key exchanges<br/></span><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word"><br/></span></div>
+    <div style="width: 119px; height: 52px; left: 51px; top: 830px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Know what to expect <br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Make sure you know the house<br/>rules and policies<br/></span><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word"><br/></span></div>
+    <div style="width: 119px; height: 52px; left: 51px; top: 885px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Customer support <br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Contact our customer support<br/>24/7 from anywhere in the</span><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word"> world<br/><br/></span></div>
+    <div style="left: 264px; top: 540px; position: absolute; text-align: right; color: #0094FF; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Check Address</div>
+    <div style="left: 279px; top: 596px; position: absolute; text-align: right; color: #008FFF; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Add guests</div>
+    <div style="left: 276px; top: 644px; position: absolute; text-align: right; color: #008EFF; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">View Receipt</div>
+    <div style="left: 270px; top: 689px; position: absolute; text-align: right; color: #008FFF; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">View QR Code</div>
+    <div style="left: 245px; top: 777px; position: absolute; text-align: right"><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Contact Host<br/></span><span style="color: #0369B3; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Email: {{property.email}}<br/>Call (+265{{property.phone_number}})</span></div>
+    <div style="left: 261px; top: 842px; position: absolute; text-align: right; color: #0369B3; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">View house rules</div>
+    <div style="left: 265px; top: 895px; position: absolute; text-align: right; color: #0369B3; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">View help centre</div>
+    <div style="left: 265px; top: 910px; position: absolute; text-align: right; color: #0369B3; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Contact Afrihuts</div>
+    <div style="left: 256px; top: 478px; position: absolute; text-align: right"><span style="color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Check  out<br/></span><span style="color: #4F4F4F; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.check_out}}<br/>(11:00AM)</span></div>
+    <img style="width: 291px; height: 189px; left: 43px; top: 164px; position: absolute; border-radius: 15px" src="https://via.placeholder.com/291x189" />
+    <div style="width: 272px; height: 0px; left: 55px; top: 469px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 522px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 572px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 618px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 668px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 710px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 46px; height: 0px; left: 51px; top: 820px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 46px; height: 0px; left: 51px; top: 873px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 213px; height: 57px; left: 74px; top: 28px; position: absolute">
+        <img src="{{ current_site }}{% static 'images\web_img\logos\afrihuts-03 1.svg' %}" />
+    </div>
+    <div style="width: 77px; height: 24px; left: 210px; top: 73px; position: absolute">
+        <img src="{{ current_site }}{% static 'images\web_img\logogs\afrihuts-04 1.svg' %}" />
+    </div>
+    <!-- <div style="width: 140px; height: 26px; left: 116px; top: 727px; position: absolute">
+        <div style="width: 140px; height: 26px; left: 0px; top: 0px; position: absolute; background: #0369B3; border-radius: 6px; border: 0.50px rgba(229.62, 220.69, 220.69, 0) solid"></div>
+        <div style="left: 16px; top: 6px; position: absolute; color: white; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Change Reservation</div>
+    </div> -->
+    <div style="width: 110px; height: 26px; left: 130px; top: 415px; position: absolute">
+        <a href="{{ current_site }}{% url 'lodges:lodge-detail' property.id %}">
+            <div style="width: 110px; height: 26px; left: 0px; top: 0px; position: absolute; background: #0369B3; border-radius: 6px; border: 0.50px rgba(229.62, 220.69, 220.69, 0) solid"></div>
+            <div style="left: 16px; top: 5px; position: absolute; color: white; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">View Property</div>
+        </a>
+    </div>
+</div>
+
+{% elif property.meta_title == 'BnB' %}
+
+<div style="width: 100%; height: 100%; position: relative; background: white">
+    <div style="left: 37px; top: 109px; position: absolute; color: black; font-size: 18px; font-family: Inter; font-weight: 700; word-wrap: break-word">Your reservation  is  confirmed!</div>
+    <div style="left: 37px; top: 131px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Pack your  bags you  are going to {{property.title}}</div>
+    <div style="left: 45px; top: 365px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{property.title}}</div>
+    <div style="left: 45px; top: 380px; position: absolute; color: #676767; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.number_of_nights}} night(s) , {{payment.booking.num_guests}} guests</div>
+    <div style="left: 49px; top: 478px; position: absolute"><span style="color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Check in<br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.check_in}}<br/>8:00PM</span></div>
+    <div style="left: 51px; top: 528px; position: absolute"><span style="color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Address<br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{property.street_name}}, {{property.city}},<br/>{{property.country}}<br/></span></div>
+    <div style="left: 53px; top: 586px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Guest<br/></span><span style="color: #727272; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.num_guests}}<br/></span></div>
+    <div style="left: 53px; top: 634px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Paid Amount<br/></span><span style="color: #8D8D8D; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">$ {{payment.total_paid}}<br/></span></div>
+    <div style="left: 51px; top: 678px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Reservation Code<br/></span><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.ref_code}}<br/></span></div>
+    <div style="left: 51px; top: 775px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{property.host.name}} is your host <br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Contact your host to cordinate on arrival time<br/>and other key exchanges<br/></span><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word"><br/></span></div>
+    <div style="width: 119px; height: 52px; left: 51px; top: 830px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Know what to expect <br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Make sure you know the house<br/>rules and policies<br/></span><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word"><br/></span></div>
+    <div style="width: 119px; height: 52px; left: 51px; top: 885px; position: absolute"><span style="color: black; font-size: 10px; font-family: Inter; font-weight: 500; word-wrap: break-word">Customer support <br/></span><span style="color: #676767; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Contact our customer support<br/>24/7 from anywhere in the</span><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word"> world<br/><br/></span></div>
+    <div style="left: 264px; top: 540px; position: absolute; text-align: right; color: #0094FF; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Check Address</div>
+    <div style="left: 279px; top: 596px; position: absolute; text-align: right; color: #008FFF; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Add guests</div>
+    <div style="left: 276px; top: 644px; position: absolute; text-align: right; color: #008EFF; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">View Receipt</div>
+    <div style="left: 270px; top: 689px; position: absolute; text-align: right; color: #008FFF; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">View QR Code</div>
+    <div style="left: 245px; top: 777px; position: absolute; text-align: right"><span style="color: black; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Contact Host<br/></span><span style="color: #0369B3; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Email {{property.contact_email}}<br/>Call (+265{{property.contact_phone}})</span></div>
+    <div style="left: 261px; top: 842px; position: absolute; text-align: right; color: #0369B3; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">View house rules</div>
+    <div style="left: 265px; top: 895px; position: absolute; text-align: right; color: #0369B3; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">View help centre</div>
+    <div style="left: 265px; top: 910px; position: absolute; text-align: right; color: #0369B3; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">Contact Afrihuts</div>
+    <div style="left: 256px; top: 478px; position: absolute; text-align: right"><span style="color: black; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Check  out<br/></span><span style="color: #4F4F4F; font-size: 8px; font-family: Inter; font-weight: 500; word-wrap: break-word">{{payment.booking.check_out}}<br/>(11:00AM)</span></div>
+    <img style="width: 291px; height: 189px; left: 43px; top: 164px; position: absolute; border-radius: 15px" src="https://via.placeholder.com/291x189" />
+    <div style="width: 272px; height: 0px; left: 55px; top: 469px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 522px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 572px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 618px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 668px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 272px; height: 0px; left: 55px; top: 710px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 46px; height: 0px; left: 51px; top: 820px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 46px; height: 0px; left: 51px; top: 873px; position: absolute; border: 0.25px rgba(0, 0, 0, 0.34) solid"></div>
+    <div style="width: 213px; height: 57px; left: 74px; top: 28px; position: absolute">
+        <img src="{{ current_site }}{% static 'images\web_img\afrihuts-03 1.svg' %}" />
+    </div>
+    <div style="width: 77px; height: 24px; left: 210px; top: 73px; position: absolute">
+        <img src="{{ current_site }}{% static 'images\web_img\afrihuts-04 1.svg' %}" />
+    </div>
+    <div style="width: 140px; height: 26px; left: 116px; top: 727px; position: absolute">
+        <div style="width: 140px; height: 26px; left: 0px; top: 0px; position: absolute; background: #0369B3; border-radius: 6px; border: 0.50px rgba(229.62, 220.69, 220.69, 0) solid"></div>
+        <div style="left: 16px; top: 6px; position: absolute; color: white; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">Change Reservation</div>
+    </div>
+    <div style="width: 110px; height: 26px; left: 130px; top: 415px; position: absolute">
+        <a href="{{ current_site }}{% url 'bnb:bnb-details' property.id %}">
+            <div style="width: 110px; height: 26px; left: 0px; top: 0px; position: absolute; background: #0369B3; border-radius: 6px; border: 0.50px rgba(229.62, 220.69, 220.69, 0) solid"></div>
+            <div style="left: 16px; top: 5px; position: absolute; color: white; font-size: 12px; font-family: Inter; font-weight: 500; word-wrap: break-word">View Property</div>
+        </a>
+    </div>
+</div>
+
+{% endif %}
+    

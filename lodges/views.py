@@ -16,6 +16,7 @@ from payments.models import LodgeBookingPayment, PaymentOption
 from verifications.views import create_lodge_listing
 from bnb.forms import ReviewForm
 from payments.utils import EmailThread
+from users.custom_middleware import process_lodge_request
 
 from .create_lodge import LodgeCreation as LodgeCreationClass
 from .models import Amenity, LodgeImage, Lodge, Image, LodgesViews, Booking
@@ -43,6 +44,9 @@ def lodgeListingView(request):
 
 def lodgeDetailView(request, pk):
     lodge = get_object_or_404(Lodge, pk=pk)
+
+    # track user that viewed the lodge
+    process_lodge_request(request, pk)
 
     # get user eligibility to make a review
     user = request.user

@@ -34,20 +34,20 @@
 							<li>4. Remember to present this E-Ticket upon arrival at your destination</li>
 							<li>5. For security purposes, please do not share this E-Ticket</li>
 							<li>6. Feel free to reach out to the support team for any E-Ticket issues</li>
+							<li>7. This ticket will be elligible for a refund up until <b style="color: red;">{{booking.check_in}}</b></li>
 						</ul>
 						<div class="event_counter_plugin_container mt30 mb20">
-							<h4>This ticket will be elligible for a refund up until <b>{{booking.check_in}}</b>.</h4>
 							<div class="event_counter_plugin_content">
+								<h3>Time to check in</h3>
 								<ul>
 									<li><span id="days"></span><div class="time_text">days</div></li>
 									<li><span id="hours"></span><div class="time_text">Hours</div></li>
 									<li><span id="minutes"></span><div class="time_text">Minutes</div></li>
 									<li><span id="seconds"></span><div class="time_text">Seconds</div></li>
 								</ul>
-								<small>Time to check in.</small>
 							</div>
 						</div>
-						<a href="{% url 'payments:download' property.id %}"><button class="btn btn-primary mb-2">Download</button></a>
+						<a href="{% url 'payments:download' property.id %}"><button class="btn btn-primary mb-2">Email and Download</button></a>
             			<a href="{% url 'accounts:dashboard' %}"><button class="btn btn-primary mb-2">Finish</button></a>
 					</div>
 				</div>
@@ -60,6 +60,19 @@
 <a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
 </div>
 <script>
-  window.onload = function () {console.log("Second: ", countDown); console.log("TIME: ", me)}
+	let time = "{{time|date:'F j, Y'}} 00:00:00";
+  	const second = 1000,
+		minute = second * 60,
+		hour = minute * 60,
+		day = hour * 24;
+	let countDown = new Date(time).getTime(),
+    x = setInterval(function() {
+		let now = new Date().getTime(),
+			distance = countDown - now;
+		document.getElementById('days').innerText = Math.floor(distance / (day)),
+		document.getElementById('hours').innerText = Math.floor((distance % (day)) / (hour)),
+		document.getElementById('minutes').innerText = Math.floor((distance % (hour)) / (minute)),
+		document.getElementById('seconds').innerText = Math.floor((distance % (minute)) / second);
+	}, second)
 </script>
 {% endblock %}

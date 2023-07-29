@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 
 from ckeditor.fields import RichTextField
 
-import uuid
+import uuid, hashlib, uuid
 
 
 class User(AbstractUser, PermissionsMixin):
@@ -100,3 +100,18 @@ class Profile(models.Model):
 
     def __str__(self):
         return '{}- {}'.format(self.user.username, self.user.email)
+
+
+class Visitor(models.Model):
+    ip_address = models.CharField(max_length=255)
+    count = models.IntegerField(default=0)
+    request = models.CharField(_("Request"), max_length=999, blank=True)
+    page_viewed = models.CharField(_("Page Viewed"), max_length=999, blank=True)
+
+    class Meta:
+        verbose_name = 'Visitor'
+        verbose_name_plural = 'Visitors'
+
+    def __str__(self):
+        return self.ip_address
+

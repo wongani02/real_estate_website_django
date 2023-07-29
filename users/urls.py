@@ -16,12 +16,10 @@ urlpatterns = [
     path('dashboard/bookmarks/', user_views.bookmarksView, name='bookmarks'),
     path('dashboard/profile/', user_views.profileView, name='profile'),
     path('dashboard/notifications/', user_views.notificationsView, name='notifications'),
-    path('payments/bookings/<str:booking>/choice/', user_views.bookingsView, name='bookings'),
+    path('payments/bookings/select/choice=<str:booking>/', user_views.bookingsView, name='bookings-choice'),
     path('payments/bookings/select/', user_views.direct_bookings, name='select-bookings'),
-    path('payments/bookings/select/<str:booking>/', user_views.direct_bookings_choice, name='bookings-choice'),
-    path('payments/finances/<str:finances>/choice/', user_views.financesView, name='finances'),
+    path('payments/finances/select/choice=<str:finances>/', user_views.financesView, name='finances-choice'),
     path('payments/finances/select/', user_views.direct_finances, name='select-finances'),
-    path('payments/finances/select/<str:finances>/', user_views.direct_finances_choice, name='finances-choice'),
     
 
     #onbordingviews

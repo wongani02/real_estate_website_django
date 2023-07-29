@@ -19,6 +19,7 @@ from properties.filters import AdvancedSearchFilter
 from properties.charts import *
 from bnb.models import Property as BNB, BnbViews
 from users.models import User
+from users.custom_middleware import process_property_request
 from payments.models import PropertyPayment, PropertyCharge, PaymentOption
 from verifications.views import create_property_listing
 from payments.utils import EmailThread
@@ -209,6 +210,9 @@ class PropertyDetail(generic.DetailView):
 
     def get(self, request, **kwargs):
         qs = Property.objects.get(id=kwargs.get('pk'))
+
+        # get user data
+        process_property_request(request, kwargs.get('pk'))
 
         # Update property views before loading chart
         self.update_views(qs)
@@ -816,22 +820,21 @@ def create_property(request, object1, object2):
     cat = PropertyCategory.objects.get(name=object1['property_cat'])
     
     # Create district object
-    print("district: ", object2['district']) 
     dis = Districts.objects.get(id=object2['district'])
 
     # Get agent object
     agent = User.objects.get(username=request.user.username)
 
     _property = Property.objects.create(
-    # session: step_1
-    name=object1['name'], desc=object1['desc'], property_area=object1['property_area'], 
-    compound_area=object1['compound_area'], year_built=object1['year_built'], price=object1['price'],
-    property_type=object1['property_type'], property_status=object1['property_status'],
-    property_cat=cat, no_garages=object1['no_garages'], no_rooms=object1['no_rooms'],
-    no_baths=object1['no_baths'],
-    # session: step_2
-    location_area=object2['location_area'], district=dis, lat=object2['lat'],
-    lon=object2['lon'], agent=agent
+        # session: step_1
+        name=object1['name'], desc=object1['desc'], property_area=object1['property_area'], 
+        compound_area=object1['compound_area'], year_built=object1['year_built'], price=object1['price'],
+        property_type=object1['property_type'], property_status=object1['property_status'],
+        property_cat=cat, no_garages=object1['no_garages'], no_rooms=object1['no_rooms'],
+        no_baths=object1['no_baths'],
+        # session: step_2
+        location_area=object2['location_area'], district=dis, lat=object2['lat'],
+        lon=object2['lon'], agent=agent
     )
 
     return _property, object2['amenities']
@@ -847,8 +850,9 @@ def create_amenity_link(request, property_id, objects):
     # Convert str object to dict
     objects = ast.literal_eval(objects)
 
-    # Create Property instance 
+    # get Property instance 
     property_ = Property.objects.get(pk=property_id)
+
 
     # Loop and create through list of amenities
     for object in objects:
@@ -857,6 +861,7 @@ def create_amenity_link(request, property_id, objects):
         amenity = PropertyAmenityLink.objects.create(
         _property=property_, amenity=object
         )
+        amenity.save()
 
         # Add amenity obbjects to list
         amenities_.append(amenity)
@@ -1157,4 +1162,28 @@ def removeBookmark(request, pk):
         messages.error(request, f'Please login to bookmark this property')
 
     return render(request, 'properties/partials/bookmark-removed.html', {'property':property})
+
+
+def deletePropertyImage(request, image, pk):
+    Images.objects.get(id=image).delete()
+
+    images = Images.objects.filter(property_id=pk)
+
+    context = {
+        'images':images,
+        'pk':pk,
+    }
+    return render(request, 'properties/partials/property-images-list.html', context)
+
+
+def deletePropertyDoc(request, doc, pk):
+    Documents.objects.get(id=image).delete()
+
+    docs = Documents.objects.filter(property_id=pk)
+
+    context = {
+        'docs':docs,
+        'pk':pk,
+    }
+    return render(request, 'properties/partials/property-docs-list.html', context)
 
