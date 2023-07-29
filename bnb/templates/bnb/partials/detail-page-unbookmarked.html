@@ -1,0 +1,8 @@
+<li id="bookmark{{bnb.id}}" class="list-inline-item icon">
+    <a 
+    hx-trigger="click"
+    hx-target="#bookmark{{bnb.id}}"
+    hx-swap="outerHTML"
+    hx-post="{% url 'bnb:bnb-detail-bookmark' bnb.id %}"
+    href="#"><span class="flaticon-heart-shape-outline"></span></a>
+</li>

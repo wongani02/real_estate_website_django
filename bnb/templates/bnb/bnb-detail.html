@@ -48,10 +48,25 @@
           <div class="single_property_social_share_content text-right tal-md">
             <div class="spss style2">
               <ul class="mb0">
-                <li class="list-inline-item icon"><a href="#"><span class="flaticon-share"></span></a></li>
-                <li class="list-inline-item"><a href="#">Share</a></li>
-                <li class="list-inline-item icon"><a href="#"><span class="flaticon-heart-shape-outline"></span></a></li>
-                <li class="list-inline-item"><a href="#">Save</a></li>
+                {% if user in bnb.user_bookmark.all %}
+                <li id="bookmark{{bnb.id}}" class="list-inline-item icon">
+                    <a
+                    hx-trigger="click"
+                    hx-post="{% url 'bnb:remove-detail-bookmark' bnb.id %}" 
+                    hx-swap="outerHTML"
+                    hx-target="#bookmark{{bnb.id}}"
+                    href="#"><i class="bi bi-heart-fill text-danger"></i></a>
+                </li>
+                {% else %}
+                <li id="bookmark{{bnb.id}}" class="list-inline-item icon">
+                    <a 
+                    hx-trigger="click"
+                    hx-target="#bookmark{{bnb.id}}"
+                    hx-swap="outerHTML"
+                    hx-post="{% url 'bnb:bnb-detail-bookmark' bnb.id %}"
+                    href="#"><span class="flaticon-heart-shape-outline"></span></a>
+                </li>
+                {% endif %}
               </ul>
             </div>
             <div class="price mt20 mb10"><h3>${{bnb.price_per_night}}/night</h3></div>
@@ -69,7 +84,7 @@
         <div class="col-lg-12">
           <ul class="nav nav-tabs" id="myTab2" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="slider-tab" data-toggle="tab" href="#slider_tabs" role="tab" aria-controls="slider_tabs" aria-selected="true"><span class="flaticon-picture color-white"></span></a>
+              <!-- <a class="nav-link active" id="slider-tab" data-toggle="tab" href="#slider_tabs" role="tab" aria-controls="slider_tabs" aria-selected="true"><span class="flaticon-picture color-white"></span></a> -->
             </li>
            
           </ul>

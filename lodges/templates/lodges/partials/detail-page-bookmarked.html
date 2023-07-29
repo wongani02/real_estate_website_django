@@ -1,0 +1,8 @@
+<li id="bookmark{{lodge.id}}" class="list-inline-item icon">
+    <a
+    hx-trigger="click"
+    hx-post="{% url 'lodges:remove-detail-bookmark' lodge.id %}" 
+    hx-swap="outerHTML"
+    hx-target="#bookmark{{lodge.id}}"
+    href="#"><i class="bi bi-heart-fill text-danger"></i></a>
+</li>

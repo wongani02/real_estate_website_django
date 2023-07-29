@@ -351,10 +351,11 @@ def fileUploadView(request):
 @transaction.atomic
 def createLodgeInstanceView(request):
     session = request.session
-
+    print('within')
     with transaction.atomic():
-
+        print('about to try')
         try: 
+            print('trying')
             #initialize lodge creation class
             lodge_instance = LodgeCreationClass(request)
 
@@ -364,10 +365,12 @@ def createLodgeInstanceView(request):
                 location=session['lodge_location_details'],
                 user_id=request.user.id
                 )
-            print(lodge)
+            print(lodge, 'lodge created')
             
             #create room categories
+            print('creating room categories')
             lodge_instance.create_room_categories(rooms=session['lodge_rooms'])
+            print('created categories')
 
             #create lodge rooms
             lodge_instance.create_rooms()
@@ -387,8 +390,8 @@ def createLodgeInstanceView(request):
             #delete session variables after lodge is created
             lodge_instance.clear_session()
 
-            # create a lodge verification pending instance and send an email to the user
-            create_lodge_listing(request, lodge)
+            # # create a lodge verification pending instance and send an email to the user
+            # create_lodge_listing(request, lodge)
 
             return redirect('lodges:lodge-detail', lodge)
 
@@ -744,7 +747,7 @@ def processPaymentView(request, **kwargs):
     booking_ids = []
     number_of_rooms = kwargs.get('qty')
     rooms_available = kwargs.get('room_list')
-    print(type(rooms_available), rooms_available)
+    # print(type(rooms_available), rooms_available)
     
     number_of_bookings = 0
     if number_of_rooms > rooms_available:
@@ -836,6 +839,40 @@ def bookmarkLodge(request, pk):
         return render(request, 'lodges/partials/bookmark-removed.html', {'lodge':lodge})
 
     return render(request, 'lodges/partials/lodge-bookmarked.html', {'lodge':lodge})
+
+
+def addLodgeDetailBookmark(request, pk):
+    lodge = get_object_or_404(Lodge, pk=pk)
+
+    if request.user.is_authenticated:
+        lodge.user_bookmark.add(request.user)
+        subject = 'Your Lodge Has Been Bookmarked!'
+        message = bookmarked_lodge_email.format(
+            lodge.user.username,
+            lodge.name,
+            lodge.map_location,
+            lodge.id,
+        )
+        email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [lodge.user.email])
+
+        EmailThread(email).start()
+        messages.success(request, f'lodge "{lodge.name}" has been added bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+        return None
+
+    return render(request, 'lodges/partials/detail-page-bookmarked.html', {'lodge':lodge})
+
+
+def removeLodgeDetailBookmark(request, pk):
+    lodge = get_object_or_404(Lodge, pk=pk)
+    if request.user.is_authenticated:
+        lodge.user_bookmark.remove(request.user)
+        messages.info(request, f'lodge "{lodge.name}" has been removed bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+
+    return render(request, 'lodges/partials/detail-page-unbookmarked.html', {'lodge': lodge})
 
 
 def removeBookmark(request, pk):

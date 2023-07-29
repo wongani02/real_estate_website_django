@@ -473,36 +473,9 @@ def editRoomsView(request, pk):
 
     bnb = Property.objects.get(id=pk)
     rooms = BNBRoom.objects.filter(bnb_id=pk)
-    print(rooms)
-
-    RoomEditFormSet = modelformset_factory(
-        form=BnbRoomEditForm, 
-        formset=RequiredFormSet, 
-        extra=bnb.num_bedrooms,
-        max_num=bnb.num_bedrooms,
-        model=BNBRoom
-    )
-
-    if request.method == 'POST':
-        room_edit_form = RoomEditFormSet(request.POST)
-        if room_edit_form.is_valid():
-
-            for form in room_edit_form:
-                form.bnb.id = pk
-                form.save()
-                
-
-            messages.success(request, 'Edit successful!!!')
-            return redirect('bnb:edit-rooms', pk)
-    else:
-        room_edit_form = RoomEditFormSet(initial=[{
-            'num_adults': i.num_adults,
-            'num_beds': i.num_beds,
-            'num_baths': i.num_baths,
-        } for i in rooms])
 
     context = {
-        'room_form': room_edit_form,
+        'rooms': rooms,
         'pk': pk,
     }
     return render(request, 'bnb/update/bnb-rooms.html', context)
@@ -742,7 +715,6 @@ def processPayment(request, **kwargs):
     return JsonResponse('done', safe=False)
 
 
-
 def bookmarkBNB(request, pk):
 
     bnb = get_object_or_404(Property, pk=pk)
@@ -779,3 +751,35 @@ def removeBookmark(request, pk):
     return render(request, 'bnb/partials/bookmark-removed.html', {'i':bnb})
 
 
+def addBNBDetailBookmark(request, pk):
+    bnb = get_object_or_404(Property, pk=pk)
+
+    if request.user.is_authenticated:
+        bnb.user_bookmark.add(request.user)
+        subject = 'Your Property Has Been Bookmarked!'
+        message = bnb_bookmark_email.format(
+            bnb.host.username,
+            bnb.title,
+            bnb.id,
+            bnb.price_per_night
+        )
+        email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [bnb.host.email])
+
+        EmailThread(email).start()
+        messages.success(request, f'bnb "{bnb.title}" has been added bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+        return None
+
+    return render(request, 'bnb/partials/detail-page-bookmarked.html', {'bnb':bnb})
+
+
+def removeBNBDetailBookmark(request, pk):
+    bnb = get_object_or_404(Property, pk=pk)
+    if request.user.is_authenticated:
+        bnb.user_bookmark.remove(request.user)
+        messages.info(request, f'property "{bnb.title}" has been removed bookmarks')
+    else:
+        messages.error(request, f'Please login to bookmark this property')
+
+    return render(request, 'bnb/partials/detail-page-unbookmarked.html', {'bnb':bnb})

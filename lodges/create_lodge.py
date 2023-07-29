@@ -14,7 +14,7 @@ class LodgeCreation():
 
 
     def create_lodge(self, lodge={}, location={}, user_id=None):
-
+        print('creating')
         self.lodge_instance = Lodge.objects.create(
             user_id=user_id,
             name=lodge['property_name'],
@@ -27,22 +27,25 @@ class LodgeCreation():
             lat=location['lat'],
             long=location['long'],
         )
+        print('returning')
         return self.lodge_instance.id
 
 
     def create_room_categories(self, rooms=[]):
         self.room_ids = []
+        print('rooms', rooms)
         for item in rooms:
+            print('loop', item)
             self.lodge_room = RoomCategory.objects.create(
-                lodge_id=self.lodge_instance.id,
+                lodge=self.lodge_instance,
                 room_type=item['room_type'],
-                max_guests=['max_guests'],
+                max_guests=item['max_guests'],
                 beds=item['beds'],
                 price_per_night=item['price'],
                 quantity=item['quantity']
             )
             self.room_ids.append(self.lodge_room.id)
-
+        print('done', self.room_ids)
         return self.room_ids
     
     

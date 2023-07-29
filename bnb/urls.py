@@ -44,4 +44,6 @@ urlpatterns = [
     path('submit-review/<uuid:pk>/', views.handleReviews, name='submit-review'),
     path('bookmark/<uuid:pk>/', views.bookmarkBNB, name='bnb-bookmark'),
     path('remove-bookmark/<uuid:pk>/', views.removeBookmark, name='remove-bookmark'),
+    path('add/addLodgeDetailBookmark/<uuid:pk>/', views.addBNBDetailBookmark, name='bnb-detail-bookmark'),
+    path('remove/LodgeDetailBookmark/<uuid:pk>/', views.removeBNBDetailBookmark, name='remove-detail-bookmark'),
 ]
