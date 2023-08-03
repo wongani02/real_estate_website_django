@@ -69,4 +69,5 @@ admin.site.register(BNBImage)
 admin.site.register(Restrictions)
 admin.site.register(BnbViews)
 admin.site.register(BNBReview)
+admin.site.register(BNBRoomImages)
 

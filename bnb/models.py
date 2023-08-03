@@ -112,6 +112,14 @@ class BNBRoom(models.Model):
         return f'{self.bnb.title} hosted by {self.bnb.host}'
     
 
+class BNBRoomImages(models.Model):
+    room = models.ForeignKey(BNBRoom, on_delete=models.CASCADE, null=True, related_name='room_images')
+    img = models.ImageField(upload_to='bnb_room_images/', null=True)
+
+    def __str__(self):
+        return self.room.bnb.title
+    
+
 class Restrictions(models.Model):
     restriction = models.CharField(max_length=1000, null=True)
 

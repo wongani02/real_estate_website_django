@@ -138,17 +138,10 @@ class PropertyCharge(models.Model):
         return '{} - {}'.format(self.price, self.date)
  
 
+class PropertyPaymentPrice(models.Model):
+    price_type = models.CharField(max_length=500, null=True)
+    price = models.DecimalField(max_digits=12, decimal_places=2, null=True)
 
-#will work on these letter
-
-# class PropertyPayment(Invoice):
-#     property = models.ForeignKey(PropertyPayment, on_delete=models.CASCADE, null=True)
-
-
-# class BnbPayment(Payment):
-#     bnb = models.ForeignKey(BnbPayment, on_delete=models.CASCADE, null=True)
-
-
-# class LodgePayment(Payment):
-#     lodge = models.ForeignKey(LodgePayment, on_delete=models.CASCADE, null=True)
+    def __str__(self):
+        return self.price_type
 

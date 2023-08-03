@@ -81,10 +81,10 @@
 											<a href="{% url 'lodges:edit-room-cat-details' item.id %}" data-toggle="tooltip" data-placement="top" title="Edit"><span class="flaticon-edit"></span></a>
 										</li>
 										<li class="list-inline-item">
-											<a href="#" data-toggle="tooltip" data-placement="top" title="Delete"><span class="flaticon-trash"></span></a>
+											<a href="{% url 'lodges:edit-room-images' item.id lodge.id %}" data-toggle="tooltip" data-placement="top" title="add images"><span class="flaticon-picture"></span></a>
 										</li>
 										<li class="list-inline-item">
-											<a href="{% url 'lodges:edit-room-images' item.id lodge.id %}" data-toggle="tooltip" data-placement="top" title="add images"><span class="flaticon-add"></span></a>
+											<a href="#" data-toggle="tooltip" data-placement="top" title="Delete"><span class="flaticon-trash"></span></a>
 										</li>
 									</ul>
 								</div>

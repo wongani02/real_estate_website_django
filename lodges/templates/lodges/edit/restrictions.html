@@ -1,0 +1,66 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block title %}edit lodge restrictions{% endblock title %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+	<!-- Our Dashbord -->
+	<script src="https://unpkg.com/htmx.org@1.9.0"></script>
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">Lodge Restrictions </h2>
+								
+							</div>
+						</div>
+					</div>
+				<div class="row">
+				<div class="col-lg-12">
+				  <!-- amenitites -->
+				  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		          <div class="new_property_form">
+					<h4 class="mb30">Select whats restricted at your property</h4>
+
+					<form method="post" action="{% url 'lodges:edit-lodge-restrictions' pk %}">
+                    {% csrf_token %}
+					<div class="ui_kit_select_search form-group list_hightlights df mt20">
+						
+						<ul class="add_listing selectable-list row mx-2">
+							{% for restriction in form.restriction %}
+							<li>
+								<div class="custom-control custom-checkbox">
+                                    {{restriction|safe}}
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-thm listing_save_btn">Next</button>
+                    </div>
+					</form>
+		          </div>			  
+				</div>
+				
+				</div>
+					<div class="row mt50">
+						<div class="col-lg-12 text-center">
+							<p class="mb0">Copyright © 2021 Afrihuts.com All Right Reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+{% endblock %}

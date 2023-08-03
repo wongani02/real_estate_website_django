@@ -40,6 +40,7 @@ urlpatterns = [
     path('edit/<uuid:room_cat>/room-cat-details/', views.editRoomCatDetails, name='edit-room-cat-details'),
     path('delete-room-image/<int:image_id>/<uuid:room_cat>/', views.handleDeleteRoomImages, name='delete-room-cat-image'),
     path('delete-lodge-images/<uuid:pk>/<int:image>/', views.deleteLodgeImages, name='delete-lodge-images'),
+    path('edit-lodge-restrictions/<uuid:pk>/', views.editLodgeRestrictions, name='edit-lodge-restrictions'),
 
     #bookings
     path('lodge-detail/<uuid:lodge>/booking/<uuid:room>/<int:qty>/<int:room_list>/', views.bookingDetailsView, name='booking-step-1'),

@@ -1,6 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
-{% block title %}edit bnb rooms{% endblock title %}
+{% block title %}edit bnb{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
 {% endblock header %}
@@ -29,65 +29,69 @@
 						{% include 'users/dashboard-nav.html' %}
 						<div class="col-lg-12 mb50">
 							<div class="breadcrumb_content">
-								<h2 class="breadcrumb_title">BNB rooms edit form</h2>
-								{% if room_form.errors %}
-                                <p>Please correct the following errors:</p>
-                                {% for field in room_form %}
-                                {% if field.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                    {{ field.label }}: {{ field.errors|striptags }}
+								<h2 class="breadcrumb_title">Bnb rooms </h2>
+								{% if messages %}
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} col-lg-12">
+                                <P>{{ message }}</P>
                                 </div>
-                                {% endif %}
                                 {% endfor %}
                                 {% endif %}
+								<p>Availble room categories at {{bnb.title}}</p>
 							</div>
 						</div>
 					</div>
-				<div class="row">
-				
-				<div class="col-lg-12">
-					<!-- Available room types -->
-		          <div class="new_property_form">
-					<h4 class="title mb30">Rooms Availble at your bnb</h4>
-		            <form id="room_form" action="{% url 'bnb:edit-rooms' pk %}" method="post">
-						{% csrf_token %}
-                        
-						{{room_form.management_form}}
-                        
-						{% for form in room_form %}
-		              <div class="row">
-		                <h2 class="col-md-12">Room {{forloop.counter}}</h2>
-		                <div class="col-md-4">
-							<div class="ui_kit_select_search add_new_property mb30">
-                                {{form.num_adults.label}}
-								{{form.num_adults}}
-                                {{form.num_adults.errors}}
-							</div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group mb30">
-                            {{form.num_beds.label}}
-							{{form.num_beds}}
-                            {{form.num_beds.errors}}
-		                  </div>
-		                </div>
-		                <div class="col-md-4">
-		                  <div class="form-group mb30">
-                            {{form.num_baths.label}}
-							{{form.num_baths}}
-                            {{form.num_baths.errors}}
-		                  </div>
-		                </div>
-		              </div>
-					  {% endfor %}
-                      <div class="text-right">
-                        <button type="submit" class="btn btn-thm listing_save_btn">Next</button>
-                    </div>
-		            </form>
 					
-		          </div>
-				</div>
-				</div>
+					<div class="row mb70 align-center">
+						{% for item in rooms %}
+						<div class="col-md-6 col-xl-3">
+							<div class="feat_property all_listing_style5">
+								<div class="thumb">
+								{% if item.room_images.count >= 1 %}
+									{% for image in item.room_images.all %}
+										{% if forloop.counter == 1 %}
+										<img class="img-whp" src="{{image.img.url}}" alt="room image">
+										{% endif %}
+									{% endfor %}
+								{% else %}
+								<img class="img-whp" src="{% static 'images/property/lls51.jpg' %}" alt="lls51.jpg">
+								{% endif %}
+								<div class="fp_footer all_listing_style5">
+									<ul class="fp_meta">
+									<li class="list-inline-item"></li>
+									</ul>
+									<h4><a class="text-white" href="">{{item.room_type}}</a></h4>
+								</div>
+								</div>
+								<div class="details">
+								<div class="tc_content">
+									<ul class="prop_details mb0">
+									<li class="list-inline-item"><a href="#"><span class="flaticon-bed"></span><br> {{item.num_beds}} Beds</a></li>
+									<li class="list-inline-item"><a href="#"><span class="flaticon-bath"></span><br> {{item.num_baths}} Baths</a></li>
+									<li class="list-inline-item"><a href="#"><span class="flaticon-user"></span><br> {{item.num_adults}} Guests</a></li>
+									</ul>
+								</div>
+								<div class="tc_content">
+									<ul class="prop_details mb0">
+										<li class="list-inline-item">
+											<a href="{% url 'bnb:edit-room-form' bnb.id item.id %}" data-toggle="tooltip" data-placement="top" title="Edit"><span class="flaticon-edit"></span></a>
+										</li>
+										<li class="list-inline-item">
+											<a href="{% url 'bnb:edit-room-images' item.id bnb.id %}" data-toggle="tooltip" data-placement="top" title="add images"><span class="flaticon-picture"></span></a>
+										</li>
+										<li class="list-inline-item">
+											<a href="#" data-toggle="tooltip" data-placement="top" title="Delete"><span class="flaticon-trash"></span></a>
+										</li>
+										
+									</ul>
+								</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						
+					</div>
+
 					<div class="row mt50">
 						<div class="col-lg-12 text-center">
 							<p class="mb0">Copyright © 2021 Afrihuts.com All Right Reserved.</p>

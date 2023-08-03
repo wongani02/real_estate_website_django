@@ -473,17 +473,78 @@ def editDetailsView(request, pk):
     return render(request, 'bnb/update/bnb-details.html', context)
 
 
-#not complete
+
 def editRoomsView(request, pk):
 
     bnb = Property.objects.get(id=pk)
-    rooms = BNBRoom.objects.filter(bnb_id=pk)
+    rooms = BNBRoom.objects.filter(bnb=bnb)
+    for item in rooms:
+        print(item)
+        image = item.room_images.all()
+        print(image)
 
     context = {
         'rooms': rooms,
-        'pk': pk,
+        'bnb': bnb,
     }
     return render(request, 'bnb/update/bnb-rooms.html', context)
+
+
+def editRoomFormView(request, bnb, room):
+
+    room = BNBRoom.objects.get(id=room)
+
+    if request.method == 'POST':
+        form = BnbRoomEditForm(request.POST, instance=room)
+        if form.is_valid():
+            form.save()
+
+    else:
+        form = BnbRoomEditForm(instance=room)
+
+    context  = {
+        'pk': bnb,
+        'room': room, 
+        'form':form,
+    }
+    return render(request, 'bnb/update/room-edit-form.html', context)
+
+
+def addRoomImages(request, room, bnb):
+
+    images = BNBRoomImages.objects.filter(room=room)
+
+    context = {
+        'images': images,
+        'room':room,
+        'bnb': bnb,
+    }
+    return render(request, 'bnb/update/add-room-image.html', context)
+
+
+def handleRoomImages(request, room):
+    if request.method == 'POST':
+        image = request.FILES.get('file')
+        print(image, 'here')
+        BNBRoomImages.objects.create(
+            room_id=room,
+            img=image
+        )
+    
+    return HttpResponse('uploaded')
+
+
+def handleDeleteRoomImages(request, image_id, room):
+
+    BNBRoomImages.objects.filter(id=image_id).delete()
+
+    images = BNBRoomImages.objects.filter(room_id=room)
+
+    context = {
+        'images':images,
+        'room':room
+    }
+    return render(request, 'bnb/partials/room-image-list.html', context)
 
 
 def editLocationView(request, pk):
@@ -537,6 +598,26 @@ def deleteBNBImage(request, image, pk):
         'pk':pk,
     }
     return render(request, 'bnb/partials/bnb-images-list.html', context)
+
+
+def editRestrictions(request, pk):
+
+    bnb = Property.objects.get(id=pk)
+    restrictions = BNBRestrictions.objects.get(bnb=bnb)
+
+    if request.method=='POST':
+        form = BnBRestrictionsForm(request.POST, instance=restrictions)
+        if form.is_valid():
+            form.save()
+
+    else:
+        form = BnBRestrictionsForm(instance=restrictions)
+
+    context = {
+        'form': form,
+        'pk':pk,
+    }
+    return render(request, 'bnb/update/bnb-restrictions.html', context)
 
 
 def editAmenitiesView(request, pk):

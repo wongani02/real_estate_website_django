@@ -34,6 +34,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -75,6 +77,8 @@ INSTALLED_APPS = [
     'modified_tracking_analyzer.apps.ModifiedTrackingAnalyzerAppConfig',
 ]
 
+SITE_ID = 1
+
 ANALYTICAL_INTERNAL_IPS = []
 
 ANALYTICAL_TRACKERS = {
@@ -91,7 +95,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_htmx.middleware.HtmxMiddleware",
+    'django_htmx.middleware.HtmxMiddleware',
 
     # user visit
     'users.custom_middleware.CustomUserVisitMiddleware',

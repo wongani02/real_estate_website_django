@@ -30,7 +30,6 @@ import ast
 import shutil, os, random
 
 
-
 class SimpleSearch(generic.ListView):
     template_name = 'properties/page-listing-v2.html'
     paginate_by = 12
@@ -110,8 +109,8 @@ class LodgesHTMXView(generic.ListView):
     def get(self, request):
 
         #lodge pagination for load more functionality
-        lodges = Lodge.active_lodges.prefetch_related("pictures").order_by('?')
-        lodge_paginator = Paginator(lodges, 3)
+        lodges = Lodge.active_lodges.prefetch_related("pictures").order_by('-created_at')
+        lodge_paginator = Paginator(lodges, 1)
         lodge_page_number = request.GET.get('page', 1)
         lodge_obj = lodge_paginator.get_page(lodge_page_number)
         
@@ -1177,7 +1176,7 @@ def deletePropertyImage(request, image, pk):
 
 
 def deletePropertyDoc(request, doc, pk):
-    Documents.objects.get(id=image).delete()
+    Documents.objects.get(id=doc).delete()
 
     docs = Documents.objects.filter(property_id=pk)
 

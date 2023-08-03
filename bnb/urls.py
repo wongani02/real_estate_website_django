@@ -25,14 +25,19 @@ urlpatterns = [
     path('create-bnb-instance/', views.createBNBInstance, name='bnb-create-instance'),
 
     #edit 
-    path('bnb/edit/<uuid:pk>/', views.editOptionsview, name='edit-options'),
-    path('bnb/edit/<uuid:pk>/edit-details/', views.editDetailsView, name='edit-details'),
-    path('bnb/edit/<uuid:pk>/location/', views.editLocationView, name='edit-location'),
-    path('bnb/edit/<uuid:pk>/images/', views.editImagesView, name='edit-images'),
-    path('bnb/edit/<uuid:pk>/rooms/', views.editRoomsView, name='edit-rooms'),
-    path('edit/<uuid:pk>/amenities/', views.editAmenitiesView, name='edit-amenities'),
-    path('edit/<uuid:pk>/policies/', views.editPoliciesView, name='edit-policies'),
+    path('bnb/edit-options/<uuid:pk>/', views.editOptionsview, name='edit-options'),
+    path('bnb/edit-details/<uuid:pk>/edit-details/', views.editDetailsView, name='edit-details'),
+    path('bnb/edit-location/<uuid:pk>/location/', views.editLocationView, name='edit-location'),
+    path('bnb/edit-images/<uuid:pk>/images/', views.editImagesView, name='edit-images'),
+    path('bnb/edit-rooms/<uuid:pk>/rooms/', views.editRoomsView, name='edit-rooms'),
+    path('edit-room-form/<uuid:bnb>/<int:room>/', views.editRoomFormView, name='edit-room-form'),
+    path('edit-amenities/<uuid:pk>/amenities/', views.editAmenitiesView, name='edit-amenities'),
+    path('edit-policies/<uuid:pk>/policies/', views.editPoliciesView, name='edit-policies'),
     path('delete-bnb-image/<int:image>/<uuid:pk>/', views.deleteBNBImage, name='delete-bnb-image'),
+    path('edit/<int:room>/<uuid:bnb>/room-images/', views.addRoomImages, name='edit-room-images'),
+    path('edit/<int:room>/handle-room-images/', views.handleRoomImages, name='handle-room-images'),
+    path('delete-room-image/<int:image_id>/<int:room>/', views.handleDeleteRoomImages, name='delete-room-image'),
+    path('edit-restrictions/<uuid:pk>/', views.editRestrictions, name='edit-restrictions'),
 
     #booking
     path('bnb-detail/<uuid:pk>/booking/<int:qty>/<int:nights>/booking-details/', views.bnbBookingDetailsView, name='booking-details'),

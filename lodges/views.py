@@ -514,6 +514,26 @@ def deleteLodgeImages(request, pk, image):
     return render(request, 'lodges/partials/lodge-images.html', context)
 
 
+def editLodgeRestrictions(request, pk):
+
+    lodge = Lodge.objects.get(id=pk)
+    restrictions = LodgeRestrictions.objects.get(lodge=lodge)
+
+    if request.method=='POST':
+        form = LodgeRestrictionsForm(request.POST, instance=restrictions)
+        if form.is_valid():
+            form.save()
+
+    else:
+        form = LodgeRestrictionsForm(instance=restrictions)
+
+    context = {
+        'pk':pk,
+        'form': form,
+    }
+    return render(request, 'lodges/edit/restrictions.html', context)
+
+
 def editLodgeAmenities(request, pk):
     lodge = Lodge.objects.get(id=pk)
     amenites = LodgeAmenity.objects.get(lodge=lodge)
@@ -575,6 +595,7 @@ def handleRoomImages(request, room_cat):
     
     return HttpResponse('uploaded')
 
+
 def handleDeleteRoomImages(request, image_id, room_cat):
 
     RoomCategoryImage.objects.filter(id=image_id).delete()
@@ -586,7 +607,6 @@ def handleDeleteRoomImages(request, image_id, room_cat):
         'pk':room_cat
     }
     return render(request, 'lodges/partials/room-image-list.html', context)
-
 
 
 #services
