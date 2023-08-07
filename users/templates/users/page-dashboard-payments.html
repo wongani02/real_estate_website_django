@@ -67,7 +67,21 @@
 											<tr>
 												<th scope="row">{{forloop.counter}}</th>
 												<td>{{payment.payment_option.payment_option}}</td>
-												<td>{{payment.order_key}}</td>
+												<td>
+													{% if payment.meta_title == 'Property' %}
+													<a href="#" class="property-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+														{{payment.order_key}}
+													</a>
+													{% elif payment.meta_title == 'BnB' %}
+													<a href="#" class="bnb-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+														{{payment.order_key}}
+													</a>
+													{% elif payment.meta_title == 'Lodge' %}
+													<a href="#" class="lodge-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+														{{payment.order_key}}
+													</a>
+													{% endif %}
+												</td>
 												<td>{{payment.full_name}}</td>
 												<td>{{payment.phone}}</td>
 												
@@ -151,6 +165,126 @@
 						</div>
 					</div>
 					{% endif %}
+
+					<!-- modal -->
+					<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<!-- modal header -->
+								<div class="modal-header">
+									<h4 class="modal-title" id="paymentModalLabel">Payment Details</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times</span>
+									</button>
+								</div>
+								<!-- modal body -->
+								<div class="modal-body" id="modal-body">
+									Payment Key: <span id="modalKey"></span>
+									<img src="" alt="Payment Image" id="modalImage" class="img-fluid">
+								</div>
+								<!-- modal footer -->
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- script -->
+					<script>
+						const bookingBnbLinks = document.querySelectorAll(".bnb-payment-details-link");
+						const bookingLodgeLinks = document.querySelectorAll(".lodge-payment-details-link");
+						const bookingPropertyLinks = document.querySelectorAll(".property-payment-details-link");
+						const modalKey = document.getElementById("modalKey");
+						const modalBody = document.getElementById("modal-body");
+						const modalImage = document.getElementById("modalImage");
+
+						// Get details for BNB booking 
+						bookingBnbLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:bnb-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalKey.textContent = orderKey;
+										modalImage.src = data.qr_code;
+										modalBody.innerHTML = `
+										<p>Payment Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+						// Get details for lodge booking 
+						bookingBnbLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:lodge-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalKey.textContent = orderKey;
+										modalImage.src = data.qr_code;
+										modalBody.innerHTML = `
+										<p>Payment Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+						// Get details for property booking 
+						bookingBnbLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:property-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalKey.textContent = orderKey;
+										modalImage.src = data.qr_code;
+										modalBody.innerHTML = `
+										<p>Payment Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+					</script>
+					
 						
 					{% include 'properties/copyright.html' %}
 				</div>

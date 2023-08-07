@@ -15,8 +15,8 @@
         <div class="col-lg-12">
           <div class="main-banner-wrapper">
             <div class="banner-style-one owl-theme owl-carousel custom-owl">
-              <div class="slide slide-one img" style="background-image: url({% static 'images/web_img/others/Discover 5.jpg' %});height: 860px;"></div>
-              <div class="slide slide-one img" style="background-image: url({% static 'images/web_img/pietro.jpg' %});height: 860px;"></div>
+              <div class="slide slide-one img1" style="background-image: url({% static 'images/web_img/others/Discover 5.jpg' %});height: 860px;"></div>
+              <div class="slide slide-one img2" style="background-image: url({% static 'images/web_img/pietro.jpg' %});height: 860px;"></div>
             </div>
             <!-- <div class="carousel-btn-block banner-carousel-btn"> -->
               <!-- <span class="carousel-btn left-btn"><i class="flaticon-left-arrow left"></i></span>
@@ -27,12 +27,15 @@
       </div>
       <script>
         document.addEventListener("DOMContentLoaded", function() {
+          console.log("loaded");
           const carousel = document.querySelector(".custom-owl");
-          const images = carousel.querySelectorAll(".slide slide-one img");
+          var images = carousel.querySelectorAll(".slide-one");
           let index = 0;
 
           function changeImage() {
             if (images.length === 0) return;
+
+            images = Array.from(images).slice(0, 2);
 
             console.log("Q: ", carousel);
             console.log("Q: ", images);

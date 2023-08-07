@@ -65,11 +65,15 @@
 											{% for lodge in bookings %}
 											<tr>
 												<th scope="row">{{forloop.counter}}</th>
-												<td>{{lodge.room.room_category.lodge.name}}</td>
+												<td><a href="{% url 'lodges:lodge-detail' lodge.id %}">{{lodge.room.room_category.lodge.name}}</a></td>
 												<td>{{lodge.full_name}}</td>
 												<td>{{lodge.phone_number}}</td>
 												<td>{{lodge.cancelled}}</td>
-												<td>{{lodge.ref_code}}</td>
+												<td>
+													<a href="#" class="lodge-booking-details-link" data-toggle="modal" data-target="#bookingModal" data-reference="{{lodge.ref_code}}">
+													{{lodge.ref_code}}
+													</a>
+												</td>
 												<td>{{lodge.created_at}}</td>
 												<td>{{lodge.check_in}}</td>
 												<td>{{lodge.check_out}}</td>
@@ -106,11 +110,13 @@
 											{% for bnb in bookings %}
 											<tr>
 												<th scope="row">{{forloop.counter}}</th>
-												<td>{{bnb.property.title}}</td>
+												<td><a href="{% url 'bnb:bnb-detail' bnb.id %}">{{bnb.property.title}}</a></td>
 												<td>{{bnb.full_name}}</td>
 												<td>{{bnb.phone_number}}</td>
 												<td>{{bnb.cancelled}}</td>
-												<td>{{bnb.ref_code}}</td>
+												<td><a href="#" class="bnb-booking-details-link" data-toggle="modal" data-target="#bookingModal" data-reference="{{bnb.ref_code}}">
+													{{bnb.ref_code}}
+												</a></td>
 												<td>{{bnb.created_at}}</td>
 												<td>{{bnb.check_in}}</td>
 												<td>{{bnb.check_out}}</td>
@@ -160,11 +166,15 @@
 											
 											<tr>
 												<th scope="row">{{forloop.counter}}</th>
-												<td>{{lodge.room.room_category.lodge.name}}</td>
+												<td><a href="{% url 'lodges:lodge-detail' lodge.id %}">{{lodge.room.room_category.lodge.name}}</a></td>
 												<td>{{lodge.full_name}}</td>
 												<td>{{lodge.phone_number}}</td>
 												<td>{{lodge.cancelled}}</td>
-												<td>{{lodge.ref_code}}</td>
+												<td>
+													<a href="#" class="lodge-booking-details-link" data-toggle="modal" data-target="#bookingModal" data-reference="{{lodge.ref_code}}">
+													{{lodge.ref_code}}
+													</a>
+												</td>
 												<td>{{lodge.created_at}}</td>
 												<td>{{lodge.check_in}}</td>
 												<td>{{lodge.check_out}}</td>
@@ -197,11 +207,15 @@
 											
 											<tr>
 												<th scope="row">{{forloop.counter}}</th>
-												<td>{{bnb.property.title}}</td>
+												<td><a href="{% url 'bnb:bnb-detail' bnb.id %}">{{bnb.property.title}}</a></td>
 												<td>{{bnb.full_name}}</td>
 												<td>{{bnb.phone_number}}</td>
 												<td>{{bnb.cancelled}}</td>
-												<td>{{bnb.ref_code}}</td>
+												<td>
+													<a href="#" class="bnb-booking-details-link" data-toggle="modal" data-target="#bookingModal" data-reference="{{bnb.ref_code}}">
+													{{bnb.ref_code}}
+													</a>
+												</td>
 												<td>{{bnb.created_at}}</td>
 												<td>{{bnb.check_in}}</td>
 												<td>{{bnb.check_out}}</td>
@@ -217,6 +231,94 @@
 						</div>
 					</div>
 					{% endif %}
+					<div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<!-- modal header -->
+								<div class="modal-header">
+									<h4 class="modal-title" id="bookingModalLabel">Booking Details</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times</span>
+									</button>
+								</div>
+								<!-- modal body -->
+								<div class="modal-body" id="modal-body">
+									Reference Code: <span id="modalRef"></span>
+								</div>
+								<!-- modal footer -->
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<script>
+						const bookingBnbLinks = document.querySelectorAll(".bnb-booking-details-link");
+						const bookingLodgeLinks = document.querySelectorAll(".lodge-booking-details-link");
+						const modalRef = document.getElementById("modalRef");
+						const modalBody = document.getElementById("modal-body");
+
+						// Get details for BNB booking 
+						bookingBnbLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const refCode = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:bnb-booking-details' %}",
+									data: {ref_code: refCode},
+									success: function(data) {
+										modalRef.textContent = refCode;
+										modalBody.innerHTML = `
+										<p>Reference Code: ${data.ref_code}</p>
+										<p>Email: ${data.email}</p>
+										<p>Number of Guests: ${data.num_guests}</p>
+										<p>Number of Nights: ${data.num_nights}</p>
+										<p>Checked In: ${data.checked_in}</p>
+										<p>Note: ${data.note}</p>
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+						// get details for lodge booking
+						bookingLodgeLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const refCode = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:bnb-booking-details' %}",
+									data: {ref_code: refCode},
+									success: function(data) {
+										modalRef.textContent = refCode;
+										modalBody.innerHTML = `
+										<p>Reference Code: ${data.ref_code}</p>
+										<p>Email: ${data.email}</p>
+										<p>Number of Guests: ${data.num_guests}</p>
+										<p>Number of Nights: ${data.num_nights}</p>
+										<p>Checked In: ${data.checked_in}</p>
+										<p>Note: ${data.note}</p>
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+					</script>
 						
 					{% include 'properties/copyright.html' %}
 				</div>

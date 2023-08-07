@@ -9,7 +9,7 @@
 			<li><a href="{% url 'accounts:bookmarks' %}"><span class="flaticon-heart-shape-outline"></span> Bookmarks</a></li>
 			<!-- <li><a href="page-dashboard-save-search.html"><span class="flaticon-magnifiying-glass"></span> Saved Searches</a></li> -->
 			
-			{% if lodges is not 0 and bnbs is not 0 %}
+			{% if lodges is not 0 or bnbs is not 0 %}
 			<li><a href="{% url 'accounts:select-bookings' %}"><span class="flaticon-invoice"></span> My Bookings</a></li>
 			{% endif %}
 				

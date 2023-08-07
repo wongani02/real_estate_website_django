@@ -232,7 +232,7 @@ def download_qr_code(request, **kwargs):
 
     # Send email qr to user
     send_mail(request, read, filename, client, name)
-
+ 
     # Delete session
     # del request.session['bnb_booking']
     # del request.session['lodge_booking']

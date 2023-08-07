@@ -172,6 +172,17 @@
               </div>
             </div>
             <div class="col-lg-12">
+              <div class="listing_single_description mt50 mb60">
+                <h4 class="mb15">Policies</h4>
+                <ol>
+                {% for policy in policies %}
+                <h5>{{forloop.counter}}. {{policy.policy.title}}</h5>
+                <p class="first-Description mb25">{{policy.policy.desc|safe}}</p>
+                {% endfor %}
+              </ol>
+              </div>
+            </div>
+            <div class="col-lg-12">
               <div class="location_details pb40 mt50 bb1">
                 <div class="row">
                   <div class="col-lg-12">
@@ -473,8 +484,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-12">
+            </div> -->
+            <!-- <div class="col-lg-12">
               <div class="property_sp_videos pb40 mt50 bb1">
                 <ul class="nav nav-tabs" id="myTab3" role="tablist">
                   <li class="nav-item" role="presentation">
@@ -506,7 +517,7 @@
                 </div>
               </div>
             </div> -->
-            <div class="col-lg-12">
+            <!-- <div class="col-lg-12">
               <div class="property_sp_tour_info pb40 mt50 bb1">
                 <h4 class="mb30">Schedule A Tour</h4>
                 <form class="mb40" action="#">
@@ -557,12 +568,12 @@
                   </div>
                 </form>
               </div>
-            </div>
+            </div> 
            
             
 
             
-            <!-- <div class="col-lg-12">
+            <div class="col-lg-12">
               <div class="property_sp_tour_info pb40 mt50 bb1">
                 <h4 class="mb30">Property Statistics</h4>
                 <form action="#">
@@ -646,9 +657,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 col-lg-6">
+                {% include 'properties/partials/review-partial.html' %}
+                <!-- <div class="col-md-6 col-lg-6">
                   <div class="mbp_first mt15">
-                    <!-- <img src="images/blog/reviewer1.png" class="mr-3" alt="reviewer1.png"> -->
+                    <img src="images/blog/reviewer1.png" class="mr-3" alt="reviewer1.png">
                     <div class="media-body mt15">
                       <h4 class="sub_title mt-0">Jane Cooper</h4>
                       <div class="sspd_postdate fz14 mb20">April 6, 2021 at 3:21 AM
@@ -669,7 +681,7 @@
                 </div>
                 <div class="col-md-6 col-lg-6">
                   <div class="mbp_first mt15">
-                    <!-- <img src="images/blog/reviewer2.png" class="mr-3" alt="reviewer2.png"> -->
+                    <img src="images/blog/reviewer2.png" class="mr-3" alt="reviewer2.png">
                     <div class="media-body mt15">
                       <h4 class="sub_title mt-0">Bessie Cooper</h4>
                       <div class="sspd_postdate fz14 mb20">April 6, 2021 at 3:21 AM
@@ -687,11 +699,11 @@
                       <p class="fz14 mt10">Every single thing we tried with John was delicious! Found some awesome places we would definitely go back to on our trip. John was also super friendly and passionate about Beşiktaş and Istanbul.</p>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="col-lg-12">
-              <div class="bsp_reveiw_wrt mt50">
+              <div class="bsp_reveiw_wrt mt50" id="review-form">
                 <h4>Write a Review</h4>
                 <div class="df db-520">
                   <table class="table table-responsive table-borderless wa mr50">
@@ -791,21 +803,27 @@
                     </tbody>
                   </table>
                 </div>
-                <form class="comments_form">
+                <form 
+                hx-target="#review-form"
+                hx-swap="outerHTML"
+                hx-post="{% url 'properties:submit-review' property.id  %}"
+                method="post"
+                class="comments_form">
+                  {% csrf_token %}
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Name">
+                        <input type="text" class="form-control" name="name" placeholder="Name">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" class="form-control" name="email" placeholder="Email">
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
-                        <textarea class="form-control" rows="6" placeholder="Enter Your Message"></textarea>
+                        <textarea class="form-control" rows="6" name="revuew" placeholder="Enter Your Message"></textarea>
                       </div>
                       <button type="submit" class="btn btn-thm">Send Your Review</button>
                     </div>
@@ -818,37 +836,60 @@
         <div class="col-lg-4 col-xl-3">
           <div class="listing_single_sidebar">
             <div class="sidebar_agent_search_widget mb30">
-              <!-- <div class="media">
-                <img class="mr-3 author_img" src="images/team/author.png" alt="author.png">
+              <div class="media">
+                <img class="mr-3 author_img" src="{{realtor.profile_img.url}}" alt="author.png">
                 <div class="media-body">
-                  <h5 class="mt10 mb5 fz16 heading-color fw600">Darrell Steward</h5>
-                  <p class="mb0">(123)456-7890</p>
-                  <a class="tdu text-thm" href="#">View Listings</a>
+                  <h5 class="mt10 mb5 fz16 heading-color fw600">{{realtor.user.name}}</h5>
+                  <p class="mb0">{{realtor.phone_number}}</p>
+                  <!-- <a class="tdu text-thm" href="#">View Listings</a> -->
                 </div>
-              </div> -->
+              </div>
               <div class="agent_search_form">
-                <form action="#">
+                <form 
+                action="{% url 'properties:whatsapp' realtor.phone_number  %}"
+                method="post" id="contact-realtor-form">
+                {% csrf_token %}
                   <div class="form-group input-group mb30">
-                    <input type="text" class="form-control form_control" placeholder="Name">
+                    <input type="text" class="form-control form_control" placeholder="Name" name="client-name">
                   </div>
                   <div class="form-group input-group mb30">
-                    <input type="text" class="form-control form_control" placeholder="Phone">
+                    <input type="text" class="form-control form_control" placeholder="Phone" name="client-phone">
                   </div>
                   <div class="form-group input-group mb30">
-                    <input type="email" class="form-control form_control" placeholder="Email">
+                    <input type="email" class="form-control form_control" placeholder="Email" name="client-email">
                   </div>
                   <div class="form-group input-group mb30">
-                    <textarea name="form_message" class="form-control" rows="5">Hello, I am interested in [New Apartment]</textarea>
+                    <textarea name="message" class="form-control" rows="5">Hello, I am interested in {{property.name}}...</textarea>
                   </div>
                   <div class="ui_kit_checkbox">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1">By submitting this form I agree to Terms of Use</label>
+                      <label class="custom-control-label" for="customCheck1">By submitting this form I agree to Terms and Policies of Use</label>
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-block btn-thm mb10">CONTACT PROPERTY</button>
-                  <button type="submit" class="btn btn-block btn-whatsapp mb0">WHATSAPP</button>
+                  <!-- <button type="submit" class="btn btn-block btn-thm mb10">CONTACT PROPERTY</button> -->
+                  <button type="submit" class="btn btn-block btn-whatsapp mb0" id="submit-button" disabled>WHATSAPP</button>
                 </form>
+                <script>
+                  document.addEventListener("DOMContentLoaded", function () {
+                    const myForm = document.getElementById("contact-realtor-form");
+                    const myCheckBox = document.getElementById("customCheck1");
+                    const mySubmitButton = document.getElementById("submit-button");
+
+                    myCheckBox.addEventListener("change", function () {
+                      // enable the submit button when the checkbox is checked
+                      mySubmitButton.disabled = !this.checked;
+                    });
+
+                    myForm.addEventListener("submit", function (){
+                      // prevent form submission if the checkbox is not checked
+                      if (!myCheckBox.checked) {
+                        event.preventDefault();
+                        alert("Please check the box before submitting the form");
+                      }
+                    });
+                  });
+                </script>
               </div>
             </div>
           </div>

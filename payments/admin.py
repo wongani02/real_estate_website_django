@@ -12,7 +12,7 @@ class PropertyChargeModelAdmin(admin.ModelAdmin):
         ),
     )
 
-
+admin.site.register(QRCode)
 admin.site.register(PaymentOption)
 admin.site.register(PropertyPayment)
 admin.site.register(LodgeBookingPayment)
