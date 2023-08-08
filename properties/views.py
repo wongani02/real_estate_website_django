@@ -765,7 +765,7 @@ def payment_approved(request):
         order_key=body['orderId'],
         payment_option=PaymentOption.objects.first(),
         billing_status=True,
-        receipts=receipt
+        receipt=receipt
     )
 
     # create a property verification pending object and notify user
@@ -865,9 +865,10 @@ def create_amenity_link(request, property_id, objects):
     # get Property instance 
     property_ = Property.objects.get(pk=property_id)
 
+    converted_object = ast.literal_eval(objects['amenities'])
 
-    # Loop and create through list of amenities
-    for object in objects:
+    # Loop and create through list of amenities in the converted objects dictionary
+    for object in converted_object:
         # Get amenity object
         object = Amenities.objects.get(name=object)
         amenity = PropertyAmenityLink.objects.create(
@@ -975,7 +976,7 @@ def create_property_documents(request, property_, object_):
 """
 Function creates a policy object linked to a property object
 """
-def create_property_policy_link(request, property_, objects):
+def create_property_policy_link(request, property_, objects=None):
     # get session data
     session = request.session['policy_data']
 

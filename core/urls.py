@@ -19,6 +19,8 @@ from django.urls import path, include
 
 from core import settings
 
+admin.site.site_header = 'Afrihuts Administration'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 

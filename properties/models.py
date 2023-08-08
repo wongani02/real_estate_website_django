@@ -316,7 +316,7 @@ class Policy(models.Model):
         default=1,
     )
     is_active = models.BooleanField(default=True)
-    active_policy_manager = ActivePolicyManager()
+    # active_policy_manager = ActivePolicyManager()
 
     def __str__(self):
         return f'{self.title}: {strip_tags(self.desc)}'

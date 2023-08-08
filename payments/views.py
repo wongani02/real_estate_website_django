@@ -37,6 +37,9 @@ def generate_code(request):
 
         payment = LodgeBookingPayment.objects.get(order_key=payment_key)
 
+        # create a booking email session
+        request.session['booking_email'] = payment.email
+
         booking = payment.booking.all()
         
         # variable to hold the number of booking instances
@@ -68,6 +71,9 @@ def generate_code(request):
 
         payment = BnbBookingPayment.objects.get(order_key=booking_id)
 
+        # create a booking email session
+        request.session['booking_email'] = payment.email
+
         # Get data from booking table
         booking = payment.booking.id
 
@@ -92,13 +98,16 @@ def generate_code(request):
 
         payment = PropertyPayment.objects.get(order_key=payment_id)
 
+        # create a booking email session
+        request.session['booking_email'] = payment.email
+
         # Get data from receipt table
         receipt_id = payment.receipt.id
 
         booking = Receipt.objects.get(id=receipt_id)
 
         # Get receipt content
-        booking_content = get_property_payment_content(booking)
+        booking_content = get_property_payment_content(payment)
 
         # Get returned QRCode object
         qr = PropertyPayment.generate_qr_code(booking_content)
@@ -111,22 +120,31 @@ def generate_code(request):
         
         _property_ = payment.property
 
-        # Delete session
-        del request.session['property_payment']
-
     # Save model instance
     payment.save()
     
     # Add qr data to session to be used on download
     qr_content(request, booking_content)
 
-    from properties.views import DateEncoder
-    
+    # return to qr page if this request is from a property payment and not lodge or bnb
+    if 'property_payment' in request.session:
+        # Delete session
+        del request.session['property_payment']
+
+        return render(
+            request, 
+            'payments/page-coming-soon.html', 
+            {
+                'qr': qr, 'property': _property_, 'booking': booking,
+                'time': None
+            }
+        )
+
+    # else take normal route
     return render(
         request, 'payments/page-coming-soon.html', 
         {
             'qr': qr, 'property': _property_, 'booking': booking,
-            # 'time': json.dumps(booking.check_in, cls=DateEncoder),
             'time': booking.check_in
         }
     )
@@ -166,14 +184,12 @@ def get_bnb_booking_content(booking, request):
     return content
 
 def get_property_payment_content(payment):
-    # get session data
-    session = request.session['property_payment_data']
 
     # create content
     content = {
-        'Property Name': payment.property.title, 'Property Location': payment.property.location_area,
-        'Reference Code': payment.ref_code, 'Username': payment.full_name, 'Email': payment.email,
-        'Created On': payment.created_at, 'Amount': payment.total_paid
+        'Property Name': payment.property.name, 'Property Location': payment.property.location_area,
+        'Reference Code': payment.receipt.ref_code, 'Username': payment.full_name, 'Email': payment.email,
+        'Created On': payment.receipt.created_at, 'Amount': payment.total_paid
     }
 
     return content
