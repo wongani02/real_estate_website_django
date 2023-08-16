@@ -77,7 +77,7 @@
 {% endfor %} 
  
 {% if properties.has_next %}
-    <div id="load-more-properties" class="nav nav-tabs mb50 col-lg-12 justify-content-center">
+    <div id="load-more-properties" class="nav nav-tabs mb50 col-lg-12 justify-content-center" style="max-height: 4rem;">
         <button 
         class="nav-link load-more-btn"
         hx-get="{% url 'properties:home' %}?page={{properties.next_page_number}}"
