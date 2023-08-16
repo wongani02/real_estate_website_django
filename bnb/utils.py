@@ -3,7 +3,7 @@ from itertools import groupby
 
 from django.db.models import Q
 
-from .models import Booking
+from .models import Booking, Property
 
 
 # function to room availability
@@ -86,3 +86,26 @@ def check_user_eligibility(user, property):
     return any(eligibility_list)
         
 
+def perform_bnb_search(q):
+    destructured = q.split(',')
+    print(destructured)
+
+    search_result = []
+    for query in destructured:
+        qs = Property.objects.filter(
+            Q(title__icontains=query) | 
+            Q(city__icontains=query) |
+            Q(title__icontains=query) |
+            Q(street_name__icontains=query) |
+            Q(country__icontains=query) |
+            Q(host__name__icontains=query)
+        ).order_by('?').distinct()
+
+        # search_result.append(qs)
+        for item in qs:
+            if item not in search_result:
+                search_result.append(item)
+
+        print(search_result)
+    return search_result
+    

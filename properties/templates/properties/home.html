@@ -276,7 +276,7 @@
                                 <div class="col-auto home_form_input">
                                   <div class="input-group">
                                     <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
-                                    <input name="bnb_search" type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                    <input id="search" name="bnb_search" type="text" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
                                   </div>
                                 </div>
                                 <div class="col-auto home_form_input2">
@@ -298,7 +298,7 @@
                                 <div class="col-auto home_form_input">
                                   <div class="input-group">
                                     <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
-                                    <input type="text" name="property_search" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                    <input id="search" type="text" name="property_search" class="form-control form_control" placeholder="Enter an address, neighborhood, city, or ZIP code">
                                   </div>
                                 </div>
                                 <div class="col-auto home_form_input2">
@@ -320,7 +320,7 @@
                                 <div class="col-auto home_form_input">
                                   <div class="input-group">
                                     <div class="home2_befor_icon"><span class="flaticon-houses"></span></div>
-                                    <input type="text" class="form-control form_control" name="lodge_search" placeholder="Enter an address, neighborhood, city, or ZIP code">
+                                    <input id="search" type="text" class="form-control form_control" name="lodge_search" placeholder="Enter an address, neighborhood, city, or ZIP code">
                                   </div>
                                 </div>
                                 <div class="col-auto home_form_input2">
@@ -436,9 +436,9 @@
             </div>
           </div>
           <div style="border-radius: 10px;" class="explore_city custom_class_from_520 fr-520">
-            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/mzimba.jpg' %}" alt="2.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/afrihuts/Nkhatabay.jpg' %}" alt="2.jpg"></div>
             <div class="details">
-              <h4 class="title"><a href="#"><p>Mzimba</p></a></h4>
+              <h4 class="title"><a href="#"><p>Nkhata Bay</p></a></h4>
               <p>23 Properties</p>
             </div>
           </div>
@@ -461,7 +461,7 @@
         </div>
         <div  class="col-md-6 col-lg-3 col-xl-6">
           <div style="border-radius: 10px;" class="explore_city style2">
-            <div class="thumb"><img class="img-fluid" src="{% static 'images/web_img/lilongwe.jpg' %}" alt="5.jpg"></div>
+            <div class="thumb"><img class="img-fluid" src="{% static 'images/afrihuts/lilongwe.jpg' %}" alt="5.jpg"></div>
             <div class="details">
               <h4 class="title"><a href="#"><p>Lilongwe</p></a></h4>
               <p>411 Properties</p>
@@ -526,6 +526,93 @@
     </div>
   </section>
   
+  <script>
+    	// Create auto complete variable
+		let autocomplete;
+
+		// Function handles auto completion event
+		function onPlaceChanged() {
+			var place = autocomplete.getPlace();
+
+			if (!place.geometry) {
+				document.getElementById('search').placeholder = 'Location Name';
+			} else {
+				codeAddress();
+			}
+		}
+
+		var geocoder;
+		var map;
+
+		function initializeGeocoder() {
+			autocomplete = new google.maps.places.Autocomplete(document.getElementById('search'), {
+				types: ['establishment'],
+				fields: ['geometry', 'name', 'address_components']
+			});
+
+			autocomplete.addListener('place_changed', onPlaceChanged);
+
+			geocoder = new google.maps.Geocoder();
+
+			var latlng = new google.maps.LatLng(-15.801934, 35.026139);
+			var mapOptions = {
+				zoom: 15,
+				center: latlng
+			}
+			map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+		}
+
+		function codeAddress() {
+
+			const iconurl = {
+				url: '/static/icons.ico',
+				scaledSize: new google.maps.Size(5, 5), // scaled size
+				origin: new google.maps.Point(0,0), // origin
+				anchor: new google.maps.Point(0, 0) // anchor
+			};
+
+			var address = document.getElementById('search').value;
+			geocoder.geocode({ 'address': address }, function (results, status) {
+				if (status == 'OK') {
+					map.setCenter(results[0].geometry.location);
+					var marker = new google.maps.Marker({
+						map: map,
+						position: results[0].geometry.location,
+						draggable: true,
+						title: "Drag Marker",
+						// icon: iconurl
+					});
+
+					AddGeometryValues(results[0].geometry.location.lat(), results[0].geometry.location.lng())
+
+					marker.addListener('drag', handleMarkerEvent);
+					marker.addListener('dragend', handleMarkerEvent);
+				} else {
+					alert('Geocode was not successful for the following reason: ' + status);
+				}
+			});
+		}
+
+		function AddGeometryValues(latitude, longitude) {
+			lat = document.getElementById('latitude');
+			lng = document.getElementById('longitude');
+
+			// Add values to fields
+			lat.value = latitude
+			lng.value = longitude
+		}
+
+		function handleMarkerEvent(event) {
+			lat = document.getElementById('latitude');
+			lng = document.getElementById('longitude');
+
+			lat.value = event.latLng.lat();
+			lng.value = event.latLng.lng();
+		}
+
+	</script>
+
+
   {% if not request.user.is_authenticated %}
   <!-- Start Partners -->
   <section class="start-partners home1 bgc-thm pt70 pb70">
@@ -543,6 +630,7 @@
   </section>
   {% endif %}
   {% include 'properties/footer.html' %}
+
  
   {% endblock content %}
   

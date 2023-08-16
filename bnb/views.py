@@ -24,7 +24,7 @@ from bnb.create_bnb import BNB
 from bnb.forms import *
 from bnb.utils import *
 from bnb.email_context import *
-
+from bnb.utils import perform_bnb_search
 
 class BnbList(generic.ListView):
     model = Property
@@ -97,17 +97,10 @@ class SimpleSearch(generic.ListView):
 
         q= request.POST.get('bnb_search')
 
-        qs = Property.objects.filter(
-            Q(title__icontains=q) | 
-            Q(city__icontains=q) |
-            Q(title__icontains=q) |
-            Q(street_name__icontains=q) |
-            Q(country__icontains=q) |
-            Q(host__name__icontains=q)
-        ).order_by('?').distinct()
+        new_s = perform_bnb_search(q)
 
         # Set up a 12 object pagination with all properties
-        p = Paginator(qs, 12)
+        p = Paginator(new_s, 12)
 
         # Get current page number
         page = self.request.GET.get('page')
@@ -116,7 +109,7 @@ class SimpleSearch(generic.ListView):
         results = p.get_page(page)
 
         context = ({
-            'results': results, 'count': qs.count()
+            'results': results, 'count': len(new_s)
         })
 
         return render(request, self.template_name, context)
