@@ -9,7 +9,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
 
 from users.models import User
-from payments.models import BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode, Payment, PropertyPayment
+from payments.models import BnbBookingPayment, LodgeBookingPayment, PaymentOption, QRCode, Payment, PropertyPayment, PropertyCharge
 from properties.models import Property, Receipt
 from bnb.models import Property as BnB, Booking as BNBBooking
 from lodges.models import Lodge, About, Booking as LodgeBooking
@@ -289,7 +289,7 @@ def send_mail(request, buffer, filename, client, _property_):
     # del request.session['booking_email']
 
     # Create email object
-    email = EmailMultiAlternatives(subject, plain_text, from_email, [to_email])
+    email = EmailMultiAlternatives(subject, plain_text, from_email, ["bau19-cnyemba@poly.ac.mw"])
 
     # Attach qr code and email html image to email
     email.attach(filename, buffer, 'image/png')
@@ -337,6 +337,24 @@ def get_context(property, company, client, request, formatted_date, current_tz, 
             'company_tel': company.phone_number, 'user': client, 'property': property,
             'date': formatted_date, 'zone': current_tz, 'time': time, 'qr': buffer,
             'current_site': current_site, 'payment': payment
+        }
+
+    elif property.meta_title == 'Property':
+        # use key to get payment data
+        payment_id = request.session['property_payment']
+        payment = PropertyPayment.objects.get(order_key=payment_id)
+
+        # get the charged rate
+        rate = PropertyCharge.objects.first()
+
+        # find the rate charged
+        charge = 100/charge
+
+        context = {
+            'company_name': company.company_name, 'company_addr': company.address,
+            'company_tel': company.phone_number, 'user': client, 'property': property,
+            'date': formatted_date, 'zone': current_tz, 'time': time, 'qr': buffer,
+            'current_site': current_site, 'payment': payment, 'charge': charge
         }
 
         return context

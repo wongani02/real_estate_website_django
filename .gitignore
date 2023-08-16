@@ -3,6 +3,7 @@ django-venv/
 
 # Static File Folder
 core/staticfiles
+core/media
 
 # Migrations Folders
 properties/migrations
