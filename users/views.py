@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
+from django.http import JsonResponse
 
 from bnb.models import Property as BNBProperty, BnbViews, Booking as BnbBooking
 from lodges.models import Lodge, About, LodgesViews, Booking as LodgeBooking
@@ -158,7 +159,7 @@ def dashboardView(request):
 
     context = {
         'properties': no_properties, 'bnbs': no_bnbs, 'lodges': no_lodges,
-        'views': json.dumps(data), 'listing_views': count[0]
+        'views': json.dumps(data), 'listing_views': count
     }
     return render(request, 'users/page-dashboard.html', context)
 
@@ -167,7 +168,7 @@ def get_view_data(request):
     view_data = []
 
     # variable to hold count data
-    count = 0
+    count = []
 
     # get lodges, bnbs, and properties owned by user
     lodges = Lodge.objects.filter(user__username=request.user.username)
@@ -193,7 +194,11 @@ def get_view_data(request):
     # aggregate counts
     count = lodge_count + bnb_count + property_count
 
-    return view_data, count
+    # assign initial index value of zero to avoid an error
+    if len(count) == 0:
+        count.append("0")
+
+    return view_data, count[0]
 
 
 
@@ -425,4 +430,110 @@ def get_user_receipts(request):
     sorted_data = sorted(data, key=lambda receipt: receipt.created)
 
     return sorted_data
+
+
+"""
+Function returns the details of a specific bnb booking object
+"""
+def get_bnb_booking_details(request):
+    # get reference code from request
+    ref_code = request.GET.get('ref_code')
+
+    # query database
+    booking = BnbBooking.objects.get(ref_code=ref_code)
+
+    # convert booking details to a dictionary
+    booking_details = {
+        'email': booking.email,
+        'num_guests': booking.num_guests,
+        'num_nights': booking.number_of_nights,
+        'checked_in': booking.checked_in,
+        'note': booking.note,
+        'ref_code': booking.ref_code
+    }
+    
+    return JsonResponse(booking_details)
+
+
+"""
+Function returns the details of a specific lodge booking object
+"""
+def get_lodge_booking_details(request):
+    # get reference code from request
+    ref_code = request.GET.get('ref_code')
+
+    # query database
+    booking = LodgeBooking.objects.get(ref_code=ref_code)
+
+    # convert booking details to a dictionary
+    booking_details = {
+        'email': booking.email,
+        'num_guests': booking.num_guests,
+        'num_nights': booking.number_of_nights,
+        'checked_in': booking.checked_in,
+        'note': booking.note,
+        'ref_code': booking.ref_code
+    }
+    
+    return JsonResponse(booking_details)
+
+
+"""
+Function returns the details of a specific bnb payment object
+"""
+def get_bnb_payment_details(request):
+    # get order key from request
+    order_key = request.GET.get('order_key')
+
+    # query database
+    payment = BnbBookingPayment.objects.get(order_key=order_key)
+
+    # convert payment details to dictionary
+    payment_details = {
+        'billing_status': payment.billing_status,
+        'qr_code': payment.qr_code.image.url,
+        'order_key': payment.order_key,
+    }
+
+    return JsonResponse(payment_details)
+
+
+"""
+Function returns the details of a specific lodge payment object
+"""
+def get_lodge_payment_details(request):
+    # get order key from request
+    order_key = request.GET.get('order_key')
+
+    # query database
+    payment = LodgeBookingPayment.objects.get(order_key=order_key)
+
+    # convert payment details to dictionary
+    payment_details = {
+        'billing_status': payment.billing_status,
+        'qr_code': payment.qr_code.image.url,
+        'order_key': payment.order_key,
+    }
+
+    return JsonResponse(payment_details)
+
+
+"""
+Function returns the details of a specific property payment object
+"""
+def get_property_payment_details(request):
+    # get order key from request
+    order_key = request.GET.get('order_key')
+
+    # query database
+    payment = PropertyPayment.objects.get(order_key=order_key)
+
+    # convert payment details to dictionary
+    payment_details = {
+        'billing_status': payment.billing_status,
+        'qr_code': payment.qr_code.image.url,
+        'order_key': payment.order_key,
+    }
+
+    return JsonResponse(payment_details)
 

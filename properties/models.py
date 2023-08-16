@@ -316,7 +316,7 @@ class Policy(models.Model):
         default=1,
     )
     is_active = models.BooleanField(default=True)
-    active_policy_manager = ActivePolicyManager()
+    # active_policy_manager = ActivePolicyManager()
 
     def __str__(self):
         return f'{self.title}: {strip_tags(self.desc)}'
@@ -357,4 +357,13 @@ class Receipt(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.property}"
 
+
+class PropertyReview(models.Model):
+    property = models.ForeignKey(Property, null=True, on_delete=models.CASCADE, related_name='property_user_review')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, related_name='property_user_reviews')
+    review = models.TextField(null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return f'{self.user.username}\'s review for - {self.property.name}'
 

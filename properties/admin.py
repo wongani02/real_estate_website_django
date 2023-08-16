@@ -5,9 +5,6 @@ from properties.models import *
 
 # Register your models here.
 
-admin.site.register(Amenities)
-
-
 class VideoModelAdmin(admin.StackedInline):
     model = Videos
     extra = 1
@@ -45,12 +42,16 @@ class DistrictPropertyAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Images)
-admin.site.register(PropetyViews)
+# admin.site.register(PropetyViews)
 admin.site.register(Likes)
-admin.site.register(TempImageStore)
+# admin.site.register(TempImageStore)
 admin.site.register(Policy)
 admin.site.register(Documents)
-admin.site.register(TempDocumentStore)
-admin.site.register(PropertyAmenityLink)
-admin.site.register(PropertyPolicyLink)
+# admin.site.register(TempDocumentStore)
+# admin.site.register(PropertyAmenityLink)
+# admin.site.register(PropertyPolicyLink)
 admin.site.register(Receipt)
+admin.site.register(PropertyReview)
+admin.site.register(Amenities)
+
+

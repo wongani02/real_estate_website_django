@@ -18,7 +18,7 @@ from .email_context import bookmark_email_context
 from properties.filters import AdvancedSearchFilter
 from properties.charts import *
 from bnb.models import Property as BNB, BnbViews
-from users.models import User
+from users.models import User, Profile
 from users.custom_middleware import process_property_request
 from payments.models import PropertyPayment, PropertyCharge, PaymentOption
 from verifications.views import create_property_listing
@@ -222,7 +222,16 @@ class PropertyDetail(generic.DetailView):
 
         # get property documents
         docs = Documents.objects.filter(property=qs)
-        
+
+        # get all the reviews for the particular property based on the date
+        reviews = PropertyReview.objects.filter(property=qs).order_by('-created')
+
+        # get realtor profile
+        realtor = Profile.objects.get(user__id=qs.agent.id)
+
+        # get policies related to the property
+        policies = PropertyPolicyLink.objects.filter(property=qs)
+ 
         context = {
             'property': qs,
             'property_charts': [
@@ -230,6 +239,9 @@ class PropertyDetail(generic.DetailView):
             ],
             'docs': docs,
             # 'property_likes': chart_likes,
+            'reviews': reviews,
+            'realtor': realtor,
+            'policies': policies,
         }
 
         return render(request, self.template_name, context)
@@ -725,9 +737,6 @@ def payment_approved(request):
     # save all data and get returned property object
     property_ = save_data(request)
 
-    # create a property verification pending object and notify user
-    create_property_listing(request, property_) 
-
     # payment processing
     session = request.session['property_payment_data']
 
@@ -755,8 +764,11 @@ def payment_approved(request):
         order_key=body['orderId'],
         payment_option=PaymentOption.objects.first(),
         billing_status=True,
-        receipts=receipt
+        receipt=receipt
     )
+
+    # create a property verification pending object and notify user
+    create_property_listing(request, property_) 
 
     # Add payment id to session variable "property_payment"
     request.session['property_payment'] = payment.order_key
@@ -778,8 +790,8 @@ Function calls all other methods required to save a property object
 def save_data(request):
     # avoid queryset error 
     error = Property.objects.all()
+
     # Get session data and save to database
-    print("1: ", request.session['step_2'])
     property_info = json.loads(request.session['step_1'])
     location_info = request.session['step_2']
 
@@ -852,9 +864,10 @@ def create_amenity_link(request, property_id, objects):
     # get Property instance 
     property_ = Property.objects.get(pk=property_id)
 
+    converted_object = ast.literal_eval(objects['amenities'])
 
-    # Loop and create through list of amenities
-    for object in objects:
+    # Loop and create through list of amenities in the converted objects dictionary
+    for object in converted_object:
         # Get amenity object
         object = Amenities.objects.get(name=object)
         amenity = PropertyAmenityLink.objects.create(
@@ -962,7 +975,7 @@ def create_property_documents(request, property_, object_):
 """
 Function creates a policy object linked to a property object
 """
-def create_property_policy_link(request, property_, objects):
+def create_property_policy_link(request, property_, objects=None):
     # get session data
     session = request.session['policy_data']
 
@@ -1186,3 +1199,23 @@ def deletePropertyDoc(request, doc, pk):
     }
     return render(request, 'properties/partials/property-docs-list.html', context)
 
+
+
+def handleReviews(request, pk):
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            PropertyReview.objects.create(
+                user_id=request.user.id,
+                property_id=pk,
+                review=form.cleaned_data['review']
+            )
+            return render(request, 'properties/partials/review-posted.html')
+
+    return render(request, 'properties/partials/review-posted.html')
+
+def connect_whatsapp(request, **kwargs):
+    whatsapp_url = 'https://api.whatsapp.com/send?phone={0}&text={1}'.format(kwargs.get("phone"), request.POST.get("message"))
+
+    return redirect(whatsapp_url)

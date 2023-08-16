@@ -25,4 +25,11 @@ urlpatterns = [
     #onbordingviews
     path('create-property/onbording-xhtl1/', user_views.typeOfPropertyView, name='onbording-1'),
     path('create-property/onbording-gksk2/<str:p_type>/', user_views.postPropertyAsView, name='onbording-2'),
+
+    # Ajax
+    path('bnb/booking-details/', user_views.get_bnb_booking_details, name='bnb-booking-details'),
+    path('lodge/booking-details/', user_views.get_lodge_booking_details, name='lodge-booking-details'),
+    path('bnb/payment-details/', user_views.get_bnb_payment_details, name='bnb-payment-details'),
+    path('lodge/payment-details/', user_views.get_lodge_payment_details, name='lodge-payment-details'),
+    path('property/payment-details/', user_views.get_property_payment_details, name='property-payment-details'),
 ]

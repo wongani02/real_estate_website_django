@@ -57,6 +57,8 @@ urlpatterns = [
     path('bnb-list-htmx/', views.BnbHTMXView.as_view(), name='bnb-htmx'),
     path('bookmark/<uuid:pk>/', views.bookmarkProperty, name='property-bookmark'),
     path('remove-bookmark/<uuid:pk>/', views.removeBookmark, name='remove-bookmark'),
+    path('submit-review/<uuid:pk>/', views.handleReviews, name='submit-review'),
+    path('contact-realtor/<str:phone>/', views.connect_whatsapp, name='whatsapp'),
 
     # download document
     path('download/document/<int:pk>/', views.download_doc, name='download-doc'),

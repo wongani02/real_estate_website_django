@@ -67,7 +67,21 @@
 											<tr>
 												<th scope="row">{{forloop.counter}}</th>
 												<td>{{payment.payment_option.payment_option}}</td>
-												<td>{{payment.order_key}}</td>
+												<td>
+													{% if payment.meta_title == 'Property' %}
+													<a href="#" class="property-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+														{{payment.order_key}}
+													</a>
+													{% elif payment.meta_title == 'BnB' %}
+													<a href="#" class="bnb-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+														{{payment.order_key}}
+													</a>
+													{% elif payment.meta_title == 'Lodge' %}
+													<a href="#" class="lodge-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+														{{payment.order_key}}
+													</a>
+													{% endif %}
+												</td>
 												<td>{{payment.full_name}}</td>
 												<td>{{payment.phone}}</td>
 												
@@ -124,7 +138,21 @@
 											<tr>
 												<th scope="row">{{forloop.counter}}</th>
 												<td>{{receipt.payment_option.payment_option}}</td>
-												<td>{{receipt.order_key}}</td>
+												<td>
+													{% if receipt.meta_title == 'Property' %}
+													<a href="#" class="property-receipt-details-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
+														{{receipt.order_key}}
+													</a>
+													{% elif receipt.meta_title == 'BnB' %}
+													<a href="#" class="bnb-receipt-details-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
+														{{receipt.order_key}}
+													</a>
+													{% elif receipt.meta_title == 'Lodge' %}
+													<a href="#" class="lodge-receipt-details-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
+														{{receipt.order_key}}
+													</a>
+													{% endif %}
+												</td>
 												<td>{{receipt.full_name}}</td>
 												<td>{{receipt.phone}}</td>
 												
@@ -151,6 +179,245 @@
 						</div>
 					</div>
 					{% endif %}
+
+					<!-- payment modal -->
+					<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<!-- modal header -->
+								<div class="modal-header">
+									<h4 class="modal-title" id="paymentModalLabel">Payment Details</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times</span>
+									</button>
+								</div>
+								<!-- modal body -->
+								<div class="modal-body" id="modal-body">
+									Payment Key: <span id="modalKey"></span>
+									<img src="" alt="Payment Image" id="modalImage" class="img-fluid">
+								</div>
+								<!-- modal footer -->
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- receipts modal -->
+					<div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="receiptModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<!-- modal header -->
+								<div class="modal-header">
+									<h4 class="modal-title" id="receiptModalLabel">Receipt Details</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times</span>
+									</button>
+								</div>
+								<!-- modal body -->
+								<div class="modal-body" id="modal-receipt-body">
+									Payment Key: <span id="modalReceiptKey"></span>
+									<img src="" alt="Receipt Image" id="modalReceiptImage" class="img-fluid">
+								</div>
+								<!-- modal footer -->
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- script -->
+					<script>
+						// payment variables
+						const bookingBnbLinks = document.querySelectorAll(".bnb-payment-details-link");
+						const bookingLodgeLinks = document.querySelectorAll(".lodge-payment-details-link");
+						const bookingPropertyLinks = document.querySelectorAll(".property-payment-details-link");
+						const modalKey = document.getElementById("modalKey");
+						const modalBody = document.getElementById("modal-body");
+						const modalImage = document.getElementById("modalImage");
+
+						// receipt variables
+						const bookingReceiptsBnbLinks = document.querySelectorAll(".bnb-receipt-details-link");
+						const bookingReceiptsLodgeLinks = document.querySelectorAll(".lodge-receipt-details-link");
+						const bookingReceiptsPropertyLinks = document.querySelectorAll(".property-receipt-details-link");
+						const modalReceiptsKey = document.getElementById("modalReceiptKey");
+						const modalReceiptsBody = document.getElementById("modal-receipt-body");
+						const modalReceiptsImage = document.getElementById("modalReceiptImage");
+
+						// Payment methods
+						// Get details for BNB booking 
+						bookingBnbLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:bnb-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalKey.textContent = orderKey;
+										modalImage.src = data.qr_code;
+										modalBody.innerHTML = `
+										<p>Payment Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+						// Get details for lodge booking 
+						bookingLodgeLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:lodge-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalKey.textContent = orderKey;
+										modalImage.src = data.qr_code;
+										modalBody.innerHTML = `
+										<p>Payment Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+						// Get details for property booking 
+						bookingPropertyLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:property-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalKey.textContent = orderKey;
+										modalImage.src = data.qr_code;
+										modalBody.innerHTML = `
+										<p>Payment Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+						// Receipts methods
+						bookingReceiptsBnbLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:bnb-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalReceiptsKey.textContent = orderKey;
+										modalReceiptsImage.src = data.qr_code;
+										modalReceiptsBody.innerHTML = `
+										<p>Receipt Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="receipt image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+						// Get details for lodge booking 
+						bookingReceiptsLodgeLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:lodge-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalReceiptsKey.textContent = orderKey;
+										modalReceiptsImage.src = data.qr_code;
+										modalReceiptsBody.innerHTML = `
+										<p>Receipts Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="receipt image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+						// Get details for property booking 
+						bookingPropertyLinks.forEach(link => {
+							link.addEventListener('click', function(event) {
+								event.preventDefault();
+								const orderKey = this.dataset.reference;
+								
+								// fetch booking details using AJAX
+								$.ajax({
+									url: "{% url 'accounts:property-payment-details' %}",
+									data: {order_key: orderKey},
+									success: function(data) {
+										modalReceiptsKey.textContent = orderKey;
+										modalReceiptsImage.src = data.qr_code;
+										modalReceiptsBody.innerHTML = `
+										<p>Receipt Key: ${data.order_key}</p>
+										<p>Billing Status: ${data.billing_status}</p>
+										<img src=${data.qr_code} alt="receipt image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										`;
+									},
+									error: function(error) {
+										console.error(error);
+									}
+								});
+
+
+							});
+						});
+
+
+					</script>
+					
 						
 					{% include 'properties/copyright.html' %}
 				</div>

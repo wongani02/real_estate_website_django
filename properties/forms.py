@@ -220,3 +220,9 @@ class VideosCreationForm(forms.ModelForm):
                 'class': 'form-control form_control', 'placeholder': 'Video Link'
             })
         }
+
+class ReviewForm(forms.Form):
+    review = forms.CharField(widget=forms.Textarea(
+        attrs={'class': 'form_control form-control', 'placeholder': 'Share your experience here', 'rows':2}
+    ))
+    

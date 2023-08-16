@@ -27,9 +27,9 @@ class Listing(models.Model):
         _("Verification Status"), choices=VERIFICATION, default=PENDING, max_length=10,
         help_text="Please review property prior selection of this option."
     )
-    reason = RichTextField(_("Reason for Verification Decline"))
+    reason = RichTextField(_("Reason for Verification Decline"), blank=True)
     date_sub = models.DateTimeField(_("Date Submitted for Verification"), auto_now=True)
-    date_ver = models.DateTimeField(_("Date Verified"),)
+    date_ver = models.DateTimeField(_("Date Verified"), null=True)
 
     def __str__(self):
         return 'Do not edit this.'
