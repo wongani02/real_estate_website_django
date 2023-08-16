@@ -345,10 +345,7 @@ def get_context(property, company, client, request, formatted_date, current_tz, 
         payment = PropertyPayment.objects.get(order_key=payment_id)
 
         # get the charged rate
-        rate = PropertyCharge.objects.first()
-
-        # find the rate charged
-        charge = 100/charge
+        charge = PropertyCharge.objects.first()
 
         context = {
             'company_name': company.company_name, 'company_addr': company.address,

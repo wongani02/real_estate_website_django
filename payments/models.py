@@ -131,7 +131,7 @@ class PropertyCharge(models.Model):
         verbose_name = 'Property Charge (ONLY CREATE 1 ENTRY)'
         verbose_name_plural = 'Property Charges (ONLY CREATE 1 ENTRY)'
 
-    price = models.DecimalField(_("Charge"), default=0.0, decimal_places=2, max_digits=9)
+    price = models.PositiveIntegerField(_("Charge"), default=0)
     date = models.DateTimeField(_("Date Created/Amended"), auto_now=True)
 
     def __str__(self):
