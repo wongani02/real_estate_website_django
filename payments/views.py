@@ -28,127 +28,141 @@ import qrcode, pytz, json
 Function creates and returns a qr code to template for the properties model
 """
 def generate_code(request):
-    # Create a user object
-    user = User.objects.get(username=request.user.username)
+    try:
+        # Create a user object
+        user = User.objects.get(username=request.user.username)
 
-    # Get data from booking session
-    if 'lodge_booking' in request.session:
-        payment_key = request.session['lodge_booking']
+        # Get data from booking session
+        if 'lodge_booking' in request.session:
+            payment_key = request.session['lodge_booking']
 
-        payment = LodgeBookingPayment.objects.get(order_key=payment_key)
+            payment = LodgeBookingPayment.objects.get(order_key=payment_key)
 
-        # create a booking email session
-        request.session['booking_email'] = payment.email
+            # create a booking email session
+            request.session['booking_email'] = payment.email
 
-        booking = payment.booking.all()
+            booking = payment.booking.all()
+            
+            # variable to hold the number of booking instances
+            no_bookings = 0
+
+            for a in booking:
+                no_bookings += 1
+
+                # ignored existence of any other booking data as the relevant data is 
+                # contained in the payments row. However, multiple bookings can still
+                # be accessed for other purposes other than the creation of a qr code
+                booking = LodgeBooking.objects.get(id=a.id)
+
+            # Get booking content
+            booking_content = get_lodge_booking_content(booking, no_bookings, request)  
+
+            # save booking content to session incase the page is refreshed
+            request.session['booking_content'] = json.dumps(booking_content)
+
+            # Get returned QRCode object
+            qr = LodgeBookingPayment.generate_qr_code(booking_content)
+
+            # assign qr code to bnb booking payment object
+            payment.qr_code = qr
+
+            payment.save()
+
+            _property_ = payment.lodge
+
+        elif 'bnb_booking' in request.session:
+            booking_id = request.session['bnb_booking']
+
+            payment = BnbBookingPayment.objects.get(order_key=booking_id)
+
+            # create a booking email session
+            request.session['booking_email'] = payment.email
+
+            # Get data from booking table
+            booking = payment.booking.id
+
+            booking = BNBBooking.objects.get(id=booking)
+
+            # Get booking content
+            booking_content = get_bnb_booking_content(booking, request)
+
+            # save booking content to session incase the page is refreshed
+            request.session['booking_content'] = json.dumps(booking_content)
+
+            # Get returned QRCode object
+            qr = BnbBookingPayment.generate_qr_code(booking_content)
+
+            # assign qr code to bnb booking payment object
+            payment.qr_code = qr
+            booking.qr_code = qr
+
+            payment.save()
+            
+            _property_ = payment.bnb
+
+        elif 'property_payment' in request.session:
+            payment_id = request.session['property_payment']
+
+            payment = PropertyPayment.objects.get(order_key=payment_id)
+
+            # create a booking email session
+            request.session['booking_email'] = payment.email
+
+            # Get data from receipt table
+            receipt_id = payment.receipt.id
+
+            booking = Receipt.objects.get(id=receipt_id)
+
+            # Get receipt content
+            booking_content = get_property_payment_content(payment)
+
+            # save booking content to session incase the page is refreshed
+            request.session['booking_content'] = json.dumps(booking_content)
+
+            # Get returned QRCode object
+            qr = PropertyPayment.generate_qr_code(booking_content)
+
+            # assign qr code to property payment object
+            payment.qr_code = qr
+            booking.qr_code = qr
+
+            payment.save()
+            
+            _property_ = payment.property
+
+        # Save model instance
+        # payment.save()
         
-        # variable to hold the number of booking instances
-        no_bookings = 0
+        # Add qr data to session to be used on download
+        if booking_content is None:
+            qr_content(request, json.loads(request.session['booking_content']))
+        else:    
+            qr_content(request, booking_content)
 
-        for a in booking:
-            no_bookings += 1
+        # return to qr page if this request is from a property payment and not lodge or bnb
+        if 'property_payment' in request.session:
+            # Delete session
+            del request.session['property_payment']
 
-            # ignored existence of any other booking data as the relevant data is 
-            # contained in the payments row. However, multiple bookings can still
-            # be accessed for other purposes other than the creation of a qr code
-            booking = LodgeBooking.objects.get(id=a.id)
+            return render(
+                request, 
+                'payments/page-coming-soon.html', 
+                {
+                    'qr': qr, 'property': _property_, 'booking': booking,
+                    'time': None
+                }
+            )
 
-        # Get booking content
-        booking_content = get_lodge_booking_content(booking, no_bookings, request)  
-
-        # Get returned QRCode object
-        qr = LodgeBookingPayment.generate_qr_code(booking_content)
-
-        # assign qr code to bnb booking payment object
-        payment.qr_code = qr
-
-        payment.save()
-
-        _property_ = payment.lodge
-
-    elif 'bnb_booking' in request.session:
-        booking_id = request.session['bnb_booking']
-
-        payment = BnbBookingPayment.objects.get(order_key=booking_id)
-
-        # create a booking email session
-        request.session['booking_email'] = payment.email
-
-        # Get data from booking table
-        booking = payment.booking.id
-
-        booking = BNBBooking.objects.get(id=booking)
-
-        # Get booking content
-        booking_content = get_bnb_booking_content(booking, request)
-
-        # Get returned QRCode object
-        qr = BnbBookingPayment.generate_qr_code(booking_content)
-
-        # assign qr code to bnb booking payment object
-        payment.qr_code = qr
-        booking.qr_code = qr
-
-        payment.save()
-        
-        _property_ = payment.bnb
-
-    elif 'property_payment' in request.session:
-        payment_id = request.session['property_payment']
-
-        payment = PropertyPayment.objects.get(order_key=payment_id)
-
-        # create a booking email session
-        request.session['booking_email'] = payment.email
-
-        # Get data from receipt table
-        receipt_id = payment.receipt.id
-
-        booking = Receipt.objects.get(id=receipt_id)
-
-        # Get receipt content
-        booking_content = get_property_payment_content(payment)
-
-        # Get returned QRCode object
-        qr = PropertyPayment.generate_qr_code(booking_content)
-
-        # assign qr code to property payment object
-        payment.qr_code = qr
-        booking.qr_code = qr
-
-        payment.save()
-        
-        _property_ = payment.property
-
-    # Save model instance
-    payment.save()
-    
-    # Add qr data to session to be used on download
-    qr_content(request, booking_content)
-
-    # return to qr page if this request is from a property payment and not lodge or bnb
-    if 'property_payment' in request.session:
-        # Delete session
-        del request.session['property_payment']
-
+        # else take normal route
         return render(
-            request, 
-            'payments/page-coming-soon.html', 
+            request, 'payments/page-coming-soon.html', 
             {
                 'qr': qr, 'property': _property_, 'booking': booking,
-                'time': None
+                'time': booking.check_in
             }
         )
-
-    # else take normal route
-    return render(
-        request, 'payments/page-coming-soon.html', 
-        {
-            'qr': qr, 'property': _property_, 'booking': booking,
-            'time': booking.check_in
-        }
-    )
-
+    except:
+        return render(request, 'payments/page-error.html')
 
 def get_lodge_booking_content(booking, no_bookings, request):
     # get current site 

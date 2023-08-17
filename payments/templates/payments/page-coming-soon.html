@@ -1,12 +1,6 @@
 {% extends 'properties/index.html' %}
 {% load static %}
 
-{% block googlemaps_scripts%}
-  <script defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-lnP0y7-eryejE9-ZKMwVdFMR7hzfz54&libraries=places&callback=initializeGeocoder">
-  </script>
-{% endblock googlemaps_scripts%}
-
 {% block title %}Property Listing{% endblock title %}
 {% block header %}
     {% include 'properties/header-2.html' %}
@@ -34,7 +28,10 @@
 							<li>4. Remember to present this E-Ticket upon arrival at your destination</li>
 							<li>5. For security purposes, please do not share this E-Ticket</li>
 							<li>6. Feel free to reach out to the support team for any E-Ticket issues</li>
+							
+							{% if property.meta_title != 'Property' %}
 							<li>7. This ticket will be elligible for a refund up until <b style="color: red;">{{booking.check_in}}</b></li>
+							{% endif %}
 						</ul>
 						
 						{% if time is not None %}
@@ -64,6 +61,12 @@
 <a class="scrollToHome" href="#"><i class="fa fa-angle-up"></i></a>
 </div>
 <script>
+	// warn user of refreshing  page
+	window.addEventListener("beforeunload", function(event) {
+		event.preventDefault();
+		event.returnValue = "WARNING: Reloading this page may cause an error";
+	});
+
 	let time = "{{time|date:'F j, Y'}} 00:00:00";
   	const second = 1000,
 		minute = second * 60,

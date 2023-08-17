@@ -14,7 +14,7 @@ from core import settings
 from users.models import Visitor, User
 from properties.models import Property
 from bnb.models import Property as BnB
-from lodges.models import Lodge
+from lodges.models import Lodge, About
 
 import requests
 import json
@@ -38,6 +38,13 @@ class CustomUserVisitMiddleware(SessionMiddleware, MiddlewareMixin):
             # create anonymouse user object for unathenticated users
             else:
                 _model = Property.objects.first()
+
+                if _model is None: 
+                    # get about object
+                    obj = About.object.first()
+
+                    user_model = get_object_or_404(About, pk=obj.pk)
+                    
                 user_model =  get_object_or_404(Property, pk=_model.pk)
 
                 # create tracker 
