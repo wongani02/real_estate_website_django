@@ -240,7 +240,7 @@ class Videos(models.Model):
 
 class PropertyAmenityLink(models.Model):
     id = models.AutoField(primary_key=True)
-    _property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    _property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_amen')
     amenity = models.ForeignKey(Amenities, on_delete=models.CASCADE)
 
     def __str__(self) -> str:

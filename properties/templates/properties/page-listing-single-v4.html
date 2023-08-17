@@ -279,312 +279,22 @@
                   <div class="col-lg-12">
                     <h4 class="mb30">Features</h4>
                   </div>
+                  {% for amenity in property.property_amen.all %}
+                  {% for item in amenity.amenity.all %}
                   <div class="col-sm-6 col-xl-3">
                     <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-air-conditioner"></span></div>
+                      <div class="icon float-left mr10"><span class="{{item.amenity_icon}}"></span></div>
                       <div class="details">
-                        <div class="title">Air Conditioning</div>
+                        <div class="title">{{item.name}}</div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-grass"></span></div>
-                      <div class="details">
-                        <div class="title">Lawn</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-refrigerator"></span></div>
-                      <div class="details">
-                        <div class="title">Refrigerator</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-liquid-soap"></span></div>
-                      <div class="details">
-                        <div class="title">Washer</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-barbecue"></span></div>
-                      <div class="details">
-                        <div class="title">Barbeque</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-laundry"></span></div>
-                      <div class="details">
-                        <div class="title">Laundry</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-sauna"></span></div>
-                      <div class="details">
-                        <div class="title">Sauna</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-wifi"></span></div>
-                      <div class="details">
-                        <div class="title">WiFi</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-dryer"></span></div>
-                      <div class="details">
-                        <div class="title">Dryer</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-microwave"></span></div>
-                      <div class="details">
-                        <div class="title">Microwave</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-swimmer"></span></div>
-                      <div class="details">
-                        <div class="title">Swimming Pool</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-blinds"></span></div>
-                      <div class="details">
-                        <div class="title">Window Coverings</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-dumbbell"></span></div>
-                      <div class="details">
-                        <div class="title">Gym</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-outdoor-shower"></span></div>
-                      <div class="details">
-                        <div class="title">Outdoor Shower</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-coaxial"></span></div>
-                      <div class="details">
-                        <div class="title">TV Cable</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-chair"></span></div>
-                      <div class="details">
-                        <div class="title">Dining room</div>
-                      </div>
-                    </div>
-                  </div>
+                  {% endfor %}
+                  {% endfor %}
+                  
                 </div>
               </div>
             </div>
-            <!-- <div class="col-lg-12">
-              <div class="property_sp_floor_plan pb40 mt50 bb1">
-                <h4 class="mb30">Floor plans</h4>
-                <div class="faq_according style2">
-                  <div class="accordion" id="accordionExample">
-                    <div class="card floor_plan">
-                      <div class="card-header" id="headingOne">
-                        <div class="mb-0">
-                          <div class="btn btn-link" role="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <ul class="mb0">
-                              <li class="list-inline-item">First Floor</li>
-                              <li class="list-inline-item"><p class="mb0">Size:</p> <span>1267 Sqft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Rooms:</p> <span>540 Sq Ft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Baths:</p> <span>431 Sq Ft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Price:</p> <span>$3921</span></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
-                        <div class="card-body">
-                          <img class="img-fluid" src="images/resource/floor_plan.png" alt="floor_plan.png">
-                          <p class="mb20">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>
-                          <p>The residence is comprised of 5 bedrooms, 2 master bathrooms, 4 on-suite guest bathrooms, 2 powder rooms, 2 offices, 2 dressing rooms, a media room, an oversized eat-in gourmet chef's kitchen, and a sprawling 1,100 square-foot Great Room perfectly situated in the prime southwest corner of the floor.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card floor_plan">
-                      <div class="card-header active" id="headingTwo">
-                        <div class="mb-0">
-                          <div class="btn btn-link collapsed" role="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <ul class="mb0">
-                              <li class="list-inline-item">Second Floor</li>
-                              <li class="list-inline-item"><p class="mb0">Size:</p> <span>1267 Sqft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Rooms:</p> <span>540 Sq Ft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Baths:</p> <span>431 Sq Ft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Price:</p> <span>$3921</span></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                        <div class="card-body">
-                          <img class="img-fluid" src="images/resource/floor_plan.png" alt="floor_plan.png">
-                          <p class="mb20">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>
-                          <p>The residence is comprised of 5 bedrooms, 2 master bathrooms, 4 on-suite guest bathrooms, 2 powder rooms, 2 offices, 2 dressing rooms, a media room, an oversized eat-in gourmet chef's kitchen, and a sprawling 1,100 square-foot Great Room perfectly situated in the prime southwest corner of the floor.</p>
-                       </div>
-                      </div>
-                    </div>
-                    <div class="card floor_plan">
-                      <div class="card-header" id="headingThree">
-                        <div class="mb-0">
-                          <div class="btn btn-link" role="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                            <ul class="mb0">
-                              <li class="list-inline-item">First Floor</li>
-                              <li class="list-inline-item"><p class="mb0">Size:</p> <span>1267 Sqft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Rooms:</p> <span>540 Sq Ft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Baths:</p> <span>431 Sq Ft</span></li>
-                              <li class="list-inline-item"><p class="mb0">Price:</p> <span>$3921</span></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample" style="">
-                        <div class="card-body">
-                          <img class="img-fluid" src="images/resource/floor_plan.png" alt="floor_plan.png">
-                          <p class="mb20">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>
-                          <p>The residence is comprised of 5 bedrooms, 2 master bathrooms, 4 on-suite guest bathrooms, 2 powder rooms, 2 offices, 2 dressing rooms, a media room, an oversized eat-in gourmet chef's kitchen, and a sprawling 1,100 square-foot Great Room perfectly situated in the prime southwest corner of the floor.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-            <!-- <div class="col-lg-12">
-              <div class="property_sp_videos pb40 mt50 bb1">
-                <ul class="nav nav-tabs" id="myTab3" role="tablist">
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="property-tab" data-toggle="tab" href="#property" role="tab" aria-controls="property" aria-selected="true">Property Video</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="virtual-tab" data-toggle="tab" href="#virtual" role="tab" aria-controls="virtual" aria-selected="false">360° Virtual Tour</a>
-                  </li>
-                </ul>
-                <div class="tab-content" id="myTabContent3">
-                  <div class="tab-pane fade show active" id="property" role="tabpanel" aria-labelledby="property-tab">
-                    <div class="listing_single_video">
-                      <div class="property_video">
-                        <div class="thumb"><img class="pro_img img-fluid w100" src="images/listing/lspv.jpg" alt="lspv.jpg">
-                          <div class="overlay_icon"><a class="video_popup_btn popup-youtube" href="https://www.youtube.com/watch?v=oqNZOOWF8qM"><span class="flaticon-play-button"></span></a></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="tab-pane fade" id="virtual" role="tabpanel" aria-labelledby="virtual-tab">
-                    <div class="listing_single_video">
-                      <div class="property_video">
-                        <div class="thumb"><img class="pro_img img-fluid w100" src="images/listing/lspv.jpg" alt="lspv.jpg">
-                          <div class="overlay_icon"><a class="video_popup_btn popup-youtube" href="https://www.youtube.com/watch?v=oqNZOOWF8qM"><span class="flaticon-play-button"></span></a></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-            <!-- <div class="col-lg-12">
-              <div class="property_sp_tour_info pb40 mt50 bb1">
-                <h4 class="mb30">Schedule A Tour</h4>
-                <form class="mb40" action="#">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <input class="form-control form_control" type="text" placeholder="Date">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="my_profile_setting_input ui_kit_select_search form-group">
-                        <select class="selectpicker" data-live-search="true" data-width="100%">
-                          <option data-tokens="9:00AM">10:00 AM</option>
-                          <option data-tokens="9:00AM">10:30 AM</option>
-                          <option data-tokens="9:00AM">11:00 AM</option>
-                          <option data-tokens="9:00AM">11:30 AM</option>
-                          <option data-tokens="9:00AM">12:00 PM</option>
-                          <option data-tokens="9:00AM">12:30 PM</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <h4 class="mb30">Your Information</h4>
-                <form action="#">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <input class="form-control form_control" type="text" placeholder="Name">
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <input class="form-control form_control" type="text" placeholder="Phone">
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <input class="form-control form_control" type="email" placeholder="Email">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <textarea class="form-control mb30" rows="4" placeholder="Enter Your Message"></textarea>
-                        <button type="submit" class="btn btn-thm submit_btn mt10">SUBMIT A TOUR REQUEST</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div> 
-           
-            
-
-            
-            <div class="col-lg-12">
-              <div class="property_sp_tour_info pb40 mt50 bb1">
-                <h4 class="mb30">Property Statistics</h4>
-                <form action="#">
-                  <div class="row">
-                    {{property_charts|load_charts:'chart1,chart2'}}
-                    <div id="chart1"></div>
-                    <div id="chart2"></div>
-                  </div>
-                </form>
-              </div>
-            </div> -->
             
             <div class="col-lg-12">
               <div class="custom_reivews pb50 mt50 bb1 row">
@@ -837,7 +547,9 @@
           <div class="listing_single_sidebar">
             <div class="sidebar_agent_search_widget mb30">
               <div class="media">
+                {% if realtor.profile_img %}
                 <img class="mr-3 author_img" src="{{realtor.profile_img.url}}" alt="author.png">
+                {% endif %}
                 <div class="media-body">
                   <h5 class="mt10 mb5 fz16 heading-color fw600">{{realtor.user.name}}</h5>
                   <p class="mb0">{{realtor.phone_number}}</p>
