@@ -5,7 +5,7 @@
 {% block header %}
     {% include 'properties/header.html' %}
 {% endblock header %}
-{% block title %}Home{% endblock %}
+{% block title %}Discover{% endblock %}
 {% block content %}
   
   <!-- Home Design -->
@@ -14,41 +14,36 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="main-banner-wrapper">
-            <div class="banner-style-one owl-theme owl-carousel custom-owl">
+            <div class="banner-style-one owl-theme owl-carousel custom-owl slide">
               <div class="slide slide-one img1" style="background-image: url({% static 'images/web_img/others/Discover 5.jpg' %});height: 860px;"></div>
-              <div class="slide slide-one img2" style="background-image: url({% static 'images/web_img/pietro.jpg' %});height: 860px;"></div>
+              <!-- <div class="slide slide-one img2" style="background-image: url({% static 'images/web_img/pietro.jpg' %});height: 860px;"></div> -->
+              <div class="slide slide-one img3" style="background-image: url({% static 'images/web_img/4.jpg' %});height: 860px;"></div>
             </div>
-            <!-- <div class="carousel-btn-block banner-carousel-btn"> -->
-              <!-- <span class="carousel-btn left-btn"><i class="flaticon-left-arrow left"></i></span>
-              <span class="carousel-btn right-btn"><i class="flaticon-right-arrow right"></i></span> -->
-            <!-- </div>/.carousel-btn-block banner-carousel-btn -->
+            <div class="carousel-btn-block banner-carousel-btn">
+              <span class="carousel-btn left-btn" hidden id="leftButton"><i class="flaticon-left-arrow left"></i></span>
+              <span class="carousel-btn right-btn" hidden id="rightButton"><i class="flaticon-right-arrow right"></i></span>
+            </div>
           </div><!-- /.main-banner-wrapper -->
         </div>
       </div>
-      <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          console.log("loaded");
-          const carousel = document.querySelector(".custom-owl");
-          var images = carousel.querySelectorAll(".slide-one");
-          let index = 0;
-
-          function changeImage() {
-            if (images.length === 0) return;
-
-            images = Array.from(images).slice(0, 2);
-
-            console.log("Q: ", carousel);
-            console.log("Q: ", images);
-
-            images[index].style.transform = "translate(-100%)";
-            index = (index + 1) % images.length;
-            images[index].style.transform = "translate(0)";
-          }
-
-          setInterval(changeImage, 5000);
-        });
-      </script>
     </div>
+    <script>
+      // get the right button element by its id
+      const rightbtn = document.getElementById("rightButton");
+
+      // function to simulate a click on the right button
+      function clickButton() {
+        rightbtn.click();
+      }
+
+      // function to intiate the automatic slide after a specific interval
+      function autoSlide() {
+        setInterval(clickButton, 5000);
+      }
+
+      // call the autoslide function to start the automatic slide show
+      autoSlide();
+    </script>
     <div class="container home_iconbox_container">
       <div class="row posr justify-content-center">
         <div class="col-xl-8">
@@ -123,34 +118,60 @@
         </div>
       </div>
       <div class="row">
-        <!-- Only load 8 random locations -->
-        {% for city in citys %}
-          
+
         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-          <div class="property_city_home6 tac-767">
-            <div class="thumb"><img class="w100" src="images/property/pc18.jpg" alt="pc18.jpg"></div>
+          <div style="border-radius: 10px;background-image: url({% static 'images/web_img/kaya-mawa-safaris.jpg' %});" class="explore_city custom_class_from_520 fl-520">
+            <div class="thumb"></div>
             <div class="details">
-              <h4><a href="page-listing-single-v3.html">Miami</a></h4>
-              <p>62 Listings</p>
+              <h4 class="title"><a href="#"><p>Kaya Mawa Safari</p></a></h4>
+              <!-- <p>15 Properties</p> -->
             </div>
           </div>
         </div>
-        
-        {% endfor %}
+
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+          <div style="border-radius: 10px;background-image: url({% static 'images/web_img/Lake-Malawi-Mumbo-Camp.jpg' %});" class="explore_city custom_class_from_520 fl-520">
+            <div class="thumb"></div>
+            <div class="details">
+              <h4 class="title"><a href="#"><p>Lake Malawi Mumbo Camp</p></a></h4>
+              <!-- <p>15 Properties</p> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+          <div style="border-radius: 10px;background-image: url({% static 'images/web_img/salima resort.jpg' %});" class="explore_city custom_class_from_520 fl-520">
+            <div class="thumb"></div>
+            <div class="details">
+              <h4 class="title"><a href="#"><p>Salima Resort</p></a></h4>
+              <!-- <p>15 Properties</p> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+          <div style="border-radius: 10px;background-image: url({% static 'images/web_img/hamick.jpg' %});" class="explore_city custom_class_from_520 fl-520">
+            <div class="thumb"></div>
+            <div class="details">
+              <h4 class="title"><a href="#"><p>Kanin'gina Plateau</p></a></h4>
+              <!-- <p>15 Properties</p> -->
+            </div>
+          </div>
+        </div>
           
       </div>
     </div>
   </section>
 
   <!-- Hot this week -->
-  <section class="divider home5 parallax" data-stellar-background-ratio="0.2" style="background-image: url({% static 'images/web_img/dillon.jpg' %});">
+  <section class="divider home5 parallax" data-stellar-background-ratio="0.2" style="background-image: url({% static 'images/web_img/others/Discover 8.jpg' %});">
     <div class="container">
       <div class="row">
         <div class="col-sm-6 col-xl-3">
           <div class="modern_appartment_widget home5">
             <h2 class="title text-white mb20">Hot This Week</h2>
             <p class="fz16 text-white mb20">Some of the top trending listings this week that may suit your taste!</p>
-            <a class="btn" href="page-listing-all.html">vıew all</a>
+            <!-- <a class="btn" href="page-listing-all.html">vıew all</a> -->
           </div>
         </div>
 
@@ -177,8 +198,8 @@
               </div>
               <div class="thmb_cntnt2 top right">
                 <ul class="listing_gallery mb0">
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{listing.property_images.all.count}}</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> {{listing.property_videos.all.count}}</a></li>
                 </ul>
               </div>
               <div class="fp_footer all_listing_style4">
@@ -373,8 +394,8 @@
               </div>
               <div class="thmb_cntnt2 top right">
                 <ul class="listing_gallery mb0">
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{listing.property_images.all.count}}</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> {{listing.property_videos.all.count}}</a></li>
                 </ul>
               </div>
               <div class="fp_footer all_listing_style4">
@@ -432,8 +453,8 @@
               </div>
               <div class="thmb_cntnt2 top right">
                 <ul class="listing_gallery mb0">
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{listing.bnb_image.all.count}}</a></li>
+                  <!-- <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li> -->
                 </ul>
               </div>
               <div class="fp_footer all_listing_style4">
@@ -491,8 +512,8 @@
               </div>
               <div class="thmb_cntnt2 top right">
                 <ul class="listing_gallery mb0">
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> 22</a></li>
-                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li>
+                  <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-photo-camera mr5"></span> {{listing.pictures.all.count}}</a></li>
+                  <!-- <li class="list-inline-item"><a class="text-white" href="#"><span class="flaticon-play-button mr5"></span> 3</a></li> -->
                 </ul>
               </div>
               <div class="fp_footer all_listing_style4">
