@@ -20,7 +20,7 @@ urlpatterns = [
     path('payments/bookings/select/', user_views.direct_bookings, name='select-bookings'),
     path('payments/finances/select/choice=<str:finances>/', user_views.financesView, name='finances-choice'),
     path('payments/finances/select/', user_views.direct_finances, name='select-finances'),
-    
+    path('payments/bank-details/', user_views.user_bank_details_view, name='bank-details'),
 
     #onbordingviews
     path('create-property/onbording-xhtl1/', user_views.typeOfPropertyView, name='onbording-1'),

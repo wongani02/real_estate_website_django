@@ -3,10 +3,12 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string, get_template
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.html import strip_tags
+from django.db.models import Q
 
 from lodges.models import About
 from properties.models import Documents
 from core import settings
+from .models import Property
 
 
 
@@ -84,4 +86,22 @@ def verification_status(to_email=None, p_name=None, p_status=None, client=None, 
     EmailThread(email).start()
 
 
+def perform_property_search(q):
+    # split query parameter by ','
+    destructured = q.split(' ')
 
+    # initialize an empty search result list
+    search_result = []
+
+    # perform search
+    for query in destructured:
+        qs = Property.objects.filter(
+            Q(property_type__icontains=query) | Q(district__district_name__icontains=query) | Q(property_cat__name__icontains=query) | Q(property_status__icontains=query) | Q(location_area__icontains=query) | Q(name__icontains=query)
+        ).filter(is_active=True).order_by('?').distinct()
+
+        # append qs item to search result 
+        for item in qs:
+            if item not in search_result:
+                search_result.append(item)
+
+    return search_result

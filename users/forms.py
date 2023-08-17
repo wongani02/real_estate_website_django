@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
-from .models import Profile, User
+from .models import Profile, User, BankDetail
 
 # Get user model currently in use
 
@@ -138,3 +138,24 @@ class UserProfileForm(forms.ModelForm):
     #     super().__init__(*args, **kwargs)
     #     self.fields['name'].required = True
     #     self.fields['email'].required = True
+
+class  BankDetailsform(forms.ModelForm):
+
+    class Meta:
+        model = BankDetail
+        fields = ['bank_name', 'account_name', 'branch', 'account_type', 'account_number', 'phone_number']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['bank_name'].widget.attrs.update(
+            {'class': 'form-control mb-3 form_control', 'placeholder': 'Bank Name'})
+        self.fields['account_name'].widget.attrs.update(
+            {'class': 'form-control mb-3 form_control', 'placeholder': 'Account Name'})
+        self.fields['branch'].widget.attrs.update(
+            {'class': 'form-control mb-3 form_control', 'placeholder': 'Branch'})
+        self.fields['account_number'].widget.attrs.update(
+            {'class': 'form-control mb-3 form_control', 'placeholder': 'Account Number'})
+        self.fields['account_type'].widget.attrs.update(
+            {'class': 'form-control mb-3 form_control', 'placeholder': 'Account Type'})
+        self.fields['phone_number'].widget.attrs.update(
+            {'class': 'form-control mb-3 form_control', 'placeholder': 'Phone number'})

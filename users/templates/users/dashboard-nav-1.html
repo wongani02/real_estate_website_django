@@ -11,7 +11,9 @@
 			
 			{% if lodges is not 0 or bnbs is not 0 %}
 			<li><a href="{% url 'accounts:select-bookings' %}"><span class="flaticon-invoice"></span> My Bookings</a></li>
+			<li><a href="{% url 'accounts:bank-details' %}"><i class="bi bi-cash-coin"></i> My Billing Details</a></li>
 			{% endif %}
+			
 				
 			<li><a href="{% url 'accounts:select-finances' %}"><span class="flaticon-invoice"></span> My Finances</a></li>
 			<li><a href="{% url 'accounts:notifications' %}"><span class="flaticon-mail-inbox-app"></span> Inbox</a></li>

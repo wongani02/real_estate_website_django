@@ -115,3 +115,28 @@ class Visitor(models.Model):
     def __str__(self):
         return self.ip_address
 
+
+
+class BankDetail(models.Model):
+    ACCOUNT_TYPE = (
+        ('Current','Current'),
+        ('Savings','Savings'),
+        ('Student','Student'),
+    )
+    BANKS = (
+        ('NB', 'National Bank'),
+        ('Standard Bank', 'Standard Bank'),
+        ('NBS', 'NBS'),
+        ('FDH', 'FDH'),
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    bank_name = models.CharField(max_length=500, choices=BANKS, null=True)
+    account_name = models.CharField(max_length=500, null=True)
+    branch = models.CharField(max_length=500, null=True)
+    account_type = models.CharField(max_length=500, choices=ACCOUNT_TYPE, null=True)
+    account_number=models.PositiveBigIntegerField(null=True)
+    phone_number=models.CharField(max_length=13, null=True)
+
+    def __str__(self):
+        return f'{self.account_name}'

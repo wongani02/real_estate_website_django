@@ -32,6 +32,7 @@ class PropertyType(models.Model):
 
 class Amenity(models.Model):
     name = models.CharField(_("Amenity Name"), max_length=255)
+    amenity_icon = models.CharField(max_length=500, null=True)
 
     class Meta:
         verbose_name = 'Ameneties'
@@ -122,6 +123,7 @@ class BNBRoomImages(models.Model):
 
 class Restrictions(models.Model):
     restriction = models.CharField(max_length=1000, null=True)
+    restriction_icon = models.CharField(max_length=500, null=True)
 
     def __str__(self):
         return f'{self.restriction}'
@@ -144,8 +146,8 @@ class BNBRestrictions(models.Model):
 
 
 class PropertyAmenity(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    amenity = models.ManyToManyField(Amenity, related_name='bnb_amenities')
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='bnb_amenities')
+    amenity = models.ManyToManyField(Amenity)
 
 
 class BNBImage(models.Model):

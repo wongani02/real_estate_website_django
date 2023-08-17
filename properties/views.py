@@ -23,6 +23,7 @@ from users.custom_middleware import process_property_request
 from payments.models import PropertyPayment, PropertyCharge, PaymentOption
 from verifications.views import create_property_listing
 from payments.utils import EmailThread
+from .utils import perform_property_search
 
 
 import json
@@ -39,9 +40,7 @@ class SimpleSearch(generic.ListView):
     def post(self, request):
         q = request.POST.get('property_search')
 
-        qs = Property.objects.filter(
-            Q(property_type__icontains=q) | Q(district__district_name__icontains=q) | Q(property_cat__name__icontains=q) | Q(property_status__icontains=q) | Q(location_area__icontains=q) | Q(name__icontains=q)
-        ).filter(is_active=True).order_by('?').distinct()
+        qs = perform_property_search(q)
 
         # Set up a 12 object pagination with all properties
         p = Paginator(qs, 12)

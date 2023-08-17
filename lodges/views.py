@@ -28,6 +28,7 @@ from .utils import (
     process_data, 
     calc_number_of_nights,
     check_user_eligibility,
+    perform_lodge_search,
     )
 
 
@@ -615,9 +616,7 @@ def searchView(request):
     if request.method == 'POST':
         q = request.POST['lodge_search']
 
-        results = Lodge.active_lodges.filter(
-            Q(name__icontains=q) | Q(street_name__icontains=q) | Q(city__icontains=q) | Q(map_location__icontains=q) | Q(country__icontains=q)
-            ).order_by('?').distinct()
+        results = perform_lodge_search(q)
         
     context = {
         'lodges': results
@@ -909,5 +908,4 @@ def removeBookmark(request, pk):
         messages.error(request, f'Please login to bookmark this property')
 
     return render(request, 'lodges/partials/bookmark-removed.html', {'lodge': lodge})
-
 

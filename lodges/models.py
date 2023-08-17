@@ -119,6 +119,7 @@ class Room(models.Model):
 
 class Restrictions(models.Model):
     restriction = models.CharField(max_length=1000, null=True)
+    restriction_icon = models.CharField(max_length=500, null=True)
 
     def __str__(self):
         return f'{self.restriction}'
@@ -142,6 +143,7 @@ class LodgeRestrictions(models.Model):
 
 class Amenity(models.Model):
     name = models.CharField(max_length=255)
+    amenity_icon = models.CharField(max_length=500, null=True)
 
     class Meta:
         verbose_name = 'Amenity'

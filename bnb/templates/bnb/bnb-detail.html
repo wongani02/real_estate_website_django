@@ -38,7 +38,7 @@
                 <ul class="prop_details mb0">
                   <li class="list-inline-item mr20"><a class="mr20" href="#"><span class="flaticon-bed pr5 vam"></span> {{bnb.bnb_rooms.count}} Rooms </a></li>
                   
-                  <li class="list-inline-item mr20"><a href="#"><span class="flaticon-calendar pr5 vam"></span> {{bnb.bnb_images.count}} Images</a></li>
+                  <li class="list-inline-item mr20"><a href="#"><span class="flaticon-picture pr5 vam"></span> {{bnb.bnb_images.count}} Images</a></li>
                 </ul>
               </div>
             </div>
@@ -64,7 +64,7 @@
                     hx-target="#bookmark{{bnb.id}}"
                     hx-swap="outerHTML"
                     hx-post="{% url 'bnb:bnb-detail-bookmark' bnb.id %}"
-                    href="#"><span class="flaticon-heart-shape-outline"></span></a>
+                    ><span class="flaticon-heart-shape-outline"></span></a>
                 </li>
                 {% endif %}
               </ul>
@@ -138,7 +138,7 @@
             <!-- bnb description -->
             <div class="col-lg-12">
               <div class="listing_single_description mt50  bb1">
-                <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline">Description</h4>
+                <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline"><span class="flaticon-house"></span> Description</h4>
                 <p class="first-Description mb25 ">Occupying over 8,000 square feet, perched over 1,100 feet in the air with absolutely breathtaking panoramic 360-degree views of all of New York City and the surrounding tri-state area, The 82nd Floor at 432 Park Avenue has been completely reimagined by one of the most sought-after design houses in London and represents an utterly unique opportunity to own a globally significant property.</p>  
               </div>
             </div>
@@ -146,7 +146,7 @@
             <!--  check bnb availability -->
             <div class="col-lg-12 mt30">
               <div class="form_grid ">
-                <h4 style="text-decoration: underline;" class=" mb10">Check Availability</h4>
+                <h4 style="text-decoration: underline;" class=" mb10"><span class="flaticon-calendar"></span> Check Availability</h4>
                 <form 
                 class="contact_form" 
                 name="contact_form" 
@@ -188,7 +188,7 @@
             <!-- bnb cancellation policy -->
             <div class="col-lg-12">
               <div class="listing_single_description mt50  bb1">
-                  <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline">BNB Cancellation Policy</h4>
+                  <h4 style="text-decoration: underline;" class="mb30 text-decoration-underline"><span class="flaticon-document"></span> BNB Cancellation Policy</h4>
                   {% for policy in bnb.bnb_policies.all %}
                   <h5>{{policy.policy.policy_title}}</h5>
                   <p class="first-Description mb25 ">{{policy.policy.policy_description|safe}}</p>  
@@ -203,7 +203,7 @@
               <div class="additional_details pb40 mt50 bb1">
                 <div class="row">
                   <div class="col-lg-12">
-                    <h4 style="text-decoration: underline;" class="mb15 text-decoration-underline">Where you'll sleep </h4>
+                    <h4 style="text-decoration: underline;" class="mb15 text-decoration-underline"><span class="flaticon-living-room"></span> Where you'll sleep </h4>
                   </div>
                   {% for room_cat in bnb.bnb_rooms.all %}
                   <div class="col-md-6 col-lg-6 col-xl-6">
@@ -231,7 +231,7 @@
               <div class="location_details pb40 mt50 bb1">
                 <div class="row">
                   <div class="col-lg-12">
-                    <h4 style="text-decoration: underline;" class="mb15">Location</h4>
+                    <h4 style="text-decoration: underline;" class="mb15"><span class="flaticon-map"></span> Location</h4>
                   </div>
                   <div class="col-md-6 col-lg-6 col-xl-4">
                     <ul class="list-inline-item mb0">
@@ -263,134 +263,23 @@
                   <div class="col-lg-12">
                     <h4 style="text-decoration: underline;" class="mb30">Amenities</h4>
                   </div>
+                  {% for amenity in bnb.bnb_amenities.all %}
+                  {% for item in amenity.amenity.all %}
                   <div class="col-sm-6 col-xl-3">
                     <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-air-conditioner"></span></div>
+                      <div class="icon float-left mr10"><span class="{{item.amenity_icon}}"></span></div>
                       <div class="details">
-                        <div class="title">Air Conditioning</div>
+                        <div class="title">{{item.name}}</div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-grass"></span></div>
-                      <div class="details">
-                        <div class="title">Lawn</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-refrigerator"></span></div>
-                      <div class="details">
-                        <div class="title">Refrigerator</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-liquid-soap"></span></div>
-                      <div class="details">
-                        <div class="title">Washer</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-barbecue"></span></div>
-                      <div class="details">
-                        <div class="title">Barbeque</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-laundry"></span></div>
-                      <div class="details">
-                        <div class="title">Laundry</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-sauna"></span></div>
-                      <div class="details">
-                        <div class="title">Sauna</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-wifi"></span></div>
-                      <div class="details">
-                        <div class="title">WiFi</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-dryer"></span></div>
-                      <div class="details">
-                        <div class="title">Dryer</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-microwave"></span></div>
-                      <div class="details">
-                        <div class="title">Microwave</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-swimmer"></span></div>
-                      <div class="details">
-                        <div class="title">Swimming Pool</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-blinds"></span></div>
-                      <div class="details">
-                        <div class="title">Window Coverings</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-dumbbell"></span></div>
-                      <div class="details">
-                        <div class="title">Gym</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-outdoor-shower"></span></div>
-                      <div class="details">
-                        <div class="title">Outdoor Shower</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-coaxial"></span></div>
-                      <div class="details">
-                        <div class="title">TV Cable</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-chair"></span></div>
-                      <div class="details">
-                        <div class="title">Dining room</div>
-                      </div>
-                    </div>
-                  </div>
+                  {% empty %}
+                  <h3>No amenities added</h3>
+                  {% endfor %}
+                  {% empty %}
+                  <h3>No amenities added</h3>
+                  {% endfor %}
+                  
                 </div>
               </div>
             </div>
@@ -400,96 +289,21 @@
               <div class="additional_details pb40 mt50 bb1">
                 <div class="row">
                   <div class="col-lg-12">
-                    <h4 style="text-decoration: underline;" class="mb30">BNB Restrictions</h4>
+                    <h4 style="text-decoration: underline; background-color: rgb(242, 187, 187); border-radius: 5px; width: fit-content; " class="mb30 p-2">BNB Restrictions</h4>
                   </div>
+                  {% for restriction in bnb.bnb_restriction.all %}
+                  {% for item in restriction.restriction.all %}
                   <div class="col-sm-6 col-xl-3">
                     <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-air-conditioner"></span></div>
+                      <div class="icon float-left mr10"><span class="{{item.restriction_icon}}"></span></div>
                       <div class="details">
-                        <div class="title">Air Conditioning</div>
+                        <div class="title">{{item.restriction}}</div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-grass"></span></div>
-                      <div class="details">
-                        <div class="title">Lawn</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-refrigerator"></span></div>
-                      <div class="details">
-                        <div class="title">Refrigerator</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-liquid-soap"></span></div>
-                      <div class="details">
-                        <div class="title">Washer</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-barbecue"></span></div>
-                      <div class="details">
-                        <div class="title">Barbeque</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-laundry"></span></div>
-                      <div class="details">
-                        <div class="title">Laundry</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-sauna"></span></div>
-                      <div class="details">
-                        <div class="title">Sauna</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-dumbbell"></span></div>
-                      <div class="details">
-                        <div class="title">Gym</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-outdoor-shower"></span></div>
-                      <div class="details">
-                        <div class="title">Outdoor Shower</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-coaxial"></span></div>
-                      <div class="details">
-                        <div class="title">TV Cable</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-xl-3">
-                    <div class="listing_feature_iconbox mb30">
-                      <div class="icon float-left mr10"><span class="flaticon-chair"></span></div>
-                      <div class="details">
-                        <div class="title">Dining room</div>
-                      </div>
-                    </div>
-                  </div>
+                  {% endfor %}
+                  {% endfor %}
+                  
                 </div>
               </div>
             </div>

@@ -87,10 +87,13 @@ def check_user_eligibility(user, property):
         
 
 def perform_bnb_search(q):
-    destructured = q.split(',')
+    # split query parameter by ','
+    destructured = q.split(' ')
     print(destructured)
-
+    # initialize an empty search result list
     search_result = []
+
+    # perform search
     for query in destructured:
         qs = Property.objects.filter(
             Q(title__icontains=query) | 
@@ -99,13 +102,12 @@ def perform_bnb_search(q):
             Q(street_name__icontains=query) |
             Q(country__icontains=query) |
             Q(host__name__icontains=query)
-        ).order_by('?').distinct()
+        ).filter(is_active=True).order_by('?').distinct()
 
-        # search_result.append(qs)
+        # append qs item to search result 
         for item in qs:
             if item not in search_result:
                 search_result.append(item)
 
-        print(search_result)
     return search_result
     

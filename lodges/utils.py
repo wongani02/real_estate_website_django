@@ -3,7 +3,7 @@ from itertools import groupby
 
 from django.db.models import Q
 
-from .models import Booking, RoomCategory, RoomCategoryImage
+from .models import Booking, RoomCategory, Lodge
 
 
 # function to room availability
@@ -122,3 +122,25 @@ def check_user_eligibility(user, property):
     
     # if any of the bookings returns true then the user is eligible to create a review
     return any(eligibility_list)
+
+
+
+def perform_lodge_search(q):
+    # split query parameter by ','
+    destructured = q.split(' ')
+
+    # initialize an empty search result list
+    search_result = []
+
+    # perform search
+    for query in destructured:
+        qs = Lodge.active_lodges.filter(
+            Q(name__icontains=query) | Q(map_location__icontains=query)
+            ).filter(is_active=True).order_by('?').distinct()
+
+        # append qs item to search result 
+        for item in qs:
+            if item not in search_result:
+                search_result.append(item)
+
+    return search_result

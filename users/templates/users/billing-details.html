@@ -1,0 +1,138 @@
+{% extends 'properties/index.html' %}
+{% load static %}
+{% block header %}
+    {% include 'properties/header-2.html' %}
+{% endblock header %}
+{% block title %}Billing Details{% endblock %}
+{% block content %}
+	<!-- Our Dashbord -->
+	{% include 'users/dashboard-nav-1.html' %}
+
+	<!-- Our Dashbord -->
+	<section class="our-dashbord dashbord bgc-alice-blue">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xl-2 dn-lg pl0"></div>
+				<div class="col-xl-10">
+					<div class="row">
+						{% include 'users/dashboard-nav.html' %}
+						<div class="col-lg-12 mb50">
+							<div class="breadcrumb_content">
+								<h2 class="breadcrumb_title">Billing Details</h2>
+								<p class="">These billing details will be used to send your money at the end of each month.</p>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-8">
+									<form method="post" class="contact_form profile mb30" action=".">
+										{% csrf_token %}
+										<div class="row">
+											<div class="col-lg-12">
+												<h4 class="mb30 title">Account Details</h4>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group mb25">
+										    	<!-- <input type="text" class="form-control form_control" placeholder="First Name"> -->
+												{{form.bank_name}}
+												{{form.bank_name.errors}}
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group mb25">
+										    	<!-- <input type="text" class="form-control form_control" placeholder="Last Name"> -->
+												{{form.account_name}}
+												{{form.account_name.errors}}
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group mb25">
+										    	<!-- <input type="email" class="form-control form_control" placeholder="Email"> -->
+												{{ form.branch }}
+												{{ form.branch.errors }}
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group mb25">
+                                                {{ form.account_number }}
+												{{ form.account_number.errors }}
+										    	<!-- <input type="text" class="form-control form_control" placeholder="Phone"> -->
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group mb25">
+                                                {{ form.account_type }}
+												{{ form.account_type.errors }} 
+										    	<!-- <input type="text" class="form-control form_control" placeholder="Mobile"> -->
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group mb25">
+                                                {{ form.phone_number }}
+												{{ form.phone_number.errors }} 
+										    	<!-- <input type="text" class="form-control form_control" placeholder="Skype"> -->
+												</div>
+											</div>
+                                            <div class="col-xl-12">
+												<div class="form-group mb0">
+													<button class="btn btn-thm update_btn">Save</button>
+												</div>
+											</div>
+										</div>
+										
+									</form>
+
+									<!-- <form class="contact_form profile mb30-lg" action="#">
+										<div class="row">
+											<div class="col-lg-12">
+												<h4 class="mb30 title">Change Password</h4>
+											</div>
+											<div class="col-lg-12">
+												<div class="form-group mb25">
+										    	<input type="text" class="form-control form_control" placeholder="Old Password">
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group mb25">
+										    	<input type="text" class="form-control form_control" placeholder="New Password">
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group mb30">
+										    	<input type="email" class="form-control form_control" placeholder="Confirm New Password">
+												</div>
+											</div>
+											<div class="col-xl-12">
+												<div class="form-group mb0">
+													<button class="btn btn-thm update_btn">CHANGE PASSWORD</button>
+												</div>
+											</div>
+										</div>
+									</form> -->
+								
+                                </div>
+								<div class="col-lg-4">
+									<!-- <div class="my_dashboard_profile">
+										<h4 class="mb20 title">Photo</h4>
+										<div class="wrap-custom-file mb25">
+									    <input type="file" name="image1" id="image1" accept=".gif, .jpg, .png"/>
+									    <label for="image1">
+								      	<span class="flaticon-document">&nbsp;&nbsp;UPLOAD PROFILE PHOTO</span>
+												<small class="file_title">*minimum 500px x 500px</small>
+									    </label>
+										</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mt50">
+						<div class="col-lg-12 text-center">
+							<p class="mb0">Copyright © 2021 CreativeLayers. All Right Reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

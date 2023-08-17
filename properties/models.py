@@ -32,6 +32,7 @@ class Amenities(models.Model):
 
     name = models.CharField(_('Amenity Name'), unique=True, max_length=20, blank=True)
     desc = models.CharField(_("Amenity Description"), max_length=100, blank=True)
+    amenity_icon = models.CharField(max_length=500, null=True)
     date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -167,8 +168,6 @@ class PropetyViews(models.Model):
     views = models.PositiveIntegerField(default=0)
 
 
-
-
 # Nearby Places table
 class NearbyPlaces(models.Model):
     class Meta:
@@ -206,7 +205,6 @@ class Likes(models.Model):
     
     def __str__(self):
         return '{} - {} - {}'.format(self.user, self.property, self.date)
-
 
 
 class Images(models.Model):

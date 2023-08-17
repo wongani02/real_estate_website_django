@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import logout, get_user_model, authenticate, login
@@ -19,8 +21,9 @@ from payments.utils import EmailThread
 from payments.models import PropertyPayment, BnbBookingPayment, LodgeBookingPayment
 from core import settings
 
-from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm
+from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, UserProfileForm, BankDetailsform
 from .helpers import auth_user_should_not_access
+from .models import BankDetail
 
 import json
 
@@ -94,6 +97,7 @@ def RegisterView(request):
     }
     return render(request, 'users/auth-page.html', context)
 
+
 def regMail(request, email):
     # Get company object
     company = About.objects.first()
@@ -133,7 +137,6 @@ def regMail(request, email):
     return True
 
 
-
 def logoutView(request):
     logout(request)
     return redirect('properties:home')
@@ -163,6 +166,8 @@ def dashboardView(request):
     }
     return render(request, 'users/page-dashboard.html', context)
 
+
+@login_required
 def get_view_data(request):
     # Empty list to hold legends
     view_data = []
@@ -201,7 +206,6 @@ def get_view_data(request):
     return view_data, count[0]
 
 
-
 @login_required(login_url='accounts:login')
 def profileView(request):
 
@@ -228,9 +232,13 @@ def profileView(request):
 @login_required(login_url='accounts:login')
 def bookmarksView(request):
     user = get_object_or_404(User, id=request.user.id)
-    q = Property.objects.filter(user_bookmark=user)
+    property = Property.objects.filter(user_bookmark=user)
+    lodges = Lodge.objects.filter(user_bookmark=user)
+    bnb = BNBProperty.objects.filter(user_bookmark=user)
+
+    bookmarks = list(chain(property, lodges, bnb))
     context = {
-        'bookmarks': q
+        'bookmarks':bookmarks,
     }
     return render(request, 'users/page-dashboard-favorites.html', context)
 
@@ -268,6 +276,7 @@ def bookingsView(request, **kwargs):
     }
     # print(context)
     return render(request, 'users/page-dashboard-bookings.html', context)
+
 
 @login_required(login_url='accounts:login')
 def financesView(request, **kwargs):
@@ -331,6 +340,7 @@ def direct_bookings(request, **kwargs):
 def direct_finances(request, **kwargs):
     return render(request, 'users/onbording-5.html')
 
+@login_required
 def get_booked_listings(request):
     # get user object
     user = User.objects.get(email=request.user.email)
@@ -342,6 +352,7 @@ def get_booked_listings(request):
     return bnbs, lodges
 
 
+@login_required
 def get_booking_data(request):
     # get user object
     user = User.objects.get(email=request.user.email)
@@ -370,6 +381,7 @@ def get_booking_data(request):
 """
 Function returns all the payments a particular user has made on the site
 """
+@login_required
 def get_user_payments(request):
     # get user object
     user = User.objects.get(email=request.user.email)
@@ -392,6 +404,7 @@ def get_user_payments(request):
 """
 Function gets all the payments made a specific users listings
 """
+@login_required
 def get_user_receipts(request):
     # get user object
     user = User.objects.get(email=request.user.email)
@@ -435,6 +448,7 @@ def get_user_receipts(request):
 """
 Function returns the details of a specific bnb booking object
 """
+@login_required
 def get_bnb_booking_details(request):
     # get reference code from request
     ref_code = request.GET.get('ref_code')
@@ -458,6 +472,7 @@ def get_bnb_booking_details(request):
 """
 Function returns the details of a specific lodge booking object
 """
+@login_required
 def get_lodge_booking_details(request):
     # get reference code from request
     ref_code = request.GET.get('ref_code')
@@ -481,6 +496,7 @@ def get_lodge_booking_details(request):
 """
 Function returns the details of a specific bnb payment object
 """
+@login_required
 def get_bnb_payment_details(request):
     # get order key from request
     order_key = request.GET.get('order_key')
@@ -501,6 +517,7 @@ def get_bnb_payment_details(request):
 """
 Function returns the details of a specific lodge payment object
 """
+@login_required
 def get_lodge_payment_details(request):
     # get order key from request
     order_key = request.GET.get('order_key')
@@ -521,6 +538,7 @@ def get_lodge_payment_details(request):
 """
 Function returns the details of a specific property payment object
 """
+@login_required
 def get_property_payment_details(request):
     # get order key from request
     order_key = request.GET.get('order_key')
@@ -536,4 +554,31 @@ def get_property_payment_details(request):
     }
 
     return JsonResponse(payment_details)
+
+
+@login_required
+def user_bank_details_view(request):
+        
+    billing_details = BankDetail.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        if billing_details:
+            bank_details = BankDetail.objects.get(user=request.user)
+            form = BankDetailsform(request.POST, instance=bank_details)
+        else:
+            form = BankDetailsform(request.POST)
+        if form.is_valid():
+            form.instance.user=request.user
+            form.save()
+    else:
+        if billing_details:
+            bank_details = BankDetail.objects.get(user=request.user)
+            form = BankDetailsform(instance=bank_details)
+        else:
+            form =  BankDetailsform()
+
+    context ={
+        'form':form
+    }
+    return render(request, 'users/billing-details.html', context)
 
