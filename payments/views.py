@@ -58,7 +58,7 @@ def generate_code(request):
             booking_content = get_lodge_booking_content(booking, no_bookings, request)  
 
             # save booking content to session incase the page is refreshed
-            request.session['booking_content'] = json.dumps(booking_content)
+            # request.session['booking_content'] = json.dumps(booking_content)
 
             # Get returned QRCode object
             qr = LodgeBookingPayment.generate_qr_code(booking_content)
@@ -87,7 +87,7 @@ def generate_code(request):
             booking_content = get_bnb_booking_content(booking, request)
 
             # save booking content to session incase the page is refreshed
-            request.session['booking_content'] = json.dumps(booking_content)
+            # request.session['booking_content'] = json.dumps(booking_content)
 
             # Get returned QRCode object
             qr = BnbBookingPayment.generate_qr_code(booking_content)
@@ -117,7 +117,7 @@ def generate_code(request):
             booking_content = get_property_payment_content(payment)
 
             # save booking content to session incase the page is refreshed
-            request.session['booking_content'] = json.dumps(booking_content)
+            # request.session['booking_content'] = json.dumps(booking_content)
 
             # Get returned QRCode object
             qr = PropertyPayment.generate_qr_code(booking_content)
@@ -161,7 +161,7 @@ def generate_code(request):
                 'time': booking.check_in
             }
         )
-    except:
+    except: 
         return render(request, 'payments/page-error.html')
 
 def get_lodge_booking_content(booking, no_bookings, request):

@@ -159,7 +159,7 @@ def dashboardView(request):
 
     # Get view data for all listings
     data, count = get_view_data(request)
-
+    
     context = {
         'properties': no_properties, 'bnbs': no_bnbs, 'lodges': no_lodges,
         'views': json.dumps(data), 'listing_views': count
@@ -199,11 +199,15 @@ def get_view_data(request):
     # aggregate counts
     count = lodge_count + bnb_count + property_count
 
-    # assign initial index value of zero to avoid an error
-    if len(count) == 0:
-        count.append("0")
+    count_data = 0
 
-    return view_data, count[0]
+    # append the numbers in the count list
+    for num in count:
+        # a a list item is not none, sum the numbers
+        if num is not None:
+            count_data += num
+
+    return view_data, count_data
 
 
 @login_required(login_url='accounts:login')

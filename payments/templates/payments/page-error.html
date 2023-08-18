@@ -384,13 +384,14 @@
 						<img class="img-fluid" src="{% static 'images/resource/error.png' %}" alt="error.png">
 						<div class="erro_code"><h2>Ohh! Page Not Found</h2></div>
 						<p>We can’t seem to find the page you’re looking for</p>
-						<form class="form-inline mailchimp_form">
+            <p>Rest assured, your transaction was successfully processed. You can access the deatils in your <b>Dashboard</b></p>
+						<!-- <form class="form-inline mailchimp_form">
 							<label class="sr-only" for="inlineFormInputName">Name</label>
 							<input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName" placeholder="Enter your email">
 							<button type="submit" class="btn btn-primary mb-2"><span class="flaticon-email"></span></button>
-						</form>
+						</form> -->
 					</div>
-					<a class="btn_error text-thm" href="index.html">Back To Home</a>
+					<a class="btn_error text-thm" href="{% url 'accounts:dashboard' %}">Back To Dashboard</a>
 				</div>
 			</div>
 		</div>
