@@ -134,10 +134,10 @@ def generate_code(request):
         # payment.save()
         
         # Add qr data to session to be used on download
-        if booking_content is None:
-            qr_content(request, json.loads(request.session['booking_content']))
-        else:    
-            qr_content(request, booking_content)
+        # if booking_content is None:
+        #     qr_content(request, json.loads(request.session['booking_content']))
+        # else:    
+        qr_content(request, booking_content)
 
         # return to qr page if this request is from a property payment and not lodge or bnb
         if 'property_payment' in request.session:
