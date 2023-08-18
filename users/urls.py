@@ -32,4 +32,9 @@ urlpatterns = [
     path('bnb/payment-details/', user_views.get_bnb_payment_details, name='bnb-payment-details'),
     path('lodge/payment-details/', user_views.get_lodge_payment_details, name='lodge-payment-details'),
     path('property/payment-details/', user_views.get_property_payment_details, name='property-payment-details'),
+
+    # qr images
+    path('download/payment/property/', user_views.download_property_qr, name='payment-property-qr'),
+    path('download/payment/bnb/', user_views.download_bnb_qr, name='payment-bnb-qr'),
+    path('download/payment/lodge/', user_views.download_lodge_qr, name='payment-lodge-qr'),
 ]

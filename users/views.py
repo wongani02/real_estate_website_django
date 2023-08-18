@@ -586,3 +586,58 @@ def user_bank_details_view(request):
     }
     return render(request, 'users/billing-details.html', context)
 
+
+def download_property_qr(request, **kwargs):
+    # get order key from url variable
+    order_key = request.GET.get("order_key")
+
+    # query database
+    payment = PropertyPayment.objects.get(order_key=order_key)
+
+    # get the qr image from the db
+    image = payment.qr_code
+
+    # create a response object
+    response = HttpResponse(content=image.image.read())
+
+    # set the content disposition header of the response object
+    response['Content-Disposition'] = 'attachment; filename={0}_qr_image.jpg'.format(request.user)
+
+    return response
+
+
+def download_bnb_qr(request, **kwargs):
+    # get order key from url variable
+    order_key = request.GET.get("order_key")
+
+    # query database
+    payment = BnbBookingPayment.objects.get(order_key=order_key)
+
+    # get the qr image from the db
+    image = payment.qr_code
+
+    # create a response object
+    response = HttpResponse(content=image.image.read())
+
+    # set the content disposition header of the response object
+    response['Content-Disposition'] = 'attachment; filename={0}_qr_image.jpg'.format(request.user)
+
+    return response
+
+def download_lodge_qr(request, **kwargs):
+    # get order key from url variable
+    order_key = request.GET.get("order_key")
+
+    # query database
+    payment = LodgeBookingPayment.objects.get(order_key=order_key)
+
+    # get the qr image from the db
+    image = payment.qr_code
+
+    # create a response object
+    response = HttpResponse(content=image.image.read())
+
+    # set the content disposition header of the response object
+    response['Content-Disposition'] = 'attachment; filename={0}_qr_image.jpg'.format(request.user)
+
+    return response
