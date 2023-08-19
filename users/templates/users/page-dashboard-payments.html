@@ -5,6 +5,12 @@
 {% endblock header %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
+<style>
+	.afri-link {
+		font-weight: bold;
+		color: #0061df;
+	}
+</style>
 	<!-- Our Dashbord -->
 	{% include 'users/dashboard-nav-1.html' %}
 	<!-- Our Dashbord -->
@@ -69,15 +75,15 @@
 												<td>{{payment.payment_option.payment_option}}</td>
 												<td>
 													{% if payment.meta_title == 'Property' %}
-													<a href="#" class="property-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+													<a href="#" class="property-payment-details-link afri-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
 														{{payment.order_key}}
 													</a>
 													{% elif payment.meta_title == 'BnB' %}
-													<a href="#" class="bnb-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+													<a href="#" class="bnb-payment-details-link afri-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
 														{{payment.order_key}}
 													</a>
 													{% elif payment.meta_title == 'Lodge' %}
-													<a href="#" class="lodge-payment-details-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
+													<a href="#" class="lodge-payment-details-link afri-link" data-toggle="modal" data-target="#paymentModal" data-reference="{{payment.order_key}}">
 														{{payment.order_key}}
 													</a>
 													{% endif %}
@@ -86,11 +92,11 @@
 												<td>{{payment.phone}}</td>
 												
 												{% if payment.meta_title == 'Property' %}
-												<td><a href="{% url 'properties:property-single' payment.property.pk %}">{{payment.property.name}}</a></td>
+												<td><a href="{% url 'properties:property-single' payment.property.pk %}" class=" afri-link">{{payment.property.name}}</a></td>
 												{% elif payment.meta_title == 'BnB' %}
-												<td><a href="{% url 'bnb:bnb-detail' payment.bnb.pk %}">{{payment.bnb.title}}</a></td>
+												<td><a href="{% url 'bnb:bnb-detail' payment.bnb.pk %}" class=" afri-link">{{payment.bnb.title}}</a></td>
 												{% elif payment.meta_title == 'Lodge' %}
-												<td><a href="{% url 'lodges:lodge-detail' payment.lodge.pk %}">{{payment.lodge.name}}</a></td>
+												<td><a href="{% url 'lodges:lodge-detail' payment.lodge.pk %}" class=" afri-link">{{payment.lodge.name}}</a></td>
 												{% endif %}
 													
 												<td>{{payment.meta_title}}</td>
@@ -140,15 +146,15 @@
 												<td>{{receipt.payment_option.payment_option}}</td>
 												<td>
 													{% if receipt.meta_title == 'Property' %}
-													<a href="#" class="property-receipt-details-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
+													<a href="#" class="property-receipt-details-link afri-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
 														{{receipt.order_key}}
 													</a>
 													{% elif receipt.meta_title == 'BnB' %}
-													<a href="#" class="bnb-receipt-details-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
+													<a href="#" class="bnb-receipt-details-link afri-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
 														{{receipt.order_key}}
 													</a>
 													{% elif receipt.meta_title == 'Lodge' %}
-													<a href="#" class="lodge-receipt-details-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
+													<a href="#" class="lodge-receipt-details-link afri-link" data-toggle="modal" data-target="#receiptModal" data-reference="{{receipt.order_key}}">
 														{{receipt.order_key}}
 													</a>
 													{% endif %}
@@ -157,11 +163,11 @@
 												<td>{{receipt.phone}}</td>
 												
 												{% if receipt.meta_title == 'Property' %}
-												<td><a href="{% url 'properties:property-single' receipt.property.pk %}">{{receipt.property.name}}</a></td>
+												<td><a href="{% url 'properties:property-single' receipt.property.pk %}" class=" afri-link">{{receipt.property.name}}</a></td>
 												{% elif receipt.meta_title == 'BnB' %}
-												<td><a href="{% url 'bnb:bnb-detail' receipt.bnb.pk %}">{{receipt.bnb.title}}</a></td>
+												<td><a href="{% url 'bnb:bnb-detail' receipt.bnb.pk %}" class=" afri-link">{{receipt.bnb.title}}</a></td>
 												{% elif receipt.meta_title == 'Lodge' %}
-												<td><a href="{% url 'lodges:lodge-detail' receipt.lodge.pk %}">{{receipt.lodge.name}}</a></td>
+												<td><a href="{% url 'lodges:lodge-detail' receipt.lodge.pk %}" class=" afri-link">{{receipt.lodge.name}}</a></td>
 												{% endif %}
 													
 												<td>{{receipt.meta_title}}</td>
@@ -186,7 +192,7 @@
 							<div class="modal-content">
 								<!-- modal header -->
 								<div class="modal-header">
-									<h4 class="modal-title" id="paymentModalLabel">Payment Details</h4>
+									<h4 class="modal-title afri-link" id="paymentModalLabel">Payment Details</h4>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times</span>
 									</button>
@@ -210,7 +216,7 @@
 							<div class="modal-content">
 								<!-- modal header -->
 								<div class="modal-header">
-									<h4 class="modal-title" id="receiptModalLabel">Receipt Details</h4>
+									<h4 class="modal-title afri-link" id="receiptModalLabel">Receipt Details</h4>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times</span>
 									</button>
@@ -246,6 +252,16 @@
 						const modalReceiptsBody = document.getElementById("modal-receipt-body");
 						const modalReceiptsImage = document.getElementById("modalReceiptImage");
 
+						// function copies a piece of text from span elements to the users clipboard
+						function copyToClipboard() {
+							var copyText = document.getElementById("order_key");
+							var text = copyText.innerText;
+							navigator.clipboard.writeText(text);
+
+							// show toast notification
+							alert("Text copied to clipboard");
+						}
+
 						// Payment methods
 						// Get details for BNB booking 
 						bookingBnbLinks.forEach(link => {
@@ -261,9 +277,18 @@
 										modalKey.textContent = orderKey;
 										modalImage.src = data.qr_code;
 										modalBody.innerHTML = `
-										<p>Payment Key: ${data.order_key}</p>
+										<p>Payment Key: <span id="order_key">${data.order_key}</span> &bull; <a onclick="copyToClipboard()" class="afri-link">copy</a></p>
 										<p>Billing Status: ${data.billing_status}</p>
-										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										<hr>
+										<div class="row">
+											<img class="col-sm-12 col-md-6 col-6" src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+											<div class="col-sm-12 col-md-6 col-6">
+												<h4>About your E-Ticket</h4>
+												<p>1. This is an Afrihuts Electronic Ticket which serves as contains details related to your payment.</p>
+												<p>2. <a class="afri-link" onclick="downloadBnbPaymentQR()">Click</a> to download your E-Ticket.</p>
+												<p>3. Alternatively, scan the image to view your payment details.</p>
+											</div>
+										</div>
 										`;
 									},
 									error: function(error) {
@@ -289,9 +314,18 @@
 										modalKey.textContent = orderKey;
 										modalImage.src = data.qr_code;
 										modalBody.innerHTML = `
-										<p>Payment Key: ${data.order_key}</p>
+										<p>Payment Key: <span id="order_key">${data.order_key}</span> &bull; <a onclick="copyToClipboard()" class="afri-link">copy</a></p>
 										<p>Billing Status: ${data.billing_status}</p>
-										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										<hr>
+										<div class="row">
+											<img class="col-sm-12 col-md-6 col-6" src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+											<div class="col-sm-12 col-md-6 col-6">
+												<h4>About your E-Ticket</h4>
+												<p>1. This is an Afrihuts Electronic Ticket which serves as contains details related to your payment.</p>
+												<p>2. <a class="afri-link" onclick="downloadLodgePaymentQR()">Click</a> to download your E-Ticket.</p>
+												<p>3. Alternatively, scan the image to view your payment details.</p>
+											</div>
+										</div>
 										`;
 									},
 									error: function(error) {
@@ -317,9 +351,18 @@
 										modalKey.textContent = orderKey;
 										modalImage.src = data.qr_code;
 										modalBody.innerHTML = `
-										<p>Payment Key: ${data.order_key}</p>
+										<p>Payment Key: <span id="order_key">${data.order_key}</span> &bull; <a onclick="copyToClipboard()" class="afri-link">copy</a></p>
 										<p>Billing Status: ${data.billing_status}</p>
-										<img src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+										<hr>
+										<div class="row">
+											<img class="col-sm-12 col-md-6 col-6" src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+											<div class="col-sm-12 col-md-6 col-6">
+												<h4>About your E-Ticket</h4>
+												<p>1. This is an Afrihuts Electronic Ticket which serves as contains details related to your payment.</p>
+												<p>2. <a class="afri-link" onclick="downloadPropertyPaymentQR()">Click</a> to download your E-Ticket.</p>
+												<p>3. Alternatively, scan the image to view your payment details.</p>
+											</div>
+										</div>
 										`;
 									},
 									error: function(error) {
@@ -338,17 +381,27 @@
 								const orderKey = this.dataset.reference;
 								
 								// fetch booking details using AJAX
+								console.log("Key: ", bookingReceiptsBnbLinks);
 								$.ajax({
 									url: "{% url 'accounts:bnb-payment-details' %}",
 									data: {order_key: orderKey},
 									success: function(data) {
+										console.log("R: ", data);
 										modalReceiptsKey.textContent = orderKey;
 										modalReceiptsImage.src = data.qr_code;
 										modalReceiptsBody.innerHTML = `
-										<p>Receipt Key: ${data.order_key}</p>
+										<p>Receipt Key: <span id="order_key">${data.order_key}</span> &bull; <a onclick="copyToClipboard()" class="afri-link">copy</a></p>
 										<p>Billing Status: ${data.billing_status}</p>
-										<img src=${data.qr_code} alt="receipt image" class="img-fluid" style="max-width:350px;max-height:350px;">
-										`;
+										<hr>
+										<div class="row">
+											<img class="col-sm-12 col-md-6 col-6" src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+											<div class="col-sm-12 col-md-6 col-6">
+												<h4>About your E-Ticket</h4>
+												<p>1. This is an Afrihuts Electronic Ticket which serves as contains details related to your payment.</p>
+												<p>2. <a class="afri-link" onclick="downloadBnbPaymentQR()">Click</a> to download your E-Ticket.</p>
+												<p>3. Alternatively, scan the image to view your payment details.</p>
+											</div>
+										</div>												`;
 									},
 									error: function(error) {
 										console.error(error);
@@ -373,10 +426,18 @@
 										modalReceiptsKey.textContent = orderKey;
 										modalReceiptsImage.src = data.qr_code;
 										modalReceiptsBody.innerHTML = `
-										<p>Receipts Key: ${data.order_key}</p>
+										<p>Receipt Key: <span id="order_key">${data.order_key}</span> &bull; <a onclick="copyToClipboard()" class="afri-link">copy</a></p>
 										<p>Billing Status: ${data.billing_status}</p>
-										<img src=${data.qr_code} alt="receipt image" class="img-fluid" style="max-width:350px;max-height:350px;">
-										`;
+										<hr>
+										<div class="row">
+											<img class="col-sm-12 col-md-6 col-6" src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+											<div class="col-sm-12 col-md-6 col-6">
+												<h4>About your E-Ticket</h4>
+												<p>1. This is an Afrihuts Electronic Ticket which serves as contains details related to your payment.</p>
+												<p>2. <a class="afri-link" onclick="downloadLodgePaymentQR()">Click</a> to download your E-Ticket.</p>
+												<p>3. Alternatively, scan the image to view your payment details.</p>
+											</div>
+										</div>												`;
 									},
 									error: function(error) {
 										console.error(error);
@@ -388,7 +449,8 @@
 						});
 
 						// Get details for property booking 
-						bookingPropertyLinks.forEach(link => {
+						bookingReceiptsPropertyLinks.forEach(link => {
+							console.log("attached: ", link)
 							link.addEventListener('click', function(event) {
 								event.preventDefault();
 								const orderKey = this.dataset.reference;
@@ -401,10 +463,18 @@
 										modalReceiptsKey.textContent = orderKey;
 										modalReceiptsImage.src = data.qr_code;
 										modalReceiptsBody.innerHTML = `
-										<p>Receipt Key: ${data.order_key}</p>
+										<p>Receipt Key: <span id="order_key">${data.order_key}</span> &bull; <a onclick="copyToClipboard()" class="afri-link">copy</a></p>
 										<p>Billing Status: ${data.billing_status}</p>
-										<img src=${data.qr_code} alt="receipt image" class="img-fluid" style="max-width:350px;max-height:350px;">
-										`;
+										<hr>
+										<div class="row">
+											<img class="col-sm-12 col-md-6 col-6" src=${data.qr_code} alt="payment image" class="img-fluid" style="max-width:350px;max-height:350px;">
+											<div class="col-sm-12 col-md-6 col-6">
+												<h4>About your E-Ticket</h4>
+												<p>1. This is an Afrihuts Electronic Ticket which serves as contains details related to your payment.</p>
+												<p>2. <a class="afri-link" onclick="downloadPropertyPaymentQR()">Click</a> to download your E-Ticket.</p>
+												<p>3. Alternatively, scan the image to view your payment details.</p>
+											</div>
+										</div>										`;
 									},
 									error: function(error) {
 										console.error(error);
@@ -415,6 +485,72 @@
 							});
 						});
 
+						// Functions for downloading qr images using AJAX
+						// function downloads a qr for a particular bnb object
+						function downloadBnbPaymentQR() {
+							var element = document.getElementById("order_key");
+
+							$.ajax({
+								url: "{% url 'accounts:payment-bnb-qr' %}",
+								data: {order_key: element.innerText},
+								xhrFields: {
+									responseType: 'blob'
+								},
+								success: function(data) {
+									var blob = new Blob([data], {type: 'image/jpg'});
+									var link = document.createElement('a');
+									link.href = window.URL.createObjectURL(blob);
+									link.download = 'bnb-payment-e-ticket.jpg';
+									link.click();
+									console.log("Success");
+								},
+								error: function(xhr, status, error) {console.error("Error: ", error, xhr, status)}
+							});
+						}
+
+						// function downloads the qr image for a particular property object
+						function downloadPropertyPaymentQR() {
+							var element = document.getElementById("order_key");
+
+							$.ajax({
+								url: "{% url 'accounts:payment-property-qr' %}",
+								data: {order_key: element.innerText},
+								xhrFields: {
+									responseType: 'blob'
+								},
+								success: function(data) {
+									var blob = new Blob([data], {type: 'image/jpg'});
+									var link = document.createElement('a');
+									link.href = window.URL.createObjectURL(blob);
+									link.download = 'property-payment-e-ticket.jpg';
+									link.click();
+									console.log("Success");
+								},
+								error: function(xhr, status, error) {console.error("Error: ", error, xhr, status)}
+							});
+						}
+
+						// function downloads the qr image for a particular lodge object
+						function downloadLodgePaymentQR() {
+							var element = document.getElementById("order_key");
+
+							$.ajax({
+								url: "{% url 'accounts:payment-lodge-qr' %}",
+								data: {order_key: element.innerText},
+								xhrFields: {
+									responseType: 'blob'
+								},
+								success: function(data) {
+									var blob = new Blob([data], {type: 'image/jpg'});
+									var link = document.createElement('a');
+									link.href = window.URL.createObjectURL(blob);
+									link.download = 'lodge-payment-e-ticket.jpg';
+									link.click();
+									console.log("Success");
+								},
+								error: function(xhr, status, error) {console.error("Error: ", error, xhr, status)}
+							});
+						}
 
 					</script>
 					
