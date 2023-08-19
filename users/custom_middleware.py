@@ -41,7 +41,7 @@ class CustomUserVisitMiddleware(SessionMiddleware, MiddlewareMixin):
 
                 if _model is None: 
                     # get about object
-                    obj = About.object.first()
+                    obj = About.objects.first()
 
                     user_model = get_object_or_404(About, pk=obj.pk)
                     
