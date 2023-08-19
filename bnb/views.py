@@ -389,35 +389,37 @@ def bnbImageHandler(request):
 @login_required
 def createBNBInstance(request):
     session = request.session
-
+    print('entered')
     if 'bnb_img_session' not in session:
         # display pop up message
+        print('images sess')
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
     
     if len(session['bnb_img_session']) == 0:
         # display pop up message
+        print('len')
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
     
     try:
         with transaction.atomic():
             bnb = BNB(request)
-
+            print('here')
             #create bnb instance
             instance = bnb.create_bnb(
                 user=request.user.id,
                 bnb=session['bnb_details'], 
                 location=session['bnb_location_details']
                 )
-            
+            print('created instance')
             #create bnb rooms
             bnb.create_rooms(rooms=session['bnb_rooms'])
-            
+            print('created rooms')
             #assign amenities
             bnb.assign_ameneities(selected=session['bnb_amenites'])
-
+            print('amenities')
             #assign restriction
             bnb.assign_restrictions(selected=session['bnb_restriction_details'])
-
+            print
             #create cancellation policy
             bnb.create_cancellation_policy(policy_id=session['bnb_policies'])
 
@@ -428,7 +430,7 @@ def createBNBInstance(request):
             bnb.clear_session()
 
             # create a bnb pending verification instance and send an email to user
-            create_bnb_listing(request, instance)
+            # create_bnb_listing(request, instance)
 
             return redirect('bnb:bnb-detail', instance)
     except:
@@ -464,7 +466,6 @@ def editDetailsView(request, pk):
         'pk': pk
     }
     return render(request, 'bnb/update/bnb-details.html', context)
-
 
 
 def editRoomsView(request, pk):

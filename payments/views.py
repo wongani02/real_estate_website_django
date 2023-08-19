@@ -121,7 +121,7 @@ def generate_code(request):
         _property_ = payment.property
 
     # Save model instance
-    payment.save()
+    # payment.save()
     
     # Add qr data to session to be used on download
     qr_content(request, booking_content)

@@ -25,11 +25,11 @@ def create_property_listing(request, property_):
     except:
         pass
 
-    # create property listing object
-    listing = PropertyListing.objects.create(
-        property=property_,
-    )
-    listing.save()
+    # # create property listing object
+    # listing = PropertyListing.objects.create(
+    #     property=property_,
+    # )
+    # listing.save()
 
     # send user an email notifying them of the property awaiting verification
     verification_status(
@@ -57,11 +57,11 @@ def create_bnb_listing(request, property_):
     except:
         pass
 
-    # create property listing object
-    listing = BnBListing.objects.create(
-        property=property_,
-    )
-    listing.save()
+    # # create property listing object
+    # listing = BnBListing.objects.create(
+    #     property=property_,
+    # )
+    # listing.save()
 
     # send user an email notifying them of the property awaiting verification
     verification_status(
@@ -89,11 +89,11 @@ def create_lodge_listing(request, property_):
     except:
         pass
 
-    # create property listing object
-    listing = LodgeListing.objects.create(
-        property=property_,
-    )
-    listing.save()
+    # # create property listing object
+    # listing = LodgeListing.objects.create(
+    #     property=property_,
+    # )
+    # listing.save()
 
     # send user an email notifying them of the property awaiting verification
     verification_status(
